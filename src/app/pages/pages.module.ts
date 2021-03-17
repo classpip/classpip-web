@@ -1,3 +1,4 @@
+import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -28,6 +29,8 @@ import { DesarrolladoresComponent } from './desarrolladores/desarrolladores.comp
 import { RecursosComponent } from './recursos/recursos.component';
 import { ExperienciasComponent } from './experiencias/experiencias.component';
 import { EstilosComponent } from './estilos/estilos.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   imports: [
@@ -59,7 +62,10 @@ import { EstilosComponent } from './estilos/estilos.component';
     DesarrolladoresComponent,
     RecursosComponent,
     ExperienciasComponent,
-    EstilosComponent
+    EstilosComponent,
+    LoginComponent,
+    RegisterComponent,
+    NavbarComponent
   ],
   exports: [
     IndexComponent,
