@@ -24,7 +24,8 @@ const routes: Routes = [
   { path: "estilos", component: EstilosComponent},
   { path: "desarrolladores", component: DesarrolladoresComponent},
   { path: "login", component: LoginComponent},
-  { path: "register", component: RegisterComponent}
+  { path: "register", component: RegisterComponent},
+  { path: "index", component: IndexComponent}
 
 ];
 

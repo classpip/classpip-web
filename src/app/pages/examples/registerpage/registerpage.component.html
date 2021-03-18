@@ -1,143 +1,4 @@
-<nav
-  class="navbar navbar-expand-lg fixed-top navbar-transparent"
-  color-on-scroll="100"
-  id="navbar-top"
->
-  <div class="container">
-    <div class="navbar-translate">
-      <a
-        class="navbar-brand"
-        [routerLink]="['/home']"
-        placement="bottom"
-        tooltip="Go back to home page"
-      >
-        <span> Classpip </span> 
-      </a>
-      <button
-        aria-controls="navigation-index"
-        aria-label="Toggle navigation"
-        class="navbar-toggler navbar-toggler"
-        [attr.aria-expanded]="!isCollapsed"
-        (click)="isCollapsed = !isCollapsed"
-        id="navigation"
-        type="button"
-      >
-        <span class="navbar-toggler-bar bar1"> </span>
-        <span class="navbar-toggler-bar bar2"> </span>
-        <span class="navbar-toggler-bar bar3"> </span>
-      </button>
-    </div>
-    <div
-      class="navbar-collapse justify-content-end"
-      [collapse]="isCollapsed"
-      id="navigation"
-    >
-      <div class="navbar-collapse-header">
-        <div class="row">
-          <div class="col-6 collapse-brand"><a> ClassPip </a></div>
-          <div class="col-6 collapse-close text-right">
-            <button
-              aria-controls="navigation-index"
-              aria-label="Toggle navigation"
-              class="navbar-toggler"
-              [attr.aria-expanded]="!isCollapsed"
-              (click)="isCollapsed = !isCollapsed"
-              id="navigation"
-              type="button"
-            >
-              <i class="tim-icons icon-simple-remove"> </i>
-            </button>
-          </div>
-        </div>
-      </div>
-      <ul class="navbar-nav">
-
-        <li class="nav-item p-0">            
-            <a class="nav-link" placement="bottom" routerLink="/que-es">  ¿Qué es Classpip? </a>
-        </li>
-
-        <li class="nav-item p-0">            
-            <a class="nav-link" placement="bottom" routerLink="/funcionalidades">  Funcionalidades </a>
-        </li>
-
-        <li class="nav-item p-0">            
-            <a class="nav-link" placement="bottom" routerLink="/recursos">  Recursos </a>
-        </li>
-
-        <li class="nav-item p-0">            
-            <a class="nav-link" placement="bottom" routerLink="/experiencias">  Experiencias </a>
-        </li>
-
-        <li class="nav-item p-0">            
-           <a class="nav-link" placement="bottom" routerLink="/estilos">  Estilos </a>
-        </li>
-
-        <li class="nav-item p-0">            
-            <a class="nav-link" placement="bottom" routerLink="/desarrolladores">  Para Desarroladores </a>
-        </li>
-
-         
-
-
-        <li class="nav-item p-0">
-          <a
-            class="nav-link"
-            href="https://twitter.com/CreativeTim"
-            placement="bottom"
-            target="_blank"
-            tooltip="Follow us on Twitter"
-          >
-            <i class="fab fa-twitter"> </i>
-            <p class="d-lg-none d-xl-none">Twitter</p>
-          </a>
-        </li>
-        <li class="nav-item p-0">
-          <a
-            class="nav-link"
-            href="https://www.facebook.com/CreativeTim"
-            placement="bottom"
-            target="_blank"
-            tooltip="Like us on Facebook"
-          >
-            <i class="fab fa-facebook-square"> </i>
-            <p class="d-lg-none d-xl-none">Facebook</p>
-          </a>
-        </li>
-
-        <li class="nav-item p-0">            
-          <a class="nav-link" placement="bottom" routerLink="/register">  Sign In </a>
-      </li>
-
-      <li class="nav-item p-0">            
-        <a class="nav-link" placement="bottom" routerLink="/login">  Login </a>
-    </li>
-        <!-- <li class="nav-item p-0">
-          <a
-            class="nav-link"
-            href="https://www.instagram.com/CreativeTimOfficial"
-            placement="bottom"
-            target="_blank"
-            tooltip="Follow us on Instagram"
-          >
-            <i class="fab fa-instagram"> </i>
-            <p class="d-lg-none d-xl-none">Instagram</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/home']"> Back to Kit </a>
-        </li> -->
-        <!-- <li class="nav-item">
-          <a
-            class="nav-link"
-            href="https://github.com/creativetimofficial/blk-design-system-angular/issues"
-          >
-            Have an issue?
-          </a>
-        </li> -->
-      </ul>
-    </div>
-  </div>
-</nav>
+<app-navbar></app-navbar>
 <div class="wrapper">
   <div class="page-header">
     <div class="page-header-image"></div>
@@ -155,7 +16,7 @@
                   src="assets/img/square1-red.png"
                 />
 
-                <h4 class="card-title">Register</h4>
+                <h4 class="card-title">Registrate</h4>
               </div>
               <div class="card-body">
                 <form class="form">
@@ -170,7 +31,7 @@
                     </div>
                     <input
                       class="form-control"
-                      placeholder="Full Name"
+                      placeholder="Nombre completo"
                       type="text"
                       (focus)="focus = true"
                       (blur)="focus = false"
@@ -204,7 +65,7 @@
                     </div>
                     <input
                       class="form-control"
-                      placeholder="Password"
+                      placeholder="Contraseña"
                       type="text"
                       (focus)="focus2 = true"
                       (blur)="focus2 = false"
@@ -214,8 +75,8 @@
                     <label class="form-check-label">
                       <input class="form-check-input" type="checkbox" />
 
-                      <span class="form-check-sign"> </span> I agree to the
-                      <a href="javascript:void(0)"> terms and conditions </a> .
+                      <span class="form-check-sign"> </span> Estoy de acuerdo con los
+                      <a href="javascript:void(0)"> términos y condiciones </a> .
                     </label>
                   </div>
                 </form>
@@ -225,7 +86,7 @@
                   class="btn btn-danger btn-round btn-lg"
                   href="javascript:void(0)"
                 >
-                  Get Started
+                  Regístrame
                 </a>
               </div>
             </div>
