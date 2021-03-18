@@ -32,6 +32,7 @@ import { EstilosComponent } from './estilos/estilos.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FooterComponent } from '../shared/footer/footer.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 @NgModule({
   imports: [
@@ -67,7 +68,8 @@ import { FooterComponent } from '../shared/footer/footer.component';
     LoginComponent,
     RegisterComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    PerfilComponent
   ],
   exports: [
     IndexComponent,
