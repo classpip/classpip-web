@@ -33,27 +33,11 @@
                       class="form-control"
                       placeholder="Nombre de Usuario"
                       type="text"
+                      id="username"
                       (focus)="focus = true"
                       (blur)="focus = false"
                     />
                   </div>
-                  <!-- <div
-                    class="input-group"
-                    [ngClass]="{ 'input-group-focus': focus1 === true }"
-                  >
-                    <div class="input-group-prepend">
-                      <div class="input-group-text">
-                        <i class="tim-icons icon-email-85"> </i>
-                      </div>
-                    </div>
-                    <input
-                      class="form-control"
-                      placeholder="Email"
-                      type="text"
-                      (focus)="focus1 = true"
-                      (blur)="focus1 = false"
-                    />
-                  </div> -->
                   <div
                     class="input-group"
                     [ngClass]="{ 'input-group-focus': focus2 === true }"
@@ -67,6 +51,7 @@
                       class="form-control"
                       placeholder="Contraseña"
                       type="text"
+                      id="password"
                       (focus)="focus2 = true"
                       (blur)="focus2 = false"
                     />
@@ -82,12 +67,9 @@
                 </form>
               </div>
               <div class="card-footer">
-                <a
-                  class="btn btn-danger btn-round btn-lg"
-                  href="javascript:void(0)"
-                >
+                <button type="submit" class="btn btn-danger btn-round btn-lg" (click)="logIn()" >
                   Log In
-                </a>
+                </button>
               </div>
             </div>
           </div>

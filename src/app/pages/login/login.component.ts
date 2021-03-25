@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, OnDestroy, HostListener } from "@angular/core";
 
 @Component({
@@ -10,7 +11,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   focus;
   focus1;
   focus2;
-  constructor() {}
+
+  password;
+  username;
+  profesor;
+  
+  constructor(private authService: AuthService) {}
+  
   @HostListener("document:mousemove", ["$event"])
   onMouseMove(e) {
     var squares1 = document.getElementById("square1");
@@ -84,5 +91,39 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];
     body.classList.remove("register-page");
+  }
+
+  logIn() {
+    //mirar ngx-loading o alguna otra cosa para mostrar el cargando
+
+    console.log(this.username + ' '+ this.password);
+    console.log ('voy a autentificar a: ' + this.username + ' ' + this.password);
+    this.authService.DameProfesor(this.nombre, this.pass)
+    .subscribe(
+      (res) => {
+        if (res[0] !== undefined) {
+          console.log ('autoenticicado correctamente');
+          this.profesor = res[0]; // Si es diferente de null, el profesor existe y lo meto dentro de profesor
+          // Notifico el nuevo profesor al componente navbar
+          this.sesion.EnviaProfesor(this.profesor);
+          this.comServer.Conectar(this.profesor.id);
+
+          // En principio, no seria necesario enviar el id del profesor porque ya
+          // tengo el profesor en la sesión y puedo recuperarlo cuando quiera.
+          // Pero si quitamos el id hay que cambiar las rutas en app-routing
+          // De momento lo dejamos asi.
+          console.log ('vamos inicio');
+          this.route.navigate (['/inicio/' + this.profesor.id]);
+        } else {
+          // Aqui habría que mostrar alguna alerta al usuario
+          console.log('profe no existe');
+          Swal.fire('Cuidado', 'Usuario o contraseña incorrectos', 'warning');
+        }
+      },
+      (err) => {
+        console.log ('ERROR');
+        Swal.fire('Error', 'Fallo en la conexion con la base de datos', 'error');
+      }
+    );
   }
 }
