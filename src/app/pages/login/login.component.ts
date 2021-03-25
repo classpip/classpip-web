@@ -121,7 +121,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           // De momento lo dejamos asi.
           console.log ('vamos inicio');
           //localStorage.setItem('ACCESS_TOKEN', res.token);
-          //this.route.navigateByUrl('/admin');
+          this.route.navigateByUrl('/#/home');
         } else {
           // Aqui habría que mostrar alguna alerta al usuario
           console.log('profe no existe');
