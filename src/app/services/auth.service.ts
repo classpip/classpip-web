@@ -18,4 +18,10 @@ export class AuthService {
   public dameProfesor(username: string, password: string): Observable<Profesor> {
     return this.http.get<Profesor>(this.APIUrlProfesores + '?filter[where][NombreUsuario]=' + username + '&filter[where][Password]=' + password);
   }
+  public BuscaNombreUsuario(username: string): Observable<Profesor> {
+    return this.http.get<Profesor>(this.APIUrlProfesores + '?filter[where][NombreUsuario]=' + username);
+  }
+  public RegistraProfesor(profesor: Profesor): Observable<Profesor> {
+    return this.http.post<Profesor>(this.APIUrlProfesores, profesor);
+  }
 }

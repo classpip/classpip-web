@@ -1,5 +1,7 @@
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, OnDestroy, HostListener } from "@angular/core";
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-login',

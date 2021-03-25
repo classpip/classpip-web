@@ -1,4 +1,7 @@
+import { Profesor } from './../../clases/Profesor';
+import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, OnDestroy, HostListener } from "@angular/core";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-register',
@@ -10,7 +13,21 @@ export class RegisterComponent implements OnInit, OnDestroy {
   focus;
   focus1;
   focus2;
-  constructor() {}
+
+  profesor: Profesor;
+  nombre: string;
+  pass: string;
+
+  primerApellido: string;
+  segundoApellido: string;
+  username: string;
+  email: string;
+  contrasena: string;
+  contrasenaRepetida: string;
+  mostrarLogin = true;
+
+
+  constructor(private authService: AuthService) {}
   @HostListener("document:mousemove", ["$event"])
   onMouseMove(e) {
     var squares1 = document.getElementById("square1");
@@ -84,5 +101,48 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];
     body.classList.remove("register-page");
+  }
+
+  Registrar() {
+    this.authService.BuscaNombreUsuario (this.username)
+    .subscribe ( res => {
+      if (res[0] !== undefined) {
+        Swal.fire('Error', 'Ya existe alguien con el mismo nombre de usuario en Classpip', 'error');
+
+      } else {
+        if (this.contrasena !== this.contrasenaRepetida) {
+          Swal.fire('Error', 'No coincide la contraseña con la contraseña repetida', 'error');
+        } else if (!this.ValidaEmail (this.email)) {
+          Swal.fire('Error', 'El email no es correcto', 'error');
+        } else {
+          // creamos un identificador aleatorio de 5 digitos
+          const identificador = Math.random().toString().substr(2, 5);
+          const profesor = new Profesor (
+          this.nombre,
+          this.primerApellido,
+          this.segundoApellido,
+          this.username,
+          this.email,
+          this.contrasena,
+          null,
+          identificador
+          );
+          this.authService.RegistraProfesor (profesor)
+          .subscribe (
+              // tslint:disable-next-line:no-shadowed-variable
+              (res) => Swal.fire('OK', 'Registro completado con éxito', 'success'),
+              (err) => Swal.fire('Error', 'Fallo en la conexion con la base de datos', 'error')
+          );
+        }
+        this.nombre = undefined;
+        this.contrasena = undefined;
+        this.mostrarLogin = true;
+      }
+
+    });
+  }
+  ValidaEmail(email) {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
   }
 }
