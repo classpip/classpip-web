@@ -120,7 +120,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           // Pero si quitamos el id hay que cambiar las rutas en app-routing
           // De momento lo dejamos asi.
           console.log ('vamos inicio');
-          // this.route.navigate (['/inicio/' + this.profesor.id]);
+          //localStorage.setItem('ACCESS_TOKEN', res.token);
+          //this.route.navigateByUrl('/admin');
         } else {
           // Aqui habría que mostrar alguna alerta al usuario
           console.log('profe no existe');

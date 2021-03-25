@@ -15,6 +15,11 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
+  //true si esta, false si no
+  public isLoggedIn(){
+    return localStorage.getItem('ACCESS_TOKEN') !== null;
+  }
+
   public dameProfesor(username: string, password: string): Observable<Profesor> {
     return this.http.get<Profesor>(this.APIUrlProfesores + '?filter[where][NombreUsuario]=' + username + '&filter[where][Password]=' + password);
   }
