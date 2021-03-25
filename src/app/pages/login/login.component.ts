@@ -1,5 +1,9 @@
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, OnDestroy, HostListener } from "@angular/core";
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { SesionService } from 'src/app/services/sesion.service';
+import { ComServerService } from 'src/app/services/com-server.service';
 
 @Component({
   selector: 'app-login',
@@ -12,11 +16,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   focus1;
   focus2;
 
-  password;
-  username;
+  pass;
+  nombre;
   profesor;
   
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private route: Router, private sesion: SesionService,
+    private comServer: ComServerService, ) {}
   
   @HostListener("document:mousemove", ["$event"])
   onMouseMove(e) {
@@ -96,9 +101,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   logIn() {
     //mirar ngx-loading o alguna otra cosa para mostrar el cargando
 
-    console.log(this.username + ' '+ this.password);
-    console.log ('voy a autentificar a: ' + this.username + ' ' + this.password);
-    this.authService.DameProfesor(this.nombre, this.pass)
+    console.log ('voy a autentificar a: ' + this.nombre + ' ' + this.pass);
+    this.authService.dameProfesor(this.nombre, this.pass)
     .subscribe(
       (res) => {
         if (res[0] !== undefined) {
@@ -113,7 +117,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           // Pero si quitamos el id hay que cambiar las rutas en app-routing
           // De momento lo dejamos asi.
           console.log ('vamos inicio');
-          this.route.navigate (['/inicio/' + this.profesor.id]);
+          // this.route.navigate (['/inicio/' + this.profesor.id]);
         } else {
           // Aqui habría que mostrar alguna alerta al usuario
           console.log('profe no existe');
