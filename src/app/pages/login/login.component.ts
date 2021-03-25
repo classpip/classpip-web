@@ -100,11 +100,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   logIn() {
     //mirar ngx-loading o alguna otra cosa para mostrar el cargando
+    this.nombre = (<HTMLInputElement>document.getElementById('nombre')).value
+    this.pass = (<HTMLInputElement>document.getElementById('pass')).value
 
     console.log ('voy a autentificar a: ' + this.nombre + ' ' + this.pass);
     this.authService.dameProfesor(this.nombre, this.pass)
     .subscribe(
       (res) => {
+        console.log("res: ", res);
         if (res[0] !== undefined) {
           console.log ('autoenticicado correctamente');
           this.profesor = res[0]; // Si es diferente de null, el profesor existe y lo meto dentro de profesor
