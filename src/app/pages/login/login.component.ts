@@ -1,5 +1,6 @@
+import { Profesor } from './../../clases/Profesor';
 import { AuthService } from './../../services/auth.service';
-import { Component, OnInit, OnDestroy, HostListener } from "@angular/core";
+import { Component, OnInit, OnDestroy, HostListener, Output, EventEmitter } from "@angular/core";
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { SesionService } from 'src/app/services/sesion.service';
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   pass;
   nombre;
-  profesor;
+  profesor: Profesor;
   
   constructor(private authService: AuthService, private route: Router, private sesion: SesionService,
     private comServer: ComServerService, ) {}
@@ -109,7 +110,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       (res) => {
         console.log("res: ", res);
         if (res[0] !== undefined) {
-          console.log ('autoenticicado correctamente');
+          console.log ('autentificado correctamente');
           this.profesor = res[0]; // Si es diferente de null, el profesor existe y lo meto dentro de profesor
           // Notifico el nuevo profesor al componente navbar
           this.sesion.EnviaProfesor(this.profesor);
@@ -120,7 +121,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           // Pero si quitamos el id hay que cambiar las rutas en app-routing
           // De momento lo dejamos asi.
           console.log ('vamos inicio');
-          //localStorage.setItem('ACCESS_TOKEN', res.token);
+          sessionStorage.setItem('ACCESS_TOKEN', 'true');
+          this.sesion.publish({topic: "newLogin", data: res[0]});
           this.route.navigateByUrl('/#/home');
         } else {
           // Aqui habría que mostrar alguna alerta al usuario

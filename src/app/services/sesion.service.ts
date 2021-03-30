@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Profesor } from '../clases/Profesor';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,37 +9,12 @@ export class SesionService {
 
   profesor: Profesor;
   profesorObservable = new ReplaySubject(1);
-  
-  posicion: any;
-  tiposPuntosDelJuego: any;
-  nivelesDelJuego: any;
-  alumnoSeleccionado: any;
-  inscripcionAlumnoJuego: any;
-  equipoSeleccionado: any;
-  inscripcionEquipoJuego: any;
 
-  alumnosDelJuego: any;
-  listaAlumnosOrdenadaPorPuntos: any;
-  rankingJuegoDePuntos: any;
-  equiposDelJuego: any;
-  listaEquiposOrdenadaPorPuntos: any;
-  rankingEquiposJuegoDePuntos: any;
-
-  alumno: any;
-  inscripcionAlumno: any;
-  inscripcionEquipo: any;
-  listaGrupos: any;
-  imagenLogoEquipo: any;
-
-  
-
-  jornadas: any;
-  JornadasCompeticion: any;
-  
-  // listaEquiposGrupo: any;
+  private dataSubject = new Subject<any>();
 
 
   constructor() { }
+
   public TomaProfesor(profesor: Profesor) {
     this.profesor = profesor;
   }
@@ -58,5 +33,13 @@ export class SesionService {
   public EnviaProfesor(profesor: Profesor) {
     this.profesor = profesor;
     this.profesorObservable.next(profesor);
+  }
+
+  public publish(data: any){
+    this.dataSubject.next(data);
+  }
+
+  public getObservable(): Subject<any> {
+    return this.dataSubject;
   }
 }

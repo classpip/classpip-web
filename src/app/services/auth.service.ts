@@ -17,7 +17,7 @@ export class AuthService {
 
   //true si esta, false si no
   public isLoggedIn(){
-    return localStorage.getItem('ACCESS_TOKEN') !== null;
+    return sessionStorage.getItem('ACCESS_TOKEN') !== null;
   }
 
   public dameProfesor(username: string, password: string): Observable<Profesor> {

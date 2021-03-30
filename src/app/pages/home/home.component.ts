@@ -1,3 +1,6 @@
+import { SesionService } from 'src/app/services/sesion.service';
+import { Profesor } from './../../clases/Profesor';
+import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import noUiSlider from "nouislider";
 
@@ -8,33 +11,16 @@ import noUiSlider from "nouislider";
 })
 export class HomeComponent implements OnInit {
   isCollapsed = true;
-  constructor() { }
+  profesor: Profesor = null;
+  constructor(private auth: AuthService, private sesion: SesionService) { }
 
   ngOnInit(): void {
     var body = document.getElementsByTagName("body")[0];
     body.classList.add("index-page");
 
-    var slider = document.getElementById("sliderRegular");
-
-    noUiSlider.create(slider, {
-      start: 40,
-      connect: false,
-      range: {
-        min: 0,
-        max: 100
-      }
-    });
-
-    var slider2 = document.getElementById("sliderDouble");
-
-    noUiSlider.create(slider2, {
-      start: [20, 60],
-      connect: true,
-      range: {
-        min: 0,
-        max: 100
-      }
-    });
+    if(this.auth.isLoggedIn()){
+      this.profesor = this.sesion.DameProfesor();
+    }
   }
 
 }
