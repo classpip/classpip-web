@@ -6,17 +6,23 @@
             <div class="row">
                 <div class="container">
                     <div class="col-lg-4 col-md-6 ml-auto mr-auto">
-                        <div class="card card-coin card-plain" style="padding-top: 95px;">
+                        <div class="card card-coin card-plain" style="padding-top: 100px;">
                             <div class="card-header">
-                                <img *ngIf="this.profesor.ImagenPerfil != null"
-                                class="img-center img-fluid rounded-circle"
-                                style = "border-radius: 8px; width: 150px; height: 150px;"
-                                src={{this.profesor.ImagenPerfil}}
-                                />
-                                <img *ngIf="this.profesor.ImagenPerfil == null"
-                                class="img-center img-fluid rounded-circle"
-                                src="../../../assets/img/logo.png"
-                                />
+                                <div class="image">
+                                    <img *ngIf="this.profesor.ImagenPerfil != null"
+                                    class="img-center img-fluid rounded-circle"
+                                    style = "border-radius: 8px; width: 150px; height: 150px;"
+                                    src={{this.profesor.ImagenPerfil}}
+                                    />
+                                    <img *ngIf="this.profesor.ImagenPerfil == null"
+                                    class="img-center img-fluid rounded-circle"
+                                    style = "border-radius: 8px; width: 150px; height: 150px;"
+                                    src="../../../assets/img/logo.png"
+                                    />
+                                </div>
+                                <div class="overlay img-center" (click)="jaja()">
+                                    <div class="text"><i class="tim-icons icon-camera-18"></i>Cambiar</div>
+                                </div>
                                 <h4 class="title">{{this.profesor.Nombre}} {{this.profesor.PrimerApellido}}</h4>
                             </div>
                             <div class="card-body">

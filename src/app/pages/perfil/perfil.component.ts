@@ -32,4 +32,8 @@ export class PerfilComponent implements OnInit {
     }
   }
 
+  jaja(){
+    this.router.navigateByUrl('/#/home');
+  }
+
 }
