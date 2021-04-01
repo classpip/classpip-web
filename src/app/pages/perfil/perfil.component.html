@@ -1,3 +1,30 @@
 <app-navbar></app-navbar>
 
+<div class="wrapper">
+    <div class="page-header header-filter">
+        <div class="content">
+            <div class="row">
+                <div class="container">
+                    <div class="col-lg-4 col-md-6 ml-auto mr-auto">
+                        <div class="card card-coin card-plain">
+                            <div class="card-header">
+                                <img
+                                class="img-center img-fluid rounded-circle"
+                                alt = "Imagen perfil"
+                                style = "border-radius: 8px; width: 150px; height: 150px"
+                                src={{this.profesor.ImagenPerfil}}
+                                />
+                                <h4 class="title">{{this.profesor.Nombre}} {{this.profesor.PrimerApellido}}</h4>
+                            </div>
+                            <div class="card-body">
+                                <button class="btn btn-warning btn-round" (click)="logout()">Cerrar sesión</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>           
+    </div>
+</div>
+
 <app-footer></app-footer>

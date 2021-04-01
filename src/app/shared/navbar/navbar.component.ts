@@ -20,6 +20,10 @@ export class NavbarComponent implements OnInit {
     if(this.auth.isLoggedIn()) {
       this.isToken = true;
       this.profesor = this.sesion.DameProfesor();
+      if(this.profesor == undefined) {
+        sessionStorage.removeItem("ACCESS_TOKEN");
+        this.isToken = false;
+      }
     }
     else this.isToken = false;
 
@@ -27,10 +31,13 @@ export class NavbarComponent implements OnInit {
       if(data.topic == "newLogin"){
         this.isToken = true;
         this.profesor = this.sesion.DameProfesor();
+      } else if(data.topic == "logout"){
+        this.isToken = false;
+        this.profesor = undefined;
       }
       console.log("profesor ", this.profesor);
     });
 
-    console.log("jej: ", this.profesor);
+    console.log("profesor: ", this.profesor);
   }
 }
