@@ -1,3 +1,6 @@
+import { ComServerService } from 'src/app/services/com-server.service';
+import { Router } from '@angular/router';
+import { SesionService } from 'src/app/services/sesion.service';
 import { Profesor } from './../../clases/Profesor';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, OnDestroy, HostListener } from "@angular/core";
@@ -27,7 +30,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   mostrarLogin = true;
 
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private sesion:SesionService, 
+    private route:Router, private comServer:ComServerService) {}
   @HostListener("document:mousemove", ["$event"])
   onMouseMove(e) {
     var squares1 = document.getElementById("square1");
@@ -138,13 +142,22 @@ export class RegisterComponent implements OnInit, OnDestroy {
           this.authService.RegistraProfesor (profesor)
           .subscribe (
               // tslint:disable-next-line:no-shadowed-variable
-              (res) => Swal.fire('OK', 'Registro completado con éxito', 'success'),
+              (res) => {
+              Swal.fire('OK', 'Registro completado con éxito', 'success')
+              this.profesor = res;
+              console.log(this.profesor)
+              this.sesion.EnviaProfesor(this.profesor);
+              this.comServer.Conectar(this.profesor.id);
+              console.log ('vamos inicio');
+              sessionStorage.setItem('ACCESS_TOKEN', 'true');
+              this.sesion.publish({topic: "newLogin", data: res[0]});
+              this.route.navigateByUrl('/#/home');
+            },
+              
               (err) => Swal.fire('Error', 'Fallo en la conexion con la base de datos', 'error')
           );
         }
-        /* this.nombre = undefined;
-        this.password = undefined;
-        this.mostrarLogin = true; */
+        
       }
 
     });
