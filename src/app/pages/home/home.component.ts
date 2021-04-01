@@ -2,7 +2,6 @@ import { SesionService } from 'src/app/services/sesion.service';
 import { Profesor } from './../../clases/Profesor';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import noUiSlider from "nouislider";
 
 @Component({
   selector: 'app-home',
@@ -21,6 +20,11 @@ export class HomeComponent implements OnInit {
     if(this.auth.isLoggedIn()){
       this.profesor = this.sesion.DameProfesor();
     }
+  }
+
+  goJuegoRapido(){
+    //Sustituir por url cuando este classpip express disponible
+    window.open('http://147.83.118.92:8100/home');
   }
 
 }
