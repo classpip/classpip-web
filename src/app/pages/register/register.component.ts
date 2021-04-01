@@ -13,9 +13,12 @@ import Swal from "sweetalert2";
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   isCollapsed = true;
-  focus;
   focus1;
   focus2;
+  focus3;
+  focus4;
+  focus5;
+  focus6;
 
   profesor: Profesor;
   nombre: string;

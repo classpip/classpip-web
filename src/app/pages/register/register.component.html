@@ -23,7 +23,7 @@
                 <form class="form">
                   <div
                     class="input-group"
-                    [ngClass]="{ 'input-group-focus': focus === true }"
+                    [ngClass]="{ 'input-group-focus': focus1 === true }"
                   >
                     <div class="input-group-prepend">
                       <div class="input-group-text">
@@ -34,68 +34,68 @@
                       class="form-control"
                       placeholder="Nombre de Usuario"
                       type="text"
-                      (focus)="focus = true"
-                      (blur)="focus = false"
+                      (focus)="focus1 = true"
+                      (blur)="focus1 = false"
                       id="username"
                     />
                   </div>
                   <div
                   class="input-group"
-                  [ngClass]="{ 'input-group-focus': focus === true }"
+                  [ngClass]="{ 'input-group-focus': focus2 === true }"
                 >
                   <div class="input-group-prepend">
                     <div class="input-group-text">
-                      <i class="tim-icons icon-single-02"> </i>
+                      <i class="tim-icons icon-align-left-2"> </i>
                     </div>
                   </div>
                   <input
                     class="form-control"
                     placeholder="Nombre"
                     type="text"
-                    (focus)="focus = true"
-                    (blur)="focus = false"
+                    (focus)="focus2 = true"
+                    (blur)="focus2 = false"
                     id="nombre"
                   />
                 </div>
                 <div
                 class="input-group"
-                [ngClass]="{ 'input-group-focus': focus === true }"
+                [ngClass]="{ 'input-group-focus': focus3 === true }"
               >
                 <div class="input-group-prepend">
                   <div class="input-group-text">
-                    <i class="tim-icons icon-single-02"> </i>
+                    <i class="tim-icons icon-align-left-2"> </i>
                   </div>
                 </div>
                 <input
                   class="form-control"
                   placeholder="Primer Apellido"
                   type="text"
-                  (focus)="focus = true"
-                  (blur)="focus = false"
+                  (focus)="focus3 = true"
+                  (blur)="focus3 = false"
                   id="primerApellido"
                 />
               </div>
               <div
               class="input-group"
-              [ngClass]="{ 'input-group-focus': focus === true }"
+              [ngClass]="{ 'input-group-focus': focus4 === true }"
             >
               <div class="input-group-prepend">
                 <div class="input-group-text">
-                  <i class="tim-icons icon-single-02"> </i>
+                  <i class="tim-icons icon-align-left-2"> </i>
                 </div>
               </div>
               <input
                 class="form-control"
                 placeholder="Segundo Apellido"
                 type="text"
-                (focus)="focus = true"
-                (blur)="focus = false"
+                (focus)="focus4 = true"
+                (blur)="focus4 = false"
                 id="segundoApellido"
               />
             </div>
                   <div
                     class="input-group"
-                    [ngClass]="{ 'input-group-focus': focus1 === true }"
+                    [ngClass]="{ 'input-group-focus': focus5 === true }"
                   >
                     <div class="input-group-prepend">
                       <div class="input-group-text">
@@ -106,14 +106,14 @@
                       class="form-control"
                       placeholder="Email"
                       type="text"
-                      (focus)="focus1 = true"
-                      (blur)="focus1 = false"
+                      (focus)="focus5 = true"
+                      (blur)="focus5 = false"
                       id="email"
                     />
                   </div>
                   <div
                     class="input-group"
-                    [ngClass]="{ 'input-group-focus': focus2 === true }"
+                    [ngClass]="{ 'input-group-focus': focus6 === true }"
                   >
                     <div class="input-group-prepend">
                       <div class="input-group-text">
@@ -124,18 +124,20 @@
                       class="form-control"
                       placeholder="Contraseña"
                       type="password"
-                      (focus)="focus2 = true"
-                      (blur)="focus2 = false"
+                      (focus)="focus6 = true"
+                      (blur)="focus6 = false"
                       id="password"
                     />
                   </div>
-                  
                 </form>
               </div>
-              <div class="card-footer">               
+              <div class="card-footer" style="text-align: center;">               
                 <button type="submit" class="btn btn-danger btn-round btn-lg" (click)="Registrar()" >
                   Regístrame
                 </button>
+              </div>
+              <div style="text-align: center;">
+                <p>Ya tienes una cuenta? <a routerLink="/login">¡Inicia sesión!</a></p><br>
               </div>
             </div>
           </div>

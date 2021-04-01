@@ -16,7 +16,7 @@
                   src="assets/img/square1-red.png"
                 />
 
-                <h4 class="card-title">Login</h4>
+                <h1 class="card-title">Iniciar sesión</h1>
               </div>
               <div class="card-body">
                 <form class="form">
@@ -56,20 +56,15 @@
                       (blur)="focus2 = false"
                     />
                   </div>
-                  <!-- <div class="form-check text-left">
-                    <label class="form-check-label">
-                      <input class="form-check-input" type="checkbox" />
-
-                      <span class="form-check-sign"> </span> I agree to the
-                      <a href="javascript:void(0)"> terms and conditions </a> .
-                    </label>
-                  </div> -->
                 </form>
               </div>
-              <div class="card-footer">
+              <div class="card-footer" style="text-align: center;">
                 <button type="submit" class="btn btn-danger btn-round btn-lg" (click)="logIn()" >
-                  Log In
+                  Iniciar sesión
                 </button>
+              </div>
+              <div style="text-align: center;">
+                <p>Aún no tienes una cuenta? <a routerLink="/register">¡Regístrate!</a></p><br>
               </div>
             </div>
           </div>
