@@ -6,13 +6,16 @@
             <div class="row">
                 <div class="container">
                     <div class="col-lg-4 col-md-6 ml-auto mr-auto">
-                        <div class="card card-coin card-plain">
+                        <div class="card card-coin card-plain" style="padding-top: 95px;">
                             <div class="card-header">
-                                <img
+                                <img *ngIf="this.profesor.ImagenPerfil != null"
                                 class="img-center img-fluid rounded-circle"
-                                alt = "Imagen perfil"
-                                style = "border-radius: 8px; width: 150px; height: 150px"
+                                style = "border-radius: 8px; width: 150px; height: 150px;"
                                 src={{this.profesor.ImagenPerfil}}
+                                />
+                                <img *ngIf="this.profesor.ImagenPerfil == null"
+                                class="img-center img-fluid rounded-circle"
+                                src="../../../assets/img/logo.png"
                                 />
                                 <h4 class="title">{{this.profesor.Nombre}} {{this.profesor.PrimerApellido}}</h4>
                             </div>
