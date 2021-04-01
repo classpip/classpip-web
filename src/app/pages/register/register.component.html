@@ -36,6 +36,7 @@
                       type="text"
                       (focus)="focus = true"
                       (blur)="focus = false"
+                      id="username"
                     />
                   </div>
                   <div
@@ -53,6 +54,7 @@
                     type="text"
                     (focus)="focus = true"
                     (blur)="focus = false"
+                    id="nombre"
                   />
                 </div>
                 <div
@@ -70,6 +72,7 @@
                   type="text"
                   (focus)="focus = true"
                   (blur)="focus = false"
+                  id="primerApellido"
                 />
               </div>
               <div
@@ -87,6 +90,7 @@
                 type="text"
                 (focus)="focus = true"
                 (blur)="focus = false"
+                id="segundoApellido"
               />
             </div>
                   <div
@@ -104,6 +108,7 @@
                       type="text"
                       (focus)="focus1 = true"
                       (blur)="focus1 = false"
+                      id="email"
                     />
                   </div>
                   <div
@@ -118,28 +123,19 @@
                     <input
                       class="form-control"
                       placeholder="Contraseña"
-                      type="text"
+                      type="password"
                       (focus)="focus2 = true"
                       (blur)="focus2 = false"
+                      id="password"
                     />
                   </div>
-                  <div class="form-check text-left">
-                    <label class="form-check-label">
-                      <input class="form-check-input" type="checkbox" />
-
-                      <span class="form-check-sign"> </span> Estoy de acuerdo con los
-                      <a href="javascript:void(0)"> términos y conidiciones de uso </a> .
-                    </label>
-                  </div>
+                  
                 </form>
               </div>
-              <div class="card-footer">
-                <a
-                  class="btn btn-danger btn-round btn-lg"
-                  href="javascript:void(0)"
-                >
+              <div class="card-footer">               
+                <button type="submit" class="btn btn-danger btn-round btn-lg" (click)="Registrar()" >
                   Regístrame
-                </a>
+                </button>
               </div>
             </div>
           </div>

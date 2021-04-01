@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   profesor: Profesor;
   nombre: string;
-  pass: string;
+  password: string;
 
   primerApellido: string;
   segundoApellido: string;
@@ -104,15 +104,23 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   Registrar() {
+    this.username = (<HTMLInputElement>document.getElementById('username')).value
+    this.password = (<HTMLInputElement>document.getElementById('password')).value
+    this.primerApellido = (<HTMLInputElement>document.getElementById('primerApellido')).value
+    this.segundoApellido = (<HTMLInputElement>document.getElementById('segundoApellido')).value
+    this.email = (<HTMLInputElement>document.getElementById('email')).value
+    this.nombre = (<HTMLInputElement>document.getElementById('nombre')).value
     this.authService.BuscaNombreUsuario (this.username)
     .subscribe ( res => {
       if (res[0] !== undefined) {
         Swal.fire('Error', 'Ya existe alguien con el mismo nombre de usuario en Classpip', 'error');
 
       } else {
-        if (this.contrasena !== this.contrasenaRepetida) {
+        console.log(this.username, this.nombre, this.primerApellido, this.segundoApellido, this.email, this.password)
+        /* if (this.contrasena !== this.contrasenaRepetida) {
           Swal.fire('Error', 'No coincide la contraseña con la contraseña repetida', 'error');
-        } else if (!this.ValidaEmail (this.email)) {
+        } else  */
+        if (!this.ValidaEmail (this.email)) {
           Swal.fire('Error', 'El email no es correcto', 'error');
         } else {
           // creamos un identificador aleatorio de 5 digitos
@@ -123,7 +131,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           this.segundoApellido,
           this.username,
           this.email,
-          this.contrasena,
+          this.password,
           null,
           identificador
           );
@@ -134,9 +142,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
               (err) => Swal.fire('Error', 'Fallo en la conexion con la base de datos', 'error')
           );
         }
-        this.nombre = undefined;
-        this.contrasena = undefined;
-        this.mostrarLogin = true;
+        /* this.nombre = undefined;
+        this.password = undefined;
+        this.mostrarLogin = true; */
       }
 
     });
@@ -145,4 +153,5 @@ export class RegisterComponent implements OnInit, OnDestroy {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
+  
 }
