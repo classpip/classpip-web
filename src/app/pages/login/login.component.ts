@@ -115,6 +115,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           // Notifico el nuevo profesor al componente navbar
           this.sesion.EnviaProfesor(this.profesor);
           this.comServer.Conectar(this.profesor.id);
+          this.authService.setProfesorId(this.profesor.id);
 
           // En principio, no seria necesario enviar el id del profesor porque ya
           // tengo el profesor en la sesión y puedo recuperarlo cuando quiera.

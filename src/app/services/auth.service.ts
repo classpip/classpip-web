@@ -10,6 +10,8 @@ import { FamiliaAvatares } from './../clases/FamiliaAvatares';
 })
 export class AuthService {
   
+  profesorId: number;
+
   private host = environment.host;
   
   private APIUrlProfesores = this.host + '3000/api/Profesores'
@@ -38,5 +40,13 @@ export class AuthService {
   }
   public DameProfesores(): Observable<Profesor[]> {
     return this.http.get<Profesor[]>(this.APIUrlProfesores);
+  }
+
+  public getProfesorId(){
+    return this.profesorId;
+  }
+
+  public setProfesorId(profesorid: number){
+      this.profesorId = profesorid;
   }
 }

@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 
-<div class = "wrapper">
+<!-- <div class = "wrapper">
     <div class = "main">
         <div class="section section-basic" id="basic-elements">
            <div class= "container">
@@ -112,48 +112,193 @@
               
             </div>
     </div>
-</div>
-
-<div class ='enColumna'>
-  <form style = "width: 80%"  *ngIf="familiasPublicas;else Aviso_no_familias_publicas">
-
-    <div class = "filter">
-      <!-- <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro para buscar familia...">
-        <i class="material-icons" matSuffix>search</i>
-      </mat-form-field> -->
+</div> -->
+<br>
+<br>
+<div class="wrapper">
+  <div class="main">
+    <div class="section section-basic" id="basic-elements">
+     
     </div>
-    <table style = "width: 80%" align= "center" mat-table [dataSource]="dataSourcePublicas" class="mat-elevation-z8">
 
-      <ng-container matColumnDef="nombre">
-        <th mat-header-cell *matHeaderCellDef class="tituloColumnaTabla"> Nombre </th>
-        <td mat-cell *matCellDef="let familia; let i = index"> {{familia.NombreFamilia}} ({{propietarios[i]}}) </td>
-
-      </ng-container>
-
-      <ng-container matColumnDef="iconos">
-        <th  mat-header-cell *matHeaderCellDef class="tituloColumnaTabla"></th>
-        <td  mat-cell *matCellDef="let familia">
-          <div  style = "display: flex; align-items: right">
-            <button (click)= "Mostrar(familia)" mat-icon-button matTooltip="Ver imagenes de la familia">
-              <i class="material-icons green md-36">visibility</i>
-            </button>
-            <button (click) = "Descargar(familia)" mat-icon-button matTooltip="Descargar familia en JSON">
-              <i class="material-icons blue md-36">get_app</i>
-            </button>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
+          <div class="card">
+            <div class="card-header" style="text-align: center;">
+              PREGUNTAS                
+            </div>
+            <div class="image">
+              <img 
+              class="img-center img-fluid "
+              style = "border-radius: 8px; width: 150px; height: 150px;"
+              src="../../../assets/img/preguntas.png"
+              />
           </div>
-        </td>
-      </ng-container>
-
-     <!--  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;">
-      </tr> -->
-    </table>
-  </form>
-
-  <div class="contenedor">
-      <ng-template  #Aviso_no_familias_publicas><div class="texto">No hay familias de avatares publicas</div></ng-template>
+            <div class="card-footer" style="text-align: center;">
+              <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
+                    VER
+              </button>            
+              </div>
+          </div>
+        </div>
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
+          <div class="card">
+            <div class="card-header" style="text-align: center;">
+              CUESTIONARIOS                
+            </div>
+            <div class="image">
+              <img 
+              class="img-center img-fluid "
+              style = "border-radius: 8px; width: 150px; height: 150px;"
+              src="../../../assets/img/cuestionarios.png"
+              />
+          </div>
+            <div class="card-footer" style="text-align: center;">
+              <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
+                    VER
+              </button>            
+              </div>             
+            </div>
+        </div>
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
+          <div class="card">
+            <div class="card-header" style="text-align: center;">
+              COLECCIONES                
+            </div>
+            <div class="image">
+              <img 
+              class="img-center img-fluid "
+              style = "border-radius: 8px; width: 150px; height: 150px;"
+              src="../../../assets/img/coleccion.png"
+              />
+          </div>
+            <div class="card-footer" style="text-align: center;">
+              <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
+                    VER
+              </button>            
+              </div>            
+            </div>
+        </div>
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
+          <div class="card">
+            <div class="card-header" style="text-align: center;">
+              PUNTOS                
+            </div>
+            <div class="image">
+              <img 
+              class="img-center img-fluid "
+              style = "border-radius: 8px; width: 150px; height: 150px;"
+              src="../../../assets/img/puntos.png"
+              />
+          </div>
+            <div class="card-footer" style="text-align: center;">
+              <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
+                    VER
+              </button>            
+              </div>             
+            </div>
+        </div>
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
+          <div class="card">
+            <div class="card-header" style="text-align: center;">
+              ECENARIOS                
+            </div>
+            <div class="card-footer" style="text-align: center;">
+              <div class="image">
+                <img 
+                class="img-center img-fluid "
+                style = "border-radius: 8px; width: 150px; height: 150px;"
+                src="../../../assets/img/escenarios.webp"
+                />
+            </div>
+              <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
+                    VER
+              </button>            
+              </div>            
+            </div>
+        </div>
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
+          <div class="card">
+            <div class="card-header" style="text-align: center;">
+              AVATARES                
+            </div>
+            <div class="image">
+              <img 
+              class="img-center img-fluid "
+              style = "border-radius: 8px; width: 150px; height: 150px;"
+              src="../../../assets/img/avatares.png"
+              />
+          </div>
+            <div class="card-footer" style="text-align: center;">
+              <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
+                    VER
+              </button>            
+              </div>             
+            </div>
+        </div>
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
+          <div class="card">
+            <div class="card-header" style="text-align: center;">
+              RÚBRICAS                
+            </div>
+            <div class="image">
+              <img 
+              class="img-center img-fluid "
+              style = "border-radius: 8px; width: 150px; height: 150px;"
+              src="../../../assets/img/rubricas.png"
+              />
+          </div>
+            <div class="card-footer" style="text-align: center;">
+              <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
+                    VER
+              </button>            
+              </div>          
+            </div>
+        </div>
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
+          <div class="card">
+            <div class="card-header" style="text-align: center;">
+              IMAGENES DE PERFIL                
+            </div>
+            <div class="image">
+              <img 
+              class="img-center img-fluid rounded-circle"
+              style = "border-radius: 8px; width: 150px; height: 150px;"
+              src="../../../assets/img/logo.png"
+              />
+          </div>
+          <div class="card-footer" style="text-align: center;">
+            <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
+                  VER
+            </button>            
+            </div>             
+            </div>
+        </div>
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
+          <div class="card">
+            <div class="card-header" style="text-align: center;">
+              CUESTIONARIOS DE SATISFACCIÓN                
+            </div>
+            <div class="image">
+              <img 
+              class="img-center img-fluid "
+              style = "border-radius: 8px; width: 150px; height: 150px;"
+              src="../../../assets/img/satisfaccion.png"
+              />
+          </div>
+            <div class="card-footer" style="text-align: center;">
+              <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
+                    VER
+              </button>            
+              </div>             
+            </div>
+        </div>
+      </div>
+    </div>
+   
   </div>
+
 </div>
 
 <app-footer></app-footer>
