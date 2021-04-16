@@ -60,8 +60,55 @@
             <a class="nav-link" placement="bottom" routerLink="/funcionalidades">  Funcionalidades </a>
         </li>
 
-        <li class="nav-item">            
-            <a class="nav-link" placement="bottom" routerLink="/recursos">  Recursos </a>
+        <li class="nav-item dropdown" dropdown>
+          <a
+            aria-expanded="false"
+            aria-haspopup="true"
+            class="nav-link dropdown-toggle dropdown-toggle"
+            data-toggle="dropdown"
+            dropdownToggle
+            href="javascript:void(0)"
+            routerLink="/recursos"
+            id="navbarDropdownMenuLink"
+          >
+         Recursos
+            
+          
+          </a>
+          <div
+            aria-labelledby="navbarDropdownMenuLink"
+            class="dropdown-menu"
+            *dropdownMenu
+          >
+            <a class="dropdown-item" routerLink="/avatares">
+              Avatares
+            </a>
+            <a class="dropdown-item" routerLink="/colecciones">
+              Colecciones
+            </a>
+            <a class="dropdown-item" routerLink="/cuestionarios">
+              Cuestionarios
+            </a>
+            <a class="dropdown-item" routerLink="/satisfaccion">
+              Cuestionarios de stisfacción
+            </a>
+            <a class="dropdown-item" routerLink="/escenarios">
+              Escenarios
+            </a>
+            <a class="dropdown-item" routerLink="/imagenes">
+              Imagenes de perfil
+            </a>
+            <a class="dropdown-item" routerLink="/preguntas">
+              Preguntas
+            </a>
+            <a class="dropdown-item" routerLink="/puntos">
+              Puntos
+            </a>
+            <a class="dropdown-item" routerLink="/rubricas">
+              Rúbricas
+            </a>
+            
+          </div>
         </li>
 
         <li class="nav-item">            

@@ -1,3 +1,12 @@
+import { RecursosPuntosComponent } from './pages/recursos-puntos/recursos-puntos.component';
+import { RecursosEscenariosComponent } from './pages/recursos-escenarios/recursos-escenarios.component';
+import { RecursosAvataresComponent } from './pages/recursos-avatares/recursos-avatares.component';
+import { RecursosRubricasComponent } from './pages/recursos-rubricas/recursos-rubricas.component';
+import { RecursosImagenesPerfilComponent } from './pages/recursos-imagenes-perfil/recursos-imagenes-perfil.component';
+import { RecursosCuestionariosSatisfaccionComponent } from './pages/recursos-cuestionarios-satisfaccion/recursos-cuestionarios-satisfaccion.component';
+import { RecursosColeccionesComponent } from './pages/recursos-colecciones/recursos-colecciones.component';
+import { RecursosCuestionariosComponent } from './pages/recursos-cuestionarios/recursos-cuestionarios.component';
+import { RecursosPreguntasComponent } from './pages/recursos-preguntas/recursos-preguntas.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -27,7 +36,16 @@ const routes: Routes = [
   { path: "login", component: LoginComponent},
   { path: "register", component: RegisterComponent},
   { path: "index", component: IndexComponent},
-  { path: "perfil", component: PerfilComponent}
+  { path: "perfil", component: PerfilComponent},
+  { path: "preguntas", component: RecursosPreguntasComponent},
+  { path: "cuestionarios", component: RecursosCuestionariosComponent},
+  { path: "colecciones", component: RecursosColeccionesComponent},
+  { path: "puntos", component: RecursosPuntosComponent},
+  { path: "escenarios", component: RecursosEscenariosComponent},
+  { path: "avatares", component: RecursosAvataresComponent},
+  { path: "rubricas", component: RecursosRubricasComponent},
+  { path: "imagenes", component: RecursosImagenesPerfilComponent},
+  { path: "satisfaccion", component: RecursosCuestionariosSatisfaccionComponent}
 ];
 
 @NgModule({
