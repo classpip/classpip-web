@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RecursosEscenariosComponent } from './recursos-escenarios.component';
+import { RecursosListComponent } from './recursos-list.component';
 
-describe('RecursosEscenariosComponent', () => {
-  let component: RecursosEscenariosComponent;
-  let fixture: ComponentFixture<RecursosEscenariosComponent>;
+describe('RecursosListComponent', () => {
+  let component: RecursosListComponent;
+  let fixture: ComponentFixture<RecursosListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RecursosEscenariosComponent ]
+      declarations: [ RecursosListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RecursosEscenariosComponent);
+    fixture = TestBed.createComponent(RecursosListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

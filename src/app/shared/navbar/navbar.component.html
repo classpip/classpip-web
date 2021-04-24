@@ -64,7 +64,7 @@
           <a
             aria-expanded="false"
             aria-haspopup="true"
-            class="nav-link dropdown-toggle dropdown-toggle"
+            class="nav-link dropdown-toggle"
             data-toggle="dropdown"
             dropdownToggle
             href="javascript:void(0)"
@@ -80,31 +80,31 @@
             class="dropdown-menu"
             *dropdownMenu
           >
-            <a class="dropdown-item" routerLink="/avatares">
+            <a class="dropdown-item" [routerLink]="['/recursos', 'avatares']">
               Avatares
             </a>
-            <a class="dropdown-item" routerLink="/colecciones">
+            <a class="dropdown-item" [routerLink]="['/recursos', 'colecciones']">
               Colecciones
             </a>
-            <a class="dropdown-item" routerLink="/cuestionarios">
+            <a class="dropdown-item" [routerLink]="['/recursos', 'cuestionarios']">
               Cuestionarios
             </a>
-            <a class="dropdown-item" routerLink="/satisfaccion">
+            <a class="dropdown-item" [routerLink]="['/recursos', 'satisfaccion']">
               Cuestionarios de stisfacción
             </a>
-            <a class="dropdown-item" routerLink="/escenarios">
+            <a class="dropdown-item" [routerLink]="['/recursos', 'escenarios']">
               Escenarios
             </a>
-            <a class="dropdown-item" routerLink="/imagenes">
+            <a class="dropdown-item" [routerLink]="['/recursos', 'imagenes']">
               Imagenes de perfil
             </a>
-            <a class="dropdown-item" routerLink="/preguntas">
+            <a class="dropdown-item" [routerLink]="['/recursos', 'preguntas']">
               Preguntas
             </a>
-            <a class="dropdown-item" routerLink="/puntos">
+            <a class="dropdown-item" [routerLink]="['/recursos', 'puntos']">
               Puntos
             </a>
-            <a class="dropdown-item" routerLink="/rubricas">
+            <a class="dropdown-item" [routerLink]="['/recursos', 'rubricas']">
               Rúbricas
             </a>
             

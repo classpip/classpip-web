@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { FamiliaAvatares } from './../../clases/FamiliaAvatares';
 import { AuthService } from './../../services/auth.service';
@@ -14,12 +15,11 @@ export class RecursosComponent implements OnInit {
 
  
 
-  constructor(private authService:AuthService) { }
+  constructor(private authService:AuthService, private router: Router) { }
 
   ngOnInit(): void {
    
 
   }
-  
 
 }

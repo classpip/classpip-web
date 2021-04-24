@@ -33,15 +33,8 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FooterComponent } from '../shared/footer/footer.component';
 import { PerfilComponent } from './perfil/perfil.component';
-import { RecursosPreguntasComponent } from './recursos-preguntas/recursos-preguntas.component';
-import { RecursosCuestionariosComponent } from './recursos-cuestionarios/recursos-cuestionarios.component';
-import { RecursosColeccionesComponent } from './recursos-colecciones/recursos-colecciones.component';
-import { RecursosPuntosComponent } from './recursos-puntos/recursos-puntos.component';
-import { RecursosEscenariosComponent } from './recursos-escenarios/recursos-escenarios.component';
-import { RecursosAvataresComponent } from './recursos-avatares/recursos-avatares.component';
-import { RecursosRubricasComponent } from './recursos-rubricas/recursos-rubricas.component';
-import { RecursosImagenesPerfilComponent } from './recursos-imagenes-perfil/recursos-imagenes-perfil.component';
-import { RecursosCuestionariosSatisfaccionComponent } from './recursos-cuestionarios-satisfaccion/recursos-cuestionarios-satisfaccion.component';
+import { RecursosListComponent } from './recursos-list/recursos-list.component';
+
 
 @NgModule({
   imports: [
@@ -72,22 +65,14 @@ import { RecursosCuestionariosSatisfaccionComponent } from './recursos-cuestiona
     FuncionalidadesComponent,
     DesarrolladoresComponent,
     RecursosComponent,
+    RecursosListComponent,
     ExperienciasComponent,
     EstilosComponent,
     LoginComponent,
     RegisterComponent,
     NavbarComponent,
     FooterComponent,
-    PerfilComponent,
-    RecursosPreguntasComponent,
-    RecursosCuestionariosComponent,
-    RecursosColeccionesComponent,
-    RecursosPuntosComponent,
-    RecursosEscenariosComponent,
-    RecursosAvataresComponent,
-    RecursosRubricasComponent,
-    RecursosImagenesPerfilComponent,
-    RecursosCuestionariosSatisfaccionComponent
+    PerfilComponent
   ],
   exports: [
     IndexComponent,
