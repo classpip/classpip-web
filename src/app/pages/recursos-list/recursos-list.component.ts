@@ -12,6 +12,7 @@ import { FamiliaAvatares } from 'src/app/clases/FamiliaAvatares';
 export class RecursosListComponent implements OnInit {
 
   recurso: String;
+  rscName: String;
   listRecursos: FamiliaAvatares[];
   mapProfesores: Map<Number,Profesor> = new Map();
 
@@ -43,10 +44,50 @@ export class RecursosListComponent implements OnInit {
     //Carga los recursos correspondientes en la lista de recursos que se muestra
     switch(this.recurso){
       case 'avatares': {
+        this.rscName = 'Avatares';
         this.DameFamiliasDeAvataresPublicas();
         break;
       }
-      default: this.listRecursos = [];
+
+      case 'cuestionarios': {
+        this.rscName = 'Cuestionarios';
+        break;
+      }
+
+      case 'imagenes': {
+        this.rscName = 'Imágenes de perfil';
+        break;
+      }
+
+      case 'rubricas': {
+        this.rscName = 'Rúbricas';
+        break;
+      }
+
+      case 'satisfaccion': {
+        this.rscName ='Cuestionarios de satisfacción';
+        break;
+      }
+
+      case 'preguntas': {
+        this.rscName = 'Preguntas';
+        break;
+      }
+
+      case 'colecciones': {
+        this.rscName = 'Colecciones';
+        break;
+      }
+
+      case 'puntos': {
+        this.rscName = 'Puntos';
+        break;
+      }
+      
+      case 'escenarios': {
+        this.rscName = 'Escenarios';
+        break;
+      }
     }
   }
 

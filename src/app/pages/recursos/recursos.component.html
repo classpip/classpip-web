@@ -118,203 +118,183 @@
 <div class="wrapper">
   <div class="main">
     <div class="section section-basic" id="basic-elements">
-     
+
     </div>
 
     <div class="container">
       <div class="row">
-        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
-          <div class="card">
-            <div class="card-header" style="text-align: center;">
-              PREGUNTAS                
-            </div>
-            <div class="image">
-              <img 
-              class="img-center img-fluid "
-              style = "border-radius: 8px; width: 150px; height: 150px;"
-              src="../../../assets/img/preguntas.png"
-              />
-          </div>
-            <div class="card-footer" style="text-align: center;">
-              <a [routerLink]="['/recursos', 'preguntas']">
-                <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
-                  VER
-                </button>
-              </a>
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">
+          <a class="rsc-card" [routerLink]="['/recursos','preguntas']">
+            <div class="card">
+              <div class="card-header" style="text-align: center;">
+                <h4>PREGUNTAS</h4>
               </div>
-          </div>
+              <div class="card-footer" style="text-align: center;">
+                <div class="image">
+                  <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
+                    src="../../../assets/img/preguntas.png" />
+                </div>
+              </div>
+            </div>
+          </a>
         </div>
-        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
-          <div class="card">
-            <div class="card-header" style="text-align: center;">
-              CUESTIONARIOS                
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">
+          <a class="rsc-card" [routerLink]="['/recursos','cuestionarios']">
+            <div class="card">
+              <div class="card-header" style="text-align: center;">
+                <h4>CUESTIONARIOS</h4>
+              </div>
+              <div class="card-footer" style="text-align: center;">
+                <div class="image">
+                  <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
+                    src="../../../assets/img/cuestionarios.png" />
+                </div>
+              </div>
             </div>
-            <div class="image">
-              <img 
-              class="img-center img-fluid "
-              style = "border-radius: 8px; width: 150px; height: 150px;"
-              src="../../../assets/img/cuestionarios.png"
-              />
-          </div>
-            <div class="card-footer" style="text-align: center;">
-              <a [routerLink]="['/recursos', 'cuestionarios']">
-                <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
-                  VER
-                </button>
-              </a>            
-              </div>             
-            </div>
+          </a>
         </div>
-        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
-          <div class="card">
-            <div class="card-header" style="text-align: center;">
-              COLECCIONES                
-            </div>
-            <div class="image">
-              <img 
-              class="img-center img-fluid "
-              style = "border-radius: 8px; width: 150px; height: 150px;"
-              src="../../../assets/img/coleccion.png"
-              />
-          </div>
-            <div class="card-footer" style="text-align: center;">
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">
+          <a class="rsc-card" [routerLink]="['/recursos','colecciones']">
+            <div class="card">
+              <div class="card-header" style="text-align: center;">
+                <h4>COLECCIONES</h4>
+              </div>
+              <div class="card-footer" style="text-align: center;">
+                <div class="image">
+                  <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
+                    src="../../../assets/img/coleccion.png" />
+                </div>
+              </div>
+              <!-- <div class="card-footer" style="text-align: center;">
               <a [routerLink]="['/recursos', 'colecciones']">
                 <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
                   VER
                 </button>
-              </a>            
-              </div>            
+              </a>
+            </div> -->
             </div>
+          </a>
         </div>
-        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
-          <div class="card">
-            <div class="card-header" style="text-align: center;">
-              PUNTOS                
-            </div>
-            <div class="image">
-              <img 
-              class="img-center img-fluid "
-              style = "border-radius: 8px; width: 150px; height: 150px;"
-              src="../../../assets/img/puntos.png"
-              />
-          </div>
-            <div class="card-footer" style="text-align: center;">
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">
+          <a class="rsc-card" [routerLink]="['/recursos','puntos']">
+            <div class="card">
+              <div class="card-header" style="text-align: center;">
+                <h4>PUNTOS</h4>
+              </div>
+              <div class="card-footer" style="text-align: center;">
+                <div class="image">
+                  <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
+                    src="../../../assets/img/puntos.png" />
+                </div>
+              </div>
+              <!-- <div class="card-footer" style="text-align: center;">
               <a [routerLink]="['/recursos', 'puntos']">
                 <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
                   VER
                 </button>
-              </a>            
-              </div>             
+              </a>
+            </div> -->
             </div>
+          </a>
         </div>
-        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
-          <div class="card">
-            <div class="card-header" style="text-align: center;">
-              ECENARIOS                
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">
+          <a class="rsc-card" [routerLink]="['/recursos','escenarios']">
+            <div class="card">
+              <div class="card-header" style="text-align: center;">
+                <h4>ESCENARIOS</h4>
+              </div>
+              <div class="card-footer" style="text-align: center;">
+                <div class="image">
+                  <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
+                    src="../../../assets/img/escenarios.webp" />
+                </div>
+              </div>
             </div>
-            <div class="card-footer" style="text-align: center;">
-              <div class="image">
-                <img 
-                class="img-center img-fluid "
-                style = "border-radius: 8px; width: 150px; height: 150px;"
-                src="../../../assets/img/escenarios.webp"
-                />
-            </div>
-            <a [routerLink]="['/recursos', 'escenarios']">
-              <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
-                VER
-              </button>
-            </a>            
-              </div>            
-            </div>
+          </a>
         </div>
-        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
-          <div class="card">
-            <div class="card-header" style="text-align: center;">
-              AVATARES                
-            </div>
-            <div class="image">
-              <img 
-              class="img-center img-fluid "
-              style = "border-radius: 8px; width: 150px; height: 150px;"
-              src="../../../assets/img/avatares.png"
-              />
-          </div>
-            <div class="card-footer" style="text-align: center;">
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">
+          <a class="rsc-card" [routerLink]="['/recursos','avatares']">
+            <div class="card">
+              <div class="card-header" style="text-align: center;">
+                <h4>AVATARES</h4>
+              </div>
+              <div class="card-footer" style="text-align: center;">
+                <div class="image">
+                  <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
+                    src="../../../assets/img/avatares.png" />
+                </div>
+              </div>
+              <!-- <div class="card-footer" style="text-align: center;">
               <a [routerLink]="['/recursos', 'avatares']">
                 <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
                   VER
                 </button>
-              </a>           
-              </div>             
+              </a>
+            </div> -->
             </div>
+          </a>
         </div>
-        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
-          <div class="card">
-            <div class="card-header" style="text-align: center;">
-              RÚBRICAS                
-            </div>
-            <div class="image">
-              <img 
-              class="img-center img-fluid "
-              style = "border-radius: 8px; width: 150px; height: 150px;"
-              src="../../../assets/img/rubricas.png"
-              />
-          </div>
-            <div class="card-footer" style="text-align: center;">
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">
+          <a class="rsc-card" [routerLink]="['/recursos','rubricas']">
+            <div class="card">
+              <div class="card-header" style="text-align: center;">
+                <h4>RÚBRICAS</h4>
+              </div>
+              <div class="card-footer" style="text-align: center;">
+                <div class="image">
+                  <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
+                    src="../../../assets/img/rubricas.png" />
+                </div>
+              </div>
+              <!-- <div class="card-footer" style="text-align: center;">
               <a [routerLink]="['/recursos', 'rubricas']">
                 <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
                   VER
                 </button>
-              </a>           
-              </div>          
+              </a>
+            </div> -->
             </div>
+          </a>
         </div>
-        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
-          <div class="card">
-            <div class="card-header" style="text-align: center;">
-              IMAGENES DE PERFIL                
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">
+          <a class="rsc-card" [routerLink]="['/recursos', 'imagenes']">
+            <div class="card" id="card">
+              <div class="card-header" style="text-align: center;">
+                <h4>IMÁGENES DE PERFIL</h4>
+              </div>
+              <div class="card-footer" style="text-align: center;">
+                <div class="image">
+                  <img class="img-center img-fluid rounded-circle"
+                    style="border-radius: 8px; width: 150px; height: 150px;" src="../../../assets/img/logo.png" />
+                </div>
+              </div>
             </div>
-            <div class="image">
-              <img 
-              class="img-center img-fluid rounded-circle"
-              style = "border-radius: 8px; width: 150px; height: 150px;"
-              src="../../../assets/img/logo.png"
-              />
-          </div>
-          <div class="card-footer" style="text-align: center;">
-            <a [routerLink]="['/recursos', 'imagenes']">
-              <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
-                VER
-              </button>
-            </a>            
-            </div>             
-            </div>
+          </a>
         </div>
-        <div class="col-md-10 ml-auto col-xl-4 mr-auto">          
-          <div class="card">
-            <div class="card-header" style="text-align: center;">
-              CUESTIONARIOS DE SATISFACCIÓN                
-            </div>
-            <div class="image">
-              <img 
-              class="img-center img-fluid "
-              style = "border-radius: 8px; width: 150px; height: 150px;"
-              src="../../../assets/img/satisfaccion.png"
-              />
-          </div>
-            <div class="card-footer" style="text-align: center;">
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto">
+          <a class="rsc-card" [routerLink]="['/recursos','satisfaccion']">
+            <div class="card">
+              <div class="card-header" style="text-align: center;">
+                <h4>CUESTIONARIOS DE SATISFACCIÓN</h4>
+              </div>
+              <div class="card-footer" style="text-align: center;">
+                <div class="image">
+                  <img class="img-center img-fluid " style="border-radius: 8px; width: 200px; height: 200px;"
+                    src="../../../assets/img/satisfaccion.png" />
+                </div>
+              </div>
+              <!-- <div class="card-footer" style="text-align: center;">
               <a [routerLink]="['/recursos', 'satisfaccion']">
-                <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">
-                  VER
+                <button class="btn btn-primary btn-round mr-1" type="button" style="width:30%; height:30%">VER
                 </button>
-              </a>            
-              </div>             
+              </a>
+            </div> -->
             </div>
+          </a>
         </div>
       </div>
     </div>
-   
+
   </div>
 
 </div>
