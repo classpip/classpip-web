@@ -13,10 +13,12 @@ export class FamiliaAvatares {
   Complemento4: string[];
   profesorId: number;
   id: number;
+  propietario: string;
+
   constructor(nombre?: string) {
 
     this.NombreFamilia = nombre;
-    this.Publica = false;
+    // this.Publica = false;
 
   }
 

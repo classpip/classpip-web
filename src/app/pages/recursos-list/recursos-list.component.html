@@ -1,3 +1,31 @@
-<p>recursos-list works!</p>
+
 <p>{{recurso}}</p>
 <button (click)="volver()">volver</button>
+
+<br><br>
+
+<div class="text-center">
+    <table class="table" style="width:95%; text-align: center;">
+        <thead bgcolor="red">
+            <tr>
+                <th class="text-center" width="20px">#</th>
+                <th width="500px">Nombre</th>
+                <th width="500px">Propietario</th>
+                <th width="20px">VER</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 4 COLUMNAS: Numero, nombre, propietario y boton. Silueta???? -->
+            <tr *ngFor="let rsc of listRecursos; let indice=index" >
+                <td class="text-center" width="20px">{{indice + 1}}</td>
+                <td width="500px">{{rsc.NombreFamilia}}</td>
+                <td width="500px">{{rsc.propietario}}</td>
+                <td class="td-actions text-right" width="20px">
+                    <button type="button" rel="tooltip" class="btn btn-success btn-roundbtn-icon">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
