@@ -68,6 +68,8 @@ export class RecursosListComponent implements OnInit {
           if(this.mapProfesores.has(recurso.profesorId)) {
             recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
             recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
+          } else {
+            recurso.propietario = 'Desconocido';
           }
         });
 
