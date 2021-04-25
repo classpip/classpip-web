@@ -4,7 +4,7 @@
 
 <br><br>
 
-<div class="text-center" *ngIf="listRecursos; else elseBlock" >
+<div class="text-center" *ngIf="listRecursos.length != 0; else elseBlock" >
     <table class="table" style="width:95%; text-align: center;">
         <thead bgcolor="red">
             <tr>

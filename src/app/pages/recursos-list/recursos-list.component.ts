@@ -17,40 +17,60 @@ export class RecursosListComponent implements OnInit {
 
   constructor(private activeRoute: ActivatedRoute, private router: Router, private recursosService: RecursosService) { }
 
+  /* PETICIONES QUE FALTAN X HACER 
+
+  (son las que he visto que tienen recursos publicos, las demas no salia lo de recursos publicos en el dashboard: 
+  no se si es que no existen o keloke)
+
+  this.DameTodosLosCuestionariosPublicos();
+  this.DameTodasLasColeccionesPublicas();
+  this.DameTodosLosCuestionariosDeSatisfaccionPublicos();
+  this.DameFamiliasDeImagenesDePerfilPublicas();
+
+  */
+  
   ngOnInit(): void {
+    //Obtiene de la ruta el tipo de recurso que es
     this.recurso = this.activeRoute.snapshot.params.recurso;
-    if(this.recurso == 'avatares') this.DameFamiliasDeAvataresPublicas();
+
+    //Obtiene los profesores para poder obtener el nombre del propietario
+    this.recursosService.DameProfesores().subscribe(profesores => {
+      profesores.forEach(prof => {
+        this.mapProfesores.set(prof.id, prof);
+      });
+    });
+
+    //Carga los recursos correspondientes en la lista de recursos que se muestra
+    switch(this.recurso){
+      case 'avatares': {
+        this.DameFamiliasDeAvataresPublicas();
+        break;
+      }
+      default: this.listRecursos = [];
+    }
   }
 
+  //Función para volver a la página de recursos
   volver(){
     this.router.navigateByUrl('/recursos');
   }
 
-  /* this.DameTodosLosCuestionariosPublicos();
-  this.DameTodasLasColeccionesPublicas();
-  this.DameTodosLosCuestionariosDeSatisfaccionPublicos();
-  this.DameFamiliasDeImagenesDePerfilPublicas();
-*/
-
+  //Funcion que obtiene los recursos publicos de avatares
   DameFamiliasDeAvataresPublicas() {
-    // traigo todos los publicos excepto los del profesor
-    this.recursosService.DameFamiliasAvataresPublicas()
-    .subscribe ( res => {
+    this.recursosService.DameFamiliasAvataresPublicas().subscribe ( res => {
       console.log(res);
       if (res !== undefined) {
+        //Carga los recursos en la lista
         this.listRecursos = res;
-        this.recursosService.DameProfesores()
-        .subscribe ( profesores => {
-          profesores.forEach(prof => {
-            this.mapProfesores.set(prof.id, prof);
-          });
-          this.listRecursos.forEach(recurso => {
-            if(this.mapProfesores.has(recurso.profesorId)) {
-              recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
-              recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
-            }
-          })
+
+        //Cambia el profesorId por su nombre
+        this.listRecursos.forEach(recurso => {
+          if(this.mapProfesores.has(recurso.profesorId)) {
+            recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
+            recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
+          }
         });
+
       }
     }); 
   }
