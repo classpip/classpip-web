@@ -19,7 +19,7 @@ export class RecursosListComponent implements OnInit {
 
   ngOnInit(): void {
     this.recurso = this.activeRoute.snapshot.params.recurso;
-    this.DameFamiliasDeAvataresPublicas();
+    if(this.recurso == 'avatares') this.DameFamiliasDeAvataresPublicas();
   }
 
   volver(){

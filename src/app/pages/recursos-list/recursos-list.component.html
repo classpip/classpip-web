@@ -4,7 +4,7 @@
 
 <br><br>
 
-<div class="text-center">
+<div class="text-center" *ngIf="listRecursos; else elseBlock" >
     <table class="table" style="width:95%; text-align: center;">
         <thead bgcolor="red">
             <tr>
@@ -29,3 +29,4 @@
         </tbody>
     </table>
 </div>
+<ng-template #elseBlock>No hay recursos públicos</ng-template>
