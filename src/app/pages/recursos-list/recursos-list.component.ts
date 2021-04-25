@@ -28,6 +28,9 @@ export class RecursosListComponent implements OnInit {
   this.DameTodosLosCuestionariosDeSatisfaccionPublicos();
   this.DameFamiliasDeImagenesDePerfilPublicas();
 
+  FALTA POR CENTRAR EL LOADING EN EL HTML
+  MIRATE TAMBIEN EL CSS QUE HAY COSITAS
+
   */
   
   ngOnInit(): void {
@@ -42,6 +45,7 @@ export class RecursosListComponent implements OnInit {
     });
 
     //Carga los recursos correspondientes en la lista de recursos que se muestra
+    //He puesto ya los casos para todos los recursos. Falta mirar aver si hay que quitar alguno
     switch(this.recurso){
       case 'avatares': {
         this.rscName = 'Avatares';
@@ -51,41 +55,51 @@ export class RecursosListComponent implements OnInit {
 
       case 'cuestionarios': {
         this.rscName = 'Cuestionarios';
+        //Esto lo he puesto para que no salga loading todo el rato
+        this.listRecursos = [];
+        //Habra que cambiarlo por la funcion que obtiene recursos cuando esten hechas
         break;
       }
 
       case 'imagenes': {
         this.rscName = 'Imágenes de perfil';
+        this.listRecursos = [];
         break;
       }
 
       case 'rubricas': {
         this.rscName = 'Rúbricas';
+        this.listRecursos = [];
         break;
       }
 
       case 'satisfaccion': {
         this.rscName ='Cuestionarios de satisfacción';
+        this.listRecursos = [];
         break;
       }
 
       case 'preguntas': {
         this.rscName = 'Preguntas';
+        this.listRecursos = [];
         break;
       }
 
       case 'colecciones': {
         this.rscName = 'Colecciones';
+        this.listRecursos = [];
         break;
       }
 
       case 'puntos': {
         this.rscName = 'Puntos';
+        this.listRecursos = [];
         break;
       }
-      
+
       case 'escenarios': {
         this.rscName = 'Escenarios';
+        this.listRecursos = [];
         break;
       }
     }

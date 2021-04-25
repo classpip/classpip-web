@@ -6,36 +6,45 @@
     <div class="main">
         <div class="section section-basic" id="basic-elements">
             <div class="resource-header">
-                <button class="btn back-button" (click)="volver()"><i class="tim-icons icon-minimal-left"></i></button>
+                <button class="btn back-button" (click)="volver()"><i class="tim-icons icon-minimal-left"></i>  Volver</button>
                 <h1 class="rsc-name">{{rscName}}</h1>
             </div>
 
-            <div class="text-center" *ngIf="listRecursos; else elseBlock">
-                <table class="table" style="width:95%; text-align: center;">
-                    <thead>
-                        <tr>
-                            <th class="text-center" width="20px">#</th>
-                            <th width="500px">Nombre</th>
-                            <th width="500px">Propietario</th>
-                            <th width="20px">VER</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- 4 COLUMNAS: Numero, nombre, propietario y boton. Silueta???? -->
-                        <tr *ngFor="let rsc of listRecursos; let indice=index">
-                            <td class="text-center" width="20px">{{indice + 1}}</td>
-                            <td width="500px">{{rsc.NombreFamilia}}</td>
-                            <td width="500px">{{rsc.propietario}}</td>
-                            <td class="td-actions text-right" width="20px">
-                                <button type="button" rel="tooltip" class="btn btn-success btn-roundbtn-icon">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="text-center" *ngIf="listRecursos; else loading">
+                <div *ngIf="listRecursos.length != 0; else noResources">
+                    <table class="table" style="width:95%; text-align: center;">
+                        <thead>
+                            <tr>
+                                <th class="text-center" width="20px">#</th>
+                                <th width="500px">Nombre</th>
+                                <th width="500px">Propietario</th>
+                                <th width="20px">VER</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- 4 COLUMNAS: Numero, nombre, propietario y boton. Silueta???? -->
+                            <tr *ngFor="let rsc of listRecursos; let indice=index">
+                                <td class="text-center" width="20px">{{indice + 1}}</td>
+                                <td width="500px">{{rsc.NombreFamilia}}</td>
+                                <td width="500px">{{rsc.propietario}}</td>
+                                <td class="td-actions text-right" width="20px">
+                                    <button type="button" rel="tooltip" class="btn btn-success btn-roundbtn-icon">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ng-template #noResources>
+                    <div style="text-align: center;">
+                        <h2>No hay recursos públicos</h2>
+                    </div>
+                </ng-template>
             </div>
-            <ng-template #elseBlock>No hay recursos públicos</ng-template>
+            <ng-template #loading style="text-align: center;">
+                <div class="loader"></div>
+            </ng-template>
             <br><br>
         </div>
     </div>
