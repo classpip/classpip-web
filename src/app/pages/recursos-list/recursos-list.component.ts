@@ -13,23 +13,16 @@ export class RecursosListComponent implements OnInit {
 
   recurso: String;
   rscName: String;
-  listRecursos: FamiliaAvatares[];
+  listRecursos;
   mapProfesores: Map<Number,Profesor> = new Map();
+  
 
   constructor(private activeRoute: ActivatedRoute, private router: Router, private recursosService: RecursosService) { }
 
-  /* PETICIONES QUE FALTAN X HACER 
-
-  (son las que he visto que tienen recursos publicos, las demas no salia lo de recursos publicos en el dashboard: 
-  no se si es que no existen o keloke)
-
-  this.DameTodosLosCuestionariosPublicos();
-  this.DameTodasLasColeccionesPublicas();
-  this.DameTodosLosCuestionariosDeSatisfaccionPublicos();
-  this.DameFamiliasDeImagenesDePerfilPublicas();
+  /*
 
   FALTA POR CENTRAR EL LOADING EN EL HTML
-  MIRATE TAMBIEN EL CSS QUE HAY COSITAS
+  BOTON VOLVER
 
   */
   
@@ -55,15 +48,13 @@ export class RecursosListComponent implements OnInit {
 
       case 'cuestionarios': {
         this.rscName = 'Cuestionarios';
-        //Esto lo he puesto para que no salga loading todo el rato
-        this.listRecursos = [];
-        //Habra que cambiarlo por la funcion que obtiene recursos cuando esten hechas
+        this.DameCuestionariosPublicos();        
         break;
       }
 
       case 'imagenes': {
         this.rscName = 'Imágenes de perfil';
-        this.listRecursos = [];
+        this.DameFamiliasImagenesPerfil();
         break;
       }
 
@@ -74,8 +65,8 @@ export class RecursosListComponent implements OnInit {
       }
 
       case 'satisfaccion': {
-        this.rscName ='Cuestionarios de satisfacción';
-        this.listRecursos = [];
+        this.rscName ='Cuestionarios de Satisfacción';
+        this.DameCuestionariosSatisfaccionPublicos();
         break;
       }
 
@@ -87,7 +78,7 @@ export class RecursosListComponent implements OnInit {
 
       case 'colecciones': {
         this.rscName = 'Colecciones';
-        this.listRecursos = [];
+        this.DameColecciones();
         break;
       }
 
@@ -127,7 +118,121 @@ export class RecursosListComponent implements OnInit {
             recurso.propietario = 'Desconocido';
           }
         });
+        //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
+        this.listRecursos = this.listRecursos.map(function(obj) {
+          obj['nombreRecurso'] = obj['NombreFamilia']; // Assign new key
+          delete obj['NombreFamilia']; // Delete old key
+          return obj;
+        });
+      }
+    }); 
+  }
 
+  //Funcion que obtiene los recursos publicos de cuestionarios
+  DameCuestionariosPublicos() {
+    this.recursosService.DameCuestionariosPublicos().subscribe ( res => {
+      console.log(res);
+      if (res !== undefined) {
+        //Carga los recursos en la lista
+        this.listRecursos = res;
+
+        //Cambia el profesorId por su nombre
+        this.listRecursos.forEach(recurso => {
+          if(this.mapProfesores.has(recurso.profesorId)) {
+            recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
+            recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
+          } else {
+            recurso.propietario = 'Desconocido';
+          }
+          
+        });
+        //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
+        this.listRecursos = this.listRecursos.map(function(obj) {
+          obj['nombreRecurso'] = obj['Titulo']; // Assign new key
+          delete obj['Titulo']; // Delete old key
+          return obj;
+        });
+      }
+    }); 
+  }
+//Funcion que obtiene los recursos publicos de cuestionarios de satisfaccion
+  DameCuestionariosSatisfaccionPublicos() {
+    this.recursosService.DameCuestionariosPublicos().subscribe ( res => {
+      console.log(res);
+      if (res !== undefined) {
+        //Carga los recursos en la lista
+        this.listRecursos = res;
+
+        //Cambia el profesorId por su nombre
+        this.listRecursos.forEach(recurso => {
+          if(this.mapProfesores.has(recurso.profesorId)) {
+            recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
+            recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
+          } else {
+            recurso.propietario = 'Desconocido';
+          }
+          
+        });
+        //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
+        this.listRecursos = this.listRecursos.map(function(obj) {
+          obj['nombreRecurso'] = obj['Titulo']; // Assign new key
+          delete obj['Titulo']; // Delete old key
+          return obj;
+        });
+      }
+    }); 
+  }
+
+  //Funcion que obtiene los recursos publicos de imaganes de perfil
+  DameFamiliasImagenesPerfil() {
+    this.recursosService.DameFamiliasDeImagenesDePerfilPublicas().subscribe ( res => {
+      console.log(res);
+      if (res !== undefined) {
+        //Carga los recursos en la lista
+        this.listRecursos = res;
+
+        //Cambia el profesorId por su nombre
+        this.listRecursos.forEach(recurso => {
+          if(this.mapProfesores.has(recurso.profesorId)) {
+            recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
+            recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
+          } else {
+            recurso.propietario = 'Desconocido';
+          }
+        });
+        //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
+        this.listRecursos = this.listRecursos.map(function(obj) {
+          obj['nombreRecurso'] = obj['NombreFamilia']; // Assign new key
+          delete obj['NombreFamilia']; // Delete old key
+          return obj;
+        });
+      }
+    }); 
+  }
+
+  //Funcion que obtiene los recursos publicos de colecciones
+  DameColecciones() {
+    this.recursosService.DameColeccionesPublicas().subscribe ( res => {
+      console.log(res);
+      if (res !== undefined) {
+        //Carga los recursos en la lista
+        this.listRecursos = res;
+
+        //Cambia el profesorId por su nombre
+        this.listRecursos.forEach(recurso => {
+          if(this.mapProfesores.has(recurso.profesorId)) {
+            recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
+            recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
+          } else {
+            recurso.propietario = 'Desconocido';
+          }
+        });
+        //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
+        this.listRecursos = this.listRecursos.map(function(obj) {
+          obj['nombreRecurso'] = obj['Nombre']; // Assign new key
+          delete obj['Nombre']; // Delete old key
+          return obj;
+        });
       }
     }); 
   }
