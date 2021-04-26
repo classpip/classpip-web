@@ -105,11 +105,27 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.pass = (<HTMLInputElement>document.getElementById('pass')).value
 
     console.log ('voy a autentificar a: ' + this.nombre + ' ' + this.pass);
-    this.authService.dameProfesor(this.nombre, this.pass)
+    //this.authService.dameProfesor(this.nombre, this.pass)
+    this.authService.login({"username": this.nombre, "password": this.pass})
     .subscribe(
       (res) => {
         console.log("res: ", res);
-        if (res[0] !== undefined) {
+        if(res != undefined){
+          console.log('autentificado correctamente');
+          sessionStorage.setItem('ACCESS_TOKEN', res.id);
+          this.authService.dameProfesor(res.userId).subscribe((prof) => {
+            if(prof[0] != undefined){
+              this.profesor = prof[0];
+              this.sesion.EnviaProfesor(this.profesor);
+              this.comServer.Conectar(this.profesor.id);
+              this.authService.setProfesorId(this.profesor.id);
+              console.log ('vamos inicio');
+              this.sesion.publish({topic: "newLogin", data: prof[0]});
+              this.route.navigateByUrl('/#/home');
+            }
+          })
+        }
+        /* if (res[0] !== undefined) {
           console.log ('autentificado correctamente');
           this.profesor = res[0]; // Si es diferente de null, el profesor existe y lo meto dentro de profesor
           // Notifico el nuevo profesor al componente navbar
@@ -129,7 +145,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           // Aqui habría que mostrar alguna alerta al usuario
           console.log('profe no existe');
           Swal.fire('Cuidado', 'Usuario o contraseña incorrectos', 'warning');
-        }
+        } */
       },
       (err) => {
         console.log ('ERROR');

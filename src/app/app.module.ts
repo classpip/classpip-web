@@ -4,7 +4,8 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { AuthInterceptor } from './helpers/auth.interceptor';
 
 // import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 // import { ProgressbarModule } from "ngx-bootstrap/progressbar";
@@ -47,7 +48,7 @@ import { PagesModule } from "./pages/pages.module";
     // CarouselModule.forRoot(),
     // ModalModule.forRoot()
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

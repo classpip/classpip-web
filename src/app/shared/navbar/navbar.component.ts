@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Profesor } from './../../clases/Profesor';
 import { SesionService } from 'src/app/services/sesion.service';
 import { AuthService } from './../../services/auth.service';
@@ -14,7 +15,7 @@ export class NavbarComponent implements OnInit {
   profesor: Profesor;
   isToken: boolean;
 
-  constructor(private auth: AuthService, private sesion: SesionService) { }
+  constructor(private auth: AuthService, private sesion: SesionService, private router: Router) { }
 
   ngOnInit(): void {
     if(this.auth.isLoggedIn()) {
@@ -40,4 +41,10 @@ export class NavbarComponent implements OnInit {
 
     console.log("profesor: ", this.profesor);
   }
+
+  //Función para volver a la página de recursos
+  volver(){
+    this.router.navigateByUrl('/recursos');
+  }
+
 }

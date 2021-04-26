@@ -23,8 +23,8 @@ export class AuthService {
     return sessionStorage.getItem('ACCESS_TOKEN') !== null;
   }
 
-  public dameProfesor(username: string, password: string): Observable<Profesor> {
-    return this.http.get<Profesor>(this.APIUrlProfesores + '?filter[where][NombreUsuario]=' + username + '&filter[where][Password]=' + password);
+  public dameProfesor(userId: string): Observable<Profesor> {
+    return this.http.get<Profesor>(this.APIUrlProfesores + '?filter[where][userId]=' + userId);
   }
   public BuscaNombreUsuario(username: string): Observable<Profesor> {
     return this.http.get<Profesor>(this.APIUrlProfesores + '?filter[where][NombreUsuario]=' + username);
@@ -39,5 +39,9 @@ export class AuthService {
 
   public setProfesorId(profesorid: number){
       this.profesorId = profesorid;
+  }
+
+  public login(body: any): Observable<any> {
+    return this.http.post('http://localhost:3000/api/users/login', body);
   }
 }
