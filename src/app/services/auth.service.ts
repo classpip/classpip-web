@@ -13,8 +13,9 @@ export class AuthService {
   profesorId: number;
 
   private host = environment.host;
-  
-  private APIUrlProfesores = this.host + ':3000/api/Profesores'
+
+  private APIUrlUsers = this.host + ':3000/api/Users';
+  private APIUrlProfesores = this.host + ':3000/api/Profesores';
 
   constructor(private http: HttpClient) { }
 
@@ -42,6 +43,6 @@ export class AuthService {
   }
 
   public login(body: any): Observable<any> {
-    return this.http.post('http://localhost:3000/api/users/login', body);
+    return this.http.post(this.APIUrlUsers + '/login', body);
   }
 }
