@@ -1,3 +1,4 @@
+import { SesionService } from 'src/app/services/sesion.service';
 import { Profesor } from './../../clases/Profesor';
 import { RecursosService } from './../../services/recursos.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,9 +16,15 @@ export class RecursosListComponent implements OnInit {
   rscName: String;
   listRecursos;
   mapProfesores: Map<Number,Profesor> = new Map();
+  profesorId: number;
   
 
-  constructor(private activeRoute: ActivatedRoute, private router: Router, private recursosService: RecursosService) { }
+  constructor(
+    private activeRoute: ActivatedRoute, 
+    private router: Router, 
+    private recursosService: RecursosService,
+    private sesion: SesionService
+    ) { }
 
   /*
 

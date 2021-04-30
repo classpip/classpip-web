@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+
 import { Injectable } from '@angular/core';
 import { FamiliaAvatares } from '../clases/FamiliaAvatares';
 import * as environment from './../../environments/environment';
@@ -8,6 +9,8 @@ import { Cuestionario } from '../clases/Cuestionario';
 import { CuestionarioSatisfaccion } from '../clases/CuestionarioSatisfaccion';
 import { FamiliaDeImagenesDePerfil } from '../clases/FamiliaDeImagenesDePerfil';
 import { Coleccion } from '../clases/Coleccion';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +27,11 @@ export class RecursosService {
   private APIUrlFamiliasDeImagenesDePerfil = this.host + ':3000/api/familiasImagenesPerfil';
   private APIUrlColecciones = this.host + ':3000/api/Colecciones';
 
-  constructor(private http: HttpClient) { }
+  private APIUrlImagenesAvatares = this.host + ':3000/api/imagenes/ImagenesAvatares';
+
+  constructor(
+    private http: HttpClient
+    ) { }
 
   public DameProfesores(): Observable<Profesor[]> {
     return this.http.get<Profesor[]>(this.APIUrlProfesores);
@@ -55,4 +62,6 @@ export class RecursosService {
     return this.http.get<Coleccion[]>(this.APIUrlColecciones
       + '?filter[where][Publica]=true');
   }
+
+  
 }

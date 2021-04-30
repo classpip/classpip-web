@@ -36,6 +36,7 @@ import { PerfilComponent } from './perfil/perfil.component';
 import { RecursosListComponent } from './recursos-list/recursos-list.component';
 
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -72,7 +73,7 @@ import { RecursosListComponent } from './recursos-list/recursos-list.component';
     RegisterComponent,
     NavbarComponent,
     FooterComponent,
-    PerfilComponent
+    PerfilComponent,
   ],
   exports: [
     IndexComponent,
