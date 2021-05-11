@@ -16,8 +16,9 @@ br>
 
     <div class="container">
       <div class="row">
-        <div class="col-md-10 ml-auto col-xl-4 mr-auto">
-          <a class="rsc-card" [routerLink]="['/estilos']">
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto" data-target="#myModal"
+        (click)="myModal.show()">
+          <!-- <a class="rsc-card" [routerLink]="['/estilos']"> -->
             <div class="card">
               <div class="card-header" style="text-align: center;">
                 <h4>ESTILO 1</h4>
@@ -29,7 +30,7 @@ br>
                 </div>
               </div>
             </div>
-          </a>
+          <!-- </a> -->
         </div>
         <div class="col-md-10 ml-auto col-xl-4 mr-auto">
           <a class="rsc-card" [routerLink]="['/estilos']">
@@ -161,5 +162,46 @@ br>
   </div>
 
 </div>
-
+<!--AQUI VIENE LA DEFINICION DE LO QUE APARECE EN LOS POPUPS-->
+<div
+      aria-hidden="true"
+      aria-labelledby="myModalLabel"
+      bsModal
+      class="modal fade"
+      #myModal="bs-modal"
+      id="myModal"
+      role="dialog"
+      tabindex="-1"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header justify-content-center">
+            <button
+              aria-hidden="true"
+              class="close"
+              data-dismiss="modal"
+              type="button"
+              (click)="myModal.hide()"
+            >
+              <i class="tim-icons icon-simple-remove"> </i>
+            </button>
+            <h4 class="title title-up">ESTILO 1</h4>
+          </div>
+          <div class="modal-body">
+            <img src="../../../assets/img/a.png" />
+          </div>
+          <div class="modal-footer">
+            
+            <button
+              class="btn btn-danger"
+              data-dismiss="modal"
+              type="button"
+              (click)="myModal.hide()"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 <app-footer></app-footer>
