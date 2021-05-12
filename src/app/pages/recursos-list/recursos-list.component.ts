@@ -4,6 +4,7 @@ import { RecursosService } from './../../services/recursos.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FamiliaAvatares } from 'src/app/clases/FamiliaAvatares';
+import { Cuestionario } from 'src/app/clases/Cuestionario';
 
 @Component({
   selector: 'app-recursos-list',
@@ -115,6 +116,8 @@ export class RecursosListComponent implements OnInit {
   volver(){
     this.router.navigateByUrl('/recursos');
   }
+
+  /*FUNCIONES PARA OBTENER LA LISTA DE RECURSOS*/
 
   //Funcion que obtiene los recursos publicos de avatares
   DameFamiliasDeAvataresPublicas() {
@@ -250,6 +253,13 @@ export class RecursosListComponent implements OnInit {
         });
       }
     }); 
+  }
+  /* FUNCIONES PARA MOSTRAR RECURSOS CONCRETOS */
+  MostrarCuestionario(cuestionario: Cuestionario) {
+
+    this.sesion.TomaCuestionario(cuestionario);
+    this.router.navigate(['http://localhost:4200/#/recursos/:' + cuestionario]);
+  
   }
 
 }

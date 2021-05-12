@@ -29,7 +29,7 @@
                                 <td class="text-center" width="100px" *ngIf="isLoggedIn()">{{rsc.propietario}}</td>
                                 <td class="td-actions text-center" width="20px">
                                     <button type="button" rel="tooltip" class="btn btn-sm btn-success btn-roundbtn-icon" 
-                                    placement="bottom" tooltip="Ver">
+                                    placement="bottom" tooltip="Ver" (click)='MostrarCuestionario()'>
                                         <i class="fas fa-eye"></i>
                                     </button>
                                     &nbsp;

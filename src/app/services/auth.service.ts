@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Profesor } from '../clases/Profesor';
 import { FamiliaAvatares } from './../clases/FamiliaAvatares';
+import { Pregunta } from '../clases/Pregunta';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,12 @@ export class AuthService {
 
   private host = environment.host;
 
+  //Usuarios
   private APIUrlUsers = this.host + ':3000/api/Users';
   private APIUrlProfesores = this.host + ':3000/api/Profesores';
+
+  //Recursos
+  private APIUrlCuestionarios = this.host + ':3000/api/Cuestionarios';
 
   constructor(private http: HttpClient) { }
 
@@ -44,5 +49,9 @@ export class AuthService {
 
   public login(body: any): Observable<any> {
     return this.http.post(this.APIUrlUsers + '/login', body);
+  }
+
+  public DamePreguntasCuestionario(cuestionarioId: number): Observable<Pregunta[]> {
+    return this.http.get<Pregunta[]>(this.APIUrlCuestionarios + '/' + cuestionarioId + '/Preguntas');
   }
 }

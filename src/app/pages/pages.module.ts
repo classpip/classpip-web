@@ -34,6 +34,7 @@ import { RegisterComponent } from './register/register.component';
 import { FooterComponent } from '../shared/footer/footer.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { RecursosListComponent } from './recursos-list/recursos-list.component';
+import { MostrarCuestionarioComponent } from './mostrar-cuestionario/mostrar-cuestionario.component';
 
 
 
@@ -74,6 +75,7 @@ import { RecursosListComponent } from './recursos-list/recursos-list.component';
     NavbarComponent,
     FooterComponent,
     PerfilComponent,
+    MostrarCuestionarioComponent,
   ],
   exports: [
     IndexComponent,

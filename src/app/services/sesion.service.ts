@@ -2,6 +2,7 @@ import { FamiliaAvatares } from './../clases/FamiliaAvatares';
 import { Injectable } from '@angular/core';
 import { Profesor } from '../clases/Profesor';
 import { ReplaySubject, Subject } from 'rxjs';
+import { Cuestionario } from '../clases/Cuestionario';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class SesionService {
   profesor: Profesor;
   profesorObservable = new ReplaySubject(1);
   familia: FamiliaAvatares;
+  cuestionario: Cuestionario;
 
   private dataSubject = new Subject<any>();
 
@@ -51,5 +53,13 @@ export class SesionService {
 
   public TomaFamilia(familia: FamiliaAvatares) {
     this.familia = familia;
+  }
+
+  public  DameCuestionario(): Cuestionario {
+    return this.cuestionario;
+  }
+
+  public TomaCuestionario(cuestionario: Cuestionario) {
+    this.cuestionario = cuestionario;
   }
 }
