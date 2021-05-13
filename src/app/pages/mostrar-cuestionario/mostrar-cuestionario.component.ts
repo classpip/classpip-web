@@ -1,3 +1,4 @@
+import { RecursosService } from './../../services/recursos.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from './../../services/auth.service';
 import { SesionService } from './../../services/sesion.service';
@@ -29,13 +30,14 @@ export class MostrarCuestionarioComponent implements OnInit {
 
   constructor(public sesion: SesionService,
     public auth: AuthService,
+    public recursos: RecursosService,
     private location: Location) { }
 
   ngOnInit(): void {
      //Recogemos la informacion de la sesion
      this.cuestinarioSeleccionado = this.sesion.DameCuestionario();
-     this.profesorId = this.sesion.DameProfesor().id;
-     this.auth.DamePreguntasCuestionario(this.cuestinarioSeleccionado.id)
+     this.profesorId = this.auth.getProfesorId();
+     this.recursos.DamePreguntasCuestionario(this.cuestinarioSeleccionado.id)
      .subscribe((res) => {
        this.preguntasCuestionarioSeleccionado = res;
        this.dataSource = new MatTableDataSource(this.preguntasCuestionarioSeleccionado);

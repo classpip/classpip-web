@@ -6,7 +6,8 @@
     <div class="main">
         <div class="section section-basic" id="basic-elements">
             <div class="resource-header">
-                <button class="btn back-button" (click)="volver()"><i class="tim-icons icon-minimal-left"></i>  Volver</button>
+                <button class="btn back-button" (click)="volver()"><i class="tim-icons icon-minimal-left"></i>
+                    Volver</button>
                 <h1 class="rsc-name">{{rscName}}</h1>
             </div>
 
@@ -17,7 +18,7 @@
                             <tr>
                                 <th class="text-center" width="40px">#</th>
                                 <th class="text-center" width="100px">Nombre</th>
-                                <th class="text-center" width="100px" *ngIf="isLoggedIn()" >Propietario</th>
+                                <th class="text-center" width="100px" *ngIf="isLoggedIn()">Propietario</th>
                                 <th class="text-center" width="20px">ACCIONES</th>
                             </tr>
                         </thead>
@@ -28,18 +29,22 @@
                                 <td class="text-center" width="100px">{{rsc.nombreRecurso}}</td>
                                 <td class="text-center" width="100px" *ngIf="isLoggedIn()">{{rsc.propietario}}</td>
                                 <td class="td-actions text-center" width="20px">
-                                    <button type="button" rel="tooltip" class="btn btn-sm btn-success btn-roundbtn-icon" 
-                                    placement="bottom" tooltip="Ver" (click)='MostrarCuestionario()'>
-                                        <i class="fas fa-eye"></i>
-                                    </button>
+                                    <a [routerLink]="['/recursos',recurso, rsc.id]">
+                                        <button type="button" rel="tooltip"
+                                            class="btn btn-sm btn-success btn-roundbtn-icon" placement="bottom"
+                                            tooltip="Ver">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </a>
+
                                     &nbsp;
-                                    <button type="button" rel="tooltip" class="btn btn-sm btn-info btn-roundbtn-icon" 
-                                    placement="bottom" tooltip="Descargar">
+                                    <button type="button" rel="tooltip" class="btn btn-sm btn-info btn-roundbtn-icon"
+                                        placement="bottom" tooltip="Descargar">
                                         <i class="tim-icons icon-cloud-download-93"></i>
                                     </button>
                                     &nbsp;
                                     <button type="button" rel="tooltip" class="btn btn-sm btn-danger btn-roundbtn-icon"
-                                    placement="bottom" tooltip="Añadir a tus recursos" *ngIf="isLoggedIn()" >
+                                        placement="bottom" tooltip="Añadir a tus recursos" *ngIf="isLoggedIn()">
                                         <i class="tim-icons icon-simple-add"></i>
                                     </button>
                                 </td>
@@ -54,8 +59,7 @@
                 </ng-template>
             </div>
             <ng-template #loading style="text-align: center;">
-                <div class="loader" style="margin:0 auto;" 
-                mode="indeterminate"></div>
+                <div class="loader" style="margin:0 auto;" mode="indeterminate"></div>
             </ng-template>
             <br><br>
         </div>

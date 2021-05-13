@@ -51,7 +51,5 @@ export class AuthService {
     return this.http.post(this.APIUrlUsers + '/login', body);
   }
 
-  public DamePreguntasCuestionario(cuestionarioId: number): Observable<Pregunta[]> {
-    return this.http.get<Pregunta[]>(this.APIUrlCuestionarios + '/' + cuestionarioId + '/Preguntas');
-  }
+  
 }

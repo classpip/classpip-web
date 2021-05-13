@@ -156,6 +156,7 @@ export class RecursosListComponent implements OnInit {
 
         //Cambia el profesorId por su nombre
         this.listRecursos.forEach(recurso => {
+          console.log("Holi este es el puto id:", recurso.id)
           if(this.mapProfesores.has(recurso.profesorId)) {
             recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
             recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
@@ -254,11 +255,12 @@ export class RecursosListComponent implements OnInit {
       }
     }); 
   }
-  /* FUNCIONES PARA MOSTRAR RECURSOS CONCRETOS */
+  /* FUNCIONES PARA VISUALIZAR RECURSOS */
   MostrarCuestionario(cuestionario: Cuestionario) {
 
     this.sesion.TomaCuestionario(cuestionario);
-    this.router.navigate(['http://localhost:4200/#/recursos/:' + cuestionario]);
+    console.log(cuestionario);
+    this.router.navigateByUrl('/#/cuestionario');
   
   }
 

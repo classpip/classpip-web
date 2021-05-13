@@ -9,6 +9,8 @@ import { Cuestionario } from '../clases/Cuestionario';
 import { CuestionarioSatisfaccion } from '../clases/CuestionarioSatisfaccion';
 import { FamiliaDeImagenesDePerfil } from '../clases/FamiliaDeImagenesDePerfil';
 import { Coleccion } from '../clases/Coleccion';
+import { Pregunta } from '../clases/Pregunta';
+
 
 
 
@@ -61,6 +63,10 @@ export class RecursosService {
   public DameColeccionesPublicas(): Observable<Coleccion[]> {
     return this.http.get<Coleccion[]>(this.APIUrlColecciones
       + '?filter[where][Publica]=true');
+  }
+
+  public DamePreguntasCuestionario(cuestionarioId: number): Observable<Pregunta[]> {
+    return this.http.get<Pregunta[]>(this.APIUrlCuestionarios + '/' + cuestionarioId + '/Preguntas');
   }
 
   

@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: "experiencias", component: ExperienciasComponent},
   { path: "recursos", component: RecursosComponent},
   { path: "recursos/:recurso", component: RecursosListComponent},
-  { path: "recursos/:cuestionario", component: MostrarCuestionarioComponent},
+  { path: "recursos/:recurso/:id", component: MostrarCuestionarioComponent},
   { path: "estilos", component: EstilosComponent},
   { path: "desarrolladores", component: DesarrolladoresComponent},
   { path: "login", component: LoginComponent},
