@@ -8,7 +8,7 @@
             <div class="resource-header">
                 <button class="btn back-button" (click)="volver()"><i class="tim-icons icon-minimal-left"></i>
                     Volver</button>
-                <h1 class="rsc-name">{{rscName}}</h1>
+                <h1 class="rsc-name" style="text-align: center;">{{rscName}}</h1>
             </div>
 
             <div class="text-center" *ngIf="listRecursos; else loading">
@@ -32,7 +32,7 @@
                                     <a [routerLink]="['/recursos',recurso, rsc.id]">
                                         <button type="button" rel="tooltip"
                                             class="btn btn-sm btn-success btn-roundbtn-icon" placement="bottom"
-                                            tooltip="Ver">
+                                            tooltip="Ver" (click)="EnviarColeccion(rsc)">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </a>
@@ -54,7 +54,7 @@
                 </div>
                 <ng-template #noResources>
                     <div style="text-align: center;">
-                        <h2>No hay recursos públicos</h2>
+                        <h2>No hay recursos públicos de tipo "{{rscName}}"</h2>
                     </div>
                 </ng-template>
             </div>

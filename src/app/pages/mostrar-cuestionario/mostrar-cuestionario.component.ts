@@ -3,8 +3,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from './../../services/auth.service';
 import { SesionService } from './../../services/sesion.service';
 import { Component, OnInit } from '@angular/core';
-import { Cuestionario } from 'src/app/clases/Cuestionario';
-import { Pregunta } from 'src/app/clases/Pregunta';
+import { Cuestionario } from 'src/app/clases/recursos/Cuestionario';
+import { Pregunta } from 'src/app/clases/recursos/Pregunta';
 
 import { Location } from '@angular/common';
 import Swal from 'sweetalert2';
@@ -36,11 +36,13 @@ export class MostrarCuestionarioComponent implements OnInit {
   ngOnInit(): void {
      //Recogemos la informacion de la sesion
      this.cuestinarioSeleccionado = this.sesion.DameCuestionario();
-     this.profesorId = this.auth.getProfesorId();
-     this.recursos.DamePreguntasCuestionario(this.cuestinarioSeleccionado.id)
+     console.log("Cuestionario: ", this.cuestinarioSeleccionado);
+     //this.profesorId = this.auth.getProfesorId();
+     this.recursos.DamePreguntasCuestionario(this.cuestinarioSeleccionado.id)     
      .subscribe((res) => {
        this.preguntasCuestionarioSeleccionado = res;
        this.dataSource = new MatTableDataSource(this.preguntasCuestionarioSeleccionado);
+       console.log("Preguntas:", this.preguntasCuestionarioSeleccionado);
      });
  
      //Establecemos el valor que le corresponde a los inputs

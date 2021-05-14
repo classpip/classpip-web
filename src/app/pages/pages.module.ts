@@ -35,6 +35,7 @@ import { FooterComponent } from '../shared/footer/footer.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { RecursosListComponent } from './recursos-list/recursos-list.component';
 import { MostrarCuestionarioComponent } from './mostrar-cuestionario/mostrar-cuestionario.component';
+import { MostrarColeccionesComponent } from './mostrar-colecciones/mostrar-colecciones.component';
 
 
 
@@ -76,6 +77,7 @@ import { MostrarCuestionarioComponent } from './mostrar-cuestionario/mostrar-cue
     FooterComponent,
     PerfilComponent,
     MostrarCuestionarioComponent,
+    MostrarColeccionesComponent,
   ],
   exports: [
     IndexComponent,

@@ -3,8 +3,9 @@ import { Profesor } from './../../clases/Profesor';
 import { RecursosService } from './../../services/recursos.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FamiliaAvatares } from 'src/app/clases/FamiliaAvatares';
-import { Cuestionario } from 'src/app/clases/Cuestionario';
+import { FamiliaAvatares } from 'src/app/clases/recursos/FamiliaAvatares';
+import { Cuestionario } from 'src/app/clases/recursos/Cuestionario';
+import { Coleccion } from 'src/app/clases/recursos/Coleccion';
 
 @Component({
   selector: 'app-recursos-list',
@@ -156,7 +157,7 @@ export class RecursosListComponent implements OnInit {
 
         //Cambia el profesorId por su nombre
         this.listRecursos.forEach(recurso => {
-          console.log("Holi este es el puto id:", recurso.id)
+          console.log("Holi este es el id:", recurso.id)
           if(this.mapProfesores.has(recurso.profesorId)) {
             recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
             recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
@@ -168,7 +169,7 @@ export class RecursosListComponent implements OnInit {
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function(obj) {
           obj['nombreRecurso'] = obj['Titulo']; // Assign new key
-          delete obj['Titulo']; // Delete old key
+          //delete obj['Titulo']; // Delete old key
           return obj;
         });
       }
@@ -249,19 +250,41 @@ export class RecursosListComponent implements OnInit {
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function(obj) {
           obj['nombreRecurso'] = obj['Nombre']; // Assign new key
-          delete obj['Nombre']; // Delete old key
+          //delete obj['Nombre']; // Delete old key
           return obj;
         });
       }
     }); 
   }
   /* FUNCIONES PARA VISUALIZAR RECURSOS */
-  MostrarCuestionario(cuestionario: Cuestionario) {
+
+  //Envia los datos del cuestionario a la pagina que lo muestra
+  EnviarCuestionario(cuestionario: Cuestionario) {
 
     this.sesion.TomaCuestionario(cuestionario);
     console.log(cuestionario);
-    this.router.navigateByUrl('/#/cuestionario');
+    
   
+  }
+
+  //Envia los datos de la coleccion a la pagina que la muestra
+  EnviarColeccion(coleccion: Coleccion) {
+
+    this.sesion.TomaColeccion(coleccion);
+    console.log(coleccion);
+    
+  
+  }
+
+
+  EnviarRecurso(){
+    switch(this.recurso){
+      case 'cuestionarios': {
+        this.rscName = 'Cuestionarios';
+        //this.EnviarCuestionario(cuestionario);
+        break;
+      }
+    }
   }
 
 }

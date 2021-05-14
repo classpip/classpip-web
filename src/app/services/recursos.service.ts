@@ -2,14 +2,15 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import { Injectable } from '@angular/core';
-import { FamiliaAvatares } from '../clases/FamiliaAvatares';
+import { FamiliaAvatares } from '../clases/recursos/FamiliaAvatares';
 import * as environment from './../../environments/environment';
 import { Profesor } from '../clases/Profesor';
-import { Cuestionario } from '../clases/Cuestionario';
-import { CuestionarioSatisfaccion } from '../clases/CuestionarioSatisfaccion';
-import { FamiliaDeImagenesDePerfil } from '../clases/FamiliaDeImagenesDePerfil';
-import { Coleccion } from '../clases/Coleccion';
-import { Pregunta } from '../clases/Pregunta';
+import { Cuestionario } from '../clases/recursos/Cuestionario';
+import { CuestionarioSatisfaccion } from '../clases/recursos/CuestionarioSatisfaccion';
+import { FamiliaDeImagenesDePerfil } from '../clases/recursos/FamiliaDeImagenesDePerfil';
+import { Coleccion } from '../clases/recursos/Coleccion';
+import { Pregunta } from '../clases/recursos/Pregunta';
+import { Cromo } from '../clases/recursos/Cromo';
 
 
 
@@ -67,6 +68,10 @@ export class RecursosService {
 
   public DamePreguntasCuestionario(cuestionarioId: number): Observable<Pregunta[]> {
     return this.http.get<Pregunta[]>(this.APIUrlCuestionarios + '/' + cuestionarioId + '/Preguntas');
+  }
+
+  public DameCromosColeccion(coleccionId: number): Observable<Cromo[]> {
+    return this.http.get<Cromo[]>(this.APIUrlColecciones + '/' + coleccionId + '/cromos');
   }
 
   
