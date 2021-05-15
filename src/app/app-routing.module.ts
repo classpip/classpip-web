@@ -1,3 +1,4 @@
+import { MostrarCuestionarioComponent } from './pages/mostrar-cuestionario/mostrar-cuestionario.component';
 import { RecursosListComponent } from './pages/recursos-list/recursos-list.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { RegisterComponent } from './pages/register/register.component';
@@ -15,6 +16,8 @@ import { BrowserModule } from "@angular/platform-browser";
 import { Routes, RouterModule } from "@angular/router";
 
 import { IndexComponent } from "./pages/index/index.component";
+import { MostrarColeccionesComponent } from './pages/mostrar-colecciones/mostrar-colecciones.component';
+import { MostrarAvataresComponent } from './pages/mostrar-avatares/mostrar-avatares.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -24,6 +27,9 @@ const routes: Routes = [
   { path: "experiencias", component: ExperienciasComponent},
   { path: "recursos", component: RecursosComponent},
   { path: "recursos/:recurso", component: RecursosListComponent},
+  { path: "recursos/cuestionarios/:id", component: MostrarCuestionarioComponent},
+  { path: "recursos/colecciones/:id", component: MostrarColeccionesComponent},
+  { path: "recursos/avatares/:id", component: MostrarAvataresComponent},
   { path: "estilos", component: EstilosComponent},
   { path: "desarrolladores", component: DesarrolladoresComponent},
   { path: "login", component: LoginComponent},

@@ -2,13 +2,17 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import { Injectable } from '@angular/core';
-import { FamiliaAvatares } from '../clases/FamiliaAvatares';
+import { FamiliaAvatares } from '../clases/recursos/FamiliaAvatares';
 import * as environment from './../../environments/environment';
 import { Profesor } from '../clases/Profesor';
-import { Cuestionario } from '../clases/Cuestionario';
-import { CuestionarioSatisfaccion } from '../clases/CuestionarioSatisfaccion';
-import { FamiliaDeImagenesDePerfil } from '../clases/FamiliaDeImagenesDePerfil';
-import { Coleccion } from '../clases/Coleccion';
+import { Cuestionario } from '../clases/recursos/Cuestionario';
+import { CuestionarioSatisfaccion } from '../clases/recursos/CuestionarioSatisfaccion';
+import { FamiliaDeImagenesDePerfil } from '../clases/recursos/FamiliaDeImagenesDePerfil';
+import { Coleccion } from '../clases/recursos/Coleccion';
+import { Pregunta } from '../clases/recursos/Pregunta';
+import { Cromo } from '../clases/recursos/Cromo';
+import { Http } from '@angular/http';
+
 
 
 
@@ -30,7 +34,8 @@ export class RecursosService {
   private APIUrlImagenesAvatares = this.host + ':3000/api/imagenes/ImagenesAvatares';
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    
     ) { }
 
   public DameProfesores(): Observable<Profesor[]> {
@@ -62,6 +67,22 @@ export class RecursosService {
     return this.http.get<Coleccion[]>(this.APIUrlColecciones
       + '?filter[where][Publica]=true');
   }
+
+  public DamePreguntasCuestionario(cuestionarioId: number): Observable<Pregunta[]> {
+    return this.http.get<Pregunta[]>(this.APIUrlCuestionarios + '/' + cuestionarioId + '/Preguntas');
+  }
+
+  public DameCromosColeccion(coleccionId: number): Observable<Cromo[]> {
+    return this.http.get<Cromo[]>(this.APIUrlColecciones + '/' + coleccionId + '/cromos');
+  }
+
+  //NO FUNCIONA
+ /*  public DameImagenAvatar(imagen: string): Observable<any> {
+    return this.httpImagenes.get(this.APIUrlImagenesAvatares + '/download/' + imagen,
+      {responseType: ResponseContentType.Blob});
+  } */
+
+  
 
   
 }

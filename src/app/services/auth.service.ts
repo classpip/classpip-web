@@ -3,7 +3,6 @@ import * as environment from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Profesor } from '../clases/Profesor';
-import { FamiliaAvatares } from './../clases/FamiliaAvatares';
 import { User } from '../clases/User';
 
 @Injectable({
@@ -15,8 +14,12 @@ export class AuthService {
 
   private host = environment.host;
 
+  //Usuarios
   private APIUrlUsers = this.host + ':3000/api/Users';
   private APIUrlProfesores = this.host + ':3000/api/Profesores';
+
+  //Recursos
+  private APIUrlCuestionarios = this.host + ':3000/api/Cuestionarios';
 
   constructor(private http: HttpClient) { }
 
