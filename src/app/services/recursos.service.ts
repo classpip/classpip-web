@@ -11,6 +11,7 @@ import { FamiliaDeImagenesDePerfil } from '../clases/recursos/FamiliaDeImagenesD
 import { Coleccion } from '../clases/recursos/Coleccion';
 import { Pregunta } from '../clases/recursos/Pregunta';
 import { Cromo } from '../clases/recursos/Cromo';
+import { Http } from '@angular/http';
 
 
 
@@ -33,7 +34,8 @@ export class RecursosService {
   private APIUrlImagenesAvatares = this.host + ':3000/api/imagenes/ImagenesAvatares';
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    
     ) { }
 
   public DameProfesores(): Observable<Profesor[]> {
@@ -73,6 +75,14 @@ export class RecursosService {
   public DameCromosColeccion(coleccionId: number): Observable<Cromo[]> {
     return this.http.get<Cromo[]>(this.APIUrlColecciones + '/' + coleccionId + '/cromos');
   }
+
+  //NO FUNCIONA
+ /*  public DameImagenAvatar(imagen: string): Observable<any> {
+    return this.httpImagenes.get(this.APIUrlImagenesAvatares + '/download/' + imagen,
+      {responseType: ResponseContentType.Blob});
+  } */
+
+  
 
   
 }
