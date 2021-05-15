@@ -19,6 +19,11 @@ export class RecursosListComponent implements OnInit {
   listRecursos;
   mapProfesores: Map<Number,Profesor> = new Map();
   profesorId: number;
+
+  //Recuros
+  cuestionario: Cuestionario;
+  coleccion: Coleccion;
+  familia: FamiliaAvatares;
   
 
   constructor(
@@ -140,7 +145,7 @@ export class RecursosListComponent implements OnInit {
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function(obj) {
           obj['nombreRecurso'] = obj['NombreFamilia']; // Assign new key
-          delete obj['NombreFamilia']; // Delete old key
+          //delete obj['NombreFamilia']; // Delete old key
           return obj;
         });
       }
@@ -196,7 +201,7 @@ export class RecursosListComponent implements OnInit {
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function(obj) {
           obj['nombreRecurso'] = obj['Titulo']; // Assign new key
-          delete obj['Titulo']; // Delete old key
+          //delete obj['Titulo']; // Delete old key
           return obj;
         });
       }
@@ -223,7 +228,7 @@ export class RecursosListComponent implements OnInit {
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function(obj) {
           obj['nombreRecurso'] = obj['NombreFamilia']; // Assign new key
-          delete obj['NombreFamilia']; // Delete old key
+          //delete obj['NombreFamilia']; // Delete old key
           return obj;
         });
       }
@@ -259,29 +264,39 @@ export class RecursosListComponent implements OnInit {
   /* FUNCIONES PARA VISUALIZAR RECURSOS */
 
   //Envia los datos del cuestionario a la pagina que lo muestra
-  EnviarCuestionario(cuestionario: Cuestionario) {
-
+  EnviaCuestionario(cuestionario: Cuestionario) {
     this.sesion.TomaCuestionario(cuestionario);
-    console.log(cuestionario);
-    
+    console.log(cuestionario); 
   
   }
 
   //Envia los datos de la coleccion a la pagina que la muestra
-  EnviarColeccion(coleccion: Coleccion) {
-
+  EnviaColeccion(coleccion: Coleccion) {
     this.sesion.TomaColeccion(coleccion);
-    console.log(coleccion);
-    
+    console.log(coleccion);    
+  
+  }
+
+  //Envia los datos de la familia de avatares a la pagina que la muestra
+  EnviaFamiliaAvatares(familia: FamiliaAvatares) {
+    this.sesion.TomaFamilia(familia);
+    console.log(familia);    
   
   }
 
 
-  EnviarRecurso(){
+  EnviaRecurso(rsc){
     switch(this.recurso){
-      case 'cuestionarios': {
-        this.rscName = 'Cuestionarios';
-        //this.EnviarCuestionario(cuestionario);
+      case 'cuestionarios': {       
+        this.EnviaCuestionario(rsc);
+        break;
+      }
+      case 'colecciones': {        
+        this.EnviaColeccion(rsc);
+        break;
+      }
+      case 'avatares': {        
+        this.EnviaFamiliaAvatares(rsc);
         break;
       }
     }

@@ -36,6 +36,7 @@ import { PerfilComponent } from './perfil/perfil.component';
 import { RecursosListComponent } from './recursos-list/recursos-list.component';
 import { MostrarCuestionarioComponent } from './mostrar-cuestionario/mostrar-cuestionario.component';
 import { MostrarColeccionesComponent } from './mostrar-colecciones/mostrar-colecciones.component';
+import { MostrarAvataresComponent } from './mostrar-avatares/mostrar-avatares.component';
 
 
 
@@ -78,6 +79,7 @@ import { MostrarColeccionesComponent } from './mostrar-colecciones/mostrar-colec
     PerfilComponent,
     MostrarCuestionarioComponent,
     MostrarColeccionesComponent,
+    MostrarAvataresComponent,
   ],
   exports: [
     IndexComponent,

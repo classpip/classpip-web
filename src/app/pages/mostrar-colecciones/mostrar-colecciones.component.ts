@@ -56,12 +56,6 @@ export class MostrarColeccionesComponent implements OnInit {
 
   ngOnInit(): void {
     this.coleccion = this.sesion.DameColeccion();
-    //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
-    /* this.coleccion = this.coleccion.map(function(obj) {
-      obj['nombreRecurso'] = obj['Nombre']; // Assign new key
-      delete obj['Nombre']; // Delete old key
-      return obj;
-    }); */
     this.nombreColeccion = this.coleccion.Nombre;
     if (this.coleccion.ImagenColeccion !== undefined) {
       this.imagenColeccion = URL.ImagenesColeccion + this.coleccion.ImagenColeccion ;

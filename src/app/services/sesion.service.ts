@@ -24,7 +24,7 @@ export class SesionService {
   public TomaProfesor(profesor: Profesor) {
     this.profesor = profesor;
   }
-  public  DameProfesor(): Profesor {
+  public DameProfesor(): Profesor {
     return this.profesor;
   }
 
@@ -41,7 +41,7 @@ export class SesionService {
     this.profesorObservable.next(profesor);
   }
 
-  public publish(data: any){
+  public publish(data: any) {
     this.dataSubject.next(data);
   }
 
@@ -49,26 +49,32 @@ export class SesionService {
     return this.dataSubject;
   }
 
-  public DameFamilia(): FamiliaAvatares {
-    return this.familia;
-  }
-
+  //FAMILIAS DE AVATARES
   public TomaFamilia(familia: FamiliaAvatares) {
     this.familia = familia;
   }
 
-  public  DameCuestionario(): Cuestionario {
-    return this.cuestionario;
+  public DameFamilia(): FamiliaAvatares {
+    return this.familia;
   }
 
+  //CUESTIONARIOS
   public TomaCuestionario(cuestionario: Cuestionario) {
     this.cuestionario = cuestionario;
   }
 
+  public DameCuestionario(): Cuestionario {
+    return this.cuestionario;
+  }
+
+  //COLECCIONES
   public TomaColeccion(coleccion: Coleccion) {
     this.coleccion = coleccion;
   }
+  
   public DameColeccion(): Coleccion {
-    return this.coleccion ;
+    return this.coleccion;
   }
+
+
 }
