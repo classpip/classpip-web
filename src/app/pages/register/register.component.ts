@@ -33,8 +33,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   mostrarLogin = true;
 
 
-  constructor(private authService: AuthService, private sesion:SesionService, 
-    private route:Router, private comServer:ComServerService) {}
+  constructor(private authService: AuthService, private sesion: SesionService,
+    private route: Router, private comServer: ComServerService) { }
   @HostListener("document:mousemove", ["$event"])
   onMouseMove(e) {
     var squares1 = document.getElementById("square1");
@@ -111,63 +111,69 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   Registrar() {
+
     this.username = (<HTMLInputElement>document.getElementById('username')).value
     this.password = (<HTMLInputElement>document.getElementById('password')).value
     this.primerApellido = (<HTMLInputElement>document.getElementById('primerApellido')).value
     this.segundoApellido = (<HTMLInputElement>document.getElementById('segundoApellido')).value
     this.email = (<HTMLInputElement>document.getElementById('email')).value
     this.nombre = (<HTMLInputElement>document.getElementById('nombre')).value
-    this.authService.BuscaNombreUsuario (this.username)
-    .subscribe ( res => {
-      if (res[0] !== undefined) {
-        Swal.fire('Error', 'Ya existe alguien con el mismo nombre de usuario en Classpip', 'error');
 
-      } else {
-        console.log(this.username, this.nombre, this.primerApellido, this.segundoApellido, this.email, this.password)
-        /* if (this.contrasena !== this.contrasenaRepetida) {
-          Swal.fire('Error', 'No coincide la contraseña con la contraseña repetida', 'error');
-        } else  */
-        if (!this.ValidaEmail (this.email)) {
-          Swal.fire('Error', 'El email no es correcto', 'error');
-        } else {
-          // creamos un identificador aleatorio de 5 digitos
-          const identificador = Math.random().toString().substr(2, 5);
-          const profesor = new Profesor (
-          this.nombre,
-          this.primerApellido,
-          this.segundoApellido,
-          this.username,
-          this.email,
-          this.password,
-          null,
-          identificador
-          );
-          this.authService.RegistraProfesor (profesor)
-          .subscribe (
-              // tslint:disable-next-line:no-shadowed-variable
-              (res) => {
-              Swal.fire('OK', 'Registro completado con éxito', 'success')
-              this.profesor = res;
-              console.log(this.profesor)
-              this.sesion.EnviaProfesor(this.profesor);
-              this.comServer.Conectar(this.profesor.id);
-              console.log ('vamos inicio');
-              sessionStorage.setItem('ACCESS_TOKEN', 'true');
-              this.sesion.publish({topic: "newLogin", data: res[0]});
-              this.route.navigateByUrl('/#/home');
-            },
-              
-              (err) => Swal.fire('Error', 'Fallo en la conexion con la base de datos', 'error')
-          );
+
+    console.log(this.username, this.nombre, this.primerApellido, this.segundoApellido, this.email, this.password)
+    /* if (this.contrasena !== this.contrasenaRepetida) {
+      Swal.fire('Error', 'No coincide la contraseña con la contraseña repetida', 'error');
+    } else  */
+    if (!this.ValidaEmail(this.email)) {
+      Swal.fire('Error', 'El email no es correcto', 'error');
+    } else {
+      const newUser = { "username": this.username, "email": this.email, "password": this.password };
+      console.log('new user: '+newUser);
+      this.authService.register(newUser).subscribe(respRegistro => {
+        console.log('register response: ', respRegistro);
+        if (respRegistro != undefined) {
+          //Codigo 422 -> mostrar mensaje error pq email o username es invalido
+          this.authService.login({"username": this.username, "password": this.password}).subscribe(user => {
+            console.log('login response: ', user);
+            if(user != undefined){
+              sessionStorage.setItem('ACCESS_TOKEN', user.id);
+              // creamos un identificador aleatorio de 5 digitos
+              const identificador = Math.random().toString().substr(2, 5);
+              const newProf = new Profesor(
+                this.nombre,
+                this.primerApellido,
+                this.segundoApellido,
+                null,
+                identificador,
+                null,
+                respRegistro.id
+              );
+              console.log('new prof: ', newProf);
+              this.authService.RegistraProfesor(newProf).subscribe((prof) => {
+                console.log('prof response', prof);
+                this.profesor = prof;
+                console.log(this.profesor)
+                this.sesion.EnviaProfesor(this.profesor);
+                this.comServer.Conectar(this.profesor.id);
+                this.authService.setProfesorId(this.profesor.id);
+                console.log('vamos inicio');
+                this.sesion.publish({ topic: "newLogin", data: prof[0] });
+                this.route.navigateByUrl('/#/home');
+                Swal.fire('OK', 'Registro completado con éxito', 'success');
+              },
+              (err) => {
+                console.log(err);
+                Swal.fire('Error', 'Fallo en la conexion con la base de datos', 'error');
+              });
+            }
+          });
         }
-        
-      }
-
-    });
+      })
+    }
   }
   ValidaEmail(email) {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
-  
+
 }

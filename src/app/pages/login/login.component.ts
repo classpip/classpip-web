@@ -114,6 +114,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           console.log('autentificado correctamente');
           sessionStorage.setItem('ACCESS_TOKEN', res.id);
           this.authService.dameProfesor(res.userId).subscribe((prof) => {
+            console.log('login profesor: ',prof);
             if(prof[0] != undefined){
               this.profesor = prof[0];
               this.sesion.EnviaProfesor(this.profesor);
@@ -122,6 +123,8 @@ export class LoginComponent implements OnInit, OnDestroy {
               console.log ('vamos inicio');
               this.sesion.publish({topic: "newLogin", data: prof[0]});
               this.route.navigateByUrl('/#/home');
+            } else {
+              Swal.fire('Error', 'No se encuentra al profesor', 'error');
             }
           })
         }
