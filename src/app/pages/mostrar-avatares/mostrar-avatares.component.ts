@@ -42,7 +42,7 @@ export class MostrarAvataresComponent implements OnInit {
     this.familiaElegida = this.sesion.DameFamilia ();
     this.hayComplementoPuesto = Array(4).fill(false);
     this.complementoPuesto = Array(4);
-    this.TraeImagenesFamilia();
+    //this.TraeImagenesFamilia();
   }
 
   CreaImagen(numeroComplemento, opcion, stringImagen): any {
@@ -134,7 +134,7 @@ export class MostrarAvataresComponent implements OnInit {
      return imagen;
   }
 
-  QuitarComplemento(numeroComplemento) {
+  /* QuitarComplemento(numeroComplemento) {
     if (this.hayComplementoPuesto[numeroComplemento]) {
       // si ya hay un complemento sobre la silueta del tipo elegido
       // entonces lo tengo que quitar de la silueta y volverlo a la zona de complementos
@@ -298,7 +298,7 @@ export class MostrarAvataresComponent implements OnInit {
      });
 
      this.familiaCargada = true;
-   }
+   } */
 
 
   goBack() {
