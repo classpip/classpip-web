@@ -7,13 +7,13 @@
 <br>
 <br>
 <div class="wrapper">
-    <div class="contenedor">
+    <div class="container">
         <div class="resource-header">
             <button type="button" class="btn Back" (click)="goBack()"><i class="tim-icons icon-minimal-left"></i>Volver
             </button>
         </div>
 
-        <div class="enColumna">
+        <div class="column">
             <div class="enFila">
 
                 <div class="enColumna" style="text-align: center;">
@@ -27,15 +27,15 @@
             </div>
 
             <div *ngIf="coleccion.DosCaras" class='enFila' style="text-align: center;">
-                <button style="text-align: center;" type="button" class="btn Info" (click)="Voltear ()">
+                <button style="text-align: center;" type="button" class="btn Info" (click)="Voltear()">
                     Dar la vuelta a todos los cromos <i class="tim-icons icon-refresh-02"></i>
                 </button>
             </div>
             <br>
             <br>
-            <div class="row">
-                <div class="col-md-10 ml-auto col-xl-2 mr-auto">
-                    <div class="card" *ngFor="let cromo of cromosColeccion; let i = index" [style.background]="white"
+            <div class="enFila">
+                <div class="col-md-10 ml-auto col-xl-3 mr-auto">
+                    <div class="card" *ngFor="let cromo of cromosColeccion; let i = index" 
                         style="text-align: center;">
                         <div class="card-header">
                             <h4>{{cromo.Nombre}}</h4>

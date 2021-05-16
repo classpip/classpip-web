@@ -37,6 +37,7 @@ import { RecursosListComponent } from './recursos-list/recursos-list.component';
 import { MostrarCuestionarioComponent } from './mostrar-cuestionario/mostrar-cuestionario.component';
 import { MostrarColeccionesComponent } from './mostrar-colecciones/mostrar-colecciones.component';
 import { MostrarAvataresComponent } from './mostrar-avatares/mostrar-avatares.component';
+import { MostrarImagenesPerfilComponent } from './mostrar-imagenes-perfil/mostrar-imagenes-perfil.component';
 
 
 
@@ -80,6 +81,7 @@ import { MostrarAvataresComponent } from './mostrar-avatares/mostrar-avatares.co
     MostrarCuestionarioComponent,
     MostrarColeccionesComponent,
     MostrarAvataresComponent,
+    MostrarImagenesPerfilComponent,
   ],
   exports: [
     IndexComponent,

@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Injectable } from '@angular/core';
 import { FamiliaAvatares } from '../clases/recursos/FamiliaAvatares';
@@ -11,7 +11,7 @@ import { FamiliaDeImagenesDePerfil } from '../clases/recursos/FamiliaDeImagenesD
 import { Coleccion } from '../clases/recursos/Coleccion';
 import { Pregunta } from '../clases/recursos/Pregunta';
 import { Cromo } from '../clases/recursos/Cromo';
-import { Http } from '@angular/http';
+
 
 
 
@@ -77,10 +77,17 @@ export class RecursosService {
   }
 
   //NO FUNCIONA
- /*  public DameImagenAvatar(imagen: string): Observable<any> {
-    return this.httpImagenes.get(this.APIUrlImagenesAvatares + '/download/' + imagen,
-      {responseType: ResponseContentType.Blob});
-  } */
+   public DameImagenAvatar(imagen: string): Observable<any> {
+    return this.http.get(this.APIUrlImagenesAvatares + '/download/' + imagen,
+    { headers: new HttpHeaders({
+      'Content-Type': 'application/octet-stream',
+        }), responseType: 'blob'}
+      /* {responseType: ResponseContentType.Blob} */);
+      /* return this.http.get(url, { headers: new HttpHeaders({
+        'Authorization': 'Basic ' + encodedAuth,
+        'Content-Type': 'application/octet-stream',
+        }), responseType: 'blob'}) */
+  } 
 
   
 

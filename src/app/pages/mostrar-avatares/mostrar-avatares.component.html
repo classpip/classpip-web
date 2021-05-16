@@ -1,7 +1,13 @@
-<div class="titulo">Mostrar familia de avatares </div>
-<div *ngIf = 'familiaElegida' class="subtitulo">{{familiaElegida.NombreFamilia}}</div>
-<mat-divider class="lineaDivisoria"></mat-divider>
-<div class = "contenedor">
+<app-navbar></app-navbar>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div *ngIf = 'familiaElegida' class="subtitulo" style="text-align: center;"><h1>{{familiaElegida.NombreFamilia}}</h1></div>
+
+<div class = "container">
 
 <div class = "enColumna">
 
@@ -53,5 +59,7 @@
   <button type="button" class="btn Back" (click)="goBack()">Volver </button>
 </div>
 </div>
+
+<app-footer></app-footer>
 
 

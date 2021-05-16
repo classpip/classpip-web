@@ -42,7 +42,7 @@ export class MostrarAvataresComponent implements OnInit {
     this.familiaElegida = this.sesion.DameFamilia ();
     this.hayComplementoPuesto = Array(4).fill(false);
     this.complementoPuesto = Array(4);
-    //this.TraeImagenesFamilia();
+    this.TraeImagenesFamilia();
   }
 
   CreaImagen(numeroComplemento, opcion, stringImagen): any {
@@ -134,7 +134,7 @@ export class MostrarAvataresComponent implements OnInit {
      return imagen;
   }
 
-  /* QuitarComplemento(numeroComplemento) {
+  QuitarComplemento(numeroComplemento) {
     if (this.hayComplementoPuesto[numeroComplemento]) {
       // si ya hay un complemento sobre la silueta del tipo elegido
       // entonces lo tengo que quitar de la silueta y volverlo a la zona de complementos
@@ -167,10 +167,12 @@ export class MostrarAvataresComponent implements OnInit {
     }
 
     this.familiaCargada = false;
+    console.log("Holaaaaaaa",this.familiaElegida);
       // Traigo la imagen de la silueta
     this.recursos.DameImagenAvatar (this.familiaElegida.Silueta)
      .subscribe(response => {
-       const blob = new Blob([response.blob()], { type: 'image/jpg'});
+       const blob = new Blob([response.body], { type: 'image/jpg'});
+       console.log("BLOB:", blob)
 
        const reader = new FileReader();
        reader.addEventListener('load', () => {
@@ -202,7 +204,7 @@ export class MostrarAvataresComponent implements OnInit {
      this.familiaElegida.Complemento1.forEach (imagenComplemento => {
        this.recursos.DameImagenAvatar (imagenComplemento)
        .subscribe(response => {
-         const blob = new Blob([response.blob()], { type: 'image/jpg'});
+         const blob = new Blob([response.body], { type: 'image/jpg'});
          const reader = new FileReader();
          reader.addEventListener('load', () => {
              // Creo la imagen del complemento
@@ -231,7 +233,7 @@ export class MostrarAvataresComponent implements OnInit {
      this.familiaElegida.Complemento2.forEach (imagenComplemento => {
         this.recursos.DameImagenAvatar (imagenComplemento)
         .subscribe(response => {
-          const blob = new Blob([response.blob()], { type: 'image/jpg'});
+          const blob = new Blob([response.body], { type: 'image/jpg'});
           const reader = new FileReader();
           reader.addEventListener('load', () => {
              // Creo la imagen del complemento
@@ -257,7 +259,7 @@ export class MostrarAvataresComponent implements OnInit {
      this.familiaElegida.Complemento3.forEach (imagenComplemento => {
          this.recursos.DameImagenAvatar (imagenComplemento)
          .subscribe(response => {
-           const blob = new Blob([response.blob()], { type: 'image/jpg'});
+           const blob = new Blob([response.body], { type: 'image/jpg'});
            const reader = new FileReader();
            reader.addEventListener('load', () => {
                // Creo la imagen del complemento
@@ -282,7 +284,7 @@ export class MostrarAvataresComponent implements OnInit {
      this.familiaElegida.Complemento4.forEach (imagenComplemento => {
           this.recursos.DameImagenAvatar (imagenComplemento)
           .subscribe(response => {
-            const blob = new Blob([response.blob()], { type: 'image/jpg'});
+            const blob = new Blob([response.body], { type: 'image/jpg'});
             const reader = new FileReader();
             reader.addEventListener('load', () => {
                // Creo la imagen del complemento
@@ -298,7 +300,7 @@ export class MostrarAvataresComponent implements OnInit {
      });
 
      this.familiaCargada = true;
-   } */
+   }
 
 
   goBack() {
