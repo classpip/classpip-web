@@ -56,6 +56,7 @@ export class MostrarColeccionesComponent implements OnInit {
 
   ngOnInit(): void {
     this.coleccion = this.sesion.DameColeccion();
+    console.log("coleccion viene de sesion: ", this.coleccion)
     this.nombreColeccion = this.coleccion.Nombre;
     if (this.coleccion.ImagenColeccion !== undefined) {
       this.imagenColeccion = URL.ImagenesColeccion + this.coleccion.ImagenColeccion ;
@@ -66,6 +67,7 @@ export class MostrarColeccionesComponent implements OnInit {
     this.recursos.DameCromosColeccion (this.coleccion.id)
     .subscribe ( cromos => {
       this.cromosColeccion = cromos;
+      console.log("cromos viene de recursos: ", this.cromosColeccion);
       // Ahora preparo las imagenes de los cromos
          // tslint:disable-next-line:prefer-for-of
       for (let i = 0; i < this.cromosColeccion.length; i++) {

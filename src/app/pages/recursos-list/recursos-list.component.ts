@@ -273,7 +273,7 @@ export class RecursosListComponent implements OnInit {
   //Envia los datos de la coleccion a la pagina que la muestra
   EnviaColeccion(coleccion: Coleccion) {
     this.sesion.TomaColeccion(coleccion);
-    console.log(coleccion);    
+    console.log("Toma coleccion: ", coleccion);    
   
   }
 
