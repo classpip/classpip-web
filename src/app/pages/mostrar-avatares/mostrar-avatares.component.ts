@@ -177,6 +177,7 @@ export class MostrarAvataresComponent implements OnInit {
        const reader = new FileReader();
        reader.addEventListener('load', () => {
          this.imagenSilueta = reader.result.toString();
+         console.log("Imagen silueta", this.imagenSilueta)
        }, false);
 
 

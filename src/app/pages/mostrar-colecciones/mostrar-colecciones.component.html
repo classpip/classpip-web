@@ -33,15 +33,15 @@
             </div>
             <br>
             <br>
-            <div class="enFila">
+            <div class="enColumna" >
                 <div class="col-md-10 ml-auto col-xl-3 mr-auto">
                     <div class="card" *ngFor="let cromo of cromosColeccion; let i = index" 
-                        style="text-align: center;">
+                        style="text-align: center;" >
                         <div class="card-header">
                             <h4>{{cromo.Nombre}}</h4>
                             <h6>Probabilidad: {{cromo.Probabilidad}}</h6>
                         </div>
-                        <div class="card-footer" style="text-align: center;">
+                        <div class="card-footer" style="text-align: center;" >
                             <div *ngIf="!coleccion.DosCaras" class="posicionImagen">
                                 <img class="imagenCromo" *ngIf="imagenesCromosDelante[i]"
                                     [src]="imagenesCromosDelante[i]">
