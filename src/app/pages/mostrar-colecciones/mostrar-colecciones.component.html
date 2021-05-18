@@ -14,51 +14,43 @@
         </div>
 
         <div class="column">
-            <div class="enFila">
 
-                <div class="enColumna" style="text-align: center;">
-
-                    <img class="imagen" *ngIf="imagenColeccion" mat-card-image [src]="imagenColeccion">
-
-                    <br>
-                    <br>
-                </div>
-
+            <div style="text-align: center;">
+                <img class="imagen" *ngIf="imagenColeccion" mat-card-image [src]="imagenColeccion">
+                <br><br>
             </div>
 
-            <div *ngIf="coleccion.DosCaras" class='enFila' style="text-align: center;">
+
+            <div *ngIf="coleccion.DosCaras" style="text-align: center;">
                 <button style="text-align: center;" type="button" class="btn Info" (click)="Voltear()">
                     Dar la vuelta a todos los cromos <i class="tim-icons icon-refresh-02"></i>
                 </button>
             </div>
             <br>
             <br>
-            <div class="enColumna" >
-                <div class="col-md-10 ml-auto col-xl-3 mr-auto">
-                    <div class="card" *ngFor="let cromo of cromosColeccion; let i = index" 
-                        style="text-align: center;" >
-                        <div class="card-header">
-                            <h4>{{cromo.Nombre}}</h4>
-                            <h6>Probabilidad: {{cromo.Probabilidad}}</h6>
+            <div class="grid-wrapper" >
+                <div class="card" *ngFor="let cromo of cromosColeccion; let i = index" style="text-align: center;" >
+                    <div class="card-header">
+                        <h4>{{cromo.Nombre}}</h4>
+                        <h6>Probabilidad: {{cromo.Probabilidad}}</h6>
+                    </div>
+                    <div class="card-footer" style="text-align: center;" >
+                        <div *ngIf="!coleccion.DosCaras" class="posicionImagen">
+                            <img class="imagenCromo" *ngIf="imagenesCromosDelante[i]"
+                                [src]="imagenesCromosDelante[i]">
                         </div>
-                        <div class="card-footer" style="text-align: center;" >
-                            <div *ngIf="!coleccion.DosCaras" class="posicionImagen">
-                                <img class="imagenCromo" *ngIf="imagenesCromosDelante[i]"
-                                    [src]="imagenesCromosDelante[i]">
-                            </div>
-                            <div *ngIf="coleccion.DosCaras" class="flip-box">
-                                <div class="flip-box-inner">
-                                    <div class="flip-box-front">
-                                        <div class="posicionImagen">
-                                            <img *ngIf='!voltear' class="imagenCromo" [src]="imagenesCromosDelante[i]">
+                        <div *ngIf="coleccion.DosCaras" class="flip-box">
+                            <div class="flip-box-inner">
+                                <div class="flip-box-front">
+                                    <div class="posicionImagen">
+                                        <img *ngIf='!voltear' class="imagenCromo" [src]="imagenesCromosDelante[i]">
 
-                                        </div>
                                     </div>
-                                    <div class="flip-box-back">
-                                        <div class="posicionImagen">
-                                            <img *ngIf='voltear' class="imagenCromo" [src]="imagenesCromosDetras[i]">
+                                </div>
+                                <div class="flip-box-back">
+                                    <div class="posicionImagen">
+                                        <img *ngIf='voltear' class="imagenCromo" [src]="imagenesCromosDetras[i]">
 
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +58,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

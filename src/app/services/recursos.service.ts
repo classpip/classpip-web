@@ -13,9 +13,6 @@ import { Pregunta } from '../clases/recursos/Pregunta';
 import { Cromo } from '../clases/recursos/Cromo';
 
 
-
-
-
 @Injectable({
   providedIn: 'root'
 })
