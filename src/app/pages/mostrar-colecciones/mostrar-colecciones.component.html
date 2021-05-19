@@ -1,28 +1,22 @@
 <app-navbar></app-navbar>
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+
 <div class="wrapper">
-    <div class="container">
-        <div class="resource-header">
-            <button type="button" class="btn Back" (click)="goBack()"><i class="tim-icons icon-minimal-left"></i>Volver
-            </button>
-        </div>
-
-        <div class="column">
-
+    <div class="main">
+        <div class="section section-basic" id="basic-elements">
+    
+            <br><br>
             <div style="text-align: center;">
+                <h2>{{nombreColeccion}}</h2>
                 <img class="imagen" *ngIf="imagenColeccion" mat-card-image [src]="imagenColeccion">
                 <br><br>
             </div>
-
-
-            <div *ngIf="coleccion.DosCaras" style="text-align: center;">
-                <button style="text-align: center;" type="button" class="btn Info" (click)="Voltear()">
+    
+    
+            <div style="text-align: center;">
+                <button type="button" class="btn back-button" (click)="goBack()">Volver</button>
+                &nbsp;
+                <button *ngIf="coleccion.DosCaras" style="text-align: center;" type="button" class="btn Info" (click)="Voltear()">
                     Dar la vuelta a todos los cromos <i class="tim-icons icon-refresh-02"></i>
                 </button>
             </div>
@@ -44,13 +38,13 @@
                                 <div class="flip-box-front">
                                     <div class="posicionImagen">
                                         <img *ngIf='!voltear' class="imagenCromo" [src]="imagenesCromosDelante[i]">
-
+    
                                     </div>
                                 </div>
                                 <div class="flip-box-back">
                                     <div class="posicionImagen">
                                         <img *ngIf='voltear' class="imagenCromo" [src]="imagenesCromosDetras[i]">
-
+    
                                     </div>
                                 </div>
                             </div>

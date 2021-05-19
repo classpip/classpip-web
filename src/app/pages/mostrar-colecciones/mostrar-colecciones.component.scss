@@ -2,8 +2,6 @@
     cursor: pointer;
     transform: scale(1.1);
 }
-.grid-wrapper {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px;
+.resource-header {
+    padding-left: 20px;
 }
