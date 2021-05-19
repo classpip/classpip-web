@@ -16,13 +16,13 @@
             <div style="text-align: center;">
                 <button type="button" class="btn back-button" (click)="goBack()">Volver</button>
                 &nbsp;
-                <button *ngIf="coleccion.DosCaras" style="text-align: center;" type="button" class="btn Info" (click)="Voltear()">
+                <button *ngIf="coleccion && coleccion.DosCaras" style="text-align: center;" type="button" class="btn Info" (click)="Voltear()">
                     Dar la vuelta a todos los cromos <i class="tim-icons icon-refresh-02"></i>
                 </button>
             </div>
             <br>
             <br>
-            <div class="grid-wrapper" >
+            <div class="grid-wrapper" *ngIf="coleccion">
                 <div class="card" *ngFor="let cromo of cromosColeccion; let i = index" style="text-align: center;" >
                     <div class="card-header">
                         <h4>{{cromo.Nombre}}</h4>
