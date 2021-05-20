@@ -1,34 +1,41 @@
 <app-navbar></app-navbar>
 <br>
 <br>
-<div class = "wrapper">
-    <div class = "main">
-        <div class="section section-basic" id="basic-elements">
-           <div class= "container">
-               <h2 style="text-align: center;">
-                   EXPERIENCIAS
-               </h2>
-               <h4 style="text-align: center;">¡Bienvenido a la página de experiencias, dónde otros profesores comparten sus opiniones y consejos sobre su experiencia usando Classpip! </h4>
-               <h4 style="text-align: center;">¡Siéntete libre de explicarnos la tuya!</h4>
-               <div class="card card-register">
-                
-                    
-               <div class="typography-line">
-                <p>
-                  <span> Experiencia </span> Esto es un texto de ejemplo simulando el comentario de otra persona hablando sobre su experiencia
-                  usando classpip y me estoy enrrollando un poco para que quede largo y ocupe cierto espacio
-                </p>
-              </div>
-               <input
-                    class="form-control"
-                    placeholder="Deja aqui tu comentario"
-                    type="text"
-                    (focus)="focus2 = true"
-                    (blur)="focus2 = false"
-                    id="comentario"
-                  />
-           </div> 
-         </div>       
-    </div>
+<div class="wrapper">
+  <div class="main">
+    <div class="section section-basic" id="basic-elements">
 
+      <div class="container">
+
+        <h2 style="text-align: center;">
+          EXPERIENCIAS
+        </h2>
+
+        <h4 style="text-align: center;">¡Bienvenido a la página de experiencias, dónde otros profesores comparten sus
+          opiniones y consejos sobre su experiencia usando Classpip! </h4>
+        <h4 style="text-align: center;">¡Siéntete libre de explicarnos la tuya!</h4>
+
+        <div class="card card-publicacion">
+          <div class="typography-line">
+            <p>
+              <span> Experiencia </span> Esto es un texto de ejemplo simulando el comentario de otra persona hablando
+              sobre su experiencia
+              usando classpip y me estoy enrrollando un poco para que quede largo y ocupe cierto espacio
+            </p>
+          </div>
+          <br><br><br>
+          <div class="input-group">
+            <input id="comentario" class="form-control" placeholder="Deja aqui tu comentario" type="text"
+              (focus)="focus2 = true" (blur)="focus2 = false">
+            <div class="input-group-append">
+              <span class="input-group-text"><i id="sendBtn" class="tim-icons icon-send"></i></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
 <app-footer></app-footer>

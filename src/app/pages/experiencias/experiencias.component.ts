@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExperienciasComponent implements OnInit {
   isCollapsed = true
+  focus2;
   constructor() { }
 
   ngOnInit(): void {
+    document.getElementById("sendBtn").addEventListener ("click", this.send, false);
+  }
+
+  send(){
+    if((<HTMLInputElement>document.getElementById("comentario")).value.length != 0){
+      const comentario = (<HTMLInputElement>document.getElementById("comentario")).value;
+      console.log(comentario);
+    }
   }
 
 }
