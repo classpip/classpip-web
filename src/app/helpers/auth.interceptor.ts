@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -14,11 +14,14 @@ export class AuthInterceptor implements HttpInterceptor {
             return next.handle(req);
         }
 
-        //SUSTITUIR ESTO POR EL SET ACCESS TOKEN EN LOOPBACK
-        const headers = req.clone({
-            headers: req.headers.set('Authorization', token)
+        const headers = new HttpHeaders({
+            'Authorization': token,
+            'Content-Type': 'application/json'
         });
+    
+    
+        const cloneReq = req.clone({headers});
 
-        return next.handle(headers);
+        return next.handle(cloneReq);
     }
 }

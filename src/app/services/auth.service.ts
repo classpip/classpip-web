@@ -40,13 +40,13 @@ export class AuthService {
     return this.http.post<Profesor>(this.APIUrlProfesores, profesor);
   }
 
-  public getProfesorId(){
-    return this.profesorId;
-  }
+  // public getProfesorId(){
+  //   return this.profesorId;
+  // }
 
-  public setProfesorId(profesorid: number){
-      this.profesorId = profesorid;
-  }
+  // public setProfesorId(profesorid: number){
+  //     this.profesorId = profesorid;
+  // }
 
   ///////////////// PETICIONES USER ///////////////////
 

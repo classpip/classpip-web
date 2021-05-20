@@ -15,7 +15,18 @@
           opiniones y consejos sobre su experiencia usando Classpip! </h4>
         <h4 style="text-align: center;">¡Siéntete libre de explicarnos la tuya!</h4>
 
-        <br>
+
+        <div *ngIf="this.isLogged == true; else loginWarn">
+          <div class="card card-publicacion">
+            <p>Logged</p>
+          </div>
+        </div>
+        <ng-template #loginWarn>
+          <div class="card card-publicacion">
+            <p>Not logged</p>
+          </div>
+        </ng-template>
+        <!-- <br>
         <br>
 
         <div class="button" style="text-align: center;">
@@ -24,26 +35,33 @@
         </div>
 
         <br>
-        <br>
-
-        <div class="card card-publicacion">
-          <div class="typography-line">
-            <p>
-              <span> Experiencia </span> Esto es un texto de ejemplo simulando el comentario de otra persona hablando
-              sobre su experiencia
-              usando classpip y me estoy enrrollando un poco para que quede largo y ocupe cierto espacio
-            </p>
-          </div>
-          <br><br><br>
-          <div class="input-group">
-            <input id="comentario" class="form-control" placeholder="Deja aqui tu comentario" type="text"
-              (focus)="focus2 = true" (blur)="focus2 = false">
-            <div class="input-group-append">
-              <span class="input-group-text"><i id="sendBtn" class="tim-icons icon-send"></i></span>
+        <br> -->
+        <div *ngIf="publicaciones; else nopublis">
+          <div class="card card-publicacion" *ngFor="let publi of publicaciones" >
+            <br><br>
+            <div class="typography-line">
+              <div>
+                <span> {{publi}} </span> Esto es un texto de ejemplo simulando el comentario de otra persona hablando
+                sobre su experiencia
+                usando classpip y me estoy enrrollando un poco para que quede largo y ocupe cierto espacio
+              </div>
+            </div>
+            <br>
+            <div class="input-group">
+              <input id="comentario" class="form-control" placeholder="Deja aqui tu comentario" type="text"
+                (focus)="focus2 = true" (blur)="focus2 = false">
+              <div class="input-group-append">
+                <span class="input-group-text"><i id="sendBtn" class="tim-icons icon-send"></i></span>
+              </div>
             </div>
           </div>
         </div>
-
+        <ng-template #nopublis>
+          <div style="text-align: center;">
+            <br><br><br>
+              <h2>No hay publicaciones</h2>
+          </div>
+        </ng-template>
       </div>
 
 
@@ -52,7 +70,7 @@
   </div>
 </div>
 <!-- DEFINICIÓN DEL POPUP DE NUEVA PUBLICACIÓN -->
-<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #myModal2="bs-modal"
+<!-- <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #myModal2="bs-modal"
   id="myModal2" role="dialog" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -106,5 +124,5 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <app-footer></app-footer>

@@ -23,8 +23,8 @@ export class PublicacionesService {
 
   constructor(private http: HttpClient, auth: AuthService) { }
 
-  public damePublicaciones(): Observable<Publicacion> {
-    return this.http.get<Publicacion>(this.APIUrlPublicaciones);
+  public damePublicaciones(): Observable<Publicacion[]> {
+    return this.http.get<Publicacion[]>(this.APIUrlPublicaciones);
   }
 
   public dameComentariosPubli(publicacionId: number){

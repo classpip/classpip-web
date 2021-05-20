@@ -27,7 +27,6 @@ export class PerfilComponent implements OnInit {
     if(this.auth.isLoggedIn()){
       this.profesor = undefined;
       sessionStorage.removeItem("ACCESS_TOKEN");
-      this.sesion.publish({topic: "logout"});
       this.router.navigateByUrl("/#/home");
     }
   }

@@ -11,5 +11,5 @@ export const LogosEquipos = host + ':3000/api/imagenes/LogosEquipos/download/';
 export const ImagenesPregunta = host + ':3000/api/imagenes/ImagenesPreguntas/download/';
 
 
-export const Servidor = host + ':8080';
+
 

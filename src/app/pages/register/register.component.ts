@@ -1,4 +1,3 @@
-import { ComServerService } from 'src/app/services/com-server.service';
 import { Router } from '@angular/router';
 import { SesionService } from 'src/app/services/sesion.service';
 import { Profesor } from './../../clases/Profesor';
@@ -34,7 +33,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
 
   constructor(private authService: AuthService, private sesion: SesionService,
-    private route: Router, private comServer: ComServerService) { }
+    private route: Router) { }
   @HostListener("document:mousemove", ["$event"])
   onMouseMove(e) {
     var squares1 = document.getElementById("square1");
@@ -154,10 +153,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
                 this.profesor = prof;
                 console.log(this.profesor)
                 this.sesion.EnviaProfesor(this.profesor);
-                this.comServer.Conectar(this.profesor.id);
-                this.authService.setProfesorId(this.profesor.id);
                 console.log('vamos inicio');
-                this.sesion.publish({ topic: "newLogin", data: prof[0] });
                 this.route.navigateByUrl('/#/home');
                 Swal.fire('OK', 'Registro completado con éxito', 'success');
               },
