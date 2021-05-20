@@ -89,7 +89,7 @@ export class RecursosListComponent implements OnInit {
 
       case 'preguntas': {
         this.rscName = 'Preguntas';
-        this.listRecursos = [];
+        this.DameTodasPreguntas();
         break;
       }
 
@@ -256,6 +256,32 @@ export class RecursosListComponent implements OnInit {
         this.listRecursos = this.listRecursos.map(function(obj) {
           obj['nombreRecurso'] = obj['Nombre']; // Assign new key
           //delete obj['Nombre']; // Delete old key
+          return obj;
+        });
+      }
+    }); 
+  }
+
+  DameTodasPreguntas() {
+    this.recursosService.DamePreguntas().subscribe ( res => {
+      console.log(res);
+      if (res !== undefined) {
+        //Carga los recursos en la lista
+        this.listRecursos = res;
+
+        //Cambia el profesorId por su nombre
+        this.listRecursos.forEach(recurso => {
+          if(this.mapProfesores.has(recurso.profesorId)) {
+            recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
+            recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
+          } else {
+            recurso.propietario = 'Desconocido';
+          }
+        });
+        //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
+        this.listRecursos = this.listRecursos.map(function(obj) {
+          obj['nombreRecurso'] = obj['Titulo']; // Assign new key
+          //delete obj['NombreFamilia']; // Delete old key
           return obj;
         });
       }

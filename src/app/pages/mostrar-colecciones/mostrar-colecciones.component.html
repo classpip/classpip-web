@@ -38,13 +38,14 @@
                                 <div class="flip-box-front">
                                     <div class="posicionImagen">
                                         <img *ngIf='!voltear' class="imagenCromo" [src]="imagenesCromosDelante[i]">
+                                        
     
                                     </div>
                                 </div>
                                 <div class="flip-box-back">
                                     <div class="posicionImagen">
-                                        <img *ngIf='voltear' class="imagenCromo" [src]="imagenesCromosDetras[i]">
-    
+                                        <img *ngIf="voltear" class="imagenCromo" [src]="imagenesCromosDetras[i]">
+                                        
                                     </div>
                                 </div>
                             </div>

@@ -8,28 +8,28 @@ br>
       <div class="container" style="text-align:center;">
         <h1>ESTILOS</h1>
         <br>
-        <h4 style="text-align: center; size: 150%;">¡En esta página puedes ver los diferentes estilos que tenemos disponibles para poder personalizar Classpip a tu manera!</h4>
-            <br>
-        <h4>¡Elige el estilo que más te guste y haz que tu Classpip luzca como ninguno!</h4>  
+        <h4 style="text-align: center; size: 150%;">¡En esta página puedes ver los diferentes estilos que tenemos
+          disponibles para poder personalizar Classpip a tu manera!</h4>
+        <br>
+        <h4>¡Elige el estilo que más te guste y haz que tu Classpip luzca como ninguno!</h4>
       </div>
     </div>
 
     <div class="container">
       <div class="row">
-        <div class="col-md-10 ml-auto col-xl-4 mr-auto" data-target="#myModal"
-        (click)="myModal.show()">
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto" data-target="#myModal" (click)="myModal.show()">
           <!-- <a class="rsc-card" [routerLink]="['/estilos']"> -->
-            <div class="card">
-              <div class="card-header" style="text-align: center;">
-                <h4>ESTILO 1</h4>
-              </div>
-              <div class="card-footer" style="text-align: center;">
-                <div class="image">
-                  <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
-                    src="../../../assets/img/ejemplo.png" />
-                </div>
+          <div class="card">
+            <div class="card-header" style="text-align: center;">
+              <h4>ESTILO 1</h4>
+            </div>
+            <div class="card-footer" style="text-align: center;">
+              <div class="image">
+                <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
+                  src="../../../assets/img/ejemplo.png" />
               </div>
             </div>
+          </div>
           <!-- </a> -->
         </div>
         <div class="col-md-10 ml-auto col-xl-4 mr-auto">
@@ -59,7 +59,7 @@ br>
                     src="../../../assets/img/ejemplo.png" />
                 </div>
               </div>
-              
+
             </div>
           </a>
         </div>
@@ -105,7 +105,7 @@ br>
                     src="../../../assets/img/ejemplo.png" />
                 </div>
               </div>
-              
+
             </div>
           </a>
         </div>
@@ -121,7 +121,7 @@ br>
                     src="../../../assets/img/ejemplo.png" />
                 </div>
               </div>
-              
+
             </div>
           </a>
         </div>
@@ -133,7 +133,7 @@ br>
               </div>
               <div class="card-footer" style="text-align: center;">
                 <div class="image">
-                <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
+                  <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
                     style="border-radius: 8px; width: 150px; height: 150px;" src="../../../assets/img/ejemplo.png" />
                 </div>
               </div>
@@ -141,21 +141,21 @@ br>
           </a>
         </div>
         <div class="col-md-10 ml-auto col-xl-4 mr-auto">
-            <a class="rsc-card" [routerLink]="['/estilos']">
-              <div class="card">
-                <div class="card-header" style="text-align: center;">
-                  <h4>ESTILO 9</h4>
-                </div>
-                <div class="card-footer" style="text-align: center;">
-                  <div class="image">
-                    <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
-                      src="../../../assets/img/ejemplo.png" />
-                  </div>
-                </div>
-                
+          <a class="rsc-card" [routerLink]="['/estilos']">
+            <div class="card">
+              <div class="card-header" style="text-align: center;">
+                <h4>ESTILO 9</h4>
               </div>
-            </a>
-          </div>
+              <div class="card-footer" style="text-align: center;">
+                <div class="image">
+                  <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
+                    src="../../../assets/img/ejemplo.png" />
+                </div>
+              </div>
+
+            </div>
+          </a>
+        </div>
       </div>
     </div>
 
@@ -163,45 +163,26 @@ br>
 
 </div>
 <!--AQUI VIENE LA DEFINICION DE LO QUE APARECE EN LOS POPUPS-->
-<div
-      aria-hidden="true"
-      aria-labelledby="myModalLabel"
-      bsModal
-      class="modal fade"
-      #myModal="bs-modal"
-      id="myModal"
-      role="dialog"
-      tabindex="-1"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header justify-content-center">
-            <button
-              aria-hidden="true"
-              class="close"
-              data-dismiss="modal"
-              type="button"
-              (click)="myModal.hide()"
-            >
-              <i class="tim-icons icon-simple-remove"> </i>
-            </button>
-            <h4 class="title title-up">ESTILO 1</h4>
-          </div>
-          <div class="modal-body">
-            <img src="../../../assets/img/a.png" />
-          </div>
-          <div class="modal-footer">
-            
-            <button
-              class="btn btn-danger"
-              data-dismiss="modal"
-              type="button"
-              (click)="myModal.hide()"
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade" #myModal="bs-modal" id="myModal"
+  role="dialog" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <button aria-hidden="true" class="close" data-dismiss="modal" type="button" (click)="myModal.hide()">
+          <i class="tim-icons icon-simple-remove"> </i>
+        </button>
+        <h4 class="title title-up">ESTILO 1</h4>
+      </div>
+      <div class="modal-body">
+        <img src="../../../assets/img/a.png" />
+      </div>
+      <div class="modal-footer">
+
+        <button class="btn btn-danger" data-dismiss="modal" type="button" (click)="myModal.hide()">
+          Cerrar
+        </button>
       </div>
     </div>
+  </div>
+</div>
 <app-footer></app-footer>

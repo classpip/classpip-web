@@ -15,6 +15,17 @@
           opiniones y consejos sobre su experiencia usando Classpip! </h4>
         <h4 style="text-align: center;">¡Siéntete libre de explicarnos la tuya!</h4>
 
+        <br>
+        <br>
+
+        <div class="button" style="text-align: center;">
+          <button class="btn btn-success btn-round btn-lg" data-target="#myModal2" (click)="myModal2.show()">
+            Nueva pulbicación <i class="tim-icons icon-simple-add"> </i> </button>
+        </div>
+
+        <br>
+        <br>
+
         <div class="card card-publicacion">
           <div class="typography-line">
             <p>
@@ -35,6 +46,64 @@
 
       </div>
 
+
+
+    </div>
+  </div>
+</div>
+<!-- DEFINICIÓN DEL POPUP DE NUEVA PUBLICACIÓN -->
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #myModal2="bs-modal"
+  id="myModal2" role="dialog" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <button aria-hidden="true" class="close" data-dismiss="modal" (click)="myModal2.hide()" type="button">
+          <i class="tim-icons icon-simple-remove text-white"> </i>
+        </button>
+        
+      </div>
+      <div class="modal-body">
+        
+        <div class="text-center text-muted mb-4 mt-3">
+          <small> EXPLÍCANOS TU EXPERIENCIA USANDO CLASSPIP </small>
+        </div>
+        <form role="form">
+          <div class="form-group mb-3">
+            <div class="input-group input-group-alternative" [ngClass]="{ 'input-group-focus': focus1 === true }">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="tim-icons icon-email-85"> </i>
+                </span>
+              </div>
+              <input class="form-control" placeholder="Título" type="email" (focus)="focus1 = true"
+                (blur)="focus1 = false" />
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group input-group-alternative" [ngClass]="{ 'input-group-focus': focus2 === true }">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="tim-icons icon-key-25"> </i>
+                </span>
+              </div>
+              <input class="form-control" placeholder="Password" type="password" (focus)="focus2 = true"
+                (blur)="focus2 = false" />
+            </div>
+          </div>
+          <div class="form-check mt-3">
+            <label class="form-check-label">
+              <input checked="checked" class="form-check-input" type="checkbox" />
+
+              <span class="form-check-sign"> </span> Remember me!
+            </label>
+          </div>
+          <div class="text-center">
+            <button class="btn btn-primary my-4" type="button">
+              Sign in
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

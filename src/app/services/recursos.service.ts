@@ -30,6 +30,8 @@ export class RecursosService {
 
   private APIUrlImagenesAvatares = this.host + ':3000/api/imagenes/ImagenesAvatares';
 
+  private APIUrlPreguntas = this.host + ':3000/api/Preguntas';
+
   constructor(
     private http: HttpClient,
     
@@ -72,6 +74,11 @@ export class RecursosService {
   public DameCromosColeccion(coleccionId: number): Observable<Cromo[]> {
     return this.http.get<Cromo[]>(this.APIUrlColecciones + '/' + coleccionId + '/cromos');
   }
+
+  public DamePreguntas(): Observable<Pregunta[]>{
+    return this.http.get<Pregunta[]>(this.APIUrlPreguntas);
+  }
+  
 
   //NO FUNCIONA
    public DameImagenAvatar(imagen: string): Observable<any> {
