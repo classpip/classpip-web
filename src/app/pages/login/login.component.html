@@ -36,6 +36,8 @@
                       id="nombre"
                       (focus)="focus = true"
                       (blur)="focus = false"
+                      (keyup.enter)="logIn()"
+
                     />
                   </div>
                   <div
@@ -54,12 +56,13 @@
                       id="pass"
                       (focus)="focus2 = true"
                       (blur)="focus2 = false"
+                      (keyup.enter)="logIn()"
                     />
                   </div>
                 </form>
               </div>
               <div class="card-footer" style="text-align: center;">
-                <button type="submit" class="btn btn-danger btn-round btn-lg" (click)="logIn()" (keyup.enter)="logIn()">
+                <button type="submit" class="btn btn-danger btn-round btn-lg"  (click)="logIn()" (keyup.enter)="logIn()">
                   Iniciar sesión
                 </button>
               </div>

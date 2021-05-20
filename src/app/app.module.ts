@@ -20,6 +20,7 @@ import { AuthInterceptor } from './helpers/auth.interceptor';
 // import { ModalModule } from "ngx-bootstrap/modal";
 
 import { PagesModule } from "./pages/pages.module";
+import { TextareaAutosizeModule } from "ngx-textarea-autosize";
 
 // import { IndexComponent } from "./pages/index/index.component";
 // import { ProfilepageComponent } from "./pages/examples/profilepage/profilepage.component";
@@ -42,12 +43,13 @@ import { PagesModule } from "./pages/pages.module";
     // TooltipModule.forRoot(),
     // CollapseModule.forRoot(),
     // TabsModule.forRoot(),
-    PagesModule
+    PagesModule,
     // PaginationModule.forRoot(),
     // AlertModule.forRoot(),
     // BsDatepickerModule.forRoot(),
     // CarouselModule.forRoot(),
     // ModalModule.forRoot()
+    TextareaAutosizeModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
