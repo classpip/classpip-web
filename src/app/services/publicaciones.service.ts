@@ -7,6 +7,9 @@ import { Observable } from 'rxjs';
 import { Profesor } from '../clases/Profesor';
 import { User } from '../clases/User';
 import { Comentario } from '../clases/Comentario';
+import {tap} from 'rxjs/operators';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +26,8 @@ export class PublicacionesService {
 
   constructor(private http: HttpClient, auth: AuthService) { }
 
-  public damePublicaciones(): Observable<Publicacion[]> {
-    return this.http.get<Publicacion[]>(this.APIUrlPublicaciones);
+  public damePublicaciones(): Observable<any[]> {
+    return this.http.get<any[]>(this.APIUrlPublicaciones);
   }
 
   public dameComentariosPubli(publicacionId: number){

@@ -40,10 +40,10 @@ export class ExperienciasComponent implements OnInit {
     {
         this.sndBtn.addEventListener("click",this.send,false);
     }
-    this.publiService.damePublicaciones().subscribe(res => {
-      console.log('publicaciones: '+res);
-      if(res != undefined){
-        this.publicaciones = res;
+    this.publiService.damePublicaciones().subscribe(data => {
+      console.log('publicaciones: '+data);
+      if(data != undefined){
+        this.publicaciones = data;
       }
     });
   }
