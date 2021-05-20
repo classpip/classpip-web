@@ -17,13 +17,28 @@
 
 
         <div *ngIf="this.isLogged == true; else loginWarn">
-          <div class="card card-publicacion">
-            <p>Logged</p>
+          <div class="card card-publicacion card-header">
+            <form>
+              <div class="form-group col-md-4">
+                <label for="Titulo publicacion">Título</label>
+                <input type="titulo" class="form-control" id="TituloPublicacion"
+                  placeholder="Escríbe el título de tu publicación">
+              </div>
+              <div class="form-group col-md-12">
+                <label for="Experiencia">Experiencia</label>
+                <textarea class="form-control" id="Experiencia" autosize></textarea>
+              </div>
+              <div class="card-body" style="text-align: center;">
+                <button class="btn btn-success btn-default btn-small">
+                  Publicar
+                </button>
+              </div>
+            </form>
           </div>
         </div>
         <ng-template #loginWarn>
-          <div class="card card-publicacion">
-            <p>Not logged</p>
+          <div class="card card-publicacion card-header">
+            <p style="text-align: center;"><a routerLink="/login">Inicia sesión</a> o <a routerLink="/register">registarte</a> para poder publicar tu experiencia</p>
           </div>
         </ng-template>
         <!-- <br>
@@ -37,7 +52,7 @@
         <br>
         <br> -->
         <div *ngIf="publicaciones; else nopublis">
-          <div class="card card-publicacion" *ngFor="let publi of publicaciones" >
+          <div class="card card-publicacion" *ngFor="let publi of publicaciones">
             <br><br>
             <div class="typography-line">
               <div>
@@ -59,7 +74,7 @@
         <ng-template #nopublis>
           <div style="text-align: center;">
             <br><br><br>
-              <h2>No hay publicaciones</h2>
+            <h2>No hay publicaciones</h2>
           </div>
         </ng-template>
       </div>
@@ -68,9 +83,9 @@
 
     </div>
   </div>
-</div>
-<!-- DEFINICIÓN DEL POPUP DE NUEVA PUBLICACIÓN -->
-<!-- <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #myModal2="bs-modal"
+  <!-- </div> -->
+  <!-- DEFINICIÓN DEL POPUP DE NUEVA PUBLICACIÓN -->
+  <!-- <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #myModal2="bs-modal"
   id="myModal2" role="dialog" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -125,4 +140,4 @@
     </div>
   </div>
 </div> -->
-<app-footer></app-footer>
+  <app-footer></app-footer>

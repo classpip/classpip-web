@@ -5,6 +5,7 @@ import { PublicacionesService } from './../../services/publicaciones.service';
 import { Component, OnInit } from '@angular/core';
 import { Publicacion } from 'src/app/clases/Publicacion';
 
+
 @Component({
   selector: 'app-experiencias',
   templateUrl: './experiencias.component.html',
@@ -22,7 +23,12 @@ export class ExperienciasComponent implements OnInit {
   profesor;
 
   sndBtn
+
+  
+
   constructor(private auth: AuthService,private publiService: PublicacionesService, private sesion: SesionService) { }
+
+  
 
   ngOnInit(): void {
     if(this.auth.isLoggedIn()) {
