@@ -58,8 +58,7 @@ export class RecursosService {
   }
 
   public DameFamiliasDeImagenesDePerfilPublicas(): Observable<FamiliaDeImagenesDePerfil[]> {
-    return this.http.get<FamiliaDeImagenesDePerfil[]>(this.APIUrlFamiliasDeImagenesDePerfil
-      + '?filter[where][Publica]=true');
+    return this.http.get<FamiliaDeImagenesDePerfil[]>(this.APIUrlFamiliasDeImagenesDePerfil);
   }
 
   public DameColeccionesPublicas(): Observable<Coleccion[]> {

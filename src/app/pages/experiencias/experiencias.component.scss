@@ -1,14 +1,18 @@
-#sendBtn:hover {
+#sendIcon:hover {
     cursor: pointer;
     transform: scale(1.1);
     color: palevioletred;
 }
 
-.card-publicacion {
+button[name="sendBtn"] {
+    background-color: transparent;
+    border: none;
+    background-repeat:no-repeat;
 }
 
 .input-group {
     width: 95%;
+    height: 200%;
     margin-left: auto;
     margin-right: auto;
 }

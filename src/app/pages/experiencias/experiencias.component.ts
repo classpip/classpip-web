@@ -22,13 +22,9 @@ export class ExperienciasComponent implements OnInit {
   isLogged;
   profesor;
 
-  sndBtn
-
-  
+  sndbtn;
 
   constructor(private auth: AuthService,private publiService: PublicacionesService, private sesion: SesionService) { }
-
-  
 
   ngOnInit(): void {
     if(this.auth.isLoggedIn()) {
@@ -40,23 +36,19 @@ export class ExperienciasComponent implements OnInit {
       }
     }
     else this.isLogged = false;
-
-    this.sndBtn = document.getElementById("sendBtn");
-    if(this.sndBtn)
-    {
-        this.sndBtn.addEventListener("click",this.send,false);
-    }
+    
     this.publiService.damePublicaciones().subscribe(data => {
       console.log('publicaciones: '+data);
       if(data != undefined){
         this.publicaciones = data;
       }
-    });
+    });   
   }
 
-  send(){    
-    if((<HTMLInputElement>document.getElementById("comentario")).value.length != 0){
-      const comentario = (<HTMLInputElement>document.getElementById("comentario")).value;
+  send(publiId: number){
+    console.log('entra send '+publiId);   
+    if((<HTMLInputElement>document.getElementById(publiId.toString())).value.length != 0){
+      const comentario = (<HTMLInputElement>document.getElementById(publiId.toString())).value;
       console.log(comentario);
     }
   }

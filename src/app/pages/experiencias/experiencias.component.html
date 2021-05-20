@@ -63,10 +63,10 @@
             </div>
             <br>
             <div class="input-group">
-              <input id="comentario" class="form-control" placeholder="Deja aqui tu comentario" type="text"
+              <input id="{{publi.id}}" class="form-control" placeholder="Deja aqui tu comentario" type="text"
                 (focus)="focus2 = true" (blur)="focus2 = false">
-              <div class="input-group-append">
-                <span class="input-group-text"><i id="sendBtn" class="tim-icons icon-send"></i></span>
+              
+                <button name="sendBtn" class="btn btn-sm" (click)="send(publi.id)"><i id="sendIcon" class="tim-icons icon-send"></i></button>
               </div>
             </div>
           </div>
