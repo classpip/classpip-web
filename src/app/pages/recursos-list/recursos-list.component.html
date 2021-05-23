@@ -19,6 +19,7 @@
                                 <th class="text-center" width="40px">#</th>
                                 <th class="text-center" width="100px">Nombre</th>
                                 <th class="text-center" width="100px" *ngIf="isLoggedIn()">Propietario</th>
+                                <th class="text-center" width="20px" *ngIf="isImagenes()">Ejemplos</th>
                                 <th class="text-center" width="20px">ACCIONES</th>
                             </tr>
                         </thead>
@@ -28,11 +29,19 @@
                                 <td class="text-center" width="40px">{{indice + 1}}</td>
                                 <td class="text-center" width="100px">{{rsc.nombreRecurso}}</td>
                                 <td class="text-center" width="100px" *ngIf="isLoggedIn()">{{rsc.propietario}}</td>
+                                <td class="text-center" *ngIf="isImagenes()">
+                                    <img style="width:50px; height: 50px; padding-right: 10px;"
+                                        [src]="elemento.ejemplo1">
+                                    <img style="width:50px; height: 50px; padding-right: 10px;"
+                                        [src]="elemento.ejemplo2">
+                                    <img style="width:50px; height: 50px; padding-right: 10px;"
+                                        [src]="elemento.ejemplo3">
+                                </td>
                                 <td class="td-actions text-center" width="20px">
                                     <a [routerLink]="['/recursos',recurso, rsc.id]">
                                         <button type="button" rel="tooltip"
                                             class="btn btn-sm btn-success btn-roundbtn-icon" placement="bottom"
-                                            tooltip="Ver" (click)="EnviaRecurso(rsc)">
+                                            tooltip="Ver" (click)="EnviaRecurso(rsc)" *ngIf="!isImagenes()">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </a>
