@@ -4,23 +4,30 @@
     color: palevioletred;
 }
 
-button[name="sendBtn"] {
-    background-color: transparent;
-    border: none;
-    background-repeat:no-repeat;
-}
-
 .input-group {
-    width: 95%;
+    width: 85%;
     height: 200%;
     margin-left: auto;
     margin-right: auto;
 }
 
-.typography-line {
-    width: 95%;
-    margin-left: auto;
+.publicacion {
+    margin-left: 40px;
     margin-right: auto;
+}
+
+@media only screen and (min-width: 500px) {
+    #autor-name:before{
+        content:" "; 
+        display:inline-block; 
+        width:420px;
+    }
+    #publi-title, #autor-name {
+        display: inline-block;
+    }
+    #autor-name {
+        text-align: left;
+    }
 }
 
 .login{

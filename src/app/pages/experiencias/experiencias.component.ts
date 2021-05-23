@@ -1,3 +1,4 @@
+import { Comentario } from './../../clases/Comentario';
 import { SesionService } from './../../services/sesion.service';
 import { Profesor } from './../../clases/Profesor';
 import { AuthService } from './../../services/auth.service';
@@ -41,15 +42,57 @@ export class ExperienciasComponent implements OnInit {
       console.log('publicaciones: '+data);
       if(data != undefined){
         this.publicaciones = data;
+        //Ordena de más reciente a más antigua
+        this.publicaciones.sort(function (a, b) {
+          // A va primero que B
+          if (a.fecha < b.fecha)
+              return 1;
+          // B va primero que A
+          else if (a.fecha > b.fecha)
+              return -1;
+          // A y B son iguales
+          else 
+              return 0;
+      });
       }
     });   
   }
 
-  send(publiId: number){
+  sendComment(publiId: number){
     console.log('entra send '+publiId);   
     if((<HTMLInputElement>document.getElementById(publiId.toString())).value.length != 0){
       const comentario = (<HTMLInputElement>document.getElementById(publiId.toString())).value;
       console.log(comentario);
+      (<HTMLInputElement>document.getElementById(publiId.toString())).value = '';      
+      
+      const today = new Date().toISOString();
+      
+      const newComment = new Comentario(comentario, today, 0, this.profesor.id, publiId);
+      console.log('new comment: '+newComment);
+      
+      this.publiService.comentar(publiId, newComment).subscribe(data => {
+        console.log(data);
+      });
     }
+  }
+
+  sendPubli(){
+    const titulo = (<HTMLInputElement>document.getElementById("TituloPublicacion")).value;
+    (<HTMLInputElement>document.getElementById("TituloPublicacion")).value = '';
+    
+    const experiencia = (<HTMLInputElement>document.getElementById("Experiencia")).value;
+    (<HTMLInputElement>document.getElementById("Experiencia")).value = '';
+    
+    const today = new Date().toISOString();
+    console.log(today);
+    
+    let publi = new Publicacion(titulo, experiencia, today, this.profesor.id, [], []);
+    console.log('publi: ', publi)
+    
+    this.publiService.publicar(publi).subscribe((data) => {
+      console.log(data);
+      data.autor = this.profesor;
+      this.publicaciones.unshift(data);
+    })
   }
 }

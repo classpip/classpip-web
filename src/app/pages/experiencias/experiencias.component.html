@@ -29,7 +29,7 @@
                 <textarea class="form-control" id="Experiencia"></textarea>
               </div>
               <div class="card-body" style="text-align: center;">
-                <button class="btn btn-success btn-default btn-small">
+                <button class="btn btn-success btn-default btn-small" type="submit" (click)="sendPubli()">
                   Publicar
                 </button>
               </div>
@@ -53,20 +53,25 @@
         <br> -->
         <div *ngIf="publicaciones; else nopublis">
           <div class="card card-publicacion" *ngFor="let publi of publicaciones">
-            <br><br>
-            <div class="typography-line">
-              <div>
-                <span> {{publi.publicacion}} </span> Esto es un texto de ejemplo simulando el comentario de otra persona hablando
-                sobre su experiencia
-                usando classpip y me estoy enrrollando un poco para que quede largo y ocupe cierto espacio
-              </div>
-            </div>
             <br>
-            <div class="input-group">
-              <input id="{{publi.id}}" class="form-control" placeholder="Deja aqui tu comentario" type="text"
-                (focus)="focus2 = true" (blur)="focus2 = false">
-              
-                <button name="sendBtn" class="btn btn-sm" (click)="send(publi.id)"><i id="sendIcon" class="tim-icons icon-send"></i></button>
+            <div class="publicacion">
+              <h3 id="publi-title"> {{publi.titulo}} </h3> 
+              <div class="autor" id="autor-name">
+                <img *ngIf="publi.autor.ImagenPerfil == null"  src="../../../assets/img/logo.png" routerLink="/perfil" style="border-radius: 50%"  width="20" height="20" />
+                <img *ngIf="publi.autor.ImagenPerfil != null"  src={{publi.autor.ImagenPerfil}} routerLink="/perfil" style="border-radius: 50%"  width="20" height="20" />  
+                &nbsp;
+                <span> {{publi.autor.Nombre}} {{publi.autor.PrimerApellido}}</span>
+              </div>
+              <p>{{publi.publicacion}}</p>
+              </div>
+            <br>
+            <div *ngIf="this.isLogged == true">
+              <div class="input-group">
+                <input id="{{publi.id}}" class="form-control" placeholder="Deja aqui tu comentario" type="text"
+                  (focus)="focus2 = true" (blur)="focus2 = false">
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i id="sendIcon" class="tim-icons icon-send" (click)="sendComment(publi.id)"></i></span>
+                  </div>
               </div>
             </div>
           </div>

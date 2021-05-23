@@ -27,7 +27,7 @@ export class PublicacionesService {
   constructor(private http: HttpClient, auth: AuthService) { }
 
   public damePublicaciones(): Observable<any[]> {
-    return this.http.get<any[]>(this.APIUrlPublicaciones);
+    return this.http.get<any[]>(this.APIUrlPublicaciones + '?filter[include][autor]');
   }
 
   public dameComentariosPubli(publicacionId: number){
@@ -42,8 +42,8 @@ export class PublicacionesService {
     return this.http.put<Publicacion>(this.APIUrlPublicaciones, publi);
   }
 
-  public comentar(comentario: Comentario){
-    return this.http.post<Comentario>(this.APIUrlComentarios, comentario);
+  public comentar(publiId: number, comentario: Comentario){
+    return this.http.post<Comentario>(this.APIUrlPublicaciones + '/' + publiId + '/comentarios', comentario);
   }
 
   public updateComentario(comentario: Comentario){

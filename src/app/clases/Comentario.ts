@@ -1,12 +1,12 @@
 export class Comentario {
     comentario: string;
-    fecha: Date;
+    fecha: string;
     likes: number;
     id: number;
     autorId: number;
     publicacionId: number;
 
-    constructor(comentario: string, fecha: Date, likes: number, autorId: number, publicacionId: number, id?: number) {
+    constructor(comentario: string, fecha: string, likes: number, autorId: number, publicacionId: number, id?: number) {
         this.comentario = comentario;
         this.fecha = fecha;
         this.likes = likes;
