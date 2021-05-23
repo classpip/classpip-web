@@ -39,7 +39,7 @@ export class MostrarAvataresComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.familiaElegida = this.sesion.DameFamilia ();
+    this.familiaElegida = this.sesion.DameFamilia ();    
     this.hayComplementoPuesto = Array(4).fill(false);
     this.complementoPuesto = Array(4);
     this.TraeImagenesFamilia();
@@ -150,7 +150,7 @@ export class MostrarAvataresComponent implements OnInit {
       .appendChild(elemento);
       this.hayComplementoPuesto[numeroComplemento] = false;
     }
-  }
+  } 
 
 
 
@@ -158,7 +158,9 @@ export class MostrarAvataresComponent implements OnInit {
 
     // Borro los complementos que pueda haber sobre la silueta
     this.hayComplementoPuesto = Array(4).fill(false);
+    
     const myNode = document.getElementById('imagenAvatar');
+    console.log('Holiii: ', myNode);
     if (myNode != null) {
       // Borro todos los hijos menos el primero que es la silueta
       for ( let i = myNode.children.length; i > 1; i--) {
