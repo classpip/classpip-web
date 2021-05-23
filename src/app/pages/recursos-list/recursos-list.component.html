@@ -23,21 +23,18 @@
                                 <th class="text-center" width="20px">ACCIONES</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody >
                             <!-- 4 COLUMNAS: Numero, nombre, propietario y boton. Silueta???? -->
-                            <tr *ngFor="let rsc of listRecursos; let indice=index">
+                            <tr *ngFor="let rsc of listRecursos; let indice=index" >
                                 <td class="text-center" width="40px">{{indice + 1}}</td>
                                 <td class="text-center" width="100px">{{rsc.nombreRecurso}}</td>
                                 <td class="text-center" width="100px" *ngIf="isLoggedIn()">{{rsc.propietario}}</td>
                                 <td class="text-center" *ngIf="isImagenes()">
-                                    <img style="width:50px; height: 50px; padding-right: 10px;"
-                                        [src]="elemento.ejemplo1">
-                                    <img style="width:50px; height: 50px; padding-right: 10px;"
-                                        [src]="elemento.ejemplo2">
-                                    <img style="width:50px; height: 50px; padding-right: 10px;"
-                                        [src]="elemento.ejemplo3">
-                                </td>
-                                <td class="td-actions text-center" width="20px">
+                                    <img style="width:50px; height: 50px; padding-right: 10px;" [src]="rsc.ejemplos[0]">
+                                    <img style="width:50px; height: 50px; padding-right: 10px;" [src]="rsc.ejemplos[1]">
+                                    <img style="width:50px; height: 50px; padding-right: 10px;" [src]="rsc.ejemplos[2]">
+                                </td> 
+                                <td class="td-actions text-center" width="20px" >
                                     <a [routerLink]="['/recursos',recurso, rsc.id]">
                                         <button type="button" rel="tooltip"
                                             class="btn btn-sm btn-success btn-roundbtn-icon" placement="bottom"
@@ -60,6 +57,7 @@
                             </tr>
                         </tbody>
                     </table>
+                   
                 </div>
                 <ng-template #noResources>
                     <div style="text-align: center;">

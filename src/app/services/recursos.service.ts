@@ -83,7 +83,7 @@ export class RecursosService {
 
   //NO FUNCIONA
    public DameImagenAvatar(imagen: string): Observable<any> {
-    return this.httpImagenes.get(this.APIUrlImagenesAvatares + '/download/' + imagen,    
+    return this.httpImagenes.get(this.APIUrlImagenesAvatares + '/files/' + imagen,    
         {responseType: ResponseContentType.Blob});
       /* {responseType: ResponseContentType.Blob} );*/
       /* return this.http.get(url, { headers: new HttpHeaders({

@@ -241,22 +241,18 @@ export class RecursosListComponent implements OnInit {
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function(obj) {
           obj['nombreRecurso'] = obj['NombreFamilia']; // Assign new key
+          obj['ejemplos'] = obj['Imagenes'];
           //delete obj['NombreFamilia']; // Delete old key
           return obj;
         });
-
+        
         //Carga las fotos de ejemplo
-        this.listRecursos.forEach(recurso => {
-          const ejemploImagen1 = URL.ImagenesPerfil + recurso.Imagenes[0];
-          console.log("ejemplo1: ",ejemploImagen1);
-          const ejemploImagen2 = URL.ImagenesPerfil + recurso.Imagenes[1];
-          const ejemploImagen3 = URL.ImagenesPerfil + recurso.Imagenes[2];
-          this.listaFamiliasPublicas.push ({
-            familia: recurso,
-            ejemplo1: ejemploImagen1,
-            ejemplo2: ejemploImagen2,
-            ejemplo3: ejemploImagen3
-          });
+        this.listRecursos.forEach(recurso => {     
+          for (let i = 0; i<recurso.ejemplos.length; i++){
+            recurso.ejemplos[i] = URL.ImagenesPerfil + recurso.ejemplos[i];
+          } 
+          
+          console.log("HolaHola: ", this.listRecursos)
         });
       }
   
