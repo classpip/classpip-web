@@ -4,7 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthInterceptor } from './helpers/auth.interceptor';
 
 
@@ -21,6 +21,7 @@ import { AuthInterceptor } from './helpers/auth.interceptor';
 
 import { PagesModule } from "./pages/pages.module";
 import { TextareaAutosizeModule } from "ngx-textarea-autosize";
+import { HttpModule } from "@angular/http";
 
 // import { IndexComponent } from "./pages/index/index.component";
 // import { ProfilepageComponent } from "./pages/examples/profilepage/profilepage.component";
@@ -33,6 +34,7 @@ import { TextareaAutosizeModule } from "ngx-textarea-autosize";
     AppComponent,
   ],
   imports: [
+    HttpModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,

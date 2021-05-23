@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { FamiliaAvatares } from 'src/app/clases/recursos/FamiliaAvatares';
 import { Cuestionario } from 'src/app/clases/recursos/Cuestionario';
 import { Coleccion } from 'src/app/clases/recursos/Coleccion';
+import * as URL from 'src/app/URLs/urls'
 
 @Component({
   selector: 'app-recursos-list',
@@ -20,10 +21,12 @@ export class RecursosListComponent implements OnInit {
   mapProfesores: Map<Number,Profesor> = new Map();
   profesorId: number;
 
+
   //Recuros
   cuestionario: Cuestionario;
   coleccion: Coleccion;
   familia: FamiliaAvatares;
+  listaFamiliasPublicas: any[] = [];
   
 
   constructor(
@@ -115,6 +118,14 @@ export class RecursosListComponent implements OnInit {
 
   isLoggedIn(){
     if(sessionStorage.getItem('ACCESS_TOKEN') != null) return true;
+    else return false;
+  }
+
+  isImagenes(){
+    if (this.recurso == 'imagenes')
+      return true;
+      
+
     else return false;
   }
 
@@ -218,20 +229,33 @@ export class RecursosListComponent implements OnInit {
 
         //Cambia el profesorId por su nombre
         this.listRecursos.forEach(recurso => {
+          
           if(this.mapProfesores.has(recurso.profesorId)) {
             recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
             recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
           } else {
             recurso.propietario = 'Desconocido';
           }
+          
         });
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function(obj) {
           obj['nombreRecurso'] = obj['NombreFamilia']; // Assign new key
+          obj['ejemplos'] = obj['Imagenes'];
           //delete obj['NombreFamilia']; // Delete old key
           return obj;
         });
+        
+        //Carga las fotos de ejemplo
+        this.listRecursos.forEach(recurso => {     
+          for (let i = 0; i<recurso.ejemplos.length; i++){
+            recurso.ejemplos[i] = URL.ImagenesPerfil + recurso.ejemplos[i];
+          } 
+          
+          console.log("HolaHola: ", this.listRecursos)
+        });
       }
+  
     }); 
   }
 
