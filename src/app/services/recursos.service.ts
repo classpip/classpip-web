@@ -11,7 +11,6 @@ import { FamiliaDeImagenesDePerfil } from '../clases/recursos/FamiliaDeImagenesD
 import { Coleccion } from '../clases/recursos/Coleccion';
 import { Pregunta } from '../clases/recursos/Pregunta';
 import { Cromo } from '../clases/recursos/Cromo';
-import { Http, ResponseContentType } from '@angular/http';
 
 
 @Injectable({
@@ -35,7 +34,6 @@ export class RecursosService {
 
   constructor(
     private http: HttpClient,
-    private httpImagenes: Http
     
     ) { }
 
@@ -83,16 +81,15 @@ export class RecursosService {
 
   //NO FUNCIONA
    public DameImagenAvatar(imagen: string): Observable<any> {
-    return this.httpImagenes.get(this.APIUrlImagenesAvatares + '/download/' + imagen,    
-        {responseType: ResponseContentType.Blob});
-      /* {responseType: ResponseContentType.Blob} );*/
+    return this.http.get(this.APIUrlImagenesAvatares + '/download/' + imagen,
+    { headers: new HttpHeaders({
+      'Content-Type': 'application/octet-stream',
+        }), responseType: 'blob'}
+      /* {responseType: ResponseContentType.Blob} */);
       /* return this.http.get(url, { headers: new HttpHeaders({
         'Authorization': 'Basic ' + encodedAuth,
         'Content-Type': 'application/octet-stream',
         }), responseType: 'blob'}) */
-        /* { headers: new HttpHeaders({
-      'Content-Type': 'application/octet-stream',
-        }), responseType: 'blob'} */
   } 
 
   
