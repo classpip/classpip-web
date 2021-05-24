@@ -38,7 +38,7 @@
         </div>
         <ng-template #loginWarn>
           <div class="card card-publicacion card-header">
-            <p style="text-align: center;"><a class="login" routerLink="/login">Inicia sesión</a> o <a class="register" routerLink="/register">registarte</a> para poder publicar tu experiencia</p>
+            <p style="text-align: center;"><a class="login" routerLink="/login">Inicia sesión</a> o <a class="register" routerLink="/register">registarte</a> para poder publicar o comentar experiencias</p>
           </div>
         </ng-template>
         <!-- <br>
@@ -51,7 +51,7 @@
 
         <br>
         <br> -->
-        <div *ngIf="publicaciones; else nopublis">
+        <div *ngIf="publicaciones && publicaciones.length != 0; else nopublis">
           <div class="card card-publicacion" *ngFor="let publi of publicaciones">
             <br>
             <div class="publicacion">
@@ -63,6 +63,9 @@
                 <span> {{publi.autor.Nombre}} {{publi.autor.PrimerApellido}}</span>
               </div>
               <p>{{publi.publicacion}}</p>
+              <p>{{publi.fecha}}</p>
+              <p>{{publi.likes.length}} likes</p>
+              <a (click)="like(publi.id)" *ngIf="this.profesor" >MG</a>
               </div>
             <br>
             <div *ngIf="this.isLogged == true">
@@ -72,6 +75,13 @@
                   <div class="input-group-append">
                     <span class="input-group-text"><i id="sendIcon" class="tim-icons icon-send" (click)="sendComment(publi.id)"></i></span>
                   </div>
+              </div>
+            </div>
+            <div *ngIf="publi.comentarios" >
+              <div *ngFor="let comment of publi.comentarios" >
+                <p>{{comment.comentario}}</p>
+                <p *ngIf="comment.autor" >{{comment.autor.Nombre}}</p>
+                <br>
               </div>
             </div>
           </div>

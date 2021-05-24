@@ -1,10 +1,10 @@
+import { Profesor } from './../clases/Profesor';
 import { Publicacion } from './../clases/Publicacion';
 import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as environment from './../../environments/environment';
 import { Observable } from 'rxjs';
-import { Profesor } from '../clases/Profesor';
 import { User } from '../clases/User';
 import { Comentario } from '../clases/Comentario';
 import {tap} from 'rxjs/operators';
@@ -27,11 +27,15 @@ export class PublicacionesService {
   constructor(private http: HttpClient, auth: AuthService) { }
 
   public damePublicaciones(): Observable<any[]> {
-    return this.http.get<any[]>(this.APIUrlPublicaciones + '?filter[include][autor]');
+    return this.http.get<any[]>(this.APIUrlPublicaciones + '?filter[include]=likes&filter[include]=autor');
   }
 
   public dameComentariosPubli(publicacionId: number){
-    return this.http.get<Comentario>(this.APIUrlPublicaciones + '/'+ publicacionId + '/comentarios');
+    return this.http.get<Comentario[]>(this.APIUrlPublicaciones + '/'+ publicacionId + '/comentarios?filter[include][autor]');
+  }
+
+  public dameAutorComentario(comentarioId: number){
+    return this.http.get<Profesor>(this.APIUrlComentarios+'/'+comentarioId+'/autor');
   }
   
   public publicar(publi: Publicacion) {
@@ -42,11 +46,15 @@ export class PublicacionesService {
     return this.http.put<Publicacion>(this.APIUrlPublicaciones, publi);
   }
 
-  public comentar(publiId: number, comentario: Comentario){
+  public comentar(publiId: number, comentario: any){
     return this.http.post<Comentario>(this.APIUrlPublicaciones + '/' + publiId + '/comentarios', comentario);
   }
 
-  public updateComentario(comentario: Comentario){
-    return this.http.put<Comentario>(this.APIUrlComentarios, comentario);
+  public like(publiId: number, profesor: Profesor){
+    return this.http.post(this.APIUrlPublicaciones + '/' + publiId + '/likes', profesor);
   }
+
+  // public updateComentario(comentario: Comentario){
+  //   return this.http.put<Comentario>(this.APIUrlComentarios, comentario);
+  // }
 }

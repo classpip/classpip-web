@@ -1,11 +1,10 @@
+import { Publicacion } from './../../clases/Publicacion';
 import { Comentario } from './../../clases/Comentario';
 import { SesionService } from './../../services/sesion.service';
 import { Profesor } from './../../clases/Profesor';
 import { AuthService } from './../../services/auth.service';
 import { PublicacionesService } from './../../services/publicaciones.service';
 import { Component, OnInit } from '@angular/core';
-import { Publicacion } from 'src/app/clases/Publicacion';
-
 
 @Component({
   selector: 'app-experiencias',
@@ -19,6 +18,7 @@ export class ExperienciasComponent implements OnInit {
   focus2;
 
   publicaciones;
+  mapPublicaciones = new Map<String,Publicacion>();
 
   isLogged;
   profesor;
@@ -43,6 +43,21 @@ export class ExperienciasComponent implements OnInit {
       if(data != undefined){
         this.publicaciones = data;
         //Ordena de más reciente a más antigua
+        this.publicaciones.forEach(publi => {
+          console.log('likes: '+publi.likes);
+          this.publiService.dameComentariosPubli(publi.id).subscribe((comments) => {
+            if(comments != undefined){
+              publi.comentarios = comments;
+              comments.forEach(comm => {
+                this.publiService.dameAutorComentario(comm.id).subscribe((autor) => {
+                  if(autor != undefined){
+                    comm.autor = autor;
+                  }
+                })
+              })
+            }
+          })
+        });
         this.publicaciones.sort(function (a, b) {
           // A va primero que B
           if (a.fecha < b.fecha)
@@ -67,11 +82,17 @@ export class ExperienciasComponent implements OnInit {
       
       const today = new Date().toISOString();
       
-      const newComment = new Comentario(comentario, today, 0, this.profesor.id, publiId);
+      const newComment = {"comentario" : comentario, "fecha":today, "likes": 0, "autorId": this.profesor.id, "publicacionId": publiId};
       console.log('new comment: '+newComment);
       
       this.publiService.comentar(publiId, newComment).subscribe(data => {
         console.log(data);
+        data.autor = this.profesor;
+        this.publicaciones.forEach(publi => {
+          if(publi.id == publiId){
+            publi.comentarios.unshift(data);
+          }
+        })
       });
     }
   }
@@ -94,5 +115,17 @@ export class ExperienciasComponent implements OnInit {
       data.autor = this.profesor;
       this.publicaciones.unshift(data);
     })
+  }
+
+  like(publiId: number){
+    let prof = this.profesor;
+    prof.publicacionId = publiId;
+    prof.id = null;
+    this.publiService.like(publiId, this.profesor).subscribe(data => {
+      console.log('like response: '+data);
+      this.publicaciones.forEach(publi => {
+        publi.likes.unshift(data);
+      });
+    });
   }
 }
