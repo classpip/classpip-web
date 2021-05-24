@@ -81,6 +81,8 @@
               <div *ngFor="let comment of publi.comentarios" >
                 <p>{{comment.comentario}}</p>
                 <p *ngIf="comment.autor" >{{comment.autor.Nombre}}</p>
+                <p>{{comment.fecha}}</p>
+                <p>{{comment.likes}}</p>
                 <br>
               </div>
             </div>

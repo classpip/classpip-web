@@ -31,7 +31,7 @@ export class PublicacionesService {
   }
 
   public dameComentariosPubli(publicacionId: number){
-    return this.http.get<Comentario[]>(this.APIUrlPublicaciones + '/'+ publicacionId + '/comentarios?filter[include][autor]');
+    return this.http.get<Comentario[]>(this.APIUrlPublicaciones + '/'+ publicacionId + '/comentarios');
   }
 
   public dameAutorComentario(comentarioId: number){
