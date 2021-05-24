@@ -251,8 +251,6 @@ export class RecursosListComponent implements OnInit {
           for (let i = 0; i<recurso.ejemplos.length; i++){
             recurso.ejemplos[i] = URL.ImagenesPerfil + recurso.ejemplos[i];
           } 
-          
-          console.log("HolaHola: ", this.listRecursos)
         });
       }
   
