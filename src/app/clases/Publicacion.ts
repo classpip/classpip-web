@@ -10,6 +10,7 @@ export class Publicacion {
     likes: Array<Profesor>;
     id: number;
     autor: any;
+    isLike: boolean;
 
     constructor(titulo: string, publicacion: string, fecha: string, autor: number, comentarios: Array<Comentario>, likes: Array<Profesor>, id?: number){
         this.titulo = titulo;

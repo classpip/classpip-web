@@ -11,22 +11,63 @@
     margin-right: auto;
 }
 
+.publicacion-header {
+    text-align: justify;
+}
+
 .publicacion {
-    margin-left: 40px;
+    margin-left: 43px;
     margin-right: auto;
 }
 
-@media only screen and (min-width: 500px) {
+.card-comentario {
+    background-color: #32325d;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.comentario {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+@media only screen and (min-width: 1200px) {
     #autor-name:before{
         content:" "; 
         display:inline-block; 
-        width:420px;
+        width:700px;
     }
     #publi-title, #autor-name {
         display: inline-block;
     }
     #autor-name {
         text-align: left;
+    }
+
+    .hidden-ss {
+        display: none !important;
+    }
+}
+
+@media only screen and (min-width: 1000px) and (max-width: 1200px) {
+    #autor-name:before{
+        content:" "; 
+        display:inline-block; 
+        width:550px;
+    }
+    #publi-title, #autor-name {
+        display: inline-block;
+    }
+    #autor-name {
+        text-align: left;
+    }
+
+    .hidden-ss {
+        display: none !important;
     }
 }
 

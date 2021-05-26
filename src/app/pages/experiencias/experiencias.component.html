@@ -52,22 +52,41 @@
         <br>
         <br> -->
         <div *ngIf="publicaciones && publicaciones.length != 0; else nopublis">
-          <div class="card card-publicacion" *ngFor="let publi of publicaciones">
+          <div class="card card-publicacion" *ngFor="let publi of publicaciones;">
             <br>
             <div class="publicacion">
-              <h3 id="publi-title"> {{publi.titulo}} </h3> 
-              <div class="autor" id="autor-name">
-                <img *ngIf="publi.autor.ImagenPerfil == null"  src="../../../assets/img/logo.png" routerLink="/perfil" style="border-radius: 50%"  width="20" height="20" />
-                <img *ngIf="publi.autor.ImagenPerfil != null"  src={{publi.autor.ImagenPerfil}} routerLink="/perfil" style="border-radius: 50%"  width="20" height="20" />  
-                &nbsp;
-                <span> {{publi.autor.Nombre}} {{publi.autor.PrimerApellido}}</span>
+              <div class="publicacion-header">
+                <h3 id="publi-title"> {{publi.titulo}} {{publi.id}} {{i}}</h3> 
+                <div class="autor" id="autor-name">
+                  <img *ngIf="publi.autor.ImagenPerfil == null"  src="../../../assets/img/logo.png" routerLink="/perfil" style="border-radius: 50%"  width="20" height="20" />
+                  <img *ngIf="publi.autor.ImagenPerfil != null"  src={{publi.autor.ImagenPerfil}} routerLink="/perfil" style="border-radius: 50%"  width="20" height="20" />  
+                  &nbsp;
+                  <span>{{publi.autor.Nombre}} {{publi.autor.PrimerApellido}}</span>
+                </div>
               </div>
+              <br class="hidden-ss">
+              <span>{{publi.fecha}}</span>
+              <br><br>
               <p>{{publi.publicacion}}</p>
-              <p>{{publi.fecha}}</p>
-              <p>{{publi.likes.length}} likes</p>
-              <a (click)="like(publi.id)" *ngIf="this.profesor" >MG</a>
+              <br>
+              <div class="likes">
+                <i class="fas fa-heart" style="font-size:12px;color:red;" (click)="dislike(publi.id)" *ngIf="publi.isLike" ></i> 
+                <i class="fas fa-heart" style="font-size:12px;color:white;" (click)="like(publi.id)" *ngIf="!publi.isLike" ></i> 
+                &nbsp; 
+                <span>{{publi.likes.length}} likes</span>
               </div>
+            </div>
             <br>
+            <div class="card card-comentario" *ngFor="let comment of publi.comentarios;">
+              <div class="comentario">
+                <br>
+                <p>{{comment.comentario}}</p>
+                <p *ngIf="comment.autor" >{{comment.autor.Nombre}}</p>
+                <p>{{comment.fecha}}</p>
+                <p>{{comment.likes}}</p>
+                <br>
+              </div>
+            </div>
             <div *ngIf="this.isLogged == true">
               <div class="input-group">
                 <input id="{{publi.id}}" class="form-control" placeholder="Deja aqui tu comentario" type="text"
@@ -75,15 +94,6 @@
                   <div class="input-group-append">
                     <span class="input-group-text"><i id="sendIcon" class="tim-icons icon-send" (click)="sendComment(publi.id)"></i></span>
                   </div>
-              </div>
-            </div>
-            <div *ngIf="publi.comentarios" >
-              <div *ngFor="let comment of publi.comentarios" >
-                <p>{{comment.comentario}}</p>
-                <p *ngIf="comment.autor" >{{comment.autor.Nombre}}</p>
-                <p>{{comment.fecha}}</p>
-                <p>{{comment.likes}}</p>
-                <br>
               </div>
             </div>
           </div>

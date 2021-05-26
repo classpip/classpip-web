@@ -5,6 +5,7 @@ import { Profesor } from './../../clases/Profesor';
 import { AuthService } from './../../services/auth.service';
 import { PublicacionesService } from './../../services/publicaciones.service';
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-experiencias',
@@ -43,21 +44,6 @@ export class ExperienciasComponent implements OnInit {
       if(data != undefined){
         this.publicaciones = data;
         //Ordena de más reciente a más antigua
-        this.publicaciones.forEach(publi => {
-          console.log('likes: '+publi.likes);
-          this.publiService.dameComentariosPubli(publi.id).subscribe((comments) => {
-            if(comments != undefined){
-              publi.comentarios = comments;
-              comments.forEach(comm => {
-                this.publiService.dameAutorComentario(comm.id).subscribe((autor) => {
-                  if(autor != undefined){
-                    comm.autor = autor;
-                  }
-                })
-              })
-            }
-          })
-        });
         this.publicaciones.sort(function (a, b) {
           // A va primero que B
           if (a.fecha < b.fecha)
@@ -68,9 +54,45 @@ export class ExperienciasComponent implements OnInit {
           // A y B son iguales
           else 
               return 0;
-      });
+        });
+
+        this.publicaciones.forEach(publi => {
+          //Formatea la fecha
+          publi.fecha = moment(publi.fecha).lang('es').fromNow();
+
+          //Mira si el user le ha dado like
+          publi.likes.forEach(like => {
+            console.log('like: '+like.userId);
+            publi.isLike = false;
+            if(this.profesor != undefined){
+              if(like.userId === this.profesor.userId){
+                publi.isLike = true;
+              }
+            }
+            else {
+              publi.isLike = false;
+            }
+          });
+          
+          //Obtiene comentarios de las publicaciones
+          this.publiService.dameComentariosPubli(publi.id).subscribe((comments) => {
+            if(comments != undefined){
+              publi.comentarios = comments;
+              comments.forEach(comm => {
+                //Formatea fecha comentario
+                comm.fecha = moment(comm.fecha).lang('es').fromNow();
+                //Obtiene quien ha escrito el comentario
+                this.publiService.dameAutorComentario(comm.id).subscribe((autor) => {
+                  if(autor != undefined){
+                    comm.autor = autor;
+                  }
+                });
+              });
+            };
+          });
+        });
       }
-    });   
+    });
   }
 
   sendComment(publiId: number){
@@ -113,6 +135,8 @@ export class ExperienciasComponent implements OnInit {
     this.publiService.publicar(publi).subscribe((data) => {
       console.log(data);
       data.autor = this.profesor;
+      data.fecha = moment(data.fecha).lang('es').fromNow();
+      data.likes = [];
       this.publicaciones.unshift(data);
     })
   }
@@ -121,11 +145,32 @@ export class ExperienciasComponent implements OnInit {
     let prof = this.profesor;
     prof.publicacionId = publiId;
     prof.id = null;
-    this.publiService.like(publiId, this.profesor).subscribe(data => {
-      console.log('like response: '+data);
-      this.publicaciones.forEach(publi => {
-        publi.likes.unshift(data);
-      });
+    this.publiService.like(publiId, this.profesor).subscribe((data : Profesor) => {
+      if(data != undefined){
+        this.publicaciones.forEach(publi => {
+          if(publi.id == publiId){
+            publi.likes.unshift(data);
+            publi.isLike = true;
+          }
+        });
+      }
+    });
+  }
+
+  dislike(publiId: number){
+    this.publicaciones.forEach(publi => {
+      publi.likes.forEach(like => {
+        if(publi.id == publiId && like.userId == this.profesor.userId){
+          try {
+            this.publiService.dislike(publiId, like.id).subscribe(() => {
+              publi.isLike = false;
+              publi.likes.splice(publi.likes.indexOf(like), 1);
+            });
+          } catch(error) {
+            console.log("error: ", error);
+          }
+        }
+      })
     });
   }
 }

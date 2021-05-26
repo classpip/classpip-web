@@ -54,6 +54,10 @@ export class PublicacionesService {
     return this.http.post(this.APIUrlPublicaciones + '/' + publiId + '/likes', profesor);
   }
 
+  public dislike(publiId: number, likeId: Profesor){
+    return this.http.delete(this.APIUrlPublicaciones + '/' + publiId + '/likes/'+likeId);
+  }
+
   // public updateComentario(comentario: Comentario){
   //   return this.http.put<Comentario>(this.APIUrlComentarios, comentario);
   // }
