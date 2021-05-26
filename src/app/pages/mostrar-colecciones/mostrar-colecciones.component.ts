@@ -123,6 +123,57 @@ export class MostrarColeccionesComponent implements OnInit {
 
   }
 
+  GuardarColeccion() {
+    this.mostrarTextoGuardar = true;
+    // delete this.familiaElegida.id;
+    // delete this.familiaElegida.profesorId;
+
+    // creamos un objeto con los datos de la colección tal y como se necesitan
+    // para generar el JSON
+    const coleccion = {
+      Nombre:  this.coleccion.Nombre,
+      ImagenColeccion: this.coleccion.ImagenColeccion,
+      DosCaras: this.coleccion.DosCaras,
+      cromos: []
+    };
+    this.cromosColeccion.forEach (cromo => {
+      const c = {
+        nombreCromo: cromo.Nombre,
+        nombreImagenCromoDelante: cromo.ImagenDelante,
+        nombreImagenCromoDetras: cromo.ImagenDetras,
+        nivelCromo: cromo.Nivel,
+        probabilidadCromo: cromo.Probabilidad,
+      };
+      coleccion.cromos.push(c);
+    });
+
+    console.log ('asi queda la colección');
+    console.log (coleccion);
+
+
+
+
+    const theJSON = JSON.stringify(coleccion);
+    console.log ('asi queda el JSON');
+    console.log (theJSON);
+
+    const uri = "data:application/json;charset=UTF-8," + encodeURIComponent(theJSON);
+
+    // Este es un nuevo caso en el que tenemos que obtener de la vista html un elemento
+    // que está protegido por un *ngIf. El sistema primero intenta obtener el elemento y puede
+    // encontrar que el elemento aún no existe. Para invertir el orden ponemos un temporizador,
+    // con lo que primero creará el elemento y luego lo obtendrá. Un tiempo 0 es suficiente.
+
+    this.interval = setInterval(() => {
+      const a = document.getElementById('generarJSON');
+      a.setAttribute ('href', uri);
+      a.setAttribute ('download', this.coleccion.Nombre);
+      a.innerHTML = "Botón derecho y selecciona 'deja el enlace como...'";
+      clearInterval(this.interval);
+    }, 0);
+
+  }
+
   goBack() {
       this.router.navigateByUrl('/recursos/colecciones');
   }
