@@ -6,8 +6,8 @@
 .grid-wrapper {
     
     margin: 10px auto;
-    width:500px;
-    height:500px;
+    width:1000px;
+    height:1000px;
     display:grid;
     grid-template-columns: 1000px 1000px;
     
@@ -15,3 +15,21 @@
     grid-row-gap: 100px;
     
 }
+
+.grid2x2 {
+    min-height: 200%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+  .grid2x2 > div {
+    display: flex; 
+    flex-basis: calc(50% - 40px);  
+    justify-content: center;
+    flex-direction: column;
+  }
+  .grid2x2 > div > div {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+  }
