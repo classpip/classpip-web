@@ -26,6 +26,9 @@ export class ExperienciasComponent implements OnInit {
 
   sndbtn;
 
+  file;
+  newImg;
+
   constructor(private auth: AuthService,private publiService: PublicacionesService, private sesion: SesionService) { }
 
   ngOnInit(): void {
@@ -173,4 +176,16 @@ export class ExperienciasComponent implements OnInit {
       })
     });
   }
+
+  /* mostrarImagenUpload($event){
+    this.file = $event.target.files[0];
+
+    console.log('fichero: ', this.file.name);
+    const reader = new FileReader();
+    reader.readAsDataURL(this.file);
+    reader.onload = () => {
+      console.log('carga imagen');
+      this.newImg = reader.result.toString();
+    }
+  } */
 }
