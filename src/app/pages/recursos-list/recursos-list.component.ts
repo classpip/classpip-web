@@ -10,6 +10,7 @@ import { Coleccion } from 'src/app/clases/recursos/Coleccion';
 import * as URL from 'src/app/URLs/urls'
 import * as JSZip from 'jszip';
 import { Cromo } from 'src/app/clases/recursos/Cromo';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-recursos-list',
@@ -347,9 +348,7 @@ export class RecursosListComponent implements OnInit {
     switch (this.recurso) {
       case 'cuestionarios': {
         this.EnviaCuestionario(rsc);
-
         break;
-
       }
       case 'colecciones': {
         this.EnviaColeccion(rsc);
@@ -390,11 +389,15 @@ export class RecursosListComponent implements OnInit {
   //Función para descargar la colección
   descargaColeccion(rsc: any) {
 
+    //PONER LOADING HASTA QUE HAYA DESCARGADO TODAS LAS FOTOS 
+    // (no es el mismo que la lista, ya lo haré yo. Tu intenta hacer lo mismo para avatares si te pones antes que yo)
+    // y aver que ahora esta mierda va, conseguimos mostrar las de avatares al mostrar el recurso
+
+    //Prepara el fichero ZIP a descargar
     let zip = new JSZip();
-    let folder = zip.folder('recursos');
+    let folder = zip.folder('Coleccion_' + rsc.Nombre);
 
-    console.log("RSC: ", rsc)
-
+    //Guarda los datos de la coleccion a guardar
     this.coleccion = {
       Nombre: rsc.Nombre,
       ImagenColeccion: rsc.ImagenColeccion,
@@ -402,79 +405,64 @@ export class RecursosListComponent implements OnInit {
       cromos: []
     };
 
-    console.log("Coleccion: ", this.coleccion)
-
-    this.recursosService.DameCromosColeccion(rsc.id)
-      .subscribe(cromos => {
-        console.log(cromos)
-        cromos.forEach(cromo => {
-          console.log(cromo)
-          const c = {
-            nombreCromo: cromo.Nombre,
-            nombreImagenCromoDelante: cromo.ImagenDelante,
-            nombreImagenCromoDetras: cromo.ImagenDetras,
-            nivelCromo: cromo.Nivel,
-            probabilidadCromo: cromo.Probabilidad,
-          };
-          this.coleccion.cromos.push(c);
-          console.log("c: ", c);
-          console.log("Coleccion2: ", this.coleccion)
-        });
-
-        const theJSON = JSON.stringify(this.coleccion);
-        console.log("JSON: ", theJSON)
-        
-        folder.file(rsc.Nombre + ".json", theJSON);
-        console.log("ZIP");
-
-        let imgNames: string[] = [];
-        this.coleccion.cromos.forEach(cromo => {
-          imgNames.push(cromo.nombreImagenCromoDelante);
-          imgNames.push(cromo.nombreImagenCromoDetras);
-        });
-
-        imgNames.forEach((name: string) => {
-          
-        })
-        /* for (let i = 0; i < cromos.length; i++) {
-  
-          console.log('index: '+this.coleccion.cromos[i].nombreImagenCromoDelante);
-          this.recursosService.DameImagenCromo(this.coleccion.cromos[i].nombreImagenCromoDelante).subscribe((data: any) => {
-            //Add the image to the folder 
-            folder.file(`${this.coleccion.cromos[i].nombreImagenCromoDelante}.png`, data);
-
-            // Generate a zip file asynchronously and trigger the download
-            folder.generateAsync({ type: "blob" }).then(content => saveAs(content, "files"));
-          });
-          this.recursosService.DameImagenCromo(this.coleccion.cromos[i].nombreImagenCromoDetras).subscribe((data: any)=>{
-            //Add the image to the folder 
-            folder.file(`${this.coleccion.cromos[i].nombreImagenCromoDetras}.png`, data);
-
-            // Generate a zip file asynchronously and trigger the download
-            folder.generateAsync({ type: "blob" }).then(content => saveAs(content, "files"));
-          });
-          // this.cromo = this.cromosColeccion[i];
-          // this.imagenesCromosDelante[i] = URL.ImagenesCromo + this.cromo.ImagenDelante;
-          // this.imagenesCromosDetras[i] = URL.ImagenesCromo + this.cromo.ImagenDetras;
-  
-        } */
-
-        zip.generateAsync({ type: "blob" }).then(function (blob) {
-          saveAs(blob, rsc.Nombre + ".zip");
-        }, function (err) {
-          //jQuery("#blob").text(err);
-        });
+    //Obtiene los cromos de la coleccion
+    this.recursosService.DameCromosColeccion(rsc.id).subscribe(cromos => {
+      //Itera los cromos para obtener sus datos
+      cromos.forEach(cromo => {
+        const c = {
+          nombreCromo: cromo.Nombre,
+          nombreImagenCromoDelante: cromo.ImagenDelante,
+          nombreImagenCromoDetras: cromo.ImagenDetras,
+          nivelCromo: cromo.Nivel,
+          probabilidadCromo: cromo.Probabilidad,
+        };
+        //Guarda los cromos en la coleccion
+        this.coleccion.cromos.push(c);
       });
 
-    /* //Add the image to the folder 
-    folder.file(`${name}.jpg`, fileImg);
+      console.log("Coleccion a descargar: ", this.coleccion);
 
-    // Generate a zip file asynchronously and trigger the download
-    folder.generateAsync({ type: "blob" }).then(content => saveAs(content, "files")); */
+      //Crea el fichero JSON de la coleccion y lo añade al ZIP
+      const theJSON = JSON.stringify(this.coleccion);
+      folder.file(rsc.Nombre + ".json", theJSON);
 
-    
+      //Descarga la imagen de la coleccion y la añade al ZIP
+      this.recursosService.downloadImgColeccion(rsc.Nombre).subscribe((data: any) => {
+        folder.file(`${rsc.Nombre}`, data);
+      });
 
+      //Obtiene los nombres de las imagenes de los cromos de la colección
+      let imgNames: string[] = [];
+      this.coleccion.cromos.forEach(cromo => {
+        imgNames.push(cromo.nombreImagenCromoDelante);
+        imgNames.push(cromo.nombreImagenCromoDetras);
+      });
+
+      let count: number = 0;
+
+      //Recorre los nombres para descargar la imagen
+      imgNames.forEach((name: string) => {
+        this.recursosService.downloadImgCromo(name).subscribe((data: any) => {
+          //Añade la imagen a la carpeta
+          folder.file(`${name}`, data);
+
+          count++;
+
+          //Crea el ZIP al haber descargado todas las fotos
+          if (count == imgNames.length) {
+            //PARAR LOADING AQUI *******************************
+            zip.generateAsync({ type: "blob" }).then(function (blob) {
+              saveAs(blob, "Coleccion_" + rsc.Nombre + ".zip");
+            }, function (err) {
+              console.log(err);
+              Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+            });
+          }
+        });
+      })
+    });
   }
+
 
   //Función para descargar la colección
   descargaFamiliaAvatares(rsc: any) {
@@ -485,7 +473,7 @@ export class RecursosListComponent implements OnInit {
 
     console.log("Familia: ", this.familia)
     const theJSON = JSON.stringify(this.familia);
-    console.log (theJSON);
+    console.log(theJSON);
 
     let zip = new JSZip();
     let folder = zip.folder('recursos');
@@ -502,27 +490,12 @@ export class RecursosListComponent implements OnInit {
 
   descargaFamiliaImagenes(rsc: any) {
 
-    console.log("RSC: ", rsc)
-
-    
-    /* const theJSON = JSON.stringify(rsc);
-    console.log (theJSON);
-
-    let zip = new JSZip();
-    let folder = zip.folder('recursos');
-    folder.file(rsc.NombreFamilia + ".json", theJSON);
-    console.log("ZIP")
-
-    zip.generateAsync({ type: "blob" }).then(function (blob) {
-      saveAs(blob, rsc.NombreFamilia + ".zip");
-    }, function (err) {
-      //jQuery("#blob").text(err);
-    }) */
+    console.log("RSC: ", rsc);
 
   }
-  
 
- 
+
+
 
 
 }

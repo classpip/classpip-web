@@ -31,6 +31,8 @@ export class RecursosService {
 
   private APIUrlImagenesAvatares = this.host + ':3000/api/imagenes/ImagenesAvatares';
   private APIUrlImagenesCromos = this.host + ':3000/api/imagenes/ImagenCromo';
+  private APIUrlImagenesColecciones = this.host + ':3000/api/imagenes/ImagenColeccion';
+
 
   private APIUrlPreguntas = this.host + ':3000/api/Preguntas';
 
@@ -81,8 +83,12 @@ export class RecursosService {
     return this.http.get<Pregunta[]>(this.APIUrlPreguntas);
   }
 
-  public DameImagenCromo(imgName: string) {
+  public downloadImgCromo(imgName: string) {
     return this.http.get(this.APIUrlImagenesCromos + '/download/'+imgName, {observe: 'body', responseType: 'blob'});
+  }
+
+  public downloadImgColeccion(imgName: string) {
+    return this.http.get(this.APIUrlImagenesColecciones + '/download/' + imgName, {observe: 'body', responseType: 'blob'});
   }
   
 
