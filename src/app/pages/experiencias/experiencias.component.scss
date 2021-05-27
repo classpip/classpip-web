@@ -36,7 +36,7 @@
 }
 
 @media only screen and (min-width: 1200px) {
-    #autor-name:before{
+    #autor-name:after{
         content:" "; 
         display:inline-block; 
         width:700px;
@@ -54,7 +54,7 @@
 }
 
 @media only screen and (min-width: 1000px) and (max-width: 1200px) {
-    #autor-name:before{
+    #autor-name:after{
         content:" "; 
         display:inline-block; 
         width:550px;
@@ -79,3 +79,6 @@
     color:deepskyblue;
 }
 
+h5{
+    font-weight: bold;
+}

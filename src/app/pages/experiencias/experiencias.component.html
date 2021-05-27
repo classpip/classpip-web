@@ -61,22 +61,26 @@
             <br>
             <div class="publicacion">
               <div class="publicacion-header">
-                <h3 id="publi-title"> {{publi.titulo}} {{publi.id}} {{i}}</h3> 
+                
                 <div class="autor" id="autor-name">
                   <img *ngIf="publi.autor.ImagenPerfil == null"  src="../../../assets/img/logo.png" routerLink="/perfil" style="border-radius: 50%"  width="20" height="20" />
                   <img *ngIf="publi.autor.ImagenPerfil != null"  src={{publi.autor.ImagenPerfil}} routerLink="/perfil" style="border-radius: 50%"  width="20" height="20" />  
                   &nbsp;
                   <span>{{publi.autor.Nombre}} {{publi.autor.PrimerApellido}}</span>
                 </div>
+                <span id = "publi-title" >{{publi.fecha}}</span>
               </div>
               <br class="hidden-ss">
-              <span>{{publi.fecha}}</span>
+              
               <br><br>
+              <h3  style="text-align:center;"> {{publi.titulo}} {{publi.id}} {{i}}</h3> 
+              
               <p>{{publi.publicacion}}</p>
               <br>
+              <br>
               <div class="likes">
-                <i class="fas fa-heart" style="font-size:12px;color:red;" (click)="dislike(publi.id)" *ngIf="publi.isLike" ></i> 
-                <i class="fas fa-heart" style="font-size:12px;color:white;" (click)="like(publi.id)" *ngIf="!publi.isLike" ></i> 
+                <i class="fas fa-heart" style="font-size:12px;color:red;" (click)="dislikePubli(publi.id)" *ngIf="publi.isLike" ></i> 
+                <i class="fas fa-heart" style="font-size:12px;color:white;" (click)="likePubli(publi.id)" *ngIf="!publi.isLike" ></i> 
                 &nbsp; 
                 <span>{{publi.likes.length}} likes</span>
               </div>
@@ -85,10 +89,14 @@
             <div class="card card-comentario" *ngFor="let comment of publi.comentarios;">
               <div class="comentario">
                 <br>
-                <p>{{comment.comentario}}</p>
-                <p *ngIf="comment.autor" >{{comment.autor.Nombre}}</p>
-                <p>{{comment.fecha}}</p>
-                <p>{{comment.likes}}</p>
+                <span>{{comment.fecha}}</span>
+                 <h5 *ngIf="comment.autor" >{{comment.autor.Nombre}}:</h5><p>{{comment.comentario}}</p>             
+                 <div class="likes">
+                  <i class="fas fa-heart" style="font-size:12px;color:red;" (click)="dislikeComment(comment.id)" *ngIf="comment.isLike" ></i> 
+                  <i class="fas fa-heart" style="font-size:12px;color:white;" (click)="likeComment(comment.id)" *ngIf="!comment.isLike" ></i> 
+                  &nbsp; 
+                  <span>{{comment.likes}}</span>
+                </div>
                 <br>
               </div>
             </div>
