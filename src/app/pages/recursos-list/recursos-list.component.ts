@@ -429,7 +429,7 @@ export class RecursosListComponent implements OnInit {
         zip.generateAsync({ type: "blob" }).then(function (blob) {
           saveAs(blob, rsc.Nombre + ".zip");
         }, function (err) {
-          jQuery("#blob").text(err);
+          //jQuery("#blob").text(err);
         })
       });
 

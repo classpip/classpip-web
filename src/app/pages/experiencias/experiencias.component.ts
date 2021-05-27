@@ -177,7 +177,7 @@ export class ExperienciasComponent implements OnInit {
     });
   }
 
-  /* mostrarImagenUpload($event){
+  mostrarImagenUpload($event){
     this.file = $event.target.files[0];
 
     console.log('fichero: ', this.file.name);
@@ -187,5 +187,9 @@ export class ExperienciasComponent implements OnInit {
       console.log('carga imagen');
       this.newImg = reader.result.toString();
     }
-  } */
+  }
+
+  activarInput(){
+    document.getElementById("inp").click();
+  }
 }
