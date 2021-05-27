@@ -50,12 +50,20 @@ export class PublicacionesService {
     return this.http.post<Comentario>(this.APIUrlPublicaciones + '/' + publiId + '/comentarios', comentario);
   }
 
-  public like(publiId: number, profesor: Profesor){
+  public likePubli(publiId: number, profesor: Profesor){
     return this.http.post(this.APIUrlPublicaciones + '/' + publiId + '/likes', profesor);
   }
 
-  public dislike(publiId: number, likeId: Profesor){
+  public dislikePubli(publiId: number, likeId: Profesor){
     return this.http.delete(this.APIUrlPublicaciones + '/' + publiId + '/likes/'+likeId);
+  }
+
+  public likeComment(commentId: number, profesor: Profesor){
+    return this.http.post(this.APIUrlComentarios + '/' + commentId + '/likes', profesor);
+  }
+
+  public dislikeComment(commentId: number, likeId: Profesor){
+    return this.http.delete(this.APIUrlComentarios + '/' + commentId + '/likes/'+likeId);
   }
 
   // public updateComentario(comentario: Comentario){

@@ -21,6 +21,8 @@ export class ExperienciasComponent implements OnInit {
   publicaciones;
   mapPublicaciones = new Map<String,Publicacion>();
 
+  comments;
+
   isLogged;
   profesor;
 
@@ -144,11 +146,11 @@ export class ExperienciasComponent implements OnInit {
     })
   }
 
-  like(publiId: number){
+  likePubli(publiId: number){
     let prof = this.profesor;
     prof.publicacionId = publiId;
     prof.id = null;
-    this.publiService.like(publiId, this.profesor).subscribe((data : Profesor) => {
+    this.publiService.likePubli(publiId, this.profesor).subscribe((data : Profesor) => {
       if(data != undefined){
         this.publicaciones.forEach(publi => {
           if(publi.id == publiId){
@@ -160,14 +162,47 @@ export class ExperienciasComponent implements OnInit {
     });
   }
 
-  dislike(publiId: number){
+  dislikePubli(publiId: number){
     this.publicaciones.forEach(publi => {
       publi.likes.forEach(like => {
         if(publi.id == publiId && like.userId == this.profesor.userId){
           try {
-            this.publiService.dislike(publiId, like.id).subscribe(() => {
+            this.publiService.dislikePubli(publiId, like.id).subscribe(() => {
               publi.isLike = false;
               publi.likes.splice(publi.likes.indexOf(like), 1);
+            });
+          } catch(error) {
+            console.log("error: ", error);
+          }
+        }
+      })
+    });
+  }
+
+  likeComment(commentId: number){
+    let prof = this.profesor;
+    prof.comentarioId = commentId;
+    prof.id = null;
+    this.publiService.likeComment(commentId, this.profesor).subscribe((data : Profesor) => {
+      if(data != undefined){
+        this.comments.forEach(comment => {
+          if(comment.id == commentId){
+            comment.likes.unshift(data);
+            comment.isLike = true;
+          }
+        });
+      }
+    });
+  }
+
+  dislikeComment(commentId: number){
+    this.comments.forEach(comment => {
+      comment.likes.forEach(like => {
+        if(comment.id == commentId && like.userId == this.profesor.userId){
+          try {
+            this.publiService.dislikeComment(commentId, like.id).subscribe(() => {
+              comment.isLike = false;
+              comment.likes.splice(comment.likes.indexOf(like), 1);
             });
           } catch(error) {
             console.log("error: ", error);

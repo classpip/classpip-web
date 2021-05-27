@@ -379,6 +379,10 @@ export class RecursosListComponent implements OnInit {
         this.descargaFamiliaImagenes(rsc);
         break;
       }
+      case 'preguntas': {
+        this.descargaPreguntas(rsc);
+        break;
+      }
     }
   }
 
@@ -476,7 +480,7 @@ export class RecursosListComponent implements OnInit {
     console.log(theJSON);
 
     let zip = new JSZip();
-    let folder = zip.folder('recursos');
+    let folder = zip.folder('Familia de Avatares');
     folder.file(rsc.NombreFamilia + ".json", theJSON);
     console.log("ZIP")
 
@@ -494,8 +498,25 @@ export class RecursosListComponent implements OnInit {
 
   }
 
+  descargaPreguntas(rsc: any) {
 
+    console.log("RSC: ", rsc)
 
+    const theJSON = JSON.stringify(rsc);
+    console.log (theJSON);
 
+    let zip = new JSZip();
+    let folder = zip.folder('pregunta');
+    folder.file(rsc.Titulo + ".json", theJSON);
+    console.log("ZIP")
+
+    zip.generateAsync({ type: "blob" }).then(function (blob) {
+      saveAs(blob, rsc.Titulo + ".zip");
+    }, function (err) {
+      //jQuery("#blob").text(err);
+    })
+    
+
+  }
 
 }
