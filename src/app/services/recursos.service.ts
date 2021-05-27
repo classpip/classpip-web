@@ -30,6 +30,7 @@ export class RecursosService {
   private APIUrlColecciones = this.host + ':3000/api/Colecciones';
 
   private APIUrlImagenesAvatares = this.host + ':3000/api/imagenes/ImagenesAvatares';
+  private APIUrlImagenesCromos = this.host + ':3000/api/imagenes/ImagenCromo';
 
   private APIUrlPreguntas = this.host + ':3000/api/Preguntas';
 
@@ -78,6 +79,10 @@ export class RecursosService {
 
   public DamePreguntas(): Observable<Pregunta[]>{
     return this.http.get<Pregunta[]>(this.APIUrlPreguntas);
+  }
+
+  public DameImagenCromo(imgName: string) {
+    return this.http.get(this.APIUrlImagenesCromos + '/download/'+imgName, {observe: 'body', responseType: 'blob'});
   }
   
 

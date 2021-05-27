@@ -3,7 +3,7 @@ import { SesionService } from 'src/app/services/sesion.service';
 import { Profesor } from './../../clases/Profesor';
 import { RecursosService } from './../../services/recursos.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
 import { FamiliaAvatares } from 'src/app/clases/recursos/FamiliaAvatares';
 import { Cuestionario } from 'src/app/clases/recursos/Cuestionario';
 import { Coleccion } from 'src/app/clases/recursos/Coleccion';
@@ -390,6 +390,9 @@ export class RecursosListComponent implements OnInit {
   //Función para descargar la colección
   descargaColeccion(rsc: any) {
 
+    let zip = new JSZip();
+    let folder = zip.folder('recursos');
+
     console.log("RSC: ", rsc)
 
     this.coleccion = {
@@ -420,16 +423,47 @@ export class RecursosListComponent implements OnInit {
 
         const theJSON = JSON.stringify(this.coleccion);
         console.log("JSON: ", theJSON)
-        let zip = new JSZip();
-        let folder = zip.folder('recursos');
+        
         folder.file(rsc.Nombre + ".json", theJSON);
-        console.log("ZIP")
+        console.log("ZIP");
+
+        let imgNames: string[] = [];
+        this.coleccion.cromos.forEach(cromo => {
+          imgNames.push(cromo.nombreImagenCromoDelante);
+          imgNames.push(cromo.nombreImagenCromoDetras);
+        });
+
+        imgNames.forEach((name: string) => {
+          
+        })
+        /* for (let i = 0; i < cromos.length; i++) {
+  
+          console.log('index: '+this.coleccion.cromos[i].nombreImagenCromoDelante);
+          this.recursosService.DameImagenCromo(this.coleccion.cromos[i].nombreImagenCromoDelante).subscribe((data: any) => {
+            //Add the image to the folder 
+            folder.file(`${this.coleccion.cromos[i].nombreImagenCromoDelante}.png`, data);
+
+            // Generate a zip file asynchronously and trigger the download
+            folder.generateAsync({ type: "blob" }).then(content => saveAs(content, "files"));
+          });
+          this.recursosService.DameImagenCromo(this.coleccion.cromos[i].nombreImagenCromoDetras).subscribe((data: any)=>{
+            //Add the image to the folder 
+            folder.file(`${this.coleccion.cromos[i].nombreImagenCromoDetras}.png`, data);
+
+            // Generate a zip file asynchronously and trigger the download
+            folder.generateAsync({ type: "blob" }).then(content => saveAs(content, "files"));
+          });
+          // this.cromo = this.cromosColeccion[i];
+          // this.imagenesCromosDelante[i] = URL.ImagenesCromo + this.cromo.ImagenDelante;
+          // this.imagenesCromosDetras[i] = URL.ImagenesCromo + this.cromo.ImagenDetras;
+  
+        } */
 
         zip.generateAsync({ type: "blob" }).then(function (blob) {
           saveAs(blob, rsc.Nombre + ".zip");
         }, function (err) {
           //jQuery("#blob").text(err);
-        })
+        });
       });
 
     /* //Add the image to the folder 
@@ -437,6 +471,8 @@ export class RecursosListComponent implements OnInit {
 
     // Generate a zip file asynchronously and trigger the download
     folder.generateAsync({ type: "blob" }).then(content => saveAs(content, "files")); */
+
+    
 
   }
 
