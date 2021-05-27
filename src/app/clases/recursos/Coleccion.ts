@@ -5,13 +5,15 @@ export class Coleccion {
   DosCaras: boolean;
   id: number;
   profesorId: number;
+  cromos: [];
 
-  constructor(nombre?: string, imagenColeccion?: string, dosCaras?: boolean, profesorId?: number) {
+  constructor(nombre?: string, imagenColeccion?: string, dosCaras?: boolean, profesorId?: number, cromos?:[]) {
 
     this.Nombre = nombre;
     this.ImagenColeccion = imagenColeccion;
     this.DosCaras = dosCaras;
     this.profesorId = profesorId;
     this.Publica = false;
+    this.cromos = cromos;
   }
 }
