@@ -373,15 +373,14 @@ export class RecursosListComponent implements OnInit {
         break;
       }
       case 'avatares': {
-        //this.DescargaFamiliaAvatares(rsc);
+        this.descargaFamiliaAvatares(rsc);
         break;
       }
       case 'imagenes': {
-        //this.DescargaFamiliaImagenes(rsc);
+        this.descargaFamiliaImagenes(rsc);
         break;
       }
     }
-    console.log("RSC: ", rsc);
   }
 
   /*************************************/
@@ -423,7 +422,7 @@ export class RecursosListComponent implements OnInit {
         console.log("JSON: ", theJSON)
         let zip = new JSZip();
         let folder = zip.folder('recursos');
-        folder.file(rsc.Nombre + ".txt", theJSON);
+        folder.file(rsc.Nombre + ".json", theJSON);
         console.log("ZIP")
 
         zip.generateAsync({ type: "blob" }).then(function (blob) {
@@ -440,6 +439,52 @@ export class RecursosListComponent implements OnInit {
     folder.generateAsync({ type: "blob" }).then(content => saveAs(content, "files")); */
 
   }
+
+  //Función para descargar la colección
+  descargaFamiliaAvatares(rsc: any) {
+
+    console.log("RSC: ", rsc)
+
+    this.familia = rsc
+
+    console.log("Familia: ", this.familia)
+    const theJSON = JSON.stringify(this.familia);
+    console.log (theJSON);
+
+    let zip = new JSZip();
+    let folder = zip.folder('recursos');
+    folder.file(rsc.NombreFamilia + ".json", theJSON);
+    console.log("ZIP")
+
+    zip.generateAsync({ type: "blob" }).then(function (blob) {
+      saveAs(blob, rsc.NombreFamilia + ".zip");
+    }, function (err) {
+      //jQuery("#blob").text(err);
+    })
+
+  }
+
+  descargaFamiliaImagenes(rsc: any) {
+
+    console.log("RSC: ", rsc)
+
+    
+    /* const theJSON = JSON.stringify(rsc);
+    console.log (theJSON);
+
+    let zip = new JSZip();
+    let folder = zip.folder('recursos');
+    folder.file(rsc.NombreFamilia + ".json", theJSON);
+    console.log("ZIP")
+
+    zip.generateAsync({ type: "blob" }).then(function (blob) {
+      saveAs(blob, rsc.NombreFamilia + ".zip");
+    }, function (err) {
+      //jQuery("#blob").text(err);
+    }) */
+
+  }
+  
 
  
 
