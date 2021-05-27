@@ -315,7 +315,10 @@ export class RecursosListComponent implements OnInit {
       }
     });
   }
+
+  /*************************************/
   /* FUNCIONES PARA VISUALIZAR RECURSOS */
+  /*************************************/
 
   //Envia los datos del cuestionario a la pagina que lo muestra
   EnviaCuestionario(cuestionario: Cuestionario) {
@@ -381,6 +384,11 @@ export class RecursosListComponent implements OnInit {
     console.log("RSC: ", rsc);
   }
 
+  /*************************************/
+  /* FUNCIONES PARA DESCARGAR RECURSOS */
+  /*************************************/
+
+  //Función para descargar la colección
   descargaColeccion(rsc: any) {
 
     console.log("RSC: ", rsc)
@@ -410,6 +418,7 @@ export class RecursosListComponent implements OnInit {
           console.log("c: ", c);
           console.log("Coleccion2: ", this.coleccion)
         });
+
         const theJSON = JSON.stringify(this.coleccion);
         console.log("JSON: ", theJSON)
         let zip = new JSZip();
@@ -423,11 +432,6 @@ export class RecursosListComponent implements OnInit {
           jQuery("#blob").text(err);
         })
       });
-
-
-
-
-
 
     /* //Add the image to the folder 
     folder.file(`${name}.jpg`, fileImg);
