@@ -471,23 +471,20 @@ export class RecursosListComponent implements OnInit {
   //Función para descargar la colección
   descargaFamiliaAvatares(rsc: any) {
 
-    console.log("RSC: ", rsc)
-
     this.familia = rsc
 
     console.log("Familia: ", this.familia)
     const theJSON = JSON.stringify(this.familia);
-    console.log(theJSON);
 
     let zip = new JSZip();
-    let folder = zip.folder('Familia de Avatares');
+    let folder = zip.folder('Avatares_' + rsc.NombreFamilia);
     folder.file(rsc.NombreFamilia + ".json", theJSON);
-    console.log("ZIP")
 
     zip.generateAsync({ type: "blob" }).then(function (blob) {
-      saveAs(blob, rsc.NombreFamilia + ".zip");
+      saveAs(blob, 'Avatares_' + rsc.NombreFamilia + ".zip");
     }, function (err) {
-      //jQuery("#blob").text(err);
+      console.log(err);
+      Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
     })
 
   }
@@ -503,17 +500,16 @@ export class RecursosListComponent implements OnInit {
     console.log("RSC: ", rsc)
 
     const theJSON = JSON.stringify(rsc);
-    console.log (theJSON);
 
     let zip = new JSZip();
-    let folder = zip.folder('pregunta');
+    let folder = zip.folder('Pregunta_'+rsc.Titulo);
     folder.file(rsc.Titulo + ".json", theJSON);
-    console.log("ZIP")
 
     zip.generateAsync({ type: "blob" }).then(function (blob) {
-      saveAs(blob, rsc.Titulo + ".zip");
+      saveAs(blob, 'Pregunta_'+rsc.Titulo + ".zip");
     }, function (err) {
-      //jQuery("#blob").text(err);
+      console.log(err);
+      Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
     })
     
 
