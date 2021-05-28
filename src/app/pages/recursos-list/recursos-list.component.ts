@@ -435,6 +435,7 @@ export class RecursosListComponent implements OnInit {
         folder.file(`${rsc.ImagenColeccion}`, data);
       });
 
+      console.log(this.coleccion.cromos);
       //Obtiene los nombres de las imagenes de los cromos de la colección
       let imgNames: string[] = [];
       this.coleccion.cromos.forEach(cromo => {
@@ -468,7 +469,7 @@ export class RecursosListComponent implements OnInit {
   }
 
 
-  //Función para descargar la colección
+  //Función para descargar la familia de avatares
   descargaFamiliaAvatares(rsc: any) {
 
     this.familia = rsc
@@ -480,6 +481,12 @@ export class RecursosListComponent implements OnInit {
     let folder = zip.folder('Avatares_' + rsc.NombreFamilia);
     folder.file(rsc.NombreFamilia + ".json", theJSON);
 
+    console.log(rsc.Silueta)
+
+    this.recursosService.downloadImgSilueta(rsc.Silueta).subscribe((data: any) => {
+      folder.file(`${rsc.Silueta}`, data);
+    });
+
     zip.generateAsync({ type: "blob" }).then(function (blob) {
       saveAs(blob, 'Avatares_' + rsc.NombreFamilia + ".zip");
     }, function (err) {
@@ -489,12 +496,50 @@ export class RecursosListComponent implements OnInit {
 
   }
 
+
+  //Función para descargar la familia de imagenes de perfil
   descargaFamiliaImagenes(rsc: any) {
 
     console.log("RSC: ", rsc);
 
+    let zip = new JSZip();
+    let folder = zip.folder('FamiliaImagenesDePerfil_' + rsc.Nombre);
+
+    let imgNames: string[] = rsc.Imagenes;
+    /* rsc.Imagenes.forEach(cromo => {
+      imgNames.push(cromo.nombreImagenCromoDelante);
+      imgNames.push(cromo.nombreImagenCromoDetras);
+    }); */
+
+    console.log(imgNames);
+    let count: number = 0;
+
+    imgNames.forEach((name: string) => {
+      this.recursosService.downloadImgPerfil(name).subscribe((data: any) => {
+        //Añade la imagen a la carpeta
+        folder.file(`${name}`, data);
+
+        count++;
+
+        //Crea el ZIP al haber descargado todas las fotos
+        if (count == imgNames.length) {
+          //PARAR LOADING AQUI *******************************
+          zip.generateAsync({ type: "blob" }).then(function (blob) {
+            saveAs(blob, "FamiliaImagenesPerfil_" + rsc.NombreFamilia + ".zip");
+          }, function (err) {
+            console.log(err);
+            Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+          });
+        }
+      });
+    })
+
+
+
   }
 
+
+  //Función para descargar la pregunta
   descargaPreguntas(rsc: any) {
 
     console.log("RSC: ", rsc)
@@ -502,16 +547,16 @@ export class RecursosListComponent implements OnInit {
     const theJSON = JSON.stringify(rsc);
 
     let zip = new JSZip();
-    let folder = zip.folder('Pregunta_'+rsc.Titulo);
+    let folder = zip.folder('Pregunta_' + rsc.Titulo);
     folder.file(rsc.Titulo + ".json", theJSON);
 
     zip.generateAsync({ type: "blob" }).then(function (blob) {
-      saveAs(blob, 'Pregunta_'+rsc.Titulo + ".zip");
+      saveAs(blob, 'Pregunta_' + rsc.Titulo + ".zip");
     }, function (err) {
       console.log(err);
       Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
     })
-    
+
 
   }
 

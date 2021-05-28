@@ -32,6 +32,7 @@ export class RecursosService {
   private APIUrlImagenesAvatares = this.host + ':3000/api/imagenes/ImagenesAvatares';
   private APIUrlImagenesCromos = this.host + ':3000/api/imagenes/ImagenCromo';
   private APIUrlImagenesColecciones = this.host + ':3000/api/imagenes/ImagenColeccion';
+  private APIUrlImagenesPerfil = this.host + ':3000/api/imagenes/ImagenesPerfil';
 
 
   private APIUrlPreguntas = this.host + ':3000/api/Preguntas';
@@ -90,6 +91,18 @@ export class RecursosService {
   public downloadImgColeccion(imgName: string) {
     return this.http.get(this.APIUrlImagenesColecciones + '/download/' + imgName, {observe: 'body', responseType: 'blob'});
   }
+
+  public downloadImgSilueta(imgName: string) {
+    console.log(this.APIUrlImagenesAvatares + '/files/' + imgName);
+    return this.http.get(this.APIUrlImagenesAvatares + '/files/' + imgName, {observe: 'body', responseType: 'blob'});
+    
+  }
+
+  public downloadImgPerfil(imgName: string) {
+    return this.http.get(imgName, {observe: 'body', responseType: 'blob'});
+  }
+
+
   
 
   //NO FUNCIONA
