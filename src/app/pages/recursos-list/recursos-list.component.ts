@@ -431,8 +431,8 @@ export class RecursosListComponent implements OnInit {
       folder.file(rsc.Nombre + ".json", theJSON);
 
       //Descarga la imagen de la coleccion y la añade al ZIP
-      this.recursosService.downloadImgColeccion(rsc.Nombre).subscribe((data: any) => {
-        folder.file(`${rsc.Nombre}`, data);
+      this.recursosService.downloadImgColeccion(rsc.ImagenColeccion).subscribe((data: any) => {
+        folder.file(`${rsc.ImagenColeccion}`, data);
       });
 
       //Obtiene los nombres de las imagenes de los cromos de la colección
