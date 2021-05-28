@@ -94,7 +94,7 @@ export class RecursosService {
 
   public downloadImgSilueta(imgName: string) {
     console.log(this.APIUrlImagenesAvatares + '/files/' + imgName);
-    return this.http.get(this.APIUrlImagenesAvatares + '/files/' + imgName, {observe: 'body', responseType: 'blob'});
+    return this.http.get(this.APIUrlImagenesAvatares + '/download/' + imgName, {observe: 'body', responseType: 'blob'});
     
   }
 

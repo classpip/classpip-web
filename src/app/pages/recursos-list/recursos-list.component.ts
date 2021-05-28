@@ -35,6 +35,7 @@ export class RecursosListComponent implements OnInit {
 
 
   interval;
+  urlImagenesPerfil = URL.ImagenesPerfil;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -141,7 +142,10 @@ export class RecursosListComponent implements OnInit {
     this.router.navigateByUrl('/recursos');
   }
 
+  /*************************************/
   /*FUNCIONES PARA OBTENER LA LISTA DE RECURSOS*/
+  /*************************************/
+
 
   //Funcion que obtiene los recursos publicos de avatares
   DameFamiliasDeAvataresPublicas() {
@@ -254,11 +258,11 @@ export class RecursosListComponent implements OnInit {
         });
 
         //Carga las fotos de ejemplo
-        this.listRecursos.forEach(recurso => {
+        /* this.listRecursos.forEach(recurso => {
           for (let i = 0; i < recurso.ejemplos.length; i++) {
             recurso.ejemplos[i] = URL.ImagenesPerfil + recurso.ejemplos[i];
           }
-        });
+        }); */
       }
 
     });
@@ -515,7 +519,7 @@ export class RecursosListComponent implements OnInit {
     let count: number = 0;
 
     imgNames.forEach((name: string) => {
-      this.recursosService.downloadImgPerfil(name).subscribe((data: any) => {
+      this.recursosService.downloadImgPerfil(this.urlImagenesPerfil + name).subscribe((data: any) => {
         //Añade la imagen a la carpeta
         folder.file(`${name}`, data);
 
