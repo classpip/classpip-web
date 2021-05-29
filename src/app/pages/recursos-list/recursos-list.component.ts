@@ -403,7 +403,8 @@ export class RecursosListComponent implements OnInit {
 
     //Prepara el fichero ZIP a descargar
     let zip = new JSZip();
-    let folder = zip.folder('Coleccion_' + rsc.Nombre);
+    //let folder = zip.folder('Coleccion_' + rsc.Nombre);
+    let folder = zip.folder('imagenes');
 
     //Guarda los datos de la coleccion a guardar
     this.coleccion = {
@@ -432,7 +433,7 @@ export class RecursosListComponent implements OnInit {
 
       //Crea el fichero JSON de la coleccion y lo añade al ZIP
       const theJSON = JSON.stringify(this.coleccion);
-      folder.file(rsc.Nombre + ".json", theJSON);
+      zip.file(rsc.Nombre + ".json", theJSON);
 
       //Descarga la imagen de la coleccion y la añade al ZIP
       this.recursosService.downloadImgColeccion(rsc.ImagenColeccion).subscribe((data: any) => {
@@ -470,6 +471,8 @@ export class RecursosListComponent implements OnInit {
         });
       })
     });
+    
+
   }
 
 
