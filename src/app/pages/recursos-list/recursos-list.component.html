@@ -9,7 +9,7 @@
                 <button class="btn back-button" (click)="volver()"><i class="tim-icons icon-minimal-left"></i>
                     Volver</button>
                 <h1 class="rsc-name" style="text-align: center;">{{rscName}}</h1>
-                <div class="filter-btn" data-target="#myModal2" style="text-align: center;" *ngIf="isPreguntas()" >
+                <div class="filter-btn" data-target="#myModal2" style="text-align: center;" *ngIf="isPreguntas() && (this.listTipo != undefined || this.listTematica != undefined)" >
                     <button class="btn btn-danger" type="button" style="margin-right: auto;" (click)="clearFilters()" *ngIf="isPreguntas() && this.isFilter" >
                         <i class="tim-icons icon-trash-simple"> </i> &nbsp; Limpiar filtros
                     </button>
@@ -73,6 +73,7 @@
                 </div>
                 <ng-template #noResources>
                     <div style="text-align: center;">
+                        <br><br>
                         <h2>No hay recursos públicos de tipo "{{rscName}}"</h2>
                     </div>
                 </ng-template>
@@ -96,23 +97,25 @@
                 </div>
                 <form>
                     <div class="form-group">
-                        <label for="tipo">Tipo</label>
-                        <select class="form-control" id="tipo">
-                            <option class="option">Cuatro opciones</option>
-                            <option class="option">Emparejamiento</option>
-                            <option class="option">Respuesta abierta</option>
-                            <option class="option">Verdadero o falso</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label for="tematica">Temática</label>
                         <select class="form-control" id="tematica">
-                            <option class="option">Matemáticas</option>
+                            <option class="option" *ngFor="let tematica of listTematica" [value]="tematica">{{tematica}}</option>    
+                            <!-- <option class="option">Matemáticas</option>
                             <option class="option">Geografía</option>
                             <option class="option">Biología</option>
                             <option class="option">Política</option>
                             <option class="option">Literatura</option>
-                            <option class="option">Gamificación</option>
+                            <option class="option">Gamificación</option> -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo">Tipo</label>
+                        <select class="form-control" id="tipo">
+                            <option class="option" *ngFor="let tipo of listTipo" [value]="tipo">{{tipo}}</option>
+                            <!-- <option class="option">Cuatro opciones</option>
+                            <option class="option">Emparejamiento</option>
+                            <option class="option">Respuesta abierta</option>
+                            <option class="option">Verdadero o falso</option> -->
                         </select>
                     </div>
                     <div class="form-buttons" style="text-align: center;">

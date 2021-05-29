@@ -44,11 +44,7 @@
         <ng-template #loginWarn>
           <div class="card card-publicacion card-header">
             <p style="text-align: center;"><a class="login" routerLink="/login">Inicia sesión</a> o <a class="register"
-<<<<<<< HEAD
-                routerLink="/register">registarte</a> para poder publicar o comentar experiencias</p>
-=======
                 routerLink="/register">regístarte</a> para poder publicar o comentar experiencias</p>
->>>>>>> da63a4118ebcd5e7ca20359cbd162e6c4e43f040
           </div>
         </ng-template>
         <!-- <br>
@@ -110,12 +106,6 @@
                   <span id="comment-title">{{comment.fecha}}</span>
                 </div>
                 <br>
-<<<<<<< HEAD
-                <span>{{comment.fecha}}</span>
-                <h5 *ngIf="comment.autor">{{comment.autor.Nombre}}:</h5>
-=======
-
->>>>>>> da63a4118ebcd5e7ca20359cbd162e6c4e43f040
                 <p>{{comment.comentario}}</p>
                 <div class="likes">
                   <i class="fas fa-heart" style="font-size:12px;color:red;" (click)="dislikeComment(comment.id)"
@@ -123,11 +113,7 @@
                   <i class="fas fa-heart" style="font-size:12px;color:white;" (click)="likeComment(comment.id)"
                     *ngIf="!comment.isLike"></i>
                   &nbsp;
-<<<<<<< HEAD
-                  <span>{{comment.likes}}</span>
-=======
                   <span>{{comment.likes}} likes</span>
->>>>>>> da63a4118ebcd5e7ca20359cbd162e6c4e43f040
                 </div>
                 <br>
               </div>
@@ -138,11 +124,7 @@
                   (focus)="focus2 = true" (blur)="focus2 = false">
                 <div class="input-group-append">
                   <span class="input-group-text"><i id="sendIcon" class="tim-icons icon-send"
-<<<<<<< HEAD
-                      (click)="sendComment(publi.id)"></i></span>
-=======
                       (click)="sendComment(publi.id)" (keyup.enter)="logIn()"></i></span>
->>>>>>> da63a4118ebcd5e7ca20359cbd162e6c4e43f040
                 </div>
               </div>
             </div>

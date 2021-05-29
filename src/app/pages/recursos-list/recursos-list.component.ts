@@ -33,11 +33,16 @@ export class RecursosListComponent implements OnInit {
   listaFamiliasPublicas: any[] = [];
   cromosColeccion: Cromo[];
 
-
   interval;
   urlImagenesPerfil = URL.ImagenesPerfil;
 
+  //Variables para filtrar preguntas
   isFilter = false;
+  mapPreguntasTipo = new Map<string,Array<any>>();
+  mapPreguntasTematica = new Map<string,Array<any>>();
+  listTipo;
+  listTematica;
+  backup = null;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -148,12 +153,46 @@ export class RecursosListComponent implements OnInit {
     else return false;
   }
 
-  filter(){
-    this.isFilter = true;
+  filter(){    
+
+    let auxList = new Array<any>();
+
+    let tipo = (<HTMLInputElement>document.getElementById("tipo")).value;
+    console.log(tipo);
+    
+    let tematica = (<HTMLInputElement>document.getElementById("tematica")).value;
+    console.log(tematica);
+
+    if(tipo!='Ninguno' || tematica!='Ninguno'){
+      console.log('entra. Backup: ',this.backup);
+      if(this.backup == null){
+        this.backup = this.listRecursos;
+      }
+      console.log('listRsc: ',this.listRecursos);
+      console.log('backup: ',this.backup);
+
+      if(tipo != 'Ninguno'){
+        this.mapPreguntasTipo.get(tipo).forEach(rsc => {
+          auxList.push(rsc);
+        })
+      }
+      console.log('list tipo: ',this.listRecursos);
+      if(tematica != 'Ninguno'){
+        this.mapPreguntasTematica.get(tematica).forEach(rsc => {
+          auxList.push(rsc);
+        })
+        
+      }   
+      this.listRecursos = auxList;
+      console.log('list tematica: ',this.listRecursos);
+      this.isFilter = true;   
+    }
   }
 
   clearFilters(){
     this.isFilter = false;
+    this.listRecursos = this.backup;
+    this.backup = null;
   }
 
   // Función para volver a la página de recursos
@@ -168,7 +207,7 @@ export class RecursosListComponent implements OnInit {
 
   //Funcion que obtiene los recursos publicos de avatares
   DameFamiliasDeAvataresPublicas() {
-    this.recursosService.DameFamiliasAvataresPublicas().subscribe(res => {
+    this.recursosService.DameFamiliasAvataresPublicas().subscribe((res) => {
       console.log(res);
       if (res !== undefined) {
         //Carga los recursos en la lista
@@ -190,6 +229,10 @@ export class RecursosListComponent implements OnInit {
           return obj;
         });
       }
+    },
+    (error) => {
+      console.log(error);
+      this.listRecursos = [];
     });
   }
 
@@ -219,6 +262,10 @@ export class RecursosListComponent implements OnInit {
           return obj;
         });
       }
+    },
+    (error) => {
+      console.log(error);
+      this.listRecursos = [];
     });
   }
   //Funcion que obtiene los recursos publicos de cuestionarios de satisfaccion
@@ -246,6 +293,10 @@ export class RecursosListComponent implements OnInit {
           return obj;
         });
       }
+    },
+    (error) => {
+      console.log(error);
+      this.listRecursos = [];
     });
   }
 
@@ -284,6 +335,10 @@ export class RecursosListComponent implements OnInit {
         }); */
       }
 
+    },
+    (error) => {
+      console.log(error);
+      this.listRecursos = [];
     });
   }
 
@@ -311,6 +366,10 @@ export class RecursosListComponent implements OnInit {
           return obj;
         });
       }
+    },
+    (error) => {
+      console.log(error);
+      this.listRecursos = [];
     });
   }
 
@@ -321,6 +380,15 @@ export class RecursosListComponent implements OnInit {
         //Carga los recursos en la lista
         this.listRecursos = res;
 
+        //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
+        this.listRecursos = this.listRecursos.map(function (obj) {
+          obj['nombreRecurso'] = obj['Titulo']; // Assign new key
+          //delete obj['NombreFamilia']; // Delete old key
+          return obj;
+        });
+
+        this.mapPreguntasTipo.set('Ninguno', null);
+        this.mapPreguntasTematica.set('Ninguno', null);
         //Cambia el profesorId por su nombre
         this.listRecursos.forEach(recurso => {
           if (this.mapProfesores.has(recurso.profesorId)) {
@@ -329,14 +397,32 @@ export class RecursosListComponent implements OnInit {
           } else {
             recurso.propietario = 'Desconocido';
           }
+
+          if(recurso.Tipo != null){
+            if(!this.mapPreguntasTipo.has(recurso.Tipo)){
+              this.mapPreguntasTipo.set(recurso.Tipo, new Array());
+            }
+            this.mapPreguntasTipo.get(recurso.Tipo).push(recurso);
+          };
+
+          if(recurso.Tematica != null){
+            if(!this.mapPreguntasTematica.has(recurso.Tematica)){
+              this.mapPreguntasTematica.set(recurso.Tematica, new Array());
+            }
+            this.mapPreguntasTematica.get(recurso.Tematica).push(recurso);
+          };
         });
-        //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
-        this.listRecursos = this.listRecursos.map(function (obj) {
-          obj['nombreRecurso'] = obj['Titulo']; // Assign new key
-          //delete obj['NombreFamilia']; // Delete old key
-          return obj;
-        });
+
+        if(this.mapPreguntasTipo.size != 0) this.listTipo = Array.from(this.mapPreguntasTipo.keys());
+        if(this.mapPreguntasTematica.size != 0) this.listTematica = Array.from(this.mapPreguntasTematica.keys());
+
+        console.log('tipo: ',this.listTipo);
+        console.log('tematica: ',this.listTematica);
       }
+    },
+    (error) => {
+      console.log(error);
+      this.listRecursos = [];
     });
   }
 
