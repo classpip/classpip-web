@@ -125,7 +125,7 @@
                   (focus)="focus2 = true" (blur)="focus2 = false">
                 <div class="input-group-append">
                   <span class="input-group-text"><i id="sendIcon" class="tim-icons icon-send"
-                      (click)="sendComment(publi.id)"></i></span>
+                      (click)="sendComment(publi.id)" (keyup.enter)="logIn()"></i></span>
                 </div>
               </div>
             </div>
