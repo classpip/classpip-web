@@ -9,15 +9,18 @@
                 <button class="btn back-button" (click)="volver()"><i class="tim-icons icon-minimal-left"></i>
                     Volver</button>
                 <h1 class="rsc-name" style="text-align: center;">{{rscName}}</h1>
-                <div class="filter-btn" data-target="#modalFilter" style="text-align: center;" *ngIf="isPreguntas() && (this.listTipo != undefined || this.listTematica != undefined)" >
-                    <button class="btn btn-danger" type="button" style="margin-right: auto;" (click)="clearFilters()" *ngIf="isPreguntas() && this.isFilter" >
+                <div class="filter-btn" data-target="#modalFilter" style="text-align: center;"
+                    *ngIf="isPreguntas() && (this.listTipo != undefined || this.listTematica != undefined)">
+                    <button class="btn btn-danger" type="button" style="margin-right: auto;" (click)="clearFilters()"
+                        *ngIf="isPreguntas() && this.isFilter">
                         <i class="tim-icons icon-trash-simple"> </i> &nbsp; Limpiar filtros
                     </button>
                     &nbsp;
-                    <button class="btn btn-primary" type="button" style="margin-right: auto;" (click)="modalFilter.show()" >
+                    <button class="btn btn-primary" type="button" style="margin-right: auto;"
+                        (click)="modalFilter.show()">
                         <i class="tim-icons icon-settings-gear-63"> </i> &nbsp; Filtros
                     </button>
-                  </div>
+                </div>
             </div>
 
             <div class="text-center" *ngIf="listRecursos; else loading">
@@ -59,11 +62,11 @@
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </a>
-                                    <button type="button" rel="tooltip"
-                                            class="btn btn-sm btn-success btn-roundbtn-icon" placement="bottom"
-                                            tooltip="Ver" (click)="modalShowQuestion.show()" (click)="verPregunta(rsc)" *ngIf="isPreguntas()">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
+                                    <button type="button" rel="tooltip" class="btn btn-sm btn-success btn-roundbtn-icon"
+                                        placement="bottom" tooltip="Ver" (click)="modalShowQuestion.show()"
+                                        (click)="verPregunta(rsc)" *ngIf="isPreguntas()">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
 
                                     &nbsp;
                                     <button type="button" rel="tooltip" class="btn btn-sm btn-info btn-roundbtn-icon"
@@ -105,7 +108,8 @@
                     <div class="form-group">
                         <label for="tematica">Temática</label>
                         <select class="form-control" id="tematica">
-                            <option class="option" *ngFor="let tematica of listTematica" [value]="tematica">{{tematica}}</option>    
+                            <option class="option" *ngFor="let tematica of listTematica" [value]="tematica">{{tematica}}
+                            </option>
                             <!-- <option class="option">Matemáticas</option>
                             <option class="option">Geografía</option>
                             <option class="option">Biología</option>
@@ -125,11 +129,13 @@
                         </select>
                     </div>
                     <div class="form-buttons" style="text-align: center;">
-                        <button aria-hidden="true" class="btn btn-danger btn-round" data-dismiss="modal" (click)="modalFilter.hide()" type="button">
+                        <button aria-hidden="true" class="btn btn-danger btn-round" data-dismiss="modal"
+                            (click)="modalFilter.hide()" type="button">
                             Cancelar
                         </button>
                         &nbsp;
-                        <button aria-hidden="true" class="btn btn-primary btn-round" data-dismiss="modal" (click)="filter()" (click)="modalFilter.hide()" type="submit">
+                        <button aria-hidden="true" class="btn btn-primary btn-round" data-dismiss="modal"
+                            (click)="filter()" (click)="modalFilter.hide()" type="submit">
                             Filtrar
                         </button>
                     </div>
@@ -140,27 +146,47 @@
 </div>
 
 <!-- POPUP VER PREGUNTAS -->
-<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade" #modalShowQuestion="bs-modal" id="modalShowQuestion"
-  role="dialog" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header justify-content-center" *ngIf="this.pregunta != undefined" >
-        <button aria-hidden="true" class="close" data-dismiss="modal" type="button" (click)="modalShowQuestion.hide()">
-          <i class="tim-icons icon-simple-remove"> </i>
-        </button>
-        <h4 class="title title-up">{{this.pregunta.Titulo}}</h4>
-      </div>
-      <div class="modal-body">
-        <img src="../../../assets/img/a.png" />
-      </div>
-      <div class="modal-footer">
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black"
+    #modalShowQuestion="bs-modal" id="modalShowQuestion" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center" *ngIf="this.pregunta != undefined">
+                <button aria-hidden="true" class="close" data-dismiss="modal" type="button"
+                    (click)="modalShowQuestion.hide()">
+                    <i class="tim-icons icon-simple-remove"> </i>
+                </button>
+                <h4 class="title title-up">{{this.pregunta.Titulo}}</h4>
+            </div>
+            <div class="modal-body" *ngIf="this.pregunta != undefined">
+                <h5>{{this.pregunta.Pregunta}}</h5>
+                <div *ngIf="this.pregunta.Imagen != null">
+                    <img [src]="this.urlImagenesPreguntas + this.pregunta.Imagen">
+                </div>
+                <div class="container" *ngIf="this.pregunta.Tipo != 'Emparejamiento'">
+                    <h5 style="color:lightgreen;">{{this.pregunta.RespuestaCorrecta}}</h5>
+                    <h5 style="color:red">{{this.pregunta.RespuestaIncorrecta1}}</h5>
+                    <h5 style="color:red">{{this.pregunta.RespuestaIncorrecta2}}</h5>
+                    <h5 style="color:red">{{this.pregunta.RespuestaIncorrecta3}}</h5>
+                </div>
+                <div class="container" *ngIf="this.pregunta.Tipo == 'Emparejamiento'">
+                    <div *ngFor="let pareja of this.pregunta.Emparejamientos">
+                        <h5>{{pareja.l}} - {{pareja.r}}</h5>
+                    </div>
+                </div>
+                <div class="container" *ngIf="this.pregunta.Tipo == 'Emparejamiento'">
+                    <div *ngFor="let pareja of this.pregunta.Emparejamientos">
+                        <h5>{{pareja.l}} - {{pareja.r}}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
 
-        <button class="btn btn-danger" data-dismiss="modal" type="button" (click)="modalShowQuestion.hide()">
-          Cerrar
-        </button>
-      </div>
+                <button class="btn btn-danger" data-dismiss="modal" type="button" (click)="modalShowQuestion.hide()">
+                    Cerrar
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <app-footer></app-footer>

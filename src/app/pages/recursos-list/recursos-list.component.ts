@@ -36,6 +36,7 @@ export class RecursosListComponent implements OnInit {
 
   interval;
   urlImagenesPerfil = URL.ImagenesPerfil;
+  urlImagenesPreguntas = URL.ImagenesPregunta;
 
   //Variables para filtrar preguntas
   isFilter = false;
@@ -230,6 +231,7 @@ export class RecursosListComponent implements OnInit {
 
   verPregunta(rsc: any){
     this.pregunta = rsc;
+    console.log("pregunta: ", rsc)
   }
 
   // Función para volver a la página de recursos
