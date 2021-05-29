@@ -422,7 +422,6 @@ export class RecursosListComponent implements OnInit {
 
     //Prepara el fichero ZIP a descargar
     let zip = new JSZip();
-    //let folder = zip.folder('Coleccion_' + rsc.Nombre);
     let folder = zip.folder('imagenes');
 
     //Guarda los datos de la coleccion a guardar
@@ -532,10 +531,7 @@ export class RecursosListComponent implements OnInit {
     let folder = zip.folder('FamiliaImagenesDePerfil_' + rsc.Nombre);
 
     let imgNames: string[] = rsc.Imagenes;
-    /* rsc.Imagenes.forEach(cromo => {
-      imgNames.push(cromo.nombreImagenCromoDelante);
-      imgNames.push(cromo.nombreImagenCromoDetras);
-    }); */
+    
 
     console.log(imgNames);
     let count: number = 0;
@@ -572,9 +568,8 @@ export class RecursosListComponent implements OnInit {
 
     const theJSON = JSON.stringify(rsc);
 
-    let zip = new JSZip();
-    let folder = zip.folder('Pregunta_' + rsc.Titulo);
-    folder.file(rsc.Titulo + ".json", theJSON);
+    let zip = new JSZip();    
+    zip.file(rsc.Titulo + ".json", theJSON);
 
     zip.generateAsync({ type: "blob" }).then(function (blob) {
       saveAs(blob, 'Pregunta_' + rsc.Titulo + ".zip");

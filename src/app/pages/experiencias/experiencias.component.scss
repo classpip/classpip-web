@@ -62,6 +62,33 @@
     #publi-title, #autor-name {
         display: inline-block;
     }
+    #comment-title, #autor-name:after {
+        display: inline-block;
+        width: 500px;
+    }
+    #autor-name {
+        text-align: left;
+    }
+
+    .hidden-ss {
+        display: none !important;
+    }
+}
+
+@media only screen and (min-width: 1000px) and (max-width: 1200px) {
+    #autor-name:after{
+        content:" "; 
+        display:inline-block; 
+        width:550px;
+    }
+    #comment-title, #autor-name {
+        display: inline-block;
+    }
+    #publi-title, #autor-name {
+        display: inline-block;
+    }
+
+    
     #autor-name {
         text-align: left;
     }
@@ -81,4 +108,8 @@
 
 h5{
     font-weight: bold;
+}
+
+.comment-fecha{
+    text-align: right;
 }

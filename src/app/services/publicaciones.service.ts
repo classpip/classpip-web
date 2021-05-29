@@ -58,8 +58,8 @@ export class PublicacionesService {
     return this.http.delete(this.APIUrlPublicaciones + '/' + publiId + '/likes/'+likeId);
   }
 
-  public likeComment(commentId: number, profesor: Profesor){
-    return this.http.post(this.APIUrlComentarios + '/' + commentId + '/likes', profesor);
+  public likeComment(comment: Comment, commentId: number){
+    return this.http.put<Comentario>(this.APIUrlComentarios + '/' + commentId, comment);
   }
 
   public dislikeComment(commentId: number, likeId: Profesor){
