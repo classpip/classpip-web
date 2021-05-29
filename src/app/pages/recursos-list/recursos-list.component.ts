@@ -190,6 +190,8 @@ export class RecursosListComponent implements OnInit {
   }
 
   clearFilters(){
+    (<HTMLInputElement>document.getElementById("tipo")).value = 'Ninguno';
+    (<HTMLInputElement>document.getElementById("tematica")).value = 'Ninguno';
     this.isFilter = false;
     this.listRecursos = this.backup;
     this.backup = null;
