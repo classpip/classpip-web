@@ -26,7 +26,7 @@ export class RecursosListComponent implements OnInit {
   profesorId: number;
 
 
-  //Recuros
+  //Recursos
   cuestionario: Cuestionario;
   coleccion: any;
   familia: FamiliaAvatares;
@@ -36,6 +36,8 @@ export class RecursosListComponent implements OnInit {
 
   interval;
   urlImagenesPerfil = URL.ImagenesPerfil;
+
+  isFilter = false;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -129,6 +131,7 @@ export class RecursosListComponent implements OnInit {
     else return false;
   }
 
+  // Funciones para recursos de tipo imágenes de perfil
   isImagenes() {
     if (this.recurso == 'imagenes')
       return true;
@@ -137,7 +140,23 @@ export class RecursosListComponent implements OnInit {
     else return false;
   }
 
-  //Función para volver a la página de recursos
+  // Funciones para recursos de tipo pregunta
+  isPreguntas() {
+    if(this.recurso == 'preguntas')
+      return true;
+
+    else return false;
+  }
+
+  filter(){
+    this.isFilter = true;
+  }
+
+  clearFilters(){
+    this.isFilter = false;
+  }
+
+  // Función para volver a la página de recursos
   volver() {
     this.router.navigateByUrl('/recursos');
   }
