@@ -29,8 +29,9 @@
                                 <th class="text-center" width="100px">Nombre</th>
                                 <th class="text-center" width="100px" *ngIf="isLoggedIn()">Propietario</th>
                                 <th class="text-center" width="20px" *ngIf="isImagenes()">Ejemplos</th>
-                                <th class="text-center" width="20px" *ngIf="isPreguntas()">Tipo</th>
                                 <th class="text-center" width="20px" *ngIf="isPreguntas()">Tematica</th>
+                                <th class="text-center" width="20px" *ngIf="isPreguntas()">Tipo</th>
+
                                 <th class="text-center" width="20px">ACCIONES</th>
                             </tr>
                         </thead>
@@ -40,8 +41,8 @@
                                 <td class="text-center" width="40px">{{indice + 1}}</td>
                                 <td class="text-center" width="100px">{{rsc.nombreRecurso}}</td>
                                 <td class="text-center" width="100px" *ngIf="isLoggedIn()">{{rsc.propietario}}</td>
-                                <td class="text-center" width="100px" *ngIf="isPreguntas()">{{rsc.Tipo}}</td>
                                 <td class="text-center" width="100px" *ngIf="isPreguntas()">{{rsc.Tematica}}</td>
+                                <td class="text-center" width="100px" *ngIf="isPreguntas()">{{rsc.Tipo}}</td>
                                 <td class="text-center" *ngIf="isImagenes()">
                                     <img style="width:50px; height: 50px; padding-right: 10px;"
                                         [src]="this.urlImagenesPerfil + rsc.ejemplos[0]">

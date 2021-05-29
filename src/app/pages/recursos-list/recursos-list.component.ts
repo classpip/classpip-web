@@ -11,6 +11,7 @@ import * as URL from 'src/app/URLs/urls'
 import * as JSZip from 'jszip';
 import { Cromo } from 'src/app/clases/recursos/Cromo';
 import Swal from 'sweetalert2';
+import { Console } from 'console';
 
 @Component({
   selector: 'app-recursos-list',
@@ -155,36 +156,56 @@ export class RecursosListComponent implements OnInit {
 
   filter(){    
 
-    let auxList = new Array<any>();
+    let auxMap = new Map();
 
     let tipo = (<HTMLInputElement>document.getElementById("tipo")).value;
-    console.log(tipo);
     
     let tematica = (<HTMLInputElement>document.getElementById("tematica")).value;
-    console.log(tematica);
 
-    if(tipo!='Ninguno' || tematica!='Ninguno'){
-      console.log('entra. Backup: ',this.backup);
+    if(tipo=='Ninguno' && tematica=='Ninguno'){
+      Swal.fire('Error', 'Selecciona algún filtro', 'error');
+    } else{
+      
       if(this.backup == null){
         this.backup = this.listRecursos;
       }
-      console.log('listRsc: ',this.listRecursos);
-      console.log('backup: ',this.backup);
+      this.listRecursos = [];
+      console.log('backup: ',this.backup)
+            
+      if(tematica != 'Ninguno' && tipo == 'Ninguno'){
+        console.log('Filtramos por tematica ', tematica);
+        this.mapPreguntasTematica.get(tematica).forEach(rsc => {
+          if(!auxMap.has(rsc.id))
+            auxMap.set(rsc.id, rsc);
+        });
+        console.log('list tematica: ',auxMap.values());
+      }  
 
-      if(tipo != 'Ninguno'){
+      else if(tematica== 'Ninguno' && tipo != 'Ninguno'){
+        console.log('Filtramos por tipo ', tipo);
         this.mapPreguntasTipo.get(tipo).forEach(rsc => {
-          auxList.push(rsc);
+          if(!auxMap.has(rsc.id))
+            auxMap.set(rsc.id, rsc);
+        });
+        console.log('list tipo: ',auxMap.values());
+      }
+
+      else {
+        console.log('Filtramos por '+tipo+' y '+tematica);
+        let auxList;
+        let auxType = this.mapPreguntasTipo.get(tipo);
+        this.mapPreguntasTematica.get(tematica).forEach(rscTem => {
+          auxType.forEach(rscType => {
+            if(rscTem.id == rscType.id){
+              auxMap.set(rscType.id, rscType);
+            }
+          })
         })
       }
-      console.log('list tipo: ',this.listRecursos);
-      if(tematica != 'Ninguno'){
-        this.mapPreguntasTematica.get(tematica).forEach(rsc => {
-          auxList.push(rsc);
-        })
-        
-      }   
-      this.listRecursos = auxList;
-      console.log('list tematica: ',this.listRecursos);
+
+      console.log('auxMap: ', auxMap);
+      this.listRecursos = Array.from(auxMap.values());
+      console.log('lista filtrada: ',this.listRecursos);
       this.isFilter = true;   
     }
   }
