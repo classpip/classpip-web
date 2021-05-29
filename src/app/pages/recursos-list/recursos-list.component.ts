@@ -693,8 +693,16 @@ export class RecursosListComponent implements OnInit {
 
     const theJSON = JSON.stringify(rsc);
 
-    let zip = new JSZip();    
+    let zip = new JSZip();   
+    let folder = zip.folder("imagen") 
     zip.file(rsc.Titulo + ".json", theJSON);
+
+    if (rsc.Imagen != null){
+      this.recursosService.downloadImgPregunta(rsc.Imagen).subscribe((data: any) => {
+        console.log("DATA: ", data)
+        folder.file(`${rsc.Imagen}`, data);
+      });
+    }
 
     zip.generateAsync({ type: "blob" }).then(function (blob) {
       saveAs(blob, 'Pregunta_' + rsc.Titulo + ".zip");
