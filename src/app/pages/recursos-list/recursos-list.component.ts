@@ -44,6 +44,7 @@ export class RecursosListComponent implements OnInit {
   listTipo;
   listTematica;
   backup = null;
+  pregunta;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -163,7 +164,8 @@ export class RecursosListComponent implements OnInit {
     let tematica = (<HTMLInputElement>document.getElementById("tematica")).value;
 
     if(tipo=='Ninguno' && tematica=='Ninguno'){
-      Swal.fire('Error', 'Selecciona algún filtro', 'error');
+      // Swal.fire('Error', 'Selecciona algún filtro', 'error');
+      console.log('No hay filtros seleccionados');
     } else{
       
       if(this.backup == null){
@@ -200,13 +202,21 @@ export class RecursosListComponent implements OnInit {
               auxMap.set(rscType.id, rscType);
             }
           })
-        })
+        });
       }
 
-      console.log('auxMap: ', auxMap);
-      this.listRecursos = Array.from(auxMap.values());
-      console.log('lista filtrada: ',this.listRecursos);
-      this.isFilter = true;   
+      if(auxMap.size != 0){
+        console.log('auxMap: ', auxMap);
+        this.listRecursos = Array.from(auxMap.values());
+        console.log('lista filtrada: ',this.listRecursos);
+        this.isFilter = true; 
+      } else {
+        Swal.fire('Error', 'No hay coincidencias', 'error');
+        this.listRecursos = this.backup;
+        (<HTMLInputElement>document.getElementById("tipo")).value = 'Ninguno';
+        (<HTMLInputElement>document.getElementById("tematica")).value = 'Ninguno';
+      }
+        
     }
   }
 
@@ -216,6 +226,10 @@ export class RecursosListComponent implements OnInit {
     this.isFilter = false;
     this.listRecursos = this.backup;
     this.backup = null;
+  }
+
+  verPregunta(rsc: any){
+    this.pregunta = rsc;
   }
 
   // Función para volver a la página de recursos
