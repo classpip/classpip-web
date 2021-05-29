@@ -17,9 +17,9 @@
 
 
         <div *ngIf="this.isLogged == true; else loginWarn">
-          <div class= "button" data-target="#myModal2" (click)="myModal2.show()" style="text-align: center;">
-            <button class="btn btn-success btn-default btn-small" type="submit" >
-              Nueva publicación  <i class="tim-icons icon-simple-add"> </i>
+          <div class="button" data-target="#myModal2" (click)="myModal2.show()" style="text-align: center;">
+            <button class="btn btn-success btn-default btn-small" type="submit">
+              Nueva publicación <i class="tim-icons icon-simple-add"> </i>
             </button>
           </div>
           <!-- <div class="card card-publicacion card-header">
@@ -43,7 +43,8 @@
         </div>
         <ng-template #loginWarn>
           <div class="card card-publicacion card-header">
-            <p style="text-align: center;"><a class="login" routerLink="/login">Inicia sesión</a> o <a class="register" routerLink="/register">registarte</a> para poder publicar o comentar experiencias</p>
+            <p style="text-align: center;"><a class="login" routerLink="/login">Inicia sesión</a> o <a class="register"
+                routerLink="/register">regístarte</a> para poder publicar o comentar experiencias</p>
           </div>
         </ng-template>
         <!-- <br>
@@ -55,47 +56,65 @@
         </div>-->
 
         <br>
-        <br> 
+        <br>
         <div *ngIf="publicaciones && publicaciones.length != 0; else nopublis">
           <div class="card card-publicacion" *ngFor="let publi of publicaciones;">
             <br>
             <div class="publicacion">
               <div class="publicacion-header">
-                
+
                 <div class="autor" id="autor-name">
-                  <img *ngIf="publi.autor.ImagenPerfil == null"  src="../../../assets/img/logo.png" routerLink="/perfil" style="border-radius: 50%"  width="20" height="20" />
-                  <img *ngIf="publi.autor.ImagenPerfil != null"  src={{publi.autor.ImagenPerfil}} routerLink="/perfil" style="border-radius: 50%"  width="20" height="20" />  
+                  <img *ngIf="publi.autor.ImagenPerfil == null" src="../../../assets/img/logo.png" routerLink="/perfil"
+                    style="border-radius: 50%" width="20" height="20" />
+                  <img *ngIf="publi.autor.ImagenPerfil != null" src={{publi.autor.ImagenPerfil}} routerLink="/perfil"
+                    style="border-radius: 50%" width="20" height="20" />
                   &nbsp;
                   <span>{{publi.autor.Nombre}} {{publi.autor.PrimerApellido}}</span>
                 </div>
-                <span id = "publi-title" >{{publi.fecha}}</span>
+                <span id="publi-title">{{publi.fecha}}</span>
               </div>
               <br class="hidden-ss">
-              
+
               <br><br>
-              <h3  style="text-align:center;"> {{publi.titulo}} {{publi.id}} {{i}}</h3> 
-              
+              <h3 style="text-align:center;"> {{publi.titulo}} {{publi.id}} {{i}}</h3>
+
               <p>{{publi.publicacion}}</p>
               <br>
               <br>
               <div class="likes">
-                <i class="fas fa-heart" style="font-size:12px;color:red;" (click)="dislikePubli(publi.id)" *ngIf="publi.isLike" ></i> 
-                <i class="fas fa-heart" style="font-size:12px;color:white;" (click)="likePubli(publi.id)" *ngIf="!publi.isLike" ></i> 
-                &nbsp; 
+                <i class="fas fa-heart" style="font-size:12px;color:red;" (click)="dislikePubli(publi.id)"
+                  *ngIf="publi.isLike"></i>
+                <i class="fas fa-heart" style="font-size:12px;color:white;" (click)="likePubli(publi.id)"
+                  *ngIf="!publi.isLike"></i>
+                &nbsp;
                 <span>{{publi.likes.length}} likes</span>
               </div>
             </div>
             <br>
             <div class="card card-comentario" *ngFor="let comment of publi.comentarios;">
               <div class="comentario">
+                <div class="comentario-header">
+                  <div class="autor" id="autor-name">
+                    <img *ngIf="comment.autor.ImagenPerfil == null" src="../../../assets/img/logo.png"
+                      routerLink="/perfil" style="border-radius: 50%" width="20" height="20" />
+                    <img *ngIf="comment.autor.ImagenPerfil != null" src={{comment.autor.ImagenPerfil}}
+                      routerLink="/perfil" style="border-radius: 50%" width="20" height="20" />
+                    &nbsp;
+                    <span>{{comment.autor.Nombre}} {{comment.autor.PrimerApellido}}</span>
+
+                  </div>
+                  <span id="comment-title">{{comment.fecha}}</span>
+                </div>
                 <br>
-                <span>{{comment.fecha}}</span>
-                 <h5 *ngIf="comment.autor" >{{comment.autor.Nombre}}:</h5><p>{{comment.comentario}}</p>             
-                 <div class="likes">
-                  <i class="fas fa-heart" style="font-size:12px;color:red;" (click)="dislikeComment(comment.id)" *ngIf="comment.isLike" ></i> 
-                  <i class="fas fa-heart" style="font-size:12px;color:white;" (click)="likeComment(comment.id)" *ngIf="!comment.isLike" ></i> 
-                  &nbsp; 
-                  <span>{{comment.likes}}</span>
+
+                <p>{{comment.comentario}}</p>
+                <div class="likes">
+                  <i class="fas fa-heart" style="font-size:12px;color:red;" (click)="dislikeComment(comment.id)"
+                    *ngIf="comment.isLike"></i>
+                  <i class="fas fa-heart" style="font-size:12px;color:white;" (click)="likeComment(comment.id)"
+                    *ngIf="!comment.isLike"></i>
+                  &nbsp;
+                  <span>{{comment.likes}} likes</span>
                 </div>
                 <br>
               </div>
@@ -104,9 +123,10 @@
               <div class="input-group">
                 <input id="{{publi.id}}" class="form-control" placeholder="Deja aqui tu comentario" type="text"
                   (focus)="focus2 = true" (blur)="focus2 = false">
-                  <div class="input-group-append">
-                    <span class="input-group-text"><i id="sendIcon" class="tim-icons icon-send" (click)="sendComment(publi.id)"></i></span>
-                  </div>
+                <div class="input-group-append">
+                  <span class="input-group-text"><i id="sendIcon" class="tim-icons icon-send"
+                      (click)="sendComment(publi.id)"></i></span>
+                </div>
               </div>
             </div>
           </div>
@@ -119,10 +139,10 @@
         </ng-template>
       </div>
 
-      
 
-      
-    <!-- <input #file id="inp" type="file" accept='image/*' (change)="mostrarImagenUpload($event)" style="display:none;">
+
+
+      <!-- <input #file id="inp" type="file" accept='image/*' (change)="mostrarImagenUpload($event)" style="display:none;">
     <button (click)="activarInput();"> <i class="tim-icons icon-attach-87"></i></button>
     <img src="{{this.newImg}}"/> -->
 
@@ -131,37 +151,37 @@
   <!-- </div> -->
   <!-- DEFINICIÓN DEL POPUP DE NUEVA PUBLICACIÓN -->
   <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #myModal2="bs-modal"
-  id="myModal2" role="dialog" tabindex="-1">
-  <div class="modal-dialog" style="width:1250px;">
-    <div class="modal-content">
-      <div class="modal-header justify-content-center">
-        <button aria-hidden="true" class="close" data-dismiss="modal" (click)="myModal2.hide()" type="button">
-          <i class="tim-icons icon-simple-remove text-white"> </i>
-        </button>
-        
-      </div>
-      <div class="modal-body" >
-        
-        <div class="text-center mb-4 mt-3">
-          EXPLÍCANOS TU EXPERIENCIA USANDO CLASSPIP
+    id="myModal2" role="dialog" tabindex="-1">
+    <div class="modal-dialog" style="width:1250px;">
+      <div class="modal-content">
+        <div class="modal-header justify-content-center">
+          <button aria-hidden="true" class="close" data-dismiss="modal" (click)="myModal2.hide()" type="button">
+            <i class="tim-icons icon-simple-remove text-white"> </i>
+          </button>
+
         </div>
-        <form role="form">
-          <div class="form-group mb-3">              
-              <input type="titulo" class="form-control" id="TituloPublicacion"
-              placeholder="Escríbe el título de tu publicación" />
-            </div>
-          <div class="form-group">
-            <label for="Experiencia">Experiencia</label>
-            <textarea class="form-control" id="Experiencia"></textarea>
-            </div>
-          <div class="text-center">
-            <button class="btn btn-primary my-4" type="button" (click) = "sendPubli()" (click)="myModal2.hide()">
-              Publicar
-            </button>
+        <div class="modal-body">
+
+          <div class="text-center mb-4 mt-3">
+            EXPLÍCANOS TU EXPERIENCIA USANDO CLASSPIP
           </div>
-        </form>
+          <form role="form">
+            <div class="form-group mb-3">
+              <input type="titulo" class="form-control" id="TituloPublicacion"
+                placeholder="Escríbe el título de tu publicación" />
+            </div>
+            <div class="form-group">
+              <label for="Experiencia">Experiencia</label>
+              <textarea class="form-control" id="Experiencia"></textarea>
+            </div>
+            <div class="text-center">
+              <button class="btn btn-primary my-4" type="button" (click)="sendPubli()" (click)="myModal2.hide()">
+                Publicar
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div> 
   <app-footer></app-footer>

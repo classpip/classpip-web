@@ -13,13 +13,13 @@ import * as moment from 'moment';
   styleUrls: ['./experiencias.component.scss']
 })
 export class ExperienciasComponent implements OnInit {
-  
+
   isCollapsed = true;
   focus1;
   focus2;
 
   publicaciones;
-  mapPublicaciones = new Map<String,Publicacion>();
+  mapPublicaciones = new Map<String, Publicacion>();
 
   comments;
 
@@ -31,34 +31,34 @@ export class ExperienciasComponent implements OnInit {
   file;
   newImg;
 
-  constructor(private auth: AuthService,private publiService: PublicacionesService, private sesion: SesionService) { }
+  constructor(private auth: AuthService, private publiService: PublicacionesService, private sesion: SesionService) { }
 
   ngOnInit(): void {
-    if(this.auth.isLoggedIn()) {
+    if (this.auth.isLoggedIn()) {
       this.isLogged = true;
       this.profesor = this.sesion.DameProfesor();
-      if(this.profesor == undefined) {
+      if (this.profesor == undefined) {
         sessionStorage.removeItem("ACCESS_TOKEN");
         this.isLogged = false;
       }
     }
     else this.isLogged = false;
-    
+
     this.publiService.damePublicaciones().subscribe(data => {
-      console.log('publicaciones: '+data);
-      if(data != undefined){
+      console.log('publicaciones: ' + data);
+      if (data != undefined) {
         this.publicaciones = data;
         //Ordena de más reciente a más antigua
         this.publicaciones.sort(function (a, b) {
           // A va primero que B
           if (a.fecha < b.fecha)
-              return 1;
+            return 1;
           // B va primero que A
           else if (a.fecha > b.fecha)
-              return -1;
+            return -1;
           // A y B son iguales
-          else 
-              return 0;
+          else
+            return 0;
         });
 
         this.publicaciones.forEach(publi => {
@@ -67,10 +67,10 @@ export class ExperienciasComponent implements OnInit {
 
           //Mira si el user le ha dado like
           publi.likes.forEach(like => {
-            console.log('like: '+like.userId);
+            console.log('like: ' + like.userId);
             publi.isLike = false;
-            if(this.profesor != undefined){
-              if(like.userId === this.profesor.userId){
+            if (this.profesor != undefined) {
+              if (like.userId === this.profesor.userId) {
                 publi.isLike = true;
               }
             }
@@ -78,17 +78,17 @@ export class ExperienciasComponent implements OnInit {
               publi.isLike = false;
             }
           });
-          
+
           //Obtiene comentarios de las publicaciones
           this.publiService.dameComentariosPubli(publi.id).subscribe((comments) => {
-            if(comments != undefined){
+            if (comments != undefined) {
               publi.comentarios = comments;
               comments.forEach(comm => {
                 //Formatea fecha comentario
                 comm.fecha = moment(comm.fecha).lang('es').fromNow();
                 //Obtiene quien ha escrito el comentario
                 this.publiService.dameAutorComentario(comm.id).subscribe((autor) => {
-                  if(autor != undefined){
+                  if (autor != undefined) {
                     comm.autor = autor;
                   }
                 });
@@ -100,23 +100,23 @@ export class ExperienciasComponent implements OnInit {
     });
   }
 
-  sendComment(publiId: number){
-    console.log('entra send '+publiId);   
-    if((<HTMLInputElement>document.getElementById(publiId.toString())).value.length != 0){
+  sendComment(publiId: number) {
+    console.log('entra send ' + publiId);
+    if ((<HTMLInputElement>document.getElementById(publiId.toString())).value.length != 0) {
       const comentario = (<HTMLInputElement>document.getElementById(publiId.toString())).value;
       console.log(comentario);
-      (<HTMLInputElement>document.getElementById(publiId.toString())).value = '';      
-      
+      (<HTMLInputElement>document.getElementById(publiId.toString())).value = '';
+
       const today = new Date().toISOString();
-      
-      const newComment = {"comentario" : comentario, "fecha":today, "likes": 0, "autorId": this.profesor.id, "publicacionId": publiId};
-      console.log('new comment: '+newComment);
-      
+
+      const newComment = { "comentario": comentario, "fecha": today, "likes": 0, "autorId": this.profesor.id, "publicacionId": publiId };
+      console.log('new comment: ' + newComment);
+
       this.publiService.comentar(publiId, newComment).subscribe(data => {
         console.log(data);
         data.autor = this.profesor;
         this.publicaciones.forEach(publi => {
-          if(publi.id == publiId){
+          if (publi.id == publiId) {
             publi.comentarios.unshift(data);
           }
         })
@@ -124,19 +124,19 @@ export class ExperienciasComponent implements OnInit {
     }
   }
 
-  sendPubli(){
+  sendPubli() {
     const titulo = (<HTMLInputElement>document.getElementById("TituloPublicacion")).value;
     (<HTMLInputElement>document.getElementById("TituloPublicacion")).value = '';
-    
+
     const experiencia = (<HTMLInputElement>document.getElementById("Experiencia")).value;
     (<HTMLInputElement>document.getElementById("Experiencia")).value = '';
-    
+
     const today = new Date().toISOString();
     console.log(today);
-    
+
     let publi = new Publicacion(titulo, experiencia, today, this.profesor.id, [], []);
     console.log('publi: ', publi)
-    
+
     this.publiService.publicar(publi).subscribe((data) => {
       console.log(data);
       data.autor = this.profesor;
@@ -146,14 +146,14 @@ export class ExperienciasComponent implements OnInit {
     })
   }
 
-  likePubli(publiId: number){
+  likePubli(publiId: number) {
     let prof = this.profesor;
     prof.publicacionId = publiId;
     prof.id = null;
-    this.publiService.likePubli(publiId, this.profesor).subscribe((data : Profesor) => {
-      if(data != undefined){
+    this.publiService.likePubli(publiId, this.profesor).subscribe((data: Profesor) => {
+      if (data != undefined) {
         this.publicaciones.forEach(publi => {
-          if(publi.id == publiId){
+          if (publi.id == publiId) {
             publi.likes.unshift(data);
             publi.isLike = true;
           }
@@ -162,57 +162,57 @@ export class ExperienciasComponent implements OnInit {
     });
   }
 
-  dislikePubli(publiId: number){
+  dislikePubli(publiId: number) {
     this.publicaciones.forEach(publi => {
       publi.likes.forEach(like => {
-        if(publi.id == publiId && like.userId == this.profesor.userId){
+        if (publi.id == publiId && like.userId == this.profesor.userId) {
           try {
             this.publiService.dislikePubli(publiId, like.id).subscribe(() => {
               publi.isLike = false;
               publi.likes.splice(publi.likes.indexOf(like), 1);
             });
-          } catch(error) {
+          } catch (error) {
             console.log("error: ", error);
           }
         }
       })
     });
   }
-
-  likeComment(commentId: number){
-    let prof = this.profesor;
-    prof.comentarioId = commentId;
-    prof.id = null;
-    this.publiService.likeComment(commentId, this.profesor).subscribe((data : Profesor) => {
-      if(data != undefined){
-        this.comments.forEach(comment => {
-          if(comment.id == commentId){
-            comment.likes.unshift(data);
-            comment.isLike = true;
-          }
-        });
-      }
-    });
-  }
-
-  dislikeComment(commentId: number){
+  //INTENTO DE DAR LIKE FALLIDO
+  /* likeComment(commentId: number){
     this.comments.forEach(comment => {
       comment.likes.forEach(like => {
-        if(comment.id == commentId && like.userId == this.profesor.userId){
+        if(comment.id == commentId){ 
+          try {
+            this.publiService.likeComment(comment, commentId).subscribe(() => {
+              comment.likes = comment.likes + 1;
+            })
+          } catch(error) {
+            console.log("error: ", error);
+          }
+        }
+      })
+    })
+  } */
+
+  dislikeComment(commentId: number) {
+    this.comments.forEach(comment => {
+      comment.likes.forEach(like => {
+        if (comment.id == commentId && like.userId == this.profesor.userId) {
           try {
             this.publiService.dislikeComment(commentId, like.id).subscribe(() => {
               comment.isLike = false;
               comment.likes.splice(comment.likes.indexOf(like), 1);
             });
-          } catch(error) {
-            console.log("error: ", error);
+          } catch (error) {
+
           }
         }
       })
     });
   }
 
-  mostrarImagenUpload($event){
+  mostrarImagenUpload($event) {
     this.file = $event.target.files[0];
 
     console.log('fichero: ', this.file.name);
@@ -224,7 +224,7 @@ export class ExperienciasComponent implements OnInit {
     }
   }
 
-  activarInput(){
+  activarInput() {
     document.getElementById("inp").click();
   }
 }
