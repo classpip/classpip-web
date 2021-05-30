@@ -8,19 +8,22 @@
       <div class="container" style="text-align:center;">
         <h1>RECURSOS PÚBLICOS</h1>
         <br>
-        <h4 style="text-align: center; size: 150%;">¡Bienvenido a los recursos públicos! Aquí puedes ver y descargar todos los recursos que otros profesores han subido para
-           utilizarlos en tus clases. Además, si inicias sesión, ¡puedes añadirlo directamente a tus propios recursos!</h4>  
+        <h4 style="text-align: center; size: 150%;">¡Bienvenido a los recursos públicos! Aquí puedes ver y descargar
+          todos los recursos que otros profesores han subido para
+          utilizarlos en tus clases. Además, si inicias sesión, ¡puedes añadirlo directamente a tus propios recursos!
+        </h4>
       </div>
     </div>
 
     <div class="container">
+      <!-- *********** DESCOMENTAR ESTO CUANDO ESTE HECHO SUBIR RECURSOS *************** -->
       <!-- <div *ngIf="this.isLogged == true; else loginWarn"> -->
-        <div class="button" data-target="#modalUploadRsc" (click)="modalUploadRsc.show()" style="text-align: center;">
-          <button class="btn btn-success btn-default btn-small" type="submit">
-            Subir recurso <i class="tim-icons icon-simple-add"> </i>
-          </button>
-        </div>
-        <br>
+      <div class="button" data-target="#modalUploadRsc" (click)="modalUploadRsc.show()" style="text-align: center;">
+        <button class="btn btn-success btn-default btn-small" type="submit">
+          Subir recurso <i class="tim-icons icon-simple-add"> </i>
+        </button>
+      </div>
+      <br>
       <!-- </div>
       <ng-template #loginWarn>
         <div class="card card-upload card-header">
@@ -29,7 +32,7 @@
         </div>
       </ng-template> -->
     </div>
-      
+
 
     <div class="container">
       <div class="row">
@@ -48,7 +51,7 @@
             </div>
           </a>
         </div>
-       <!--  <div class="col-md-10 ml-auto col-xl-4 mr-auto">
+        <!--  <div class="col-md-10 ml-auto col-xl-4 mr-auto">
           <a class="rsc-card" [routerLink]="['/recursos','cuestionarios']">
             <div class="card">
               <div class="card-header" style="text-align: center;">
@@ -75,7 +78,7 @@
                     src="../../../assets/img/coleccion.png" />
                 </div>
               </div>
-              
+
             </div>
           </a>
         </div>
@@ -121,7 +124,7 @@
                     src="../../../assets/img/avatares.png" />
                 </div>
               </div>
-              
+
             </div>
           </a>
         </div>
@@ -180,46 +183,170 @@
 </div>
 
 <!-- POPUP SUBIR RECURSOS -->
-<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black"
-    #modalUploadRsc="bs-modal" id="modalShowQuestion" role="dialog" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header justify-content-center">
-                <h4 class="title title-up">SUBIR NUEVO RECURSO</h4>
-            </div>
-            <div class="modal-body">
-              <form name="rscForm">
-                <div class="form-group" *ngIf="this.typeRscUpload == undefined" >
-                  <label for="typeRsc">Tipo de recurso</label>
-                    <select class="form-control" id="typeRsc" aria-placeholder="Seleccione un tipo de recurso">
-                      <option style="color: black;">Seleccione un tipo de recurso...</option>"
-                      <option style="color: black;">Pregunta</option>
-                      <option style="color: black;">Colección</option>
-                      <option style="color: black;">Avatar</option>
-                      <option style="color: black;">Imágenes de perfil</option>
-                    </select>
-                </div>
-                <div class="form-group" *ngIf="this.typeRscUpload == 'Avatar'" >
-                  <label for="exampleInputPassword1">Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                </div>
-              
-                
-              </form>
-            </div>
-            <div class="modal-footer">
-              <div style="text-align: center; margin-left: auto; margin-right: auto;">
-                <button class="btn btn-danger btn-lg" data-dismiss="modal" type="button" (click)="modalUploadRsc.hide()" (click)="resetForm()">
-                    Cerrar
-                </button>
-                &nbsp;
-                <button type="submit" class="btn btn-success btn-lg" *ngIf="this.typeRscUpload == undefined" (click)="uploadType()">Siguiente</button>
-                <!-- <button type="submit" class="btn btn-success btn-lg" *ngIf="this.uploadByJson == undefined" (click)="uploadType()">Siguiente</button> -->
-                <button type="submit" class="btn btn-primary btn-lg" *ngIf="this.typeRscUpload != undefined" (click)="uploadResource()">Subir</button>
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #modalUploadRsc="bs-modal"
+  id="modalShowQuestion" role="dialog" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-header justify-content-center">
+        <h4 class="title title-up">SUBIR NUEVO RECURSO</h4>
+      </div>
+
+      <div class="modal-body">
+        <form name="rscForm">
+          <!-- *********** FORM TYPE RESOURCE *************** -->
+          <div class="form-group" *ngIf="this.typeRscUpload == undefined">
+            <label for="typeRsc">Tipo de recurso*</label>
+            <select class="form-control" id="typeRsc">
+              <option style="color: black;">Seleccione un tipo de recurso...</option>"
+              <option style="color: black;">Pregunta</option>
+              <option style="color: black;">Colección</option>
+              <option style="color: black;">Avatar</option>
+              <option style="color: black;">Imágenes de perfil</option>
+            </select>
+          </div>
+
+          <!-- *********** FORM PREGUNTA *************** -->
+          <div *ngIf="this.typeRscUpload == 'Pregunta'">
+            <div *ngIf="this.typeQuestion== undefined && this.finishForm == false">
+              <div class="form-group">
+                <label for="tituloPregunta">Título*</label>
+                <input type="text" class="form-control" id="tituloPregunta" placeholder="Título">
+              </div>
+              <div class="form-group">
+                <label for="tipoPregunta">Tipo de pregunta*</label>
+                <select class="form-control" id="tipoPregunta">
+                  <option style="color: black;">Seleccione un tipo...</option>"
+                  <option style="color: black;">Cuatro opciones</option>
+                  <option style="color: black;">Emparejamiento</option>
+                  <option style="color: black;">Respuesta abierta</option>
+                  <option style="color: black;">Verdadero o falso</option>
+                </select>
               </div>
             </div>
+
+            <div *ngIf="this.typeQuestion != undefined">
+              <form name="preguntaForm">
+                <!-- *************COMUNES***************** -->
+                <div class="form-group" *ngIf="this.respuestasForm == false" >
+                  <label for="tematica">Temática*</label>
+                  <input type="text" class="form-control" id="tematica" placeholder="Temática">
+                </div>
+                <div class="form-group" *ngIf="this.respuestasForm == false" >
+                  <label for="pregunta">Pregunta*</label>
+                  <input type="text" class="form-control" id="pregunta" placeholder="Pregunta">
+                </div>
+                <div class="form-group" *ngIf="this.respuestasForm == false" >
+                  <label for="feddback1">Feedback positivo (respuesta si acierta)*</label>
+                  <input type="text" class="form-control" id="feedback1" placeholder="Feedback positivo">
+                </div>
+                <div class="form-group" *ngIf="this.respuestasForm == false" >
+                  <label for="feedback2">Feedback negativo (respuesta si falla)*</label>
+                  <input type="text" class="form-control" id="feedback2" placeholder="Feedback negativo">
+                </div>
+
+                <!-- *************RESPUESTA ABIERTA Y VoF***************** -->
+                <div class="form-group" *ngIf="this.respuestasForm == false && this.typeQuestion == 'Respuesta abierta'">
+                  <label for="respAbierta">Respuesta correcta*</label>
+                  <input type="text" class="form-control" id="respAbierta" placeholder="Respuesta correcta">
+                </div>
+                <div class="form-group" *ngIf="this.respuestasForm == false && this.typeQuestion == 'Verdadero o falso'">
+                  <label for="respVoF">Respuesta correcta*</label>
+                  <select class="form-control" id="respVoF">
+                    <option style="color: black;">Verdadero</option>"
+                    <option style="color: black;">Falso</option>
+                  </select>
+                </div>
+
+                <!-- ***********IMAGEN PREGUNTA*************** -->
+                <div class="form-group" *ngIf="this.respuestasForm == false">
+                  <label for="myfile">Select a file:</label>
+                  <input type="file" id="myfile" name="myfile">
+                  <br><br>
+                </div>
+
+                <!-- *************RESPUESTA CORRECTA OPCIONES***************** -->
+                <div class="form-group" *ngIf="this.respuestasForm == true && this.typeQuestion == 'Cuatro opciones'">
+                  <label for="respOpciones">Respuesta correcta*</label>
+                  <input type="text" class="form-control" id="respOpcion" placeholder="Respuesta correcta">
+                </div>
+
+                <!-- ***********RESPUESTAS INCORRECTAS*************** -->
+                <div class="form-group" *ngIf="this.respuestasForm == true && this.typeQuestion == 'Cuatro opciones'">
+                  <label for="respInc1">Respuesta incorrecta 1*</label>
+                  <input type="text" class="form-control" id="respInc1" placeholder="Respuesta incorrecta 1">
+                </div>
+                <div class="form-group" *ngIf="this.respuestasForm == true && this.typeQuestion == 'Cuatro opciones'">
+                  <label for="respInc2">Respuesta incorrecta 2*</label>
+                  <input type="text" class="form-control" id="respInc2" placeholder="Respuesta incorrecta 2">
+                </div>
+                <div class="form-group" *ngIf="this.respuestasForm == true && this.typeQuestion == 'Cuatro opciones'">
+                  <label for="respInc3">Respuesta incorrecta 3*</label>
+                  <input type="text" class="form-control" id="respInc3" placeholder="Respuesta incorrecta 3">
+                </div>
+
+                <!-- ***********EMPAREJAMIENTOS*************** -->
+                <div class="form-group" *ngIf="this.finishForm == true && this.respuestasForm==true && this.typeQuestion == 'Emparejamiento'">
+                  <label for="parA">Pareja1*</label>
+                  <input type="text" class="form-control" id="parA" placeholder="Pareja 1">
+                </div>
+                <div class="form-group" *ngIf="this.finishForm == true && this.respuestasForm==true && this.typeQuestion == 'Emparejamiento'">
+                  <label for="parB">Pareja2*</label>
+                  <input type="text" class="form-control" id="parB" placeholder="Pareja 2">
+                </div>
+
+              </form>
+            </div>
+          </div>
+
+          <!-- *********** FORM COLECCION *************** -->
+          <div *ngIf="this.typeRscUpload == 'Colección'">
+
+          </div>
+
+          <!-- *********** FORM AVATAR *************** -->
+          <div *ngIf="this.typeRscUpload == 'Avatar'">
+            <div class="form-group">
+              <label for="tituloAvatar">Título</label>
+              <input type="text" class="form-control" id="tituloAvatar" placeholder="Título">
+            </div>
+          </div>
+          <!-- *********** FORM IMAGENES PERFIL *************** -->
+          <div *ngIf="this.typeRscUpload == 'Imágenes de perfil'">
+
+          </div>
+        </form>
+      </div>
+
+      <!-- *********** BOTONES SUBMIT FORM *************** -->
+      <div class="modal-footer">
+        <div style="text-align: center; margin-left: auto; margin-right: auto;">
+          <!-- *********** BOTON CERRAR (resetear forms y variables) *************** -->
+          <button class="btn btn-danger btn-lg" data-dismiss="modal" type="button" (click)="resetForm()"
+            (click)="modalUploadRsc.hide()">
+            Cerrar
+          </button>
+          &nbsp;
+          <!-- *********** BOTON NEXT TYPE RESOURCE *************** -->
+          <button type="submit" class="btn btn-success btn-lg" *ngIf="this.typeRscUpload == undefined"
+            (click)="uploadType()">Siguiente</button>
+
+          <!-- *********** BOTON NEXT TYPE PREGUNTA *************** -->
+          <button type="submit" class="btn btn-success btn-lg"
+            *ngIf="this.typeRscUpload == 'Pregunta' && this.typeQuestion == undefined"
+            (click)="uploadTypeQuestion()">Siguiente</button>
+
+          <button type="submit" class="btn btn-success btn-lg"
+            *ngIf="this.typeRscUpload == 'Pregunta' && this.typeQuestion != undefined && this.respuestasForm == false && this.finishForm == false"
+            (click)="goParejas()">Siguiente</button>
+
+          <!-- *********** BOTON SUBMIT UPLOAD RESOURCE *************** -->
+          <button type="submit" class="btn btn-primary btn-lg"
+            *ngIf="this.typeRscUpload != undefined && this.finishForm == true" (click)="uploadResource()">Subir</button>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <app-footer></app-footer>

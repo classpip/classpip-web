@@ -59,6 +59,10 @@ thead {
     animation: spin 2s linear infinite;
 }
 
+.modal {
+    background-color: rgba(128, 128, 128, 0.418);
+ }
+
 /* Safari */
 @-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }

@@ -20,7 +20,10 @@ export class RecursosComponent implements OnInit {
   profesor;
 
   form;
+  respuestasForm = false;
+  finishForm = false;
   typeRscUpload;
+  typeQuestion;
   uploadByJson: boolean;
 
   constructor(private auth:AuthService, private router: Router,  private sesion: SesionService) { }
@@ -42,11 +45,32 @@ export class RecursosComponent implements OnInit {
   uploadType(){
     if(this.form['typeRsc'].value != 'Seleccione un tipo de recurso...'){
       this.typeRscUpload = this.form['typeRsc'].value;
+      console.log('typeRsc: ', this.typeRscUpload);
       if(document.getElementById('typeRsc').style.borderColor == "red")
         document.getElementById('typeRsc').style.borderColor ="#525f7f";
     } else {
       document.getElementById('typeRsc').style.borderColor ="red";
     }
+  }
+
+  uploadTypeQuestion(){
+    if(this.form['tipoPregunta'].value != 'Seleccione un tipo...'){
+      this.typeQuestion = this.form['tipoPregunta'].value;
+      console.log('typequestion: ', this.typeQuestion);
+      if(this.typeQuestion == 'Respuesta abierta' || this.typeQuestion == 'Verdadero o falso'){
+        this.finishForm = true;
+        this.respuestasForm = false;
+      }
+      if(document.getElementById('tipoPregunta').style.borderColor == "red")
+        document.getElementById('tipoPregunta').style.borderColor ="#525f7f";
+    } else {
+      document.getElementById('tipoPregunta').style.borderColor ="red";
+    }
+  }
+
+  goParejas(){
+    this.respuestasForm = true;
+    this.finishForm = true;
   }
 
   // checkJsonOrForm(){
@@ -68,8 +92,11 @@ export class RecursosComponent implements OnInit {
   }
 
   resetForm(){
+    this.finishForm = false;
+    this.respuestasForm = false;
+    this.typeQuestion = undefined;
+    this.typeRscUpload = undefined;
     this.form.reset();
-    document.getElementById('typeRsc').style.borderColor ="#525f7f";
   }
 
 }
