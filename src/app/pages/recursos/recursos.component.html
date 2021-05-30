@@ -14,10 +14,28 @@
     </div>
 
     <div class="container">
+      <!-- <div *ngIf="this.isLogged == true; else loginWarn"> -->
+        <div class="button" data-target="#modalUploadRsc" (click)="modalUploadRsc.show()" style="text-align: center;">
+          <button class="btn btn-success btn-default btn-small" type="submit">
+            Subir recurso <i class="tim-icons icon-simple-add"> </i>
+          </button>
+        </div>
+        <br>
+      <!-- </div>
+      <ng-template #loginWarn>
+        <div class="card card-upload card-header">
+          <p style="text-align: center;"><a class="login" routerLink="/login">Inicia sesión</a> o <a class="register"
+              routerLink="/register">regístarte</a> para poder subir recursos</p>
+        </div>
+      </ng-template> -->
+    </div>
+      
+
+    <div class="container">
       <div class="row">
         <div class="col-md-10 ml-auto col-xl-4 mr-auto">
           <a class="rsc-card" [routerLink]="['/recursos','preguntas']">
-            <div class="card">
+            <div class="card card-rsc">
               <div class="card-header" style="text-align: center;">
                 <h4>PREGUNTAS</h4>
               </div>
@@ -47,7 +65,7 @@
         </div> -->
         <div class="col-md-10 ml-auto col-xl-4 mr-auto">
           <a class="rsc-card" [routerLink]="['/recursos','colecciones']">
-            <div class="card">
+            <div class="card card-rsc">
               <div class="card-header" style="text-align: center;">
                 <h4>COLECCIONES</h4>
               </div>
@@ -93,7 +111,7 @@
         </div> -->
         <div class="col-md-10 ml-auto col-xl-4 mr-auto">
           <a class="rsc-card" [routerLink]="['/recursos','avatares']">
-            <div class="card">
+            <div class="card card-rsc">
               <div class="card-header" style="text-align: center;">
                 <h4>AVATARES</h4>
               </div>
@@ -125,7 +143,7 @@
         </div> -->
         <div class="col-md-10 ml-auto col-xl-4 mr-auto">
           <a class="rsc-card" [routerLink]="['/recursos', 'imagenes']">
-            <div class="card" id="card">
+            <div class="card card-rsc" id="card">
               <div class="card-header" style="text-align: center;">
                 <h4>IMÁGENES DE PERFIL</h4>
               </div>
@@ -159,6 +177,49 @@
 
   </div>
 
+</div>
+
+<!-- POPUP SUBIR RECURSOS -->
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black"
+    #modalUploadRsc="bs-modal" id="modalShowQuestion" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h4 class="title title-up">SUBIR NUEVO RECURSO</h4>
+            </div>
+            <div class="modal-body">
+              <form name="rscForm">
+                <div class="form-group" *ngIf="this.typeRscUpload == undefined" >
+                  <label for="typeRsc">Tipo de recurso</label>
+                    <select class="form-control" id="typeRsc" aria-placeholder="Seleccione un tipo de recurso">
+                      <option style="color: black;">Seleccione un tipo de recurso...</option>"
+                      <option style="color: black;">Pregunta</option>
+                      <option style="color: black;">Colección</option>
+                      <option style="color: black;">Avatar</option>
+                      <option style="color: black;">Imágenes de perfil</option>
+                    </select>
+                </div>
+                <div class="form-group" *ngIf="this.typeRscUpload == 'Avatar'" >
+                  <label for="exampleInputPassword1">Password</label>
+                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                </div>
+              
+                
+              </form>
+            </div>
+            <div class="modal-footer">
+              <div style="text-align: center; margin-left: auto; margin-right: auto;">
+                <button class="btn btn-danger btn-lg" data-dismiss="modal" type="button" (click)="modalUploadRsc.hide()" (click)="resetForm()">
+                    Cerrar
+                </button>
+                &nbsp;
+                <button type="submit" class="btn btn-success btn-lg" *ngIf="this.typeRscUpload == undefined" (click)="uploadType()">Siguiente</button>
+                <!-- <button type="submit" class="btn btn-success btn-lg" *ngIf="this.uploadByJson == undefined" (click)="uploadType()">Siguiente</button> -->
+                <button type="submit" class="btn btn-primary btn-lg" *ngIf="this.typeRscUpload != undefined" (click)="uploadResource()">Subir</button>
+              </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <app-footer></app-footer>
