@@ -47,19 +47,14 @@ export class RecursosListComponent implements OnInit {
   backup = null;
   pregunta;
 
+  isDownloading = false;
+
   constructor(
     private activeRoute: ActivatedRoute,
     private router: Router,
     private recursosService: RecursosService,
     private sesion: SesionService
   ) { }
-
-  /*
-
-  FALTA POR CENTRAR EL LOADING EN EL HTML
-  BOTON VOLVER
-
-  */
 
   ngOnInit(): void {
     //Obtiene de la ruta el tipo de recurso que es
@@ -213,9 +208,7 @@ export class RecursosListComponent implements OnInit {
         this.isFilter = true; 
       } else {
         Swal.fire('Error', 'No hay coincidencias', 'error');
-        this.listRecursos = this.backup;
-        (<HTMLInputElement>document.getElementById("tipo")).value = 'Ninguno';
-        (<HTMLInputElement>document.getElementById("tematica")).value = 'Ninguno';
+        this.clearFilters();
       }
         
     }
@@ -509,6 +502,10 @@ export class RecursosListComponent implements OnInit {
     }
   }
 
+  /*************************************/
+  /* FUNCIONES PARA DESCARGAR RECURSOS */
+  /*************************************/
+
   descargarRecurso(rsc) {
     switch (this.recurso) {
       case 'cuestionarios': {
@@ -534,16 +531,10 @@ export class RecursosListComponent implements OnInit {
     }
   }
 
-  /*************************************/
-  /* FUNCIONES PARA DESCARGAR RECURSOS */
-  /*************************************/
-
   //Función para descargar la colección
   descargaColeccion(rsc: any) {
 
-    //PONER LOADING HASTA QUE HAYA DESCARGADO TODAS LAS FOTOS 
-    // (no es el mismo que la lista, ya lo haré yo. Tu intenta hacer lo mismo para avatares si te pones antes que yo)
-    // y aver que ahora esta mierda va, conseguimos mostrar las de avatares al mostrar el recurso
+    this.isDownloading = true;
 
     //Prepara el fichero ZIP a descargar
     let zip = new JSZip();
@@ -603,10 +594,11 @@ export class RecursosListComponent implements OnInit {
 
           //Crea el ZIP al haber descargado todas las fotos
           if (count == imgNames.length) {
-            //PARAR LOADING AQUI *******************************
+            this.isDownloading = false;
             zip.generateAsync({ type: "blob" }).then(function (blob) {
               saveAs(blob, "Coleccion_" + rsc.Nombre + ".zip");
             }, function (err) {
+              this.isDownloading = false;
               console.log(err);
               Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
             });
@@ -614,13 +606,13 @@ export class RecursosListComponent implements OnInit {
         });
       })
     });
-    
-
-  }
+}
 
 
   //Función para descargar la familia de avatares
   descargaFamiliaAvatares(rsc: any) {
+
+    this.isDownloading = true;
 
     this.familia = rsc
 
@@ -629,26 +621,64 @@ export class RecursosListComponent implements OnInit {
 
     let zip = new JSZip();
     let folder = zip.folder('Avatares_' + rsc.NombreFamilia);
+    let compFolder = folder.folder('Imagenes complementos');
     folder.file(rsc.NombreFamilia + ".json", theJSON);
 
     console.log(rsc.Silueta)
 
     this.recursosService.downloadImgSilueta(rsc.Silueta).subscribe((data: any) => {
       folder.file(`${rsc.Silueta}`, data);
-    });
+      
+      let complementos = new Array<string>();
+      rsc.Complemento1.forEach(complemento => {
+        complementos.push(complemento);
+      });
+      rsc.Complemento2.forEach(complemento => {
+        complementos.push(complemento);
+      });
+      rsc.Complemento3.forEach(complemento => {
+        complementos.push(complemento);
+      });
+      rsc.Complemento4.forEach(complemento => {
+        complementos.push(complemento);
+      });
 
-    zip.generateAsync({ type: "blob" }).then(function (blob) {
-      saveAs(blob, 'Avatares_' + rsc.NombreFamilia + ".zip");
-    }, function (err) {
-      console.log(err);
-      Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
-    })
+      if(complementos.length != 0){
+        let cont = 0;
+        complementos.forEach(c => {
+          this.recursosService.downloadImgComplementoAvatar(c).subscribe((data) => {
+            compFolder.file(c, data);
+            cont++;
+            if(cont == complementos.length){
+              this.isDownloading = false;
+              zip.generateAsync({ type: "blob" }).then(function (blob) {
+                saveAs(blob, 'Avatares_' + rsc.NombreFamilia + ".zip");
+              }, function (err) {
+                console.log(err);
+                this.isDownloading = false;
+                Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+              });
+            }
+          }, (error) => {
+            console.log(error);
+            this.isDownloading = false;
+            Swal.fire('Error','Error al descargar imagen '+c, 'error');
+          });
+        });
+      }
+    }, (error) => {
+      console.log(error);
+      this.isDownloading = false;
+      Swal.fire('Error', 'Error al descargar imágenes', 'error');
+    });
 
   }
 
 
   //Función para descargar la familia de imagenes de perfil
   descargaFamiliaImagenes(rsc: any) {
+
+    this.isDownloading = true;
 
     console.log("RSC: ", rsc);
 
@@ -671,24 +701,24 @@ export class RecursosListComponent implements OnInit {
 
         //Crea el ZIP al haber descargado todas las fotos
         if (count == imgNames.length) {
-          //PARAR LOADING AQUI *******************************
+          this.isDownloading = false;
           zip.generateAsync({ type: "blob" }).then(function (blob) {
             saveAs(blob, "FamiliaImagenesPerfil_" + rsc.NombreFamilia + ".zip");
           }, function (err) {
             console.log(err);
+            this.isDownloading = false;
             Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
           });
         }
       });
     })
-
-
-
   }
 
 
   //Función para descargar la pregunta
   descargaPreguntas(rsc: any) {
+
+    this.isDownloading = true;
 
     console.log("RSC: ", rsc)
 
@@ -700,20 +730,24 @@ export class RecursosListComponent implements OnInit {
     if (rsc.Imagen != null){
       this.recursosService.downloadImgPregunta(rsc.Imagen).subscribe((data: any) => {
         console.log("DATA: ", data)
-        zip.file(`${rsc.Imagen}`, data)
+        zip.file(`${rsc.Imagen}`, data);
+        this.isDownloading = false;
         zip.generateAsync({ type: "blob" }).then(function (blob) {
           saveAs(blob, 'Pregunta_' + rsc.Titulo + ".zip");
         }, function (err) {
           console.log(err);
+          this.isDownloading = false;
           Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
         }) 
       });
     }
     else {
+      this.isDownloading = false;
       zip.generateAsync({ type: "blob" }).then(function (blob) {
         saveAs(blob, 'Pregunta_' + rsc.Titulo + ".zip");
       }, function (err) {
         console.log(err);
+        this.isDownloading = false;
         Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
       })
     }

@@ -99,6 +99,10 @@ export class RecursosService {
     
   }
 
+  public downloadImgComplementoAvatar(imgName: string) {
+    return this.http.get(this.APIUrlImagenesAvatares + '/download/' + imgName, {observe: 'body', responseType: 'blob'});
+  }
+
   public downloadImgPerfil(imgName: string) {
     return this.http.get(imgName, {observe: 'body', responseType: 'blob'});
   }
@@ -114,8 +118,8 @@ export class RecursosService {
 
   //NO FUNCIONA
    public DameImagenAvatar(imagen: string): Observable<any> {
-    return this.httpImagenes.get(this.APIUrlImagenesAvatares + '/files/' + imagen,    
-        {responseType: ResponseContentType.Blob});
+    return this.http.get(this.APIUrlImagenesAvatares + '/download/' + imagen,    
+        {observe: 'body', responseType: 'blob'});
       /* {responseType: ResponseContentType.Blob} );*/
       /* return this.http.get(url, { headers: new HttpHeaders({
         'Authorization': 'Basic ' + encodedAuth,
