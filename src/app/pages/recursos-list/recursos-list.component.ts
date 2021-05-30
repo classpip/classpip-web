@@ -663,6 +663,7 @@ export class RecursosListComponent implements OnInit {
 
     imgNames.forEach((name: string) => {
       this.recursosService.downloadImgPerfil(this.urlImagenesPerfil + name).subscribe((data: any) => {
+        console.log('Img: ',data);
         //Añade la imagen a la carpeta
         folder.file(`${name}`, data);
 
@@ -694,24 +695,27 @@ export class RecursosListComponent implements OnInit {
     const theJSON = JSON.stringify(rsc);
 
     let zip = new JSZip();   
-    let folder = zip.folder("imagen") 
     zip.file(rsc.Titulo + ".json", theJSON);
 
     if (rsc.Imagen != null){
       this.recursosService.downloadImgPregunta(rsc.Imagen).subscribe((data: any) => {
         console.log("DATA: ", data)
-        folder.file(`${rsc.Imagen}`, data);
+        zip.file(`${rsc.Imagen}`, data)
+        zip.generateAsync({ type: "blob" }).then(function (blob) {
+          saveAs(blob, 'Pregunta_' + rsc.Titulo + ".zip");
+        }, function (err) {
+          console.log(err);
+          Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+        }) 
       });
     }
-
-    zip.generateAsync({ type: "blob" }).then(function (blob) {
-      saveAs(blob, 'Pregunta_' + rsc.Titulo + ".zip");
-    }, function (err) {
-      console.log(err);
-      Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
-    })
-
-
+    else {
+      zip.generateAsync({ type: "blob" }).then(function (blob) {
+        saveAs(blob, 'Pregunta_' + rsc.Titulo + ".zip");
+      }, function (err) {
+        console.log(err);
+        Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+      })
+    }
   }
-
 }
