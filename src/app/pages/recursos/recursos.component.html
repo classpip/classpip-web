@@ -260,15 +260,20 @@
 
                 <!-- ***********IMAGEN PREGUNTA*************** -->
                 <div class="form-group" *ngIf="this.respuestasForm == false">
-                  <label for="myfile">Select a file:</label>
-                  <input type="file" id="myfile" name="myfile">
+                  <label for="imgPregunta">Selecciona una imagen (opcional)</label>
+                  <input #file id="imgPregunta" type="file" accept="image/*" (change)="getImagenPregunta($event)" style="display: none;">
+                  <br>
+                  <button class="btn btn-default" (click)="activarImagenPregunta()"><i class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
+                  &nbsp;
+                  <span class="imgName" *ngIf="this.imgPreguntaName != undefined" >{{this.imgPreguntaName}}</span>
+                  <img src={{this.imgPregunta.get(this.imgPreguntaName)}} *ngIf="this.imgPreguntaName != undefined" />
                   <br><br>
                 </div>
 
                 <!-- *************RESPUESTA CORRECTA OPCIONES***************** -->
                 <div class="form-group" *ngIf="this.respuestasForm == true && this.typeQuestion == 'Cuatro opciones'">
                   <label for="respOpciones">Respuesta correcta*</label>
-                  <input type="text" class="form-control" id="respOpcion" placeholder="Respuesta correcta">
+                  <input type="text" class="form-control" id="respOpciones" placeholder="Respuesta correcta">
                 </div>
 
                 <!-- ***********RESPUESTAS INCORRECTAS*************** -->
@@ -348,7 +353,7 @@
 
           <button type="submit" class="btn btn-success btn-lg"
             *ngIf="this.typeRscUpload == 'Pregunta' && this.typeQuestion != undefined && this.respuestasForm == false && this.finishForm == false"
-            (click)="goRespuestas()">Siguiente</button>
+            (click)="getCommonFieldPreguntas()">Siguiente</button>
 
           <!-- *********** BOTON SUBMIT UPLOAD RESOURCE *************** -->
           <button type="submit" class="btn btn-primary btn-lg"
