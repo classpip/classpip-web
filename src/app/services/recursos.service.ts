@@ -112,6 +112,23 @@ export class RecursosService {
     
   }
 
+  ///SERVICIOS BORRAR RECURSOS
+  public deletePregunta(id: string){
+    return this.http.delete(this.APIUrlPreguntas + '/' + id);
+  }
+
+  public deleteColeccion(id: string){
+    return this.http.delete(this.APIUrlColecciones + '/' + id);
+  }
+
+  public deleteFamiliaAvatares(id: string){
+    return this.http.delete(this.APIUrlFamiliarAvatares + '/' + id);
+  }
+
+  public deleteFamiliaImagenesPerfil(id: string){
+    return this.http.delete(this.APIUrlFamiliasDeImagenesDePerfil + '/' + id);
+  }
+
   ///SERVICIOS SUBIR RECURSOS
   public uploadPregunta(pregunta: Pregunta){
     return this.http.post(this.APIUrlPreguntas, pregunta);

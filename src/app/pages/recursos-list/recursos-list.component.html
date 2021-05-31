@@ -73,13 +73,23 @@
                                         placement="bottom" tooltip="Descargar" (click)="descargarRecurso(rsc)">
                                         <i class="tim-icons icon-cloud-download-93"></i>
                                     </button>
+                                    &nbsp;
+                                    <button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-info btn-roundbtn-icon"
+                                        placement="bottom" tooltip="Eliminar recurso" (click)="borraRecurso(rsc)" *ngIf="rsc.isPropietario">
+                                        <i class="tim-icons icon-trash-simple"></i>
+                                    </button>
+                                    <button  [style.visibility]="'hidden'" type="button" rel="tooltip" class="btn btn-sm btn-info btn-roundbtn-icon"
+                                        placement="bottom" *ngIf="!rsc.isPropietario">
+                                        <i class="tim-icons icon-trash-simple"></i>
+                                    </button>
+                                    
 
                                     <!-- AVERIGUAR COMO MOSTRAR SOLO EN UNA FILA -->
                                     <!-- FUNCIONA, PERO VA TAN RAPIDO QUE NO LO VEO, AVER TU -->
                                     
-                                    <!-- &nbsp;
+                                    &nbsp;
                                     <span class="loading" *ngIf="this.isDownloading" ></span>
-                                    &nbsp; -->
+                                    &nbsp;
                                 </td>
                             </tr>
                         </tbody>

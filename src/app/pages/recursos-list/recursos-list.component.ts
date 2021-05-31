@@ -12,6 +12,7 @@ import * as JSZip from 'jszip';
 import { Cromo } from 'src/app/clases/recursos/Cromo';
 import Swal from 'sweetalert2';
 import { Console } from 'console';
+import { forEach } from 'jszip';
 
 @Component({
   selector: 'app-recursos-list',
@@ -24,7 +25,7 @@ export class RecursosListComponent implements OnInit {
   rscName: String;
   listRecursos;
   mapProfesores: Map<Number, Profesor> = new Map();
-  profesorId: number;
+  profesor;
 
 
   //Recursos
@@ -40,8 +41,8 @@ export class RecursosListComponent implements OnInit {
 
   //Variables para filtrar preguntas
   isFilter = false;
-  mapPreguntasTipo = new Map<string,Array<any>>();
-  mapPreguntasTematica = new Map<string,Array<any>>();
+  mapPreguntasTipo = new Map<string, Array<any>>();
+  mapPreguntasTematica = new Map<string, Array<any>>();
   listTipo;
   listTematica;
   backup = null;
@@ -63,6 +64,7 @@ export class RecursosListComponent implements OnInit {
     //Obtiene los profesores para poder obtener el nombre del propietario
     //Lo hace en caso de que este logueado, sino no verá los propietarios
     if (this.isLoggedIn()) {
+      this.profesor = this.sesion.DameProfesor();
       this.recursosService.DameProfesores().subscribe(profesores => {
         profesores.forEach(prof => {
           this.mapProfesores.set(prof.id, prof);
@@ -112,6 +114,7 @@ export class RecursosListComponent implements OnInit {
       case 'colecciones': {
         this.rscName = 'Colecciones';
         this.DameColecciones();
+
         break;
       }
 
@@ -127,6 +130,11 @@ export class RecursosListComponent implements OnInit {
         break;
       }
     }
+
+
+
+
+
   }
 
   isLoggedIn() {
@@ -145,76 +153,91 @@ export class RecursosListComponent implements OnInit {
 
   // Funciones para recursos de tipo pregunta
   isPreguntas() {
-    if(this.recurso == 'preguntas')
+    if (this.recurso == 'preguntas')
       return true;
 
     else return false;
   }
 
-  filter(){    
+  //Función para ver si soy el propietario del recurso
+  isPropietario(recurso) {
+    console.log("this.prof: ", this.profesor.id);
+    console.log("recurso.prof: ", recurso.profesorId);
+    if (this.profesor.id == recurso.profesorId) {
+
+      return true
+    }
+    else {
+
+      return false
+    }
+
+  }
+
+  filter() {
 
     let auxMap = new Map();
 
     let tipo = (<HTMLInputElement>document.getElementById("tipo")).value;
-    
+
     let tematica = (<HTMLInputElement>document.getElementById("tematica")).value;
 
-    if(tipo=='Ninguno' && tematica=='Ninguno'){
+    if (tipo == 'Ninguno' && tematica == 'Ninguno') {
       // Swal.fire('Error', 'Selecciona algún filtro', 'error');
       console.log('No hay filtros seleccionados');
-    } else{
-      
-      if(this.backup == null){
+    } else {
+
+      if (this.backup == null) {
         this.backup = this.listRecursos;
       }
       this.listRecursos = [];
-      console.log('backup: ',this.backup)
-            
-      if(tematica != 'Ninguno' && tipo == 'Ninguno'){
+      console.log('backup: ', this.backup)
+
+      if (tematica != 'Ninguno' && tipo == 'Ninguno') {
         console.log('Filtramos por tematica ', tematica);
         this.mapPreguntasTematica.get(tematica).forEach(rsc => {
-          if(!auxMap.has(rsc.id))
+          if (!auxMap.has(rsc.id))
             auxMap.set(rsc.id, rsc);
         });
-        console.log('list tematica: ',auxMap.values());
-      }  
+        console.log('list tematica: ', auxMap.values());
+      }
 
-      else if(tematica== 'Ninguno' && tipo != 'Ninguno'){
+      else if (tematica == 'Ninguno' && tipo != 'Ninguno') {
         console.log('Filtramos por tipo ', tipo);
         this.mapPreguntasTipo.get(tipo).forEach(rsc => {
-          if(!auxMap.has(rsc.id))
+          if (!auxMap.has(rsc.id))
             auxMap.set(rsc.id, rsc);
         });
-        console.log('list tipo: ',auxMap.values());
+        console.log('list tipo: ', auxMap.values());
       }
 
       else {
-        console.log('Filtramos por '+tipo+' y '+tematica);
+        console.log('Filtramos por ' + tipo + ' y ' + tematica);
         let auxList;
         let auxType = this.mapPreguntasTipo.get(tipo);
         this.mapPreguntasTematica.get(tematica).forEach(rscTem => {
           auxType.forEach(rscType => {
-            if(rscTem.id == rscType.id){
+            if (rscTem.id == rscType.id) {
               auxMap.set(rscType.id, rscType);
             }
           })
         });
       }
 
-      if(auxMap.size != 0){
+      if (auxMap.size != 0) {
         console.log('auxMap: ', auxMap);
         this.listRecursos = Array.from(auxMap.values());
-        console.log('lista filtrada: ',this.listRecursos);
-        this.isFilter = true; 
+        console.log('lista filtrada: ', this.listRecursos);
+        this.isFilter = true;
       } else {
         Swal.fire('Error', 'No hay coincidencias', 'error');
         this.clearFilters();
       }
-        
+
     }
   }
 
-  clearFilters(){
+  clearFilters() {
     (<HTMLInputElement>document.getElementById("tipo")).value = 'Ninguno';
     (<HTMLInputElement>document.getElementById("tematica")).value = 'Ninguno';
     this.isFilter = false;
@@ -222,7 +245,7 @@ export class RecursosListComponent implements OnInit {
     this.backup = null;
   }
 
-  verPregunta(rsc: any){
+  verPregunta(rsc: any) {
     this.pregunta = rsc;
     console.log("pregunta: ", rsc)
   }
@@ -253,6 +276,9 @@ export class RecursosListComponent implements OnInit {
           } else {
             recurso.propietario = 'Desconocido';
           }
+          if (this.profesor != undefined) {
+            recurso.isPropietario = this.isPropietario(recurso);
+          }
         });
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function (obj) {
@@ -262,10 +288,10 @@ export class RecursosListComponent implements OnInit {
         });
       }
     },
-    (error) => {
-      console.log(error);
-      this.listRecursos = [];
-    });
+      (error) => {
+        console.log(error);
+        this.listRecursos = [];
+      });
   }
 
   //Funcion que obtiene los recursos publicos de cuestionarios
@@ -295,10 +321,10 @@ export class RecursosListComponent implements OnInit {
         });
       }
     },
-    (error) => {
-      console.log(error);
-      this.listRecursos = [];
-    });
+      (error) => {
+        console.log(error);
+        this.listRecursos = [];
+      });
   }
   //Funcion que obtiene los recursos publicos de cuestionarios de satisfaccion
   DameCuestionariosSatisfaccionPublicos() {
@@ -326,10 +352,10 @@ export class RecursosListComponent implements OnInit {
         });
       }
     },
-    (error) => {
-      console.log(error);
-      this.listRecursos = [];
-    });
+      (error) => {
+        console.log(error);
+        this.listRecursos = [];
+      });
   }
 
   //Funcion que obtiene los recursos publicos de imaganes de perfil
@@ -348,6 +374,9 @@ export class RecursosListComponent implements OnInit {
             recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
           } else {
             recurso.propietario = 'Desconocido';
+          }
+          if (this.profesor != undefined) {
+            recurso.isPropietario = this.isPropietario(recurso);
           }
 
         });
@@ -368,10 +397,10 @@ export class RecursosListComponent implements OnInit {
       }
 
     },
-    (error) => {
-      console.log(error);
-      this.listRecursos = [];
-    });
+      (error) => {
+        console.log(error);
+        this.listRecursos = [];
+      });
   }
 
   //Funcion que obtiene los recursos publicos de colecciones
@@ -387,10 +416,17 @@ export class RecursosListComponent implements OnInit {
           if (this.mapProfesores.has(recurso.profesorId)) {
             recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
             recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
+
           } else {
             recurso.propietario = 'Desconocido';
           }
+          if (this.profesor != undefined) {
+            recurso.isPropietario = this.isPropietario(recurso);
+          }
+
+
         });
+        console.log("ESTE: ", this.listRecursos)
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function (obj) {
           obj['nombreRecurso'] = obj['Nombre']; // Assign new key
@@ -399,10 +435,10 @@ export class RecursosListComponent implements OnInit {
         });
       }
     },
-    (error) => {
-      console.log(error);
-      this.listRecursos = [];
-    });
+      (error) => {
+        console.log(error);
+        this.listRecursos = [];
+      });
   }
 
   DameTodasPreguntas() {
@@ -429,33 +465,36 @@ export class RecursosListComponent implements OnInit {
           } else {
             recurso.propietario = 'Desconocido';
           }
+          if (this.profesor != undefined) {
+            recurso.isPropietario = this.isPropietario(recurso);
+          }
 
-          if(recurso.Tipo != null){
-            if(!this.mapPreguntasTipo.has(recurso.Tipo)){
+          if (recurso.Tipo != null) {
+            if (!this.mapPreguntasTipo.has(recurso.Tipo)) {
               this.mapPreguntasTipo.set(recurso.Tipo, new Array());
             }
             this.mapPreguntasTipo.get(recurso.Tipo).push(recurso);
           };
 
-          if(recurso.Tematica != null){
-            if(!this.mapPreguntasTematica.has(recurso.Tematica)){
+          if (recurso.Tematica != null) {
+            if (!this.mapPreguntasTematica.has(recurso.Tematica)) {
               this.mapPreguntasTematica.set(recurso.Tematica, new Array());
             }
             this.mapPreguntasTematica.get(recurso.Tematica).push(recurso);
           };
         });
 
-        if(this.mapPreguntasTipo.size != 0) this.listTipo = Array.from(this.mapPreguntasTipo.keys());
-        if(this.mapPreguntasTematica.size != 0) this.listTematica = Array.from(this.mapPreguntasTematica.keys());
+        if (this.mapPreguntasTipo.size != 0) this.listTipo = Array.from(this.mapPreguntasTipo.keys());
+        if (this.mapPreguntasTematica.size != 0) this.listTematica = Array.from(this.mapPreguntasTematica.keys());
 
-        console.log('tipo: ',this.listTipo);
-        console.log('tematica: ',this.listTematica);
+        console.log('tipo: ', this.listTipo);
+        console.log('tematica: ', this.listTematica);
       }
     },
-    (error) => {
-      console.log(error);
-      this.listRecursos = [];
-    });
+      (error) => {
+        console.log(error);
+        this.listRecursos = [];
+      });
   }
 
   /*************************************/
@@ -606,7 +645,7 @@ export class RecursosListComponent implements OnInit {
         });
       })
     });
-}
+  }
 
 
   //Función para descargar la familia de avatares
@@ -628,7 +667,7 @@ export class RecursosListComponent implements OnInit {
 
     this.recursosService.downloadImgSilueta(rsc.Silueta).subscribe((data: any) => {
       folder.file(`${rsc.Silueta}`, data);
-      
+
       let complementos = new Array<string>();
       rsc.Complemento1.forEach(complemento => {
         complementos.push(complemento);
@@ -643,13 +682,13 @@ export class RecursosListComponent implements OnInit {
         complementos.push(complemento);
       });
 
-      if(complementos.length != 0){
+      if (complementos.length != 0) {
         let cont = 0;
         complementos.forEach(c => {
           this.recursosService.downloadImgComplementoAvatar(c).subscribe((data) => {
             compFolder.file(c, data);
             cont++;
-            if(cont == complementos.length){
+            if (cont == complementos.length) {
               this.isDownloading = false;
               zip.generateAsync({ type: "blob" }).then(function (blob) {
                 saveAs(blob, 'Avatares_' + rsc.NombreFamilia + ".zip");
@@ -662,7 +701,7 @@ export class RecursosListComponent implements OnInit {
           }, (error) => {
             console.log(error);
             this.isDownloading = false;
-            Swal.fire('Error','Error al descargar imagen '+c, 'error');
+            Swal.fire('Error', 'Error al descargar imagen ' + c, 'error');
           });
         });
       }
@@ -686,14 +725,14 @@ export class RecursosListComponent implements OnInit {
     let folder = zip.folder('FamiliaImagenesDePerfil_' + rsc.Nombre);
 
     let imgNames: string[] = rsc.Imagenes;
-    
+
 
     console.log(imgNames);
     let count: number = 0;
 
     imgNames.forEach((name: string) => {
       this.recursosService.downloadImgPerfil(this.urlImagenesPerfil + name).subscribe((data: any) => {
-        console.log('Img: ',data);
+        console.log('Img: ', data);
         //Añade la imagen a la carpeta
         folder.file(`${name}`, data);
 
@@ -724,10 +763,10 @@ export class RecursosListComponent implements OnInit {
 
     const theJSON = JSON.stringify(rsc);
 
-    let zip = new JSZip();   
+    let zip = new JSZip();
     zip.file(rsc.Titulo + ".json", theJSON);
 
-    if (rsc.Imagen != null){
+    if (rsc.Imagen != null) {
       this.recursosService.downloadImgPregunta(rsc.Imagen).subscribe((data: any) => {
         console.log("DATA: ", data)
         zip.file(`${rsc.Imagen}`, data);
@@ -738,7 +777,7 @@ export class RecursosListComponent implements OnInit {
           console.log(err);
           this.isDownloading = false;
           Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
-        }) 
+        })
       });
     }
     else {
@@ -752,4 +791,79 @@ export class RecursosListComponent implements OnInit {
       })
     }
   }
+
+  /********************************/
+  /*FUNCIONES PARA BORRAR RECURSOS*/
+  /********************************/
+
+  borraRecurso(rsc) {
+    switch (this.recurso) {
+      
+      case 'colecciones': {
+        this.borraColeccion(rsc);
+        break;
+      }
+      case 'avatares': {
+        this.borraFamiliaAvatares(rsc);
+        break;
+      }
+      case 'imagenes': {
+        this.borraFamiliaImagenes(rsc);
+        break;
+      }
+      case 'preguntas': {
+        this.borraPregunta(rsc);
+        break;
+      }
+    }
+  }
+
+  borraPregunta(rsc: any){
+    this.recursosService.deletePregunta(rsc.id).subscribe(()=>{
+      Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
+      /* this.listRecursos.filter(function(rsc){
+        return rsc != rsc.id;
+      }) */
+    }, (error)=>{
+      console.log(error);
+      Swal.fire("Error", "Error eliminando recurso", "error");
+    })
+  }
+  borraColeccion(rsc: any){
+    this.recursosService.deleteColeccion(rsc.id).subscribe(()=>{
+      Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
+      /* this.listRecursos.filter(function(rsc){
+        return rsc != rsc.id;
+      }) */
+    }, (error)=>{
+      console.log(error);
+      Swal.fire("Error", "Error eliminando recurso", "error");
+    })
+  }
+  borraFamiliaAvatares(rsc: any){
+    this.recursosService.deleteFamiliaAvatares(rsc.id).subscribe(()=>{
+      Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
+      /* this.listRecursos.filter(function(rsc){
+        return rsc != rsc.id;
+      }) */
+    }, (error)=>{
+      console.log(error);
+      Swal.fire("Error", "Error eliminando recurso", "error");
+    })
+  }
+  borraFamiliaImagenes(rsc: any){
+    this.recursosService.deleteFamiliaImagenesPerfil(rsc.id).subscribe(()=>{
+      Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
+      /* this.listRecursos.filter(function(rsc){
+        return rsc != rsc.id;
+      }) */
+    }, (error)=>{
+      console.log(error);
+      Swal.fire("Error", "Error eliminando recurso", "error");
+    })
+  }
+
 }
+
+
+
