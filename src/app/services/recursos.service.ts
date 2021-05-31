@@ -85,6 +85,11 @@ export class RecursosService {
     return this.http.get<Pregunta[]>(this.APIUrlPreguntas);
   }
 
+  /*****************************************************/
+  // ************* SERVICIOS IMAGENES ***************///
+  /*****************************************************/
+
+  /************ DOWNLOAD **************/
   public downloadImgCromo(imgName: string) {
     return this.http.get(this.APIUrlImagenesCromos + '/download/'+imgName, {observe: 'body', responseType: 'blob'});
   }
@@ -112,7 +117,16 @@ export class RecursosService {
     
   }
 
-  ///SERVICIOS SUBIR RECURSOS
+  /************ UPLOAD **************/
+
+  public uploadImgPregunta(imgPregunta){
+    return this.http.post('http://localhost:3000/api/imagenes/ImagenesPreguntas/upload', imgPregunta);
+  }
+
+  /*****************************************************/
+  ///*********** SERVICIOS SUBIR RECURSOS ************///
+  /*****************************************************/
+
   public uploadPregunta(pregunta: Pregunta){
     return this.http.post(this.APIUrlPreguntas, pregunta);
   }
