@@ -113,6 +113,10 @@ export class RecursosService {
     
   }
 
+  ///SERVICIOS SUBIR RECURSOS
+  public uploadPregunta(pregunta: Pregunta){
+    return this.http.post(this.APIUrlPreguntas, pregunta);
+  }
 
   
 

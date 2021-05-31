@@ -184,7 +184,7 @@
 
 <!-- POPUP SUBIR RECURSOS -->
 <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #modalUploadRsc="bs-modal"
-  id="modalShowQuestion" role="dialog" tabindex="-1">
+  id="modalUploadRsc" role="dialog" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       
@@ -253,8 +253,8 @@
                 <div class="form-group" *ngIf="this.respuestasForm == false && this.typeQuestion == 'Verdadero o falso'">
                   <label for="respVoF">Respuesta correcta*</label>
                   <select class="form-control" id="respVoF">
-                    <option style="color: black;">Verdadero</option>"
-                    <option style="color: black;">Falso</option>
+                    <option style="color: black;">verdadero</option>"
+                    <option style="color: black;">falso</option>
                   </select>
                 </div>
 
@@ -284,18 +284,29 @@
                   <label for="respInc3">Respuesta incorrecta 3*</label>
                   <input type="text" class="form-control" id="respInc3" placeholder="Respuesta incorrecta 3">
                 </div>
-
-                <!-- ***********EMPAREJAMIENTOS*************** -->
-                <div class="form-group" *ngIf="this.finishForm == true && this.respuestasForm==true && this.typeQuestion == 'Emparejamiento'">
-                  <label for="parA">Pareja1*</label>
-                  <input type="text" class="form-control" id="parA" placeholder="Pareja 1">
-                </div>
-                <div class="form-group" *ngIf="this.finishForm == true && this.respuestasForm==true && this.typeQuestion == 'Emparejamiento'">
-                  <label for="parB">Pareja2*</label>
-                  <input type="text" class="form-control" id="parB" placeholder="Pareja 2">
-                </div>
-
               </form>
+              <div *ngIf="this.finishForm == true && this.respuestasForm==true && this.typeQuestion == 'Emparejamiento'">
+                <form name="parejasForm">
+                  <!-- ***********EMPAREJAMIENTOS*************** -->
+                  <div class="form-row">
+                    <label style="margin-left: auto; margin-right: auto;">Si quieres añadir más de 4 parejas, añade primero las filas</label>
+                  </div>
+                  <div class="form-row" *ngFor="let pareja of parejasMap | keyvalue" >
+                    <div class="form-group col-md-6">
+                      <label for="parA{{pareja.key}}">Pareja {{pareja.key}}<span *ngIf="pareja.key <= 4">*</span> </label>
+                      <span *ngIf="pareja.key > 4" (click)='deleteRowParejaForm()'>&nbsp;<i class='tim-icons icon-trash-simple' style="color: red;"></i></span> 
+                      <input type="text" class="form-control" id="parA{{pareja.key}}" placeholder="Opción A">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="parB{{pareja.key}}">&nbsp;</label>
+                      <input type="text" class="form-control" id="parB{{pareja.key}}" placeholder="Opción B">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <button class="btn btn-primary" (click)="addRowParejaForm()">Add row</button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
 
@@ -322,8 +333,7 @@
       <div class="modal-footer">
         <div style="text-align: center; margin-left: auto; margin-right: auto;">
           <!-- *********** BOTON CERRAR (resetear forms y variables) *************** -->
-          <button class="btn btn-danger btn-lg" data-dismiss="modal" type="button" (click)="resetForm()"
-            (click)="modalUploadRsc.hide()">
+          <button class="btn btn-danger btn-lg" data-dismiss="modal" type="button" (click)="resetForm()">
             Cerrar
           </button>
           &nbsp;
@@ -338,7 +348,7 @@
 
           <button type="submit" class="btn btn-success btn-lg"
             *ngIf="this.typeRscUpload == 'Pregunta' && this.typeQuestion != undefined && this.respuestasForm == false && this.finishForm == false"
-            (click)="goParejas()">Siguiente</button>
+            (click)="goRespuestas()">Siguiente</button>
 
           <!-- *********** BOTON SUBMIT UPLOAD RESOURCE *************** -->
           <button type="submit" class="btn btn-primary btn-lg"
