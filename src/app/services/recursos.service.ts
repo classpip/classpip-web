@@ -94,7 +94,6 @@ export class RecursosService {
   }
 
   public downloadImgSilueta(imgName: string) {
-    console.log(this.APIUrlImagenesAvatares + '/files/' + imgName);
     return this.http.get(this.APIUrlImagenesAvatares + '/download/' + imgName, {observe: 'body', responseType: 'blob'});
     
   }
@@ -122,6 +121,7 @@ export class RecursosService {
 
   //NO FUNCIONA
    public DameImagenAvatar(imagen: string): Observable<any> {
+     console.log("esta es la imagen: ", imagen)
     return this.http.get(this.APIUrlImagenesAvatares + '/download/' + imagen,    
         {observe: 'body', responseType: 'blob'});
       /* {responseType: ResponseContentType.Blob} );*/
