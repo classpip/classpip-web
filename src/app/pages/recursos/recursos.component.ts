@@ -31,6 +31,7 @@ export class RecursosComponent implements OnInit {
   parejasMap = new Map<number, any>();
   preguntaWrapper;
   pregunta: Pregunta;
+  contOptions = 0;
 
   constructor(private auth:AuthService, private router: Router,  private sesion: SesionService, private rscService: RecursosService) { }
 
@@ -110,7 +111,7 @@ export class RecursosComponent implements OnInit {
     }
   }
 
-  goRespuestas(){
+  /* goRespuestas(){
     let questionForm = document.forms['preguntaForm'];
     let cont = 0;
 
@@ -157,7 +158,7 @@ export class RecursosComponent implements OnInit {
       this.finishForm = true;
     }
     console.log('wrapper', this.preguntaWrapper);
-  }
+  } */
 
   addRowParejaForm() {
     let form = document.forms['parejasForm'];
@@ -187,6 +188,8 @@ export class RecursosComponent implements OnInit {
   }
 
   getCommonFieldsPreguntas(){
+
+    console.log('entra comm fields preguntas');
 
     let questionForm = document.forms['preguntaForm'];
     let cont = 0;
@@ -232,6 +235,68 @@ export class RecursosComponent implements OnInit {
     return cont;
   }
 
+  goRespuestas(){
+
+    console.log('entra comm fields 4opt');
+
+    let questionForm = document.forms['preguntaForm'];
+    let cont = 0;
+
+    if(questionForm['tematica'].value != ''){
+      if(document.getElementById('tematica').style.borderColor == "red")
+          document.getElementById('tematica').style.borderColor ="#525f7f";
+      this.preguntaWrapper.Tematica = questionForm['tematica'].value;
+      cont++;
+    } else {
+      document.getElementById('tematica').style.borderColor ="red";
+    }
+
+    if(questionForm['pregunta'].value != ''){
+      if(document.getElementById('pregunta').style.borderColor == "red")
+          document.getElementById('pregunta').style.borderColor ="#525f7f";
+      this.preguntaWrapper.Pregunta = questionForm['pregunta'].value;
+      cont++;
+    } else {
+      document.getElementById('pregunta').style.borderColor ="red";
+    }
+    
+    if(questionForm['feedback1'].value != ''){
+      if(document.getElementById('feedback1').style.borderColor == "red")
+          document.getElementById('feedback1').style.borderColor ="#525f7f";
+      this.preguntaWrapper.FeedbackCorrecto = questionForm['feedback1'].value;
+      cont++;
+    } else {
+      document.getElementById('feedback1').style.borderColor ="red";
+    }
+
+    if(questionForm['feedback2'].value != ''){
+      if(document.getElementById('feedback2').style.borderColor == "red")
+          document.getElementById('feedback2').style.borderColor ="#525f7f";
+      this.preguntaWrapper.FeedbackIncorrecto = questionForm['feedback2'].value;
+      cont++;
+    } else {
+      document.getElementById('feedback2').style.borderColor ="red";
+    }
+
+    //Falta imagen (sin cont++)
+
+    console.log(this.preguntaWrapper);
+
+    
+    if(cont == 4){
+      this.respuestasForm = true;
+      this.finishForm = true;
+    }
+
+    if(this.typeQuestion == 'Cuatro opciones'){
+      console.log('contOpt1: ', cont);
+      this.contOptions = cont;
+      console.log('contOpt2: ', this.contOptions);
+    } else {
+      return cont;
+    }
+  }
+
   /************************************ */
   // SUBIR RECURSO Y CANCELAR SUBIDA
   /************************************ */
@@ -245,6 +310,7 @@ export class RecursosComponent implements OnInit {
     console.log('Tipo recurso a subir: '+this.typeRscUpload);
 
     if(this.typeRscUpload == 'Pregunta'){
+      console.log('Tipo pregunta a subir: ', this.typeQuestion);
       if(this.typeQuestion == 'Respuesta abierta'){
 
         let contOpen = this.getCommonFieldsPreguntas();
@@ -273,6 +339,64 @@ export class RecursosComponent implements OnInit {
           );
         }
       } else if(this.typeQuestion == 'Cuatro opciones'){
+        console.log('hello?');
+        let contOptions = this.contOptions;
+
+        if(questionForm['respOpciones'].value != ''){
+          if(document.getElementById('respOpciones').style.borderColor == "red")
+              document.getElementById('respOpciones').style.borderColor ="#525f7f";
+          this.preguntaWrapper.RespuestaCorrecta = questionForm['respOpciones'].value;
+          contOptions++;
+        } else {
+          document.getElementById('respOpciones').style.borderColor ="red";
+        }
+
+        if(questionForm['respInc1'].value != ''){
+          if(document.getElementById('respInc1').style.borderColor == "red")
+              document.getElementById('respInc1').style.borderColor ="#525f7f";
+          this.preguntaWrapper.RespuestaCorrecta = questionForm['respInc1'].value;
+          contOptions++;
+        } else {
+          document.getElementById('respInc1').style.borderColor ="red";
+        }
+
+        if(questionForm['respInc2'].value != ''){
+          if(document.getElementById('respInc2').style.borderColor == "red")
+              document.getElementById('respInc2').style.borderColor ="#525f7f";
+          this.preguntaWrapper.RespuestaCorrecta = questionForm['respInc2'].value;
+          contOptions++;
+        } else {
+          document.getElementById('respInc2').style.borderColor ="red";
+        }
+
+        if(questionForm['respInc3'].value != ''){
+          if(document.getElementById('respInc3').style.borderColor == "red")
+              document.getElementById('respInc3').style.borderColor ="#525f7f";
+          this.preguntaWrapper.RespuestaCorrecta = questionForm['respInc3'].value;
+          contOptions++;
+        } else {
+          document.getElementById('respInc3').style.borderColor ="red";
+        }
+    
+        console.log('wrapper final 4opt: ',this.preguntaWrapper);
+        console.log('cont options: ', contOptions);
+        if(contOptions == 8){
+          this.pregunta = new Pregunta(
+            this.preguntaWrapper.Titulo,
+            this.preguntaWrapper.Tipo,
+            this.preguntaWrapper.Pregunta,
+            this.preguntaWrapper.Tematica,
+            this.preguntaWrapper.FeedbackCorrecto,
+            this.preguntaWrapper.FeedbackIncorrecto,
+            this.profesor.id,
+            this.preguntaWrapper.Imagen,
+            null,
+            this.preguntaWrapper.RespuestaCorrecta,
+            this.preguntaWrapper.RespuestaIncorrecta1,
+            this.preguntaWrapper.RespuestaIncorrecta2,
+            this.preguntaWrapper.RespuestaIncorrecta3
+          );
+        }
 
       } else if(this.typeQuestion == 'Verdadero o falso'){
 
