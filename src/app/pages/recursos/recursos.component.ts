@@ -354,7 +354,7 @@ export class RecursosComponent implements OnInit {
         if(questionForm['respInc1'].value != ''){
           if(document.getElementById('respInc1').style.borderColor == "red")
               document.getElementById('respInc1').style.borderColor ="#525f7f";
-          this.preguntaWrapper.RespuestaCorrecta = questionForm['respInc1'].value;
+          this.preguntaWrapper.RespuestaIncorrecta1 = questionForm['respInc1'].value;
           contOptions++;
         } else {
           document.getElementById('respInc1').style.borderColor ="red";
@@ -363,7 +363,7 @@ export class RecursosComponent implements OnInit {
         if(questionForm['respInc2'].value != ''){
           if(document.getElementById('respInc2').style.borderColor == "red")
               document.getElementById('respInc2').style.borderColor ="#525f7f";
-          this.preguntaWrapper.RespuestaCorrecta = questionForm['respInc2'].value;
+          this.preguntaWrapper.RespuestaIncorrecta2 = questionForm['respInc2'].value;
           contOptions++;
         } else {
           document.getElementById('respInc2').style.borderColor ="red";
@@ -372,7 +372,7 @@ export class RecursosComponent implements OnInit {
         if(questionForm['respInc3'].value != ''){
           if(document.getElementById('respInc3').style.borderColor == "red")
               document.getElementById('respInc3').style.borderColor ="#525f7f";
-          this.preguntaWrapper.RespuestaCorrecta = questionForm['respInc3'].value;
+          this.preguntaWrapper.RespuestaIncorrecta3 = questionForm['respInc3'].value;
           contOptions++;
         } else {
           document.getElementById('respInc3').style.borderColor ="red";
@@ -390,7 +390,7 @@ export class RecursosComponent implements OnInit {
             this.preguntaWrapper.FeedbackIncorrecto,
             this.profesor.id,
             this.preguntaWrapper.Imagen,
-            null,
+            [],
             this.preguntaWrapper.RespuestaCorrecta,
             this.preguntaWrapper.RespuestaIncorrecta1,
             this.preguntaWrapper.RespuestaIncorrecta2,
