@@ -155,21 +155,16 @@
             </div>
             <div class="modal-body" *ngIf="this.pregunta != undefined">
                 <h5>{{this.pregunta.Pregunta}}</h5>
-                <div *ngIf="this.pregunta.Imagen != null">
-                    <img [src]="this.urlImagenesPreguntas + this.pregunta.Imagen">
+                <div *ngIf="this.pregunta.Imagen != null" style = "text-align: center;">
+                    <img [src]="this.urlImagenesPreguntas + this.pregunta.Imagen" style="text-align: center;">
                 </div>
-                <div class="container" *ngIf="this.pregunta.Tipo != 'Emparejamiento'">
+                <div class="container" *ngIf="this.pregunta.Tipo != 'Emparejamiento'" style="text-align: center;">
                     <h5 style="color:lightgreen;">{{this.pregunta.RespuestaCorrecta}}</h5>
                     <h5 style="color:red">{{this.pregunta.RespuestaIncorrecta1}}</h5>
                     <h5 style="color:red">{{this.pregunta.RespuestaIncorrecta2}}</h5>
                     <h5 style="color:red">{{this.pregunta.RespuestaIncorrecta3}}</h5>
                 </div>
-                <div class="container" *ngIf="this.pregunta.Tipo == 'Emparejamiento'">
-                    <div *ngFor="let pareja of this.pregunta.Emparejamientos">
-                        <h5>{{pareja.l}} - {{pareja.r}}</h5>
-                    </div>
-                </div>
-                <div class="container" *ngIf="this.pregunta.Tipo == 'Emparejamiento'">
+                <div class="container" *ngIf="this.pregunta.Tipo == 'Emparejamiento'" style="text-align: center;">
                     <div *ngFor="let pareja of this.pregunta.Emparejamientos">
                         <h5>{{pareja.l}} - {{pareja.r}}</h5>
                     </div>
