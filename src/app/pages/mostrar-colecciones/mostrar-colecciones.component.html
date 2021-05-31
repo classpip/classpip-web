@@ -33,18 +33,18 @@
                             <img class="imagenCromo" *ngIf="imagenesCromosDelante[i]"
                                 [src]="imagenesCromosDelante[i]">
                         </div>
-                        <div *ngIf="coleccion.DosCaras" class="flip-box">
+                        <div *ngIf="coleccion.DosCaras" class="flip-box" (click)="girarCromo(i)">
                             <div class="flip-box-inner">
-                                <div class="flip-box-front">
-                                    <div class="posicionImagen">
-                                        <img *ngIf='!voltear' class="imagenCromo" [src]="imagenesCromosDelante[i]">
+                                <div class="flip-box-front" *ngIf="!this.cromoGirado[i]">
+                                    <div class="posicionImagen" >
+                                        <img class="imagenCromo" [src]="imagenesCromosDelante[i]">
                                         
     
                                     </div>
                                 </div>
-                                <div class="flip-box-back">
+                                <div class="flip-box-back" *ngIf="this.cromoGirado[i] == true">
                                     <div class="posicionImagen">
-                                        <img *ngIf="voltear" class="imagenCromo" [src]="imagenesCromosDetras[i]">
+                                        <img class="imagenCromo" [src]="imagenesCromosDetras[i]">
                                         
                                     </div>
                                 </div>

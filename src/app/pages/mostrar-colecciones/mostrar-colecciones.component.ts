@@ -46,6 +46,8 @@ export class MostrarColeccionesComponent implements OnInit {
 
   interval;
 
+  cromoGirado: boolean[] = new Array<boolean>();
+
   constructor(
     private sesion:SesionService,
     private auth:AuthService,
@@ -73,12 +75,15 @@ export class MostrarColeccionesComponent implements OnInit {
            // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < this.cromosColeccion.length; i++) {
   
+          this.cromoGirado.push(false);
           this.cromo = this.cromosColeccion[i];
           this.imagenesCromosDelante[i] = URL.ImagenesCromo + this.cromo.ImagenDelante;
           this.imagenesCromosDetras[i] = URL.ImagenesCromo + this.cromo.ImagenDetras;
   
         }
-  
+
+        console.log('girado array: ', this.cromoGirado);
+
       });
     } else {
       this.nombreColeccion = 'ERROR: No se pueden visualizar los recursos.';
@@ -91,6 +96,23 @@ export class MostrarColeccionesComponent implements OnInit {
   }
   Voltear() {
     this.voltear = !this.voltear;
+    this.cromoGirado = [];
+    this.cromosColeccion.forEach(() => {
+      if(this.voltear) this.cromoGirado.push(true);
+      else this.cromoGirado.push(false);
+    })
+    console.log('array todos: ', this.cromoGirado);
+  }
+
+  girarCromo(i){
+    console.log('array1: ', this.cromoGirado);
+    if(this.cromoGirado[i] == false){
+      this.cromoGirado[i] = true;
+      console.log('array2: ', this.cromoGirado);
+    } else {
+      this.cromoGirado[i] = false;
+      console.log('array2: ', this.cromoGirado);
+    }
   }
 
 }
