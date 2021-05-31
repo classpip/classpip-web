@@ -54,17 +54,17 @@ export class RecursosComponent implements OnInit {
     console.log('parejas map: '+this.parejasMap);
 
     this.preguntaWrapper = {
-      Titulo: "",
-      Tipo: "",
-      Pregunta: "",
-      Tematica: "",
+      Titulo: null,
+      Tipo: null,
+      Pregunta: null,
+      Tematica: null,
       Imagen: null,
-      FeedbackCorrecto: "",
-      FeedbackIncorrecto: "",
-      RespuestaCorrecta: "",
-      RespuestaIncorrecta1: "",
-      RespuestaIncorrecta2: "",
-      RespuestaIncorrecta3: "",
+      FeedbackCorrecto: null,
+      FeedbackIncorrecto: null,
+      RespuestaCorrecta: null,
+      RespuestaIncorrecta1: null,
+      RespuestaIncorrecta2: null,
+      RespuestaIncorrecta3: null,
       Emparejamientos: [],
       profesorId: 0
     } 
@@ -111,55 +111,6 @@ export class RecursosComponent implements OnInit {
     }
   }
 
-  /* goRespuestas(){
-    let questionForm = document.forms['preguntaForm'];
-    let cont = 0;
-
-    if(questionForm['tematica'].value != ''){
-      if(document.getElementById('tematica').style.borderColor == "red")
-          document.getElementById('tematica').style.borderColor ="#525f7f";
-      this.preguntaWrapper.Tematica = questionForm['tematica'].value;
-      cont++;
-    } else {
-      document.getElementById('tematica').style.borderColor ="red";
-    }
-
-    if(questionForm['pregunta'].value != ''){
-      if(document.getElementById('pregunta').style.borderColor == "red")
-          document.getElementById('pregunta').style.borderColor ="#525f7f";
-      this.preguntaWrapper.Pregunta = questionForm['pregunta'].value;
-      cont++;
-    } else {
-      document.getElementById('pregunta').style.borderColor ="red";
-    }
-    
-    if(questionForm['feedback1'].value != ''){
-      if(document.getElementById('feedback1').style.borderColor == "red")
-          document.getElementById('feedback1').style.borderColor ="#525f7f";
-      this.preguntaWrapper.FeedbackCorrecto = questionForm['feedback1'].value;
-      cont++;
-    } else {
-      document.getElementById('feedback1').style.borderColor ="red";
-    }
-
-    if(questionForm['feedback2'].value != ''){
-      if(document.getElementById('feedback2').style.borderColor == "red")
-          document.getElementById('feedback2').style.borderColor ="#525f7f";
-      this.preguntaWrapper.FeedbackIncorrecto = questionForm['feedback2'].value;
-      cont++;
-    } else {
-      document.getElementById('feedback2').style.borderColor ="red";
-    }
-
-    //Falta imagen
-
-    if(cont >= 4){
-      this.respuestasForm = true;
-      this.finishForm = true;
-    }
-    console.log('wrapper', this.preguntaWrapper);
-  } */
-
   addRowParejaForm() {
     let form = document.forms['parejasForm'];
     this.parejasMap.set(this.parejasMap.size + 1, new Array<string>());
@@ -187,55 +138,7 @@ export class RecursosComponent implements OnInit {
     return auxMap;
   }
 
-  getCommonFieldsPreguntas(){
-
-    console.log('entra comm fields preguntas');
-
-    let questionForm = document.forms['preguntaForm'];
-    let cont = 0;
-
-    if(questionForm['tematica'].value != ''){
-      if(document.getElementById('tematica').style.borderColor == "red")
-          document.getElementById('tematica').style.borderColor ="#525f7f";
-      this.preguntaWrapper.Tematica = questionForm['tematica'].value;
-      cont++;
-    } else {
-      document.getElementById('tematica').style.borderColor ="red";
-    }
-
-    if(questionForm['pregunta'].value != ''){
-      if(document.getElementById('pregunta').style.borderColor == "red")
-          document.getElementById('pregunta').style.borderColor ="#525f7f";
-      this.preguntaWrapper.Pregunta = questionForm['pregunta'].value;
-      cont++;
-    } else {
-      document.getElementById('pregunta').style.borderColor ="red";
-    }
-    
-    if(questionForm['feedback1'].value != ''){
-      if(document.getElementById('feedback1').style.borderColor == "red")
-          document.getElementById('feedback1').style.borderColor ="#525f7f";
-      this.preguntaWrapper.FeedbackCorrecto = questionForm['feedback1'].value;
-      cont++;
-    } else {
-      document.getElementById('feedback1').style.borderColor ="red";
-    }
-
-    if(questionForm['feedback2'].value != ''){
-      if(document.getElementById('feedback2').style.borderColor == "red")
-          document.getElementById('feedback2').style.borderColor ="#525f7f";
-      this.preguntaWrapper.FeedbackIncorrecto = questionForm['feedback2'].value;
-      cont++;
-    } else {
-      document.getElementById('feedback2').style.borderColor ="red";
-    }
-
-    //Falta imagen (sin cont++)
-
-    return cont;
-  }
-
-  goRespuestas(){
+  getCommonFieldPreguntas(){
 
     console.log('entra comm fields 4opt');
 
@@ -289,9 +192,7 @@ export class RecursosComponent implements OnInit {
     }
 
     if(this.typeQuestion == 'Cuatro opciones'){
-      console.log('contOpt1: ', cont);
       this.contOptions = cont;
-      console.log('contOpt2: ', this.contOptions);
     } else {
       return cont;
     }
@@ -313,7 +214,7 @@ export class RecursosComponent implements OnInit {
       console.log('Tipo pregunta a subir: ', this.typeQuestion);
       if(this.typeQuestion == 'Respuesta abierta'){
 
-        let contOpen = this.getCommonFieldsPreguntas();
+        let contOpen = this.getCommonFieldPreguntas();
 
         if(questionForm['respAbierta'].value != ''){
           if(document.getElementById('respAbierta').style.borderColor == "red")
@@ -339,7 +240,6 @@ export class RecursosComponent implements OnInit {
           );
         }
       } else if(this.typeQuestion == 'Cuatro opciones'){
-        console.log('hello?');
         let contOptions = this.contOptions;
 
         if(questionForm['respOpciones'].value != ''){
@@ -400,7 +300,7 @@ export class RecursosComponent implements OnInit {
 
       } else if(this.typeQuestion == 'Verdadero o falso'){
 
-        let contVoF = this.getCommonFieldsPreguntas();
+        let contVoF = this.getCommonFieldPreguntas();
 
         if(questionForm['respVoF'].value != ''){
           if(document.getElementById('respVoF').style.borderColor == "red")
