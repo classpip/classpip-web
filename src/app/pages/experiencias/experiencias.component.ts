@@ -227,4 +227,19 @@ export class ExperienciasComponent implements OnInit {
   activarInput() {
     document.getElementById("inp").click();
   }
+
+  //Función para ver si soy el propietario del recurso
+  isPropietario(publi) {
+    console.log("this.prof: ", this.profesor.id);
+    console.log("recurso.prof: ", publi.autorId);
+    if (this.profesor.id == publi.autorId) {
+
+      return true
+    }
+    else {
+
+      return false
+    }
+
+  }
 }
