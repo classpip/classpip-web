@@ -75,11 +75,11 @@
                                     </button>
                                     &nbsp;
                                     <button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-info btn-roundbtn-icon"
-                                        placement="bottom" tooltip="Eliminar recurso" (click)="borraRecurso(rsc)" *ngIf="rsc.isPropietario">
+                                        placement="bottom" tooltip="Eliminar recurso" (click)="borraRecurso(rsc)" *ngIf=" isLoggedIn() && rsc.isPropietario ">
                                         <i class="tim-icons icon-trash-simple"></i>
                                     </button>
-                                    <button  [style.visibility]="'hidden'" type="button" rel="tooltip" class="btn btn-sm btn-info btn-roundbtn-icon"
-                                        placement="bottom" *ngIf="!rsc.isPropietario">
+                                    <button  [disabled]="'true'" type="button" rel="tooltip" class="btn btn-danger btn-sm btn-info btn-roundbtn-icon"
+                                        placement="bottom" tooltip="No puedes eliminar este recurso" *ngIf="isLoggedIn() && !rsc.isPropietario">
                                         <i class="tim-icons icon-trash-simple"></i>
                                     </button>
                                     
