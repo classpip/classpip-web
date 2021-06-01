@@ -27,6 +27,8 @@ export class RecursosListComponent implements OnInit {
   mapProfesores: Map<Number, Profesor> = new Map();
   profesor;
 
+  index;
+
 
   //Recursos
   cuestionario: Cuestionario;
@@ -821,46 +823,55 @@ export class RecursosListComponent implements OnInit {
   borraPregunta(rsc: any){
     this.recursosService.deletePregunta(rsc.id).subscribe(()=>{
       Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
-      /* this.listRecursos.filter(function(rsc){
-        return rsc != rsc.id;
-      }) */
-    }, (error)=>{
+      this.index = this.listRecursos.map(function(item) {
+        return item.Id
+    }).indexOf(rsc.id);
+    
+    this.listRecursos.splice(this.index, rsc.id);
+    }), (error)=>{
       console.log(error);
       Swal.fire("Error", "Error eliminando recurso", "error");
-    })
+    }
   }
+
   borraColeccion(rsc: any){
     this.recursosService.deleteColeccion(rsc.id).subscribe(()=>{
-      Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
-      /* this.listRecursos.filter(function(rsc){
-        return rsc != rsc.id;
-      }) */
-    }, (error)=>{
+     Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
+      this.index = this.listRecursos.map(function(item) {
+        return item.Id
+    }).indexOf(rsc.id);
+    
+    this.listRecursos.splice(this.index, rsc.id);
+    }), (error)=>{
       console.log(error);
       Swal.fire("Error", "Error eliminando recurso", "error");
-    })
+    }
   }
   borraFamiliaAvatares(rsc: any){
     this.recursosService.deleteFamiliaAvatares(rsc.id).subscribe(()=>{
       Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
-      /* this.listRecursos.filter(function(rsc){
-        return rsc != rsc.id;
-      }) */
-    }, (error)=>{
+      this.index = this.listRecursos.map(function(item) {
+        return item.Id
+    }).indexOf(rsc.id);
+    
+    this.listRecursos.splice(this.index, rsc.id);
+    }), (error)=>{
       console.log(error);
       Swal.fire("Error", "Error eliminando recurso", "error");
-    })
+    }
   }
   borraFamiliaImagenes(rsc: any){
     this.recursosService.deleteFamiliaImagenesPerfil(rsc.id).subscribe(()=>{
       Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
-      /* this.listRecursos.filter(function(rsc){
-        return rsc != rsc.id;
-      }) */
-    }, (error)=>{
+      this.index = this.listRecursos.map(function(item) {
+        return item.Id
+    }).indexOf(rsc.id);
+    
+    this.listRecursos.splice(this.index, rsc.id);
+    }), (error)=>{
       console.log(error);
       Swal.fire("Error", "Error eliminando recurso", "error");
-    })
+    }
   }
 
 }
