@@ -33,7 +33,7 @@ export class RecursosComponent implements OnInit {
   pregunta: Pregunta;
   contOptions = 0;
   imgPregunta/* : FormData */;
-  imgPreguntaName: string;
+  imgPreguntaName: string = 'Ningún archivo seleccionado';
 
 
   constructor(private auth: AuthService, private router: Router, private sesion: SesionService, private rscService: RecursosService) { }
@@ -204,12 +204,17 @@ export class RecursosComponent implements OnInit {
     let img = $event.target.files[0];
 
     console.log(img);
+    
+    let imgPregunta = new FormData();
+    imgPregunta.append(img.name, img);
 
-    console.log('imagen pregunta: ', img.name);
-
-    this.imgPregunta = new FormData();
-    this.imgPregunta.append(img.name, img);
-    this.imgPreguntaName = img.name;
+    this.rscService.uploadImgPregunta(img).subscribe(() => {
+      this.imgPreguntaName = img.name;
+      this.preguntaWrapper.Imagen = this.imgPreguntaName;
+    }, (error) => {
+      console.log(error);
+      Swal.fire('Error', 'Error al subir pregunta', 'error');
+    });
     
     // const reader = new FileReader();
     // reader.readAsDataURL(img);
@@ -217,11 +222,6 @@ export class RecursosComponent implements OnInit {
     //   console.log('carga imagen');
     //   this.imgPregunta = reader.result.toString();
     // }
-    
-
-    console.log('imagen a subir: ', this.imgPregunta);
-
-
 
     // const imagenPreguntaData: FormData = new FormData();
     //         imagenPreguntaData.append(this.filePregunta.name, this.filePregunta);
@@ -246,10 +246,6 @@ export class RecursosComponent implements OnInit {
     console.log('Tipo recurso a subir: ' + this.typeRscUpload);
 
     if (this.typeRscUpload == 'Pregunta') {
-
-      if (this.imgPreguntaName != undefined){
-        this.preguntaWrapper.Imagen = this.imgPreguntaName;
-      }
 
       console.log('Tipo pregunta a subir: ', this.typeQuestion);
       if (this.typeQuestion == 'Respuesta abierta') {
@@ -388,20 +384,8 @@ export class RecursosComponent implements OnInit {
         console.log('upload rsc: ', this.pregunta);
         this.rscService.uploadPregunta(this.pregunta).subscribe((data) => {
           console.log('respuesta subir pregunta: ', data);
-          if (this.imgPreguntaName != undefined) {
-            this.rscService.uploadImgPregunta(this.imgPregunta).subscribe(() => {
-              Swal.fire('Hecho!', 'Pregunta subida con éxito.', 'success');
-              this.resetForm();
-            }, (error) => {
-              console.log(error);
-              Swal.fire('Error', 'Error al subir pregunta', 'error').then(() => {
-                this.resetForm();
-              });
-            });
-          } else {
-            Swal.fire('Hecho!', 'Pregunta subida con éxito.', 'success');
-            this.resetForm();
-          }
+          Swal.fire('Hecho!', 'Pregunta subida con éxito.', 'success');
+          this.resetForm();
         }, (error) => {
           console.log(error);
           Swal.fire('Error', 'Error al subir pregunta', 'error').then(() => {

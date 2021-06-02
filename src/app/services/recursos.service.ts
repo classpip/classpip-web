@@ -41,7 +41,6 @@ export class RecursosService {
   constructor(
     private http: HttpClient,
     private httpImagenes: Http
-    
     ) { }
 
   public DameProfesores(): Observable<Profesor[]> {
@@ -146,7 +145,9 @@ export class RecursosService {
   /*****************************************************/
 
   public uploadPregunta(pregunta: Pregunta){
-    return this.http.post(this.APIUrlPreguntas, pregunta);
+    // let headers = { headers: new HttpHeaders().set('Content-Type', 'image/png')}
+    // headers.headers.set('charset', 'UTF-8')
+    return this.http.post(this.APIUrlPreguntas, pregunta, /* headers */);
   }
 
   
