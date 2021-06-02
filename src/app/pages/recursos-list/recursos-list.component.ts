@@ -823,11 +823,7 @@ export class RecursosListComponent implements OnInit {
   borraPregunta(rsc: any){
     this.recursosService.deletePregunta(rsc.id).subscribe(()=>{
       Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
-      this.index = this.listRecursos.map(function(item) {
-        return item.Id
-    }).indexOf(rsc.id);
-    
-    this.listRecursos.splice(this.index, rsc.id);
+    this.DameTodasPreguntas();
     }), (error)=>{
       console.log(error);
       Swal.fire("Error", "Error eliminando recurso", "error");
@@ -837,11 +833,7 @@ export class RecursosListComponent implements OnInit {
   borraColeccion(rsc: any){
     this.recursosService.deleteColeccion(rsc.id).subscribe(()=>{
      Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
-      this.index = this.listRecursos.map(function(item) {
-        return item.Id
-    }).indexOf(rsc.id);
-    
-    this.listRecursos.splice(this.index, rsc.id);
+    this.DameColecciones();
     }), (error)=>{
       console.log(error);
       Swal.fire("Error", "Error eliminando recurso", "error");
@@ -849,12 +841,8 @@ export class RecursosListComponent implements OnInit {
   }
   borraFamiliaAvatares(rsc: any){
     this.recursosService.deleteFamiliaAvatares(rsc.id).subscribe(()=>{
-      Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
-      this.index = this.listRecursos.map(function(item) {
-        return item.Id
-    }).indexOf(rsc.id);
-    
-    this.listRecursos.splice(this.index, rsc.id);
+      Swal.fire("Hecho", "Recurso eliminado correctamente", "success");      
+      this.DameFamiliasDeAvataresPublicas();
     }), (error)=>{
       console.log(error);
       Swal.fire("Error", "Error eliminando recurso", "error");
@@ -863,11 +851,7 @@ export class RecursosListComponent implements OnInit {
   borraFamiliaImagenes(rsc: any){
     this.recursosService.deleteFamiliaImagenesPerfil(rsc.id).subscribe(()=>{
       Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
-      this.index = this.listRecursos.map(function(item) {
-        return item.Id
-    }).indexOf(rsc.id);
-    
-    this.listRecursos.splice(this.index, rsc.id);
+      this.DameFamiliasImagenesPerfil();
     }), (error)=>{
       console.log(error);
       Swal.fire("Error", "Error eliminando recurso", "error");
