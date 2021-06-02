@@ -66,6 +66,9 @@ export class PublicacionesService {
     return this.http.delete(this.APIUrlComentarios + '/' + commentId + '/likes/'+likeId);
   }
 
+  public deletePubli(id:string){
+    return this.http.delete(this.APIUrlPublicaciones + '/' + id);
+  }
   // public updateComentario(comentario: Comentario){
   //   return this.http.put<Comentario>(this.APIUrlComentarios, comentario);
   // }
