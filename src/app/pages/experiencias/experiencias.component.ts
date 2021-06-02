@@ -256,6 +256,7 @@ export class ExperienciasComponent implements OnInit {
   borrarPublicacion(publi: any){
     this.publiService.deletePubli(publi.id).subscribe(() => {
       Swal.fire("Hecho", "Publicación eliminada correctamente", "success")
+      this.ngOnInit();
     }), (error) => {
       console.log(error);
       Swal.fire("Error", "Error eliminando la publicación", "error");
