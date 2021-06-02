@@ -117,7 +117,9 @@ export class RecursosService {
     
   }
 
-  ///SERVICIOS BORRAR RECURSOS
+  /*****************************************************/
+  ///*********** SERVICIOS BORRAR RECURSOS ************///
+  /*****************************************************/
   public deletePregunta(id: string){
     return this.http.delete(this.APIUrlPreguntas + '/' + id);
   }

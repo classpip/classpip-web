@@ -6,6 +6,7 @@ import { AuthService } from './../../services/auth.service';
 import { PublicacionesService } from './../../services/publicaciones.service';
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-experiencias',
@@ -95,8 +96,17 @@ export class ExperienciasComponent implements OnInit {
               });
             };
           });
+          //Comprueba si soy el propietario
+          if (this.profesor != undefined) {
+            publi.isPropietario = this.isPropietario(publi);
+          }
         });
+
+
       }
+
+
+
     });
   }
 
@@ -241,5 +251,14 @@ export class ExperienciasComponent implements OnInit {
       return false
     }
 
+  }
+
+  borrarPublicacion(publi: any){
+    this.publiService.deletePubli(publi.id).subscribe(() => {
+      Swal.fire("Hecho", "Publicación eliminada correctamente", "success")
+    }), (error) => {
+      console.log(error);
+      Swal.fire("Error", "Error eliminando la publicación", "error");
+    }
   }
 }

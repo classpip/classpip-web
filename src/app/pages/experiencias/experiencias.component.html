@@ -74,7 +74,7 @@
                 <span id="publi-title">{{publi.fecha}}</span>
                 &nbsp;
                 <button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-info btn-roundbtn-icon"
-                  placement="bottom" tooltip="Eliminar publicación" >
+                  placement="bottom" tooltip="Eliminar publicación" *ngIf="publi.isPropietario" (click)="borrarPublicacion(publi)">
                   <i class="tim-icons icon-trash-simple"></i>
                 </button>
               </div>

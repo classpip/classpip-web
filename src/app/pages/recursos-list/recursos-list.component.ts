@@ -257,9 +257,9 @@ export class RecursosListComponent implements OnInit {
     this.router.navigateByUrl('/recursos');
   }
 
-  /*************************************/
+  /*********************************************/
   /*FUNCIONES PARA OBTENER LA LISTA DE RECURSOS*/
-  /*************************************/
+  /*********************************************/
 
 
   //Funcion que obtiene los recursos publicos de avatares
@@ -278,6 +278,7 @@ export class RecursosListComponent implements OnInit {
           } else {
             recurso.propietario = 'Desconocido';
           }
+          //Comprueba si soy el propietario
           if (this.profesor != undefined) {
             recurso.isPropietario = this.isPropietario(recurso);
           }
@@ -377,6 +378,7 @@ export class RecursosListComponent implements OnInit {
           } else {
             recurso.propietario = 'Desconocido';
           }
+          //Comprueba si soy el propietario
           if (this.profesor != undefined) {
             recurso.isPropietario = this.isPropietario(recurso);
           }
@@ -422,6 +424,7 @@ export class RecursosListComponent implements OnInit {
           } else {
             recurso.propietario = 'Desconocido';
           }
+          //Comprueba si soy el propietario
           if (this.profesor != undefined) {
             recurso.isPropietario = this.isPropietario(recurso);
           }
@@ -467,6 +470,7 @@ export class RecursosListComponent implements OnInit {
           } else {
             recurso.propietario = 'Desconocido';
           }
+          //Comprueba si soy el propietario
           if (this.profesor != undefined) {
             recurso.isPropietario = this.isPropietario(recurso);
           }
@@ -800,7 +804,7 @@ export class RecursosListComponent implements OnInit {
 
   borraRecurso(rsc) {
     switch (this.recurso) {
-      
+
       case 'colecciones': {
         this.borraColeccion(rsc);
         break;
@@ -820,39 +824,39 @@ export class RecursosListComponent implements OnInit {
     }
   }
 
-  borraPregunta(rsc: any){
-    this.recursosService.deletePregunta(rsc.id).subscribe(()=>{
+  borraPregunta(rsc: any) {
+    this.recursosService.deletePregunta(rsc.id).subscribe(() => {
       Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
-    this.DameTodasPreguntas();
-    }), (error)=>{
+      this.DameTodasPreguntas();
+    }), (error) => {
       console.log(error);
       Swal.fire("Error", "Error eliminando recurso", "error");
     }
   }
 
-  borraColeccion(rsc: any){
-    this.recursosService.deleteColeccion(rsc.id).subscribe(()=>{
-     Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
-    this.DameColecciones();
-    }), (error)=>{
+  borraColeccion(rsc: any) {
+    this.recursosService.deleteColeccion(rsc.id).subscribe(() => {
+      Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
+      this.DameColecciones();
+    }), (error) => {
       console.log(error);
       Swal.fire("Error", "Error eliminando recurso", "error");
     }
   }
-  borraFamiliaAvatares(rsc: any){
-    this.recursosService.deleteFamiliaAvatares(rsc.id).subscribe(()=>{
-      Swal.fire("Hecho", "Recurso eliminado correctamente", "success");      
+  borraFamiliaAvatares(rsc: any) {
+    this.recursosService.deleteFamiliaAvatares(rsc.id).subscribe(() => {
+      Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
       this.DameFamiliasDeAvataresPublicas();
-    }), (error)=>{
+    }), (error) => {
       console.log(error);
       Swal.fire("Error", "Error eliminando recurso", "error");
     }
   }
-  borraFamiliaImagenes(rsc: any){
-    this.recursosService.deleteFamiliaImagenesPerfil(rsc.id).subscribe(()=>{
+  borraFamiliaImagenes(rsc: any) {
+    this.recursosService.deleteFamiliaImagenesPerfil(rsc.id).subscribe(() => {
       Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
       this.DameFamiliasImagenesPerfil();
-    }), (error)=>{
+    }), (error) => {
       console.log(error);
       Swal.fire("Error", "Error eliminando recurso", "error");
     }
