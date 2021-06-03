@@ -29,12 +29,12 @@ export class RecursosService {
   private APIUrlFamiliasDeImagenesDePerfil = this.host + ':3000/api/familiasImagenesPerfil';
   private APIUrlColecciones = this.host + ':3000/api/Colecciones';
 
+  private APIUrlImagenes = this.host + ':3000/api/imagenes';
   private APIUrlImagenesAvatares = this.host + ':3000/api/imagenes/ImagenesAvatares';
   private APIUrlImagenesCromos = this.host + ':3000/api/imagenes/ImagenCromo';
   private APIUrlImagenesColecciones = this.host + ':3000/api/imagenes/ImagenColeccion';
   private APIUrlImagenesPerfil = this.host + ':3000/api/imagenes/ImagenesPerfil';
   private APIUrlImagenesPreguntas = this.host + ':3000/api/imagenes/ImagenesPreguntas';
-
 
   private APIUrlPreguntas = this.host + ':3000/api/Preguntas';
 
@@ -136,24 +136,37 @@ export class RecursosService {
   }
 
   ///SERVICIOS SUBIR RECURSOS
-  /************ UPLOAD **************/
-
-  public uploadImgPregunta(imgPregunta){
-    return this.http.post('http://localhost:3000/api/imagenes/ImagenesPreguntas/upload', imgPregunta);
-  }
 
   /*****************************************************/
   ///*********** SERVICIOS SUBIR RECURSOS ************///
   /*****************************************************/
 
+  /************ MODELOS ***************/
   public uploadPregunta(pregunta: Pregunta){
-    // let headers = { headers: new HttpHeaders().set('Content-Type', 'image/png')}
-    // headers.headers.set('charset', 'UTF-8')
     return this.http.post(this.APIUrlPreguntas, pregunta, /* headers */);
   }
 
-  
+  /************ IMAGENES **************/
 
+  public checkImgNameDuplicated(containerName: string) {
+    return this.http.get(this.APIUrlImagenes + '/' + containerName + '/files');
+  }
+
+  public uploadImgPregunta(imgPregunta){
+    // let headers = { headers: new HttpHeaders().set('Content-Type', 'image/png')}
+    // headers.headers.set('charset', 'UTF-8')
+    return this.http.post(this.APIUrlImagenesPreguntas + '/upload', imgPregunta);
+  }
+
+  
+  
+  
+  
+  
+  
+  
+  
+  //***************************************** */
   //NO FUNCIONA
    public DameImagenAvatar(imagen: string): Observable<any> {
      console.log("esta es la imagen: ", imagen)

@@ -265,7 +265,8 @@
                   <br>
                   <button class="btn btn-default" (click)="activarImagenPregunta()"><i class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
                   &nbsp;
-                  <span class="imgName" *ngIf="this.imgPreguntaName != undefined" >{{this.imgPreguntaName}}</span>
+                  <span class="imgName" *ngIf="this.preguntaWrapper.Imagen == null" >Ninguna imagen seleccionada</span>
+                  <span class="imgName" *ngIf="this.preguntaWrapper.Imagen != null" >{{this.preguntaWrapper.Imagen}}</span>
                   <br><br>
                 </div>
 

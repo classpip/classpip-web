@@ -1,3 +1,4 @@
+import { Profesor } from 'src/app/clases/Profesor';
 import { RecursosService } from './../../services/recursos.service';
 import { Pregunta } from 'src/app/clases/recursos/Pregunta';
 import { Router } from '@angular/router';
@@ -16,24 +17,31 @@ import { ModalContainerComponent } from 'ngx-bootstrap/modal';
   styleUrls: ['./recursos.component.scss']
 })
 export class RecursosComponent implements OnInit {
+  
   isCollapsed = true;
 
-  isLogged;
-
-  profesor;
-
+  //Variables para subir recursos
+  isLogged: boolean;
+  profesor: Profesor;
   form;
-  respuestasForm = false;
-  finishForm = false;
   typeRscUpload;
-  typeQuestion;
+  imagenes: FormData;
   uploadByJson: boolean;
-  parejasMap = new Map<number, any>();
-  preguntaWrapper;
-  pregunta: Pregunta;
+  finishForm = false;
+
+  //Variables wrappers para subir recursos (clases al final)
+  preguntaWrapper: PreguntaWrapper;
+  avatarWrapper;
+  imgPerfilWrapper;
+  coleccionWrapper;
+  cromoWrapper;
+
+  //Variables subir pregunta
+  respuestasForm = false;
+  typeQuestion: string;
   contOptions = 0;
-  imgPregunta/* : FormData */;
-  imgPreguntaName: string = 'Ningún archivo seleccionado';
+  parejasMap = new Map<number, any>();
+  pregunta: Pregunta;
 
 
   constructor(private auth: AuthService, private router: Router, private sesion: SesionService, private rscService: RecursosService) { }
@@ -56,21 +64,7 @@ export class RecursosComponent implements OnInit {
     }
     console.log('parejas map: ' + this.parejasMap);
 
-    this.preguntaWrapper = {
-      Titulo: null,
-      Tipo: null,
-      Pregunta: null,
-      Tematica: null,
-      Imagen: null,
-      FeedbackCorrecto: null,
-      FeedbackIncorrecto: null,
-      RespuestaCorrecta: null,
-      RespuestaIncorrecta1: null,
-      RespuestaIncorrecta2: null,
-      RespuestaIncorrecta3: null,
-      Emparejamientos: [],
-      profesorId: 0
-    }
+    this.preguntaWrapper = new PreguntaWrapper();
   }
 
   uploadType() {
@@ -201,32 +195,31 @@ export class RecursosComponent implements OnInit {
 
   getImagenPregunta($event) {
 
+    let duplicated = false;
     let img = $event.target.files[0];
 
     console.log(img);
-    
-    let imgPregunta = new FormData();
-    imgPregunta.append(img.name, img);
 
-    this.rscService.uploadImgPregunta(img).subscribe(() => {
-      this.imgPreguntaName = img.name;
-      this.preguntaWrapper.Imagen = this.imgPreguntaName;
+    this.rscService.checkImgNameDuplicated('ImagenesPreguntas').subscribe((data: Array<any>) => {
+      if(data != null){
+        console.log('files: ', data);
+        data.forEach(file => {
+          if(file.name == img.name){
+            Swal.fire('Error', 'El nombre de la imagen ya existe. Renombra el fichero y vuelve a probar.', 'error');
+            duplicated = true;
+            this.preguntaWrapper.Imagen = null;
+          }
+        });
+
+        if(duplicated == false){
+          this.imagenes = new FormData();
+          this.imagenes.append(img.name, img);
+          this.preguntaWrapper.Imagen = img.name;
+        }
+      }
     }, (error) => {
-      console.log(error);
-      Swal.fire('Error', 'Error al subir pregunta', 'error');
+      Swal.fire('Error', 'No se pueden subir imágenes ahora, pruebalo de nuevo más tarde.', 'error');
     });
-    
-    // const reader = new FileReader();
-    // reader.readAsDataURL(img);
-    // reader.onload = () => {
-    //   console.log('carga imagen');
-    //   this.imgPregunta = reader.result.toString();
-    // }
-
-    // const imagenPreguntaData: FormData = new FormData();
-    //         imagenPreguntaData.append(this.filePregunta.name, this.filePregunta);
-    //         this.peticionesAPI.PonImagenPregunta(imagenPreguntaData)
-    //         .subscribe();
   }
 
   activarImagenPregunta() {
@@ -384,13 +377,22 @@ export class RecursosComponent implements OnInit {
         console.log('upload rsc: ', this.pregunta);
         this.rscService.uploadPregunta(this.pregunta).subscribe((data) => {
           console.log('respuesta subir pregunta: ', data);
-          Swal.fire('Hecho!', 'Pregunta subida con éxito.', 'success');
-          this.resetForm();
+          if(this.pregunta.Imagen != null){
+            this.rscService.uploadImgPregunta(this.imagenes).subscribe(() => {
+              this.preguntaWrapper.Imagen = null;
+              this.resetForm();
+              Swal.fire('Hecho!', 'Pregunta subida con éxito.', 'success');
+            }, (error) => {
+              console.log(error);
+              Swal.fire('Error', 'Error al subir pregunta', 'error');
+            });
+          } else {
+            this.resetForm();
+            Swal.fire('Hecho!', 'Pregunta subida con éxito.', 'success');
+          }
         }, (error) => {
           console.log(error);
-          Swal.fire('Error', 'Error al subir pregunta', 'error').then(() => {
-            this.resetForm();
-          });
+          Swal.fire('Error', 'Error al subir pregunta', 'error');
         });
       }
     }
@@ -408,4 +410,36 @@ export class RecursosComponent implements OnInit {
     this.modalUploadRsc.hide();
   }
 
+}
+
+class PreguntaWrapper {
+  Titulo: string;
+  Tipo: string;
+  Pregunta: string;
+  Tematica: string;
+  Imagen: any;
+  FeedbackCorrecto: string;
+  FeedbackIncorrecto: string;
+  RespuestaCorrecta: string;
+  RespuestaIncorrecta1: string;
+  RespuestaIncorrecta2: string;
+  RespuestaIncorrecta3: string;
+  Emparejamientos: [];
+  profesorId: number;
+
+  constructor(){
+    this.Titulo = null;
+    this.Tipo = null;
+    this.Pregunta = null;
+    this.Tematica = null;
+    this.Imagen = null;
+    this.FeedbackCorrecto = null;
+    this.FeedbackIncorrecto = null;
+    this.RespuestaCorrecta = null;
+    this.RespuestaIncorrecta1 = null;
+    this.RespuestaIncorrecta2 = null;
+    this.RespuestaIncorrecta3 = null;
+    this.Emparejamientos = [];
+    this.profesorId = 0;
+  }
 }
