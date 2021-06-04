@@ -60,9 +60,9 @@ export class MostrarColeccionesComponent implements OnInit {
     this.coleccion = this.sesion.DameColeccion();
     console.log("coleccion viene de sesion: ", this.coleccion)
     if(this.coleccion != null){
-      this.nombreColeccion = this.coleccion.Nombre;
-      if (this.coleccion.ImagenColeccion !== undefined) {
-        this.imagenColeccion = URL.ImagenesColeccion + this.coleccion.ImagenColeccion ;
+      this.nombreColeccion = this.coleccion.nombre;
+      if (this.coleccion.imagenColeccion !== undefined) {
+        this.imagenColeccion = URL.ImagenesColeccion + this.coleccion.imagenColeccion ;
       } else {
         this.imagenColeccion = undefined;
       }
@@ -77,8 +77,8 @@ export class MostrarColeccionesComponent implements OnInit {
   
           this.cromoGirado.push(false);
           this.cromo = this.cromosColeccion[i];
-          this.imagenesCromosDelante[i] = URL.ImagenesCromo + this.cromo.ImagenDelante;
-          this.imagenesCromosDetras[i] = URL.ImagenesCromo + this.cromo.ImagenDetras;
+          this.imagenesCromosDelante[i] = URL.ImagenesCromo + this.cromo.imagenDelante;
+          this.imagenesCromosDetras[i] = URL.ImagenesCromo + this.cromo.imagenDetras;
   
         }
 

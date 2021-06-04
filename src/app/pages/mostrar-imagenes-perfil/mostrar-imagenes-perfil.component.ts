@@ -52,9 +52,9 @@ export class MostrarImagenesPerfilComponent implements OnInit {
 
         } else {
           this.familiasPublicas.forEach (f => {
-            const ejemploImagen1 = URL.ImagenesPerfil + f.Imagenes[0];
-            const ejemploImagen2 = URL.ImagenesPerfil + f.Imagenes[1];
-            const ejemploImagen3 = URL.ImagenesPerfil + f.Imagenes[2];
+            const ejemploImagen1 = URL.ImagenesPerfil + f.imagenes[0];
+            const ejemploImagen2 = URL.ImagenesPerfil + f.imagenes[1];
+            const ejemploImagen3 = URL.ImagenesPerfil + f.imagenes[2];
             this.listaFamiliasPublicas.push ({
               familia: f,
               ejemplo1: ejemploImagen1,
@@ -69,7 +69,7 @@ export class MostrarImagenesPerfilComponent implements OnInit {
           .subscribe ( profesores => {
             this.familiasPublicas.forEach (familia => {
               const propietario = profesores.filter (p => p.id === familia.profesorId)[0];
-              this.propietarios.push (propietario.Nombre + ' ' + propietario.PrimerApellido);
+              this.propietarios.push (propietario.nombre + ' ' + propietario.primerApellido);
             });
           });
         }

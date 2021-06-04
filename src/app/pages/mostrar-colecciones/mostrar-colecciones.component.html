@@ -16,7 +16,7 @@
             <div style="text-align: center;">
                 <button type="button" class="btn back-button" (click)="goBack()">Volver</button>
                 &nbsp;
-                <button *ngIf="coleccion && coleccion.DosCaras" style="text-align: center;" type="button" class="btn Info" (click)="Voltear()">
+                <button *ngIf="coleccion && coleccion.dosCaras" style="text-align: center;" type="button" class="btn Info" (click)="Voltear()">
                     Dar la vuelta a todos los cromos <i class="tim-icons icon-refresh-02"></i>
                 </button>
             </div>
@@ -25,15 +25,15 @@
             <div class="grid-wrapper" *ngIf="coleccion">
                 <div class="card" *ngFor="let cromo of cromosColeccion; let i = index" style="text-align: center;" >
                     <div class="card-header">
-                        <h4>{{cromo.Nombre}}</h4>
-                        <h6>Probabilidad: {{cromo.Probabilidad}}</h6>
+                        <h4>{{cromo.nombre}}</h4>
+                        <h6>Probabilidad: {{cromo.probabilidad}}</h6>
                     </div>
                     <div class="card-footer" style="text-align: center;" >
-                        <div *ngIf="!coleccion.DosCaras" class="posicionImagen">
+                        <div *ngIf="!coleccion.dosCaras" class="posicionImagen">
                             <img class="imagenCromo" *ngIf="imagenesCromosDelante[i]"
                                 [src]="imagenesCromosDelante[i]">
                         </div>
-                        <div *ngIf="coleccion.DosCaras" class="flip-box" (click)="girarCromo(i)"> <!-- (mouseenter)="girarCromo(i)" (mouseover)="girarCromo(i)"> -->
+                        <div *ngIf="coleccion.dosCaras" class="flip-box" (click)="girarCromo(i)"> <!-- (mouseenter)="girarCromo(i)" (mouseover)="girarCromo(i)"> -->
                             <div class="flip-box-inner">
                                 <div class="flip-box-front" *ngIf="!this.cromoGirado[i]">
                                     <div class="posicionImagen" >

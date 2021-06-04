@@ -9,12 +9,12 @@
                         <div class="card card-coin card-plain" style="padding-top: 100px;">
                             <div class="card-header">
                                 <div class="image">
-                                    <img *ngIf="this.profesor.ImagenPerfil != null"
+                                    <img *ngIf="this.profesor.imagenPerfil != null"
                                     class="img-center img-fluid rounded-circle"
                                     style = "border-radius: 8px; width: 150px; height: 150px;"
-                                    src={{this.profesor.ImagenPerfil}}
+                                    src={{this.profesor.imagenPerfil}}
                                     />
-                                    <img *ngIf="this.profesor.ImagenPerfil == null"
+                                    <img *ngIf="this.profesor.imagenPerfil == null"
                                     class="img-center img-fluid rounded-circle"
                                     style = "border-radius: 8px; width: 150px; height: 150px;"
                                     src="../../../assets/img/logo.png"
@@ -23,7 +23,7 @@
                                 <div class="overlay img-center" (click)="jaja()">
                                     <div class="text"><i class="tim-icons icon-camera-18"></i>Cambiar</div>
                                 </div>
-                                <h4 class="title">{{this.profesor.Nombre}} {{this.profesor.PrimerApellido}}</h4>
+                                <h4 class="title">{{this.profesor.nombre}} {{this.profesor.primerApellido}}</h4>
                             </div>
                             <div class="card-body">
                                 <button class="btn btn-warning btn-round" (click)="logout()">Cerrar sesión</button>

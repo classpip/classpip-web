@@ -171,7 +171,7 @@ export class MostrarAvataresComponent implements OnInit {
     this.familiaCargada = false;
     console.log("Holaaaaaaa",this.familiaElegida);
       // Traigo la imagen de la silueta
-    this.recursos.DameImagenAvatar (this.familiaElegida.Silueta)
+    this.recursos.DameImagenAvatar (this.familiaElegida.silueta)
      .subscribe(response => {
        const blob = new Blob([response.body], { type: 'image/jpg'});
        console.log("BLOB:", blob)
@@ -204,7 +204,7 @@ export class MostrarAvataresComponent implements OnInit {
        }
      }
      let cont1 = 0;
-     this.familiaElegida.Complemento1.forEach (imagenComplemento => {
+     this.familiaElegida.complemento1.forEach (imagenComplemento => {
        this.recursos.DameImagenAvatar (imagenComplemento)
        .subscribe(response => {
          const blob = new Blob([response.body], { type: 'image/jpg'});
@@ -233,7 +233,7 @@ export class MostrarAvataresComponent implements OnInit {
      }
 
      let cont2 = 0;
-     this.familiaElegida.Complemento2.forEach (imagenComplemento => {
+     this.familiaElegida.complemento2.forEach (imagenComplemento => {
         this.recursos.DameImagenAvatar (imagenComplemento)
         .subscribe(response => {
           const blob = new Blob([response.body], { type: 'image/jpg'});
@@ -259,7 +259,7 @@ export class MostrarAvataresComponent implements OnInit {
         }
       }
      let cont3 = 0;
-     this.familiaElegida.Complemento3.forEach (imagenComplemento => {
+     this.familiaElegida.complemento3.forEach (imagenComplemento => {
          this.recursos.DameImagenAvatar (imagenComplemento)
          .subscribe(response => {
            const blob = new Blob([response.body], { type: 'image/jpg'});
@@ -284,7 +284,7 @@ export class MostrarAvataresComponent implements OnInit {
        }
      }
      let cont4 = 0;
-     this.familiaElegida.Complemento4.forEach (imagenComplemento => {
+     this.familiaElegida.complemento4.forEach (imagenComplemento => {
           this.recursos.DameImagenAvatar (imagenComplemento)
           .subscribe(response => {
             const blob = new Blob([response.body], { type: 'image/jpg'});

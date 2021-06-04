@@ -46,8 +46,8 @@ export class MostrarCuestionarioComponent implements OnInit {
      });
  
      //Establecemos el valor que le corresponde a los inputs
-     this.titulo = this.cuestinarioSeleccionado.Titulo;
-     this.descripcion = this.cuestinarioSeleccionado.Descripcion;
+     this.titulo = this.cuestinarioSeleccionado.titulo;
+     this.descripcion = this.cuestinarioSeleccionado.descripcion;
    }
  
  // Nos devolvera a mis cuestionarios

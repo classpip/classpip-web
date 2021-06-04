@@ -64,12 +64,12 @@
               <div class="publicacion-header">
 
                 <div class="autor" id="autor-name">
-                  <img *ngIf="publi.autor.ImagenPerfil == null" src="../../../assets/img/logo.png" routerLink="/perfil"
+                  <img *ngIf="publi.autor.imagenPerfil == null" src="../../../assets/img/logo.png" routerLink="/perfil"
                     style="border-radius: 50%" width="20" height="20" />
-                  <img *ngIf="publi.autor.ImagenPerfil != null" src={{publi.autor.ImagenPerfil}} routerLink="/perfil"
+                  <img *ngIf="publi.autor.imagenPerfil != null" src={{publi.autor.imagenPerfil}} routerLink="/perfil"
                     style="border-radius: 50%" width="20" height="20" />
                   &nbsp;
-                  <span>{{publi.autor.Nombre}} {{publi.autor.PrimerApellido}}</span>
+                  <span>{{publi.autor.nombre}} {{publi.autor.PrimerApellido}}</span>
                 </div>
                 <span id="publi-title">{{publi.fecha}}</span>
                 &nbsp;
@@ -100,12 +100,12 @@
               <div class="comentario">
                 <div class="comentario-header">
                   <div class="autor" id="autor-name">
-                    <img *ngIf="comment.autor.ImagenPerfil == null" src="../../../assets/img/logo.png"
+                    <img *ngIf="comment.autor.imagenPerfil == null" src="../../../assets/img/logo.png"
                       routerLink="/perfil" style="border-radius: 50%" width="20" height="20" />
-                    <img *ngIf="comment.autor.ImagenPerfil != null" src={{comment.autor.ImagenPerfil}}
+                    <img *ngIf="comment.autor.imagenPerfil != null" src={{comment.autor.imagenPerfil}}
                       routerLink="/perfil" style="border-radius: 50%" width="20" height="20" />
                     &nbsp;
-                    <span>{{comment.autor.Nombre}} {{comment.autor.PrimerApellido}}</span>
+                    <span>{{comment.autor.nombre}} {{comment.autor.PrimerApellido}}</span>
 
                   </div>
                   <span id="comment-title">{{comment.fecha}}</span>

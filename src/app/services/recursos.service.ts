@@ -48,19 +48,15 @@ export class RecursosService {
   }
 
   public DameFamiliasAvataresPublicas(): Observable<FamiliaAvatares[]> {
-    console.log(this.APIUrlFamiliarAvatares + '?filter[where][Publica]=true')
-    return this.http.get<FamiliaAvatares[]>(this.APIUrlFamiliarAvatares
-      + '?filter[where][Publica]=true');
+    return this.http.get<FamiliaAvatares[]>(this.APIUrlFamiliarAvatares);
   }
 
   public DameCuestionariosPublicos(): Observable<Cuestionario[]> {
-    return this.http.get<Cuestionario[]>(this.APIUrlCuestionarios
-      + '?filter[where][Publico]=true');
+    return this.http.get<Cuestionario[]>(this.APIUrlCuestionarios);
   }
 
   public DameCuestionariosSatisfaccionPublicos(): Observable<CuestionarioSatisfaccion[]> {
-    return this.http.get<CuestionarioSatisfaccion[]>(this.APIUrlCuestionariosSatisfaccion
-      + '?filter[where][Publico]=true');
+    return this.http.get<CuestionarioSatisfaccion[]>(this.APIUrlCuestionariosSatisfaccion);
   }
 
   public DameFamiliasDeImagenesDePerfilPublicas(): Observable<FamiliaDeImagenesDePerfil[]> {
@@ -68,8 +64,7 @@ export class RecursosService {
   }
 
   public DameColeccionesPublicas(): Observable<Coleccion[]> {
-    return this.http.get<Coleccion[]>(this.APIUrlColecciones
-      + '?filter[where][Publica]=true');
+    return this.http.get<Coleccion[]>(this.APIUrlColecciones);
   }
 
   public DamePreguntasCuestionario(cuestionarioId: number): Observable<Pregunta[]> {

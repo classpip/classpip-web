@@ -18,7 +18,7 @@ export class PerfilComponent implements OnInit {
   ngOnInit(): void {
     if(this.auth.isLoggedIn()){
       this.profesor = this.sesion.DameProfesor();
-      console.log('img: ', this.profesor.ImagenPerfil);
+      console.log('img: ', this.profesor.imagenPerfil);
     }
     else this.router.navigateByUrl('/#/home');
   }

@@ -1,3 +1,5 @@
+import { Pregunta } from 'src/app/clases/recursos/Pregunta';
+import { FamiliaDeImagenesDePerfil } from 'src/app/clases/recursos/FamiliaDeImagenesDePerfil';
 import { saveAs } from 'file-saver';
 import { SesionService } from 'src/app/services/sesion.service';
 import { Profesor } from './../../clases/Profesor';
@@ -132,11 +134,6 @@ export class RecursosListComponent implements OnInit {
         break;
       }
     }
-
-
-
-
-
   }
 
   isLoggedIn() {
@@ -215,7 +212,6 @@ export class RecursosListComponent implements OnInit {
 
       else {
         console.log('Filtramos por ' + tipo + ' y ' + tematica);
-        let auxList;
         let auxType = this.mapPreguntasTipo.get(tipo);
         this.mapPreguntasTematica.get(tematica).forEach(rscTem => {
           auxType.forEach(rscType => {
@@ -273,8 +269,8 @@ export class RecursosListComponent implements OnInit {
         //Cambia el profesorId por su nombre
         this.listRecursos.forEach(recurso => {
           if (this.mapProfesores.has(recurso.profesorId)) {
-            recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
-            recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
+            recurso.propietario = this.mapProfesores.get(recurso.profesorId).nombre + ' ';
+            recurso.propietario += this.mapProfesores.get(recurso.profesorId).primerApellido;
           } else {
             recurso.propietario = 'Desconocido';
           }
@@ -285,7 +281,7 @@ export class RecursosListComponent implements OnInit {
         });
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function (obj) {
-          obj['nombreRecurso'] = obj['NombreFamilia']; // Assign new key
+          obj['nombreRecurso'] = obj['nombreFamilia']; // Assign new key
           //delete obj['NombreFamilia']; // Delete old key
           return obj;
         });
@@ -309,8 +305,8 @@ export class RecursosListComponent implements OnInit {
         this.listRecursos.forEach(recurso => {
           console.log("Holi este es el id:", recurso.id)
           if (this.mapProfesores.has(recurso.profesorId)) {
-            recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
-            recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
+            recurso.propietario = this.mapProfesores.get(recurso.profesorId).nombre + ' ';
+            recurso.propietario += this.mapProfesores.get(recurso.profesorId).primerApellido;
           } else {
             recurso.propietario = 'Desconocido';
           }
@@ -318,7 +314,7 @@ export class RecursosListComponent implements OnInit {
         });
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function (obj) {
-          obj['nombreRecurso'] = obj['Titulo']; // Assign new key
+          obj['nombreRecurso'] = obj['titulo']; // Assign new key
           //delete obj['Titulo']; // Delete old key
           return obj;
         });
@@ -340,8 +336,8 @@ export class RecursosListComponent implements OnInit {
         //Cambia el profesorId por su nombre
         this.listRecursos.forEach(recurso => {
           if (this.mapProfesores.has(recurso.profesorId)) {
-            recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
-            recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
+            recurso.propietario = this.mapProfesores.get(recurso.profesorId).nombre + ' ';
+            recurso.propietario += this.mapProfesores.get(recurso.profesorId).primerApellido;
           } else {
             recurso.propietario = 'Desconocido';
           }
@@ -349,7 +345,7 @@ export class RecursosListComponent implements OnInit {
         });
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function (obj) {
-          obj['nombreRecurso'] = obj['Titulo']; // Assign new key
+          obj['nombreRecurso'] = obj['titulo']; // Assign new key
           //delete obj['Titulo']; // Delete old key
           return obj;
         });
@@ -373,8 +369,8 @@ export class RecursosListComponent implements OnInit {
         this.listRecursos.forEach(recurso => {
 
           if (this.mapProfesores.has(recurso.profesorId)) {
-            recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
-            recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
+            recurso.propietario = this.mapProfesores.get(recurso.profesorId).nombre + ' ';
+            recurso.propietario += this.mapProfesores.get(recurso.profesorId).primerApellido;
           } else {
             recurso.propietario = 'Desconocido';
           }
@@ -386,8 +382,8 @@ export class RecursosListComponent implements OnInit {
         });
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function (obj) {
-          obj['nombreRecurso'] = obj['NombreFamilia']; // Assign new key
-          obj['ejemplos'] = obj['Imagenes'];
+          obj['nombreRecurso'] = obj['nombreFamilia']; // Assign new key
+          obj['ejemplos'] = obj['imagenes'];
           //delete obj['NombreFamilia']; // Delete old key
           return obj;
         });
@@ -418,8 +414,8 @@ export class RecursosListComponent implements OnInit {
         //Cambia el profesorId por su nombre
         this.listRecursos.forEach(recurso => {
           if (this.mapProfesores.has(recurso.profesorId)) {
-            recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
-            recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
+            recurso.propietario = this.mapProfesores.get(recurso.profesorId).nombre + ' ';
+            recurso.propietario += this.mapProfesores.get(recurso.profesorId).primerApellido;
 
           } else {
             recurso.propietario = 'Desconocido';
@@ -434,7 +430,7 @@ export class RecursosListComponent implements OnInit {
         console.log("ESTE: ", this.listRecursos)
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function (obj) {
-          obj['nombreRecurso'] = obj['Nombre']; // Assign new key
+          obj['nombreRecurso'] = obj['nombre']; // Assign new key
           //delete obj['Nombre']; // Delete old key
           return obj;
         });
@@ -455,7 +451,7 @@ export class RecursosListComponent implements OnInit {
 
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function (obj) {
-          obj['nombreRecurso'] = obj['Titulo']; // Assign new key
+          obj['nombreRecurso'] = obj['titulo']; // Assign new key
           //delete obj['NombreFamilia']; // Delete old key
           return obj;
         });
@@ -465,8 +461,8 @@ export class RecursosListComponent implements OnInit {
         //Cambia el profesorId por su nombre
         this.listRecursos.forEach(recurso => {
           if (this.mapProfesores.has(recurso.profesorId)) {
-            recurso.propietario = this.mapProfesores.get(recurso.profesorId).Nombre + ' ';
-            recurso.propietario += this.mapProfesores.get(recurso.profesorId).PrimerApellido;
+            recurso.propietario = this.mapProfesores.get(recurso.profesorId).nombre + ' ';
+            recurso.propietario += this.mapProfesores.get(recurso.profesorId).primerApellido;
           } else {
             recurso.propietario = 'Desconocido';
           }
@@ -475,18 +471,18 @@ export class RecursosListComponent implements OnInit {
             recurso.isPropietario = this.isPropietario(recurso);
           }
 
-          if (recurso.Tipo != null) {
-            if (!this.mapPreguntasTipo.has(recurso.Tipo)) {
-              this.mapPreguntasTipo.set(recurso.Tipo, new Array());
+          if (recurso.tipo != null) {
+            if (!this.mapPreguntasTipo.has(recurso.tipo)) {
+              this.mapPreguntasTipo.set(recurso.tipo, new Array());
             }
-            this.mapPreguntasTipo.get(recurso.Tipo).push(recurso);
+            this.mapPreguntasTipo.get(recurso.tipo).push(recurso);
           };
 
-          if (recurso.Tematica != null) {
-            if (!this.mapPreguntasTematica.has(recurso.Tematica)) {
-              this.mapPreguntasTematica.set(recurso.Tematica, new Array());
+          if (recurso.tematica != null) {
+            if (!this.mapPreguntasTematica.has(recurso.tematica)) {
+              this.mapPreguntasTematica.set(recurso.tematica, new Array());
             }
-            this.mapPreguntasTematica.get(recurso.Tematica).push(recurso);
+            this.mapPreguntasTematica.get(recurso.tematica).push(recurso);
           };
         });
 
@@ -577,7 +573,7 @@ export class RecursosListComponent implements OnInit {
   }
 
   //Función para descargar la colección
-  descargaColeccion(rsc: any) {
+  descargaColeccion(rsc: Coleccion) {
 
     this.isDownloading = true;
 
@@ -587,9 +583,9 @@ export class RecursosListComponent implements OnInit {
 
     //Guarda los datos de la coleccion a guardar
     this.coleccion = {
-      Nombre: rsc.Nombre,
-      ImagenColeccion: rsc.ImagenColeccion,
-      DosCaras: rsc.DosCaras,
+      nombre: rsc.nombre,
+      imagenColeccion: rsc.imagenColeccion,
+      dosCaras: rsc.dosCaras,
       cromos: []
     };
 
@@ -598,11 +594,11 @@ export class RecursosListComponent implements OnInit {
       //Itera los cromos para obtener sus datos
       cromos.forEach(cromo => {
         const c = {
-          nombreCromo: cromo.Nombre,
-          nombreImagenCromoDelante: cromo.ImagenDelante,
-          nombreImagenCromoDetras: cromo.ImagenDetras,
-          nivelCromo: cromo.Nivel,
-          probabilidadCromo: cromo.Probabilidad,
+          nombreCromo: cromo.nombre,
+          nombreImagenCromoDelante: cromo.imagenDelante,
+          nombreImagenCromoDetras: cromo.imagenDetras,
+          nivelCromo: cromo.nivel,
+          probabilidadCromo: cromo.probabilidad,
         };
         //Guarda los cromos en la coleccion
         this.coleccion.cromos.push(c);
@@ -612,11 +608,11 @@ export class RecursosListComponent implements OnInit {
 
       //Crea el fichero JSON de la coleccion y lo añade al ZIP
       const theJSON = JSON.stringify(this.coleccion);
-      zip.file(rsc.Nombre + ".json", theJSON);
+      zip.file(rsc.nombre + ".json", theJSON);
 
       //Descarga la imagen de la coleccion y la añade al ZIP
-      this.recursosService.downloadImgColeccion(rsc.ImagenColeccion).subscribe((data: any) => {
-        folder.file(`${rsc.ImagenColeccion}`, data);
+      this.recursosService.downloadImgColeccion(rsc.imagenColeccion).subscribe((data: any) => {
+        folder.file(`${rsc.imagenColeccion}`, data);
       });
 
       console.log(this.coleccion.cromos);
@@ -641,7 +637,7 @@ export class RecursosListComponent implements OnInit {
           if (count == imgNames.length) {
             this.isDownloading = false;
             zip.generateAsync({ type: "blob" }).then(function (blob) {
-              saveAs(blob, "Coleccion_" + rsc.Nombre + ".zip");
+              saveAs(blob, "Coleccion_" + rsc.nombre + ".zip");
             }, function (err) {
               this.isDownloading = false;
               console.log(err);
@@ -655,7 +651,7 @@ export class RecursosListComponent implements OnInit {
 
 
   //Función para descargar la familia de avatares
-  descargaFamiliaAvatares(rsc: any) {
+  descargaFamiliaAvatares(rsc: FamiliaAvatares) {
 
     this.isDownloading = true;
 
@@ -665,26 +661,26 @@ export class RecursosListComponent implements OnInit {
     const theJSON = JSON.stringify(this.familia);
 
     let zip = new JSZip();
-    let folder = zip.folder('Avatares_' + rsc.NombreFamilia);
+    let folder = zip.folder('Avatares_' + rsc.nombreFamilia);
     let compFolder = folder.folder('Imagenes complementos');
-    folder.file(rsc.NombreFamilia + ".json", theJSON);
+    folder.file(rsc.nombreFamilia + ".json", theJSON);
 
-    console.log(rsc.Silueta)
+    console.log(rsc.silueta)
 
-    this.recursosService.downloadImgSilueta(rsc.Silueta).subscribe((data: any) => {
-      folder.file(`${rsc.Silueta}`, data);
+    this.recursosService.downloadImgSilueta(rsc.silueta).subscribe((data: any) => {
+      folder.file(`${rsc.silueta}`, data);
 
       let complementos = new Array<string>();
-      rsc.Complemento1.forEach(complemento => {
+      rsc.complemento1.forEach(complemento => {
         complementos.push(complemento);
       });
-      rsc.Complemento2.forEach(complemento => {
+      rsc.complemento2.forEach(complemento => {
         complementos.push(complemento);
       });
-      rsc.Complemento3.forEach(complemento => {
+      rsc.complemento3.forEach(complemento => {
         complementos.push(complemento);
       });
-      rsc.Complemento4.forEach(complemento => {
+      rsc.complemento4.forEach(complemento => {
         complementos.push(complemento);
       });
 
@@ -697,7 +693,7 @@ export class RecursosListComponent implements OnInit {
             if (cont == complementos.length) {
               this.isDownloading = false;
               zip.generateAsync({ type: "blob" }).then(function (blob) {
-                saveAs(blob, 'Avatares_' + rsc.NombreFamilia + ".zip");
+                saveAs(blob, 'Avatares_' + rsc.nombreFamilia + ".zip");
               }, function (err) {
                 console.log(err);
                 this.isDownloading = false;
@@ -721,16 +717,16 @@ export class RecursosListComponent implements OnInit {
 
 
   //Función para descargar la familia de imagenes de perfil
-  descargaFamiliaImagenes(rsc: any) {
+  descargaFamiliaImagenes(rsc: FamiliaDeImagenesDePerfil) {
 
     this.isDownloading = true;
 
     console.log("RSC: ", rsc);
 
     let zip = new JSZip();
-    let folder = zip.folder('FamiliaImagenesDePerfil_' + rsc.Nombre);
+    let folder = zip.folder('FamiliaImagenesDePerfil_' + rsc.nombreFamilia);
 
-    let imgNames: string[] = rsc.Imagenes;
+    let imgNames: string[] = rsc.imagenes;
 
 
     console.log(imgNames);
@@ -748,7 +744,7 @@ export class RecursosListComponent implements OnInit {
         if (count == imgNames.length) {
           this.isDownloading = false;
           zip.generateAsync({ type: "blob" }).then(function (blob) {
-            saveAs(blob, "FamiliaImagenesPerfil_" + rsc.NombreFamilia + ".zip");
+            saveAs(blob, "FamiliaImagenesPerfil_" + rsc.nombreFamilia + ".zip");
           }, function (err) {
             console.log(err);
             this.isDownloading = false;
@@ -761,7 +757,7 @@ export class RecursosListComponent implements OnInit {
 
 
   //Función para descargar la pregunta
-  descargaPreguntas(rsc: any) {
+  descargaPreguntas(rsc: Pregunta) {
 
     this.isDownloading = true;
 
@@ -770,15 +766,15 @@ export class RecursosListComponent implements OnInit {
     const theJSON = JSON.stringify(rsc);
 
     let zip = new JSZip();
-    zip.file(rsc.Titulo + ".json", theJSON);
+    zip.file(rsc.titulo + ".json", theJSON);
 
-    if (rsc.Imagen != null) {
-      this.recursosService.downloadImgPregunta(rsc.Imagen).subscribe((data: any) => {
+    if (rsc.imagen != null) {
+      this.recursosService.downloadImgPregunta(rsc.imagen).subscribe((data: any) => {
         console.log("DATA: ", data)
-        zip.file(`${rsc.Imagen}`, data);
+        zip.file(`${rsc.imagen}`, data);
         this.isDownloading = false;
         zip.generateAsync({ type: "blob" }).then(function (blob) {
-          saveAs(blob, 'Pregunta_' + rsc.Titulo + ".zip");
+          saveAs(blob, 'Pregunta_' + rsc.titulo + ".zip");
         }, function (err) {
           console.log(err);
           this.isDownloading = false;
@@ -789,7 +785,7 @@ export class RecursosListComponent implements OnInit {
     else {
       this.isDownloading = false;
       zip.generateAsync({ type: "blob" }).then(function (blob) {
-        saveAs(blob, 'Pregunta_' + rsc.Titulo + ".zip");
+        saveAs(blob, 'Pregunta_' + rsc.titulo + ".zip");
       }, function (err) {
         console.log(err);
         this.isDownloading = false;

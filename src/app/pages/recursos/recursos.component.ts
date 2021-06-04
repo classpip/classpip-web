@@ -83,12 +83,12 @@ export class RecursosComponent implements OnInit {
     if (this.form['tituloPregunta'].value != "") {
       if (document.getElementById('tituloPregunta').style.borderColor == "red")
         document.getElementById('tituloPregunta').style.borderColor = "#525f7f";
-      this.preguntaWrapper.Titulo = this.form['tituloPregunta'].value;
+      this.preguntaWrapper.titulo = this.form['tituloPregunta'].value;
 
       if (this.form['tipoPregunta'].value != 'Seleccione un tipo...') {
         this.typeQuestion = this.form['tipoPregunta'].value;
         console.log('typequestion: ', this.typeQuestion);
-        this.preguntaWrapper.Tipo = this.form['tipoPregunta'].value;
+        this.preguntaWrapper.tipo = this.form['tipoPregunta'].value;
         console.log('wrapper: ', this.preguntaWrapper);
         if (this.typeQuestion == 'Respuesta abierta' || this.typeQuestion == 'Verdadero o falso') {
           this.finishForm = true;
@@ -145,7 +145,7 @@ export class RecursosComponent implements OnInit {
     if (questionForm['tematica'].value != '') {
       if (document.getElementById('tematica').style.borderColor == "red")
         document.getElementById('tematica').style.borderColor = "#525f7f";
-      this.preguntaWrapper.Tematica = questionForm['tematica'].value;
+      this.preguntaWrapper.tematica = questionForm['tematica'].value;
       cont++;
     } else {
       document.getElementById('tematica').style.borderColor = "red";
@@ -154,7 +154,7 @@ export class RecursosComponent implements OnInit {
     if (questionForm['pregunta'].value != '') {
       if (document.getElementById('pregunta').style.borderColor == "red")
         document.getElementById('pregunta').style.borderColor = "#525f7f";
-      this.preguntaWrapper.Pregunta = questionForm['pregunta'].value;
+      this.preguntaWrapper.pregunta = questionForm['pregunta'].value;
       cont++;
     } else {
       document.getElementById('pregunta').style.borderColor = "red";
@@ -163,7 +163,7 @@ export class RecursosComponent implements OnInit {
     if (questionForm['feedback1'].value != '') {
       if (document.getElementById('feedback1').style.borderColor == "red")
         document.getElementById('feedback1').style.borderColor = "#525f7f";
-      this.preguntaWrapper.FeedbackCorrecto = questionForm['feedback1'].value;
+      this.preguntaWrapper.feedbackCorrecto = questionForm['feedback1'].value;
       cont++;
     } else {
       document.getElementById('feedback1').style.borderColor = "red";
@@ -172,7 +172,7 @@ export class RecursosComponent implements OnInit {
     if (questionForm['feedback2'].value != '') {
       if (document.getElementById('feedback2').style.borderColor == "red")
         document.getElementById('feedback2').style.borderColor = "#525f7f";
-      this.preguntaWrapper.FeedbackIncorrecto = questionForm['feedback2'].value;
+      this.preguntaWrapper.feedbackIncorrecto = questionForm['feedback2'].value;
       cont++;
     } else {
       document.getElementById('feedback2').style.borderColor = "red";
@@ -207,14 +207,14 @@ export class RecursosComponent implements OnInit {
           if(file.name == img.name){
             Swal.fire('Error', 'El nombre de la imagen ya existe. Renombra el fichero y vuelve a probar.', 'error');
             duplicated = true;
-            this.preguntaWrapper.Imagen = null;
+            this.preguntaWrapper.imagen = null;
           }
         });
 
         if(duplicated == false){
           this.imagenes = new FormData();
           this.imagenes.append(img.name, img);
-          this.preguntaWrapper.Imagen = img.name;
+          this.preguntaWrapper.imagen = img.name;
         }
       }
     }, (error) => {
@@ -248,7 +248,7 @@ export class RecursosComponent implements OnInit {
         if (questionForm['respAbierta'].value != '') {
           if (document.getElementById('respAbierta').style.borderColor == "red")
             document.getElementById('respAbierta').style.borderColor = "#525f7f";
-          this.preguntaWrapper.RespuestaCorrecta = questionForm['respAbierta'].value;
+          this.preguntaWrapper.respuestaCorrecta = questionForm['respAbierta'].value;
           contOpen++;
         } else {
           document.getElementById('respAbierta').style.borderColor = "red";
@@ -256,16 +256,16 @@ export class RecursosComponent implements OnInit {
 
         if (contOpen == 5) {
           this.pregunta = new Pregunta(
-            this.preguntaWrapper.Titulo,
-            this.preguntaWrapper.Tipo,
-            this.preguntaWrapper.Pregunta,
-            this.preguntaWrapper.Tematica,
-            this.preguntaWrapper.FeedbackCorrecto,
-            this.preguntaWrapper.FeedbackIncorrecto,
+            this.preguntaWrapper.titulo,
+            this.preguntaWrapper.tipo,
+            this.preguntaWrapper.pregunta,
+            this.preguntaWrapper.tematica,
+            this.preguntaWrapper.feedbackCorrecto,
+            this.preguntaWrapper.feedbackIncorrecto,
             this.profesor.id,
-            this.preguntaWrapper.Imagen,
+            this.preguntaWrapper.imagen,
             null,
-            this.preguntaWrapper.RespuestaCorrecta
+            this.preguntaWrapper.respuestaCorrecta
           );
         }
       } else if (this.typeQuestion == 'Cuatro opciones') {
@@ -274,7 +274,7 @@ export class RecursosComponent implements OnInit {
         if (questionForm['respOpciones'].value != '') {
           if (document.getElementById('respOpciones').style.borderColor == "red")
             document.getElementById('respOpciones').style.borderColor = "#525f7f";
-          this.preguntaWrapper.RespuestaCorrecta = questionForm['respOpciones'].value;
+          this.preguntaWrapper.respuestaCorrecta = questionForm['respOpciones'].value;
           contOptions++;
         } else {
           document.getElementById('respOpciones').style.borderColor = "red";
@@ -283,7 +283,7 @@ export class RecursosComponent implements OnInit {
         if (questionForm['respInc1'].value != '') {
           if (document.getElementById('respInc1').style.borderColor == "red")
             document.getElementById('respInc1').style.borderColor = "#525f7f";
-          this.preguntaWrapper.RespuestaIncorrecta1 = questionForm['respInc1'].value;
+          this.preguntaWrapper.respuestaIncorrecta1 = questionForm['respInc1'].value;
           contOptions++;
         } else {
           document.getElementById('respInc1').style.borderColor = "red";
@@ -292,7 +292,7 @@ export class RecursosComponent implements OnInit {
         if (questionForm['respInc2'].value != '') {
           if (document.getElementById('respInc2').style.borderColor == "red")
             document.getElementById('respInc2').style.borderColor = "#525f7f";
-          this.preguntaWrapper.RespuestaIncorrecta2 = questionForm['respInc2'].value;
+          this.preguntaWrapper.respuestaIncorrecta2 = questionForm['respInc2'].value;
           contOptions++;
         } else {
           document.getElementById('respInc2').style.borderColor = "red";
@@ -301,7 +301,7 @@ export class RecursosComponent implements OnInit {
         if (questionForm['respInc3'].value != '') {
           if (document.getElementById('respInc3').style.borderColor == "red")
             document.getElementById('respInc3').style.borderColor = "#525f7f";
-          this.preguntaWrapper.RespuestaIncorrecta3 = questionForm['respInc3'].value;
+          this.preguntaWrapper.respuestaIncorrecta3 = questionForm['respInc3'].value;
           contOptions++;
         } else {
           document.getElementById('respInc3').style.borderColor = "red";
@@ -311,19 +311,19 @@ export class RecursosComponent implements OnInit {
         console.log('cont options: ', contOptions);
         if (contOptions == 8) {
           this.pregunta = new Pregunta(
-            this.preguntaWrapper.Titulo,
-            this.preguntaWrapper.Tipo,
-            this.preguntaWrapper.Pregunta,
-            this.preguntaWrapper.Tematica,
-            this.preguntaWrapper.FeedbackCorrecto,
-            this.preguntaWrapper.FeedbackIncorrecto,
+            this.preguntaWrapper.titulo,
+            this.preguntaWrapper.tipo,
+            this.preguntaWrapper.pregunta,
+            this.preguntaWrapper.tematica,
+            this.preguntaWrapper.feedbackCorrecto,
+            this.preguntaWrapper.feedbackIncorrecto,
             this.profesor.id,
-            this.preguntaWrapper.Imagen,
+            this.preguntaWrapper.imagen,
             [],
-            this.preguntaWrapper.RespuestaCorrecta,
-            this.preguntaWrapper.RespuestaIncorrecta1,
-            this.preguntaWrapper.RespuestaIncorrecta2,
-            this.preguntaWrapper.RespuestaIncorrecta3
+            this.preguntaWrapper.respuestaCorrecta,
+            this.preguntaWrapper.respuestaIncorrecta1,
+            this.preguntaWrapper.respuestaIncorrecta2,
+            this.preguntaWrapper.respuestaIncorrecta3
           );
         }
 
@@ -334,7 +334,7 @@ export class RecursosComponent implements OnInit {
         if (questionForm['respVoF'].value != '') {
           if (document.getElementById('respVoF').style.borderColor == "red")
             document.getElementById('respVoF').style.borderColor = "#525f7f";
-          this.preguntaWrapper.RespuestaCorrecta = questionForm['respVoF'].value;
+          this.preguntaWrapper.respuestaCorrecta = questionForm['respVoF'].value;
           contVoF++;
         } else {
           document.getElementById('respVoF').style.borderColor = "red";
@@ -342,30 +342,30 @@ export class RecursosComponent implements OnInit {
 
         if (contVoF == 5) {
           this.pregunta = new Pregunta(
-            this.preguntaWrapper.Titulo,
-            this.preguntaWrapper.Tipo,
-            this.preguntaWrapper.Pregunta,
-            this.preguntaWrapper.Tematica,
-            this.preguntaWrapper.FeedbackCorrecto,
-            this.preguntaWrapper.FeedbackIncorrecto,
+            this.preguntaWrapper.titulo,
+            this.preguntaWrapper.tipo,
+            this.preguntaWrapper.pregunta,
+            this.preguntaWrapper.tematica,
+            this.preguntaWrapper.feedbackCorrecto,
+            this.preguntaWrapper.feedbackIncorrecto,
             this.profesor.id,
-            this.preguntaWrapper.Imagen,
+            this.preguntaWrapper.imagen,
             null,
-            this.preguntaWrapper.RespuestaCorrecta
+            this.preguntaWrapper.respuestaCorrecta
           );
         }
       } else if (this.typeQuestion == 'Emparejamiento') {
 
         if (this.getParejasValues() != null) {
           this.pregunta = new Pregunta(
-            this.preguntaWrapper.Titulo,
-            this.preguntaWrapper.Tipo,
-            this.preguntaWrapper.Pregunta,
-            this.preguntaWrapper.Tematica,
-            this.preguntaWrapper.FeedbackCorrecto,
-            this.preguntaWrapper.FeedbackIncorrecto,
+            this.preguntaWrapper.titulo,
+            this.preguntaWrapper.tipo,
+            this.preguntaWrapper.pregunta,
+            this.preguntaWrapper.tematica,
+            this.preguntaWrapper.feedbackCorrecto,
+            this.preguntaWrapper.feedbackIncorrecto,
             this.profesor.id,
-            this.preguntaWrapper.Imagen,
+            this.preguntaWrapper.imagen,
             Array.from(this.getParejasValues().values()),
           );
         } else {
@@ -377,9 +377,9 @@ export class RecursosComponent implements OnInit {
         console.log('upload rsc: ', this.pregunta);
         this.rscService.uploadPregunta(this.pregunta).subscribe((data) => {
           console.log('respuesta subir pregunta: ', data);
-          if(this.pregunta.Imagen != null){
+          if(this.pregunta.imagen != null){
             this.rscService.uploadImgPregunta(this.imagenes).subscribe(() => {
-              this.preguntaWrapper.Imagen = null;
+              this.preguntaWrapper.imagen = null;
               this.resetForm();
               Swal.fire('Hecho!', 'Pregunta subida con éxito.', 'success');
             }, (error) => {
@@ -413,33 +413,115 @@ export class RecursosComponent implements OnInit {
 }
 
 class PreguntaWrapper {
-  Titulo: string;
-  Tipo: string;
-  Pregunta: string;
-  Tematica: string;
-  Imagen: any;
-  FeedbackCorrecto: string;
-  FeedbackIncorrecto: string;
-  RespuestaCorrecta: string;
-  RespuestaIncorrecta1: string;
-  RespuestaIncorrecta2: string;
-  RespuestaIncorrecta3: string;
-  Emparejamientos: [];
+  titulo: string;
+  tipo: string;
+  pregunta: string;
+  tematica: string;
+  imagen: any;
+  feedbackCorrecto: string;
+  feedbackIncorrecto: string;
+  respuestaCorrecta: string;
+  respuestaIncorrecta1: string;
+  respuestaIncorrecta2: string;
+  respuestaIncorrecta3: string;
+  emparejamientos: [];
   profesorId: number;
 
   constructor(){
-    this.Titulo = null;
-    this.Tipo = null;
-    this.Pregunta = null;
-    this.Tematica = null;
-    this.Imagen = null;
-    this.FeedbackCorrecto = null;
-    this.FeedbackIncorrecto = null;
-    this.RespuestaCorrecta = null;
-    this.RespuestaIncorrecta1 = null;
-    this.RespuestaIncorrecta2 = null;
-    this.RespuestaIncorrecta3 = null;
-    this.Emparejamientos = [];
+    this.titulo = null;
+    this.tipo = null;
+    this.pregunta = null;
+    this.tematica = null;
+    this.imagen = null;
+    this.feedbackCorrecto = null;
+    this.feedbackIncorrecto = null;
+    this.respuestaCorrecta = null;
+    this.respuestaIncorrecta1 = null;
+    this.respuestaIncorrecta2 = null;
+    this.respuestaIncorrecta3 = null;
+    this.emparejamientos = [];
     this.profesorId = 0;
+  }
+}
+
+class AvatarWrapper {
+  titulo: string;
+  tipo: string;
+  pregunta: string;
+  tematica: string;
+  imagen: any;
+  feedbackCorrecto: string;
+  feedbackIncorrecto: string;
+  respuestaCorrecta: string;
+  respuestaIncorrecta1: string;
+  respuestaIncorrecta2: string;
+  respuestaIncorrecta3: string;
+  emparejamientos: [];
+  profesorId: number;
+
+  constructor(){
+    this.titulo = null;
+    this.tipo = null;
+    this.pregunta = null;
+    this.tematica = null;
+    this.imagen = null;
+    this.feedbackCorrecto = null;
+    this.feedbackIncorrecto = null;
+    this.respuestaCorrecta = null;
+    this.respuestaIncorrecta1 = null;
+    this.respuestaIncorrecta2 = null;
+    this.respuestaIncorrecta3 = null;
+    this.emparejamientos = [];
+    this.profesorId = 0;
+  }
+}
+
+class ImagenesPerfilWrapper {
+  nombreFamilia: string;
+  numeroImagenes: number;
+  imagenes: string[];
+  profesorId: number;
+
+  constructor() {
+    this.nombreFamilia = null;
+    this.numeroImagenes = null;
+    this.imagenes = [];
+    this.profesorId = null;
+  }
+}
+
+class ColeccionWrapper {
+  nombre: string;
+  imagenColeccion: string;
+  dosCaras: boolean;
+  profesorId: number;
+  cromos: [];
+
+  constructor() {
+
+    this.nombre = null;
+    this.imagenColeccion = null;
+    this.dosCaras = null;
+    this.profesorId = null;
+    this.cromos = [];
+  }
+}
+
+class CromoWrapper {
+  nombre: string;
+  imagenDelante: string;
+  imagenDetras: string;
+  probabilidad: string;
+  nivel: string;
+  coleccionId: number;
+
+  constructor() {
+
+    this.nombre = null;
+    this.probabilidad = null;
+    this.nivel = null;
+    this.imagenDelante = null;
+    this.imagenDetras = null;
+    this.coleccionId = null;
   }
 }

@@ -44,8 +44,8 @@
                                 <td class="text-center" width="40px">{{indice + 1}}</td>
                                 <td class="text-center" width="100px">{{rsc.nombreRecurso}}</td>
                                 <td class="text-center" width="100px" *ngIf="isLoggedIn()">{{rsc.propietario}}</td>
-                                <td class="text-center" width="100px" *ngIf="isPreguntas()">{{rsc.Tematica}}</td>
-                                <td class="text-center" width="100px" *ngIf="isPreguntas()">{{rsc.Tipo}}</td>
+                                <td class="text-center" width="100px" *ngIf="isPreguntas()">{{rsc.tematica}}</td>
+                                <td class="text-center" width="100px" *ngIf="isPreguntas()">{{rsc.tipo}}</td>
                                 <td class="text-center" *ngIf="isImagenes()">
                                     <img style="width:50px; height: 50px; padding-right: 10px;"
                                         [src]="this.urlImagenesPerfil + rsc.ejemplos[0]">
@@ -161,21 +161,21 @@
                     (click)="modalShowQuestion.hide()">
                     <i class="tim-icons icon-simple-remove"> </i>
                 </button>
-                <h4 class="title title-up">{{this.pregunta.Titulo}}</h4>
+                <h4 class="title title-up">{{this.pregunta.titulo}}</h4>
             </div>
             <div class="modal-body" *ngIf="this.pregunta != undefined">
-                <h5>{{this.pregunta.Pregunta}}</h5>
-                <div *ngIf="this.pregunta.Imagen != null" style = "text-align: center;">
-                    <img [src]="this.urlImagenesPreguntas + this.pregunta.Imagen" style="text-align: center;">
+                <h5>{{this.pregunta.pregunta}}</h5>
+                <div *ngIf="this.pregunta.imagen != null" style = "text-align: center;">
+                    <img [src]="this.urlImagenesPreguntas + this.pregunta.imagen" style="text-align: center;">
                 </div>
-                <div class="container" *ngIf="this.pregunta.Tipo != 'Emparejamiento'" style="text-align: center;">
-                    <h5 style="color:lightgreen;">{{this.pregunta.RespuestaCorrecta}}</h5>
-                    <h5 style="color:red">{{this.pregunta.RespuestaIncorrecta1}}</h5>
-                    <h5 style="color:red">{{this.pregunta.RespuestaIncorrecta2}}</h5>
-                    <h5 style="color:red">{{this.pregunta.RespuestaIncorrecta3}}</h5>
+                <div class="container" *ngIf="this.pregunta.tipo != 'Emparejamiento'" style="text-align: center;">
+                    <h5 style="color:lightgreen;">{{this.pregunta.respuestaCorrecta}}</h5>
+                    <h5 style="color:red">{{this.pregunta.respuestaIncorrecta1}}</h5>
+                    <h5 style="color:red">{{this.pregunta.respuestaIncorrecta2}}</h5>
+                    <h5 style="color:red">{{this.pregunta.respuestaIncorrecta3}}</h5>
                 </div>
-                <div class="container" *ngIf="this.pregunta.Tipo == 'Emparejamiento'" style="text-align: center;">
-                    <div *ngFor="let pareja of this.pregunta.Emparejamientos">
+                <div class="container" *ngIf="this.pregunta.tipo == 'Emparejamiento'" style="text-align: center;">
+                    <div *ngFor="let pareja of this.pregunta.emparejamientos">
                         <h5>{{pareja.l}} - {{pareja.r}}</h5>
                     </div>
                 </div>
