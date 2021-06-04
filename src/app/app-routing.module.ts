@@ -1,4 +1,3 @@
-import { MostrarImagenesPerfilComponent } from './pages/mostrar-imagenes-perfil/mostrar-imagenes-perfil.component';
 import { MostrarCuestionarioComponent } from './pages/mostrar-cuestionario/mostrar-cuestionario.component';
 import { RecursosListComponent } from './pages/recursos-list/recursos-list.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
@@ -31,7 +30,6 @@ const routes: Routes = [
   { path: "recursos/cuestionarios/:id", component: MostrarCuestionarioComponent},
   { path: "recursos/colecciones/:id", component: MostrarColeccionesComponent},
   { path: "recursos/avatares/:id", component: MostrarAvataresComponent},
-  { path: "recursos/imagenes/:id", component: MostrarImagenesPerfilComponent},
   { path: "estilos", component: EstilosComponent},
   { path: "desarrolladores", component: DesarrolladoresComponent},
   { path: "login", component: LoginComponent},

@@ -37,9 +37,6 @@ import { RecursosListComponent } from './recursos-list/recursos-list.component';
 import { MostrarCuestionarioComponent } from './mostrar-cuestionario/mostrar-cuestionario.component';
 import { MostrarColeccionesComponent } from './mostrar-colecciones/mostrar-colecciones.component';
 import { MostrarAvataresComponent } from './mostrar-avatares/mostrar-avatares.component';
-import { MostrarImagenesPerfilComponent } from './mostrar-imagenes-perfil/mostrar-imagenes-perfil.component';
-
-
 
 @NgModule({
   imports: [
@@ -80,8 +77,7 @@ import { MostrarImagenesPerfilComponent } from './mostrar-imagenes-perfil/mostra
     PerfilComponent,
     MostrarCuestionarioComponent,
     MostrarColeccionesComponent,
-    MostrarAvataresComponent,
-    MostrarImagenesPerfilComponent,
+    MostrarAvataresComponent
   ],
   exports: [
     IndexComponent,
