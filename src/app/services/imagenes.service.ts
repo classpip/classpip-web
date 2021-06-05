@@ -56,13 +56,6 @@ export class ImagenesService {
     return this.http.get(this.APIUrlImagenesAvatares + '/download/' + imgName, {observe: 'body', responseType: 'blob'});
   }
 
-  //NO FUNCIONA, REVISAR
-  public DameImagenAvatar(imagen: string): Observable<any> {
-    console.log("esta es la imagen: ", imagen)
-    return this.http.get(this.APIUrlImagenesAvatares + '/files/' + imagen,    
-       {observe: 'body', responseType: 'blob'});
-  } 
-
   /************ UPLOAD **************/
   public uploadImgAvatares(imgAvatares: FormData){
     return this.http.post(this.APIUrlImagenesAvatares + '/upload', imgAvatares);

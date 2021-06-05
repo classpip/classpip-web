@@ -1,3 +1,5 @@
+import { FamiliaDeImagenesDePerfil } from './../../clases/recursos/FamiliaDeImagenesDePerfil';
+import { Coleccion } from './../../clases/recursos/Coleccion';
 import { ImagenesService } from './../../services/imagenes.service';
 import { Profesor } from 'src/app/clases/Profesor';
 import { RecursosService } from './../../services/recursos.service';
@@ -30,19 +32,29 @@ export class RecursosComponent implements OnInit {
   uploadByJson: boolean;
   finishForm = false;
 
-  //Variables wrappers para subir recursos (clases al final)
+  //Variables wrappers para subir recursos (clases al final del documento)
   preguntaWrapper: PreguntaWrapper;
-  avatarWrapper;
-  imgPerfilWrapper;
-  coleccionWrapper;
-  cromoWrapper;
+  avatarWrapper: AvatarWrapper;
+  imgPerfilWrapper: ImagenesPerfilWrapper;
+  coleccionWrapper: ColeccionWrapper;
 
   //Variables subir pregunta
   respuestasForm = false;
   typeQuestion: string;
   contOptions = 0;
   parejasMap = new Map<number, any>();
-  pregunta: Pregunta;
+  newPregunta: Pregunta;
+
+  //Variables subir avatares
+  imgAvataresForm = false;
+  newFamiliaAvatares: FamiliaAvatares;
+
+  //Variables subir coleccion
+  cromosForm = false;
+  newColeccion: Coleccion;
+
+  //Variables subir imagenes perfil
+  newFamiliaImgsPerfil: FamiliaDeImagenesDePerfil;
 
 
   constructor(
@@ -71,12 +83,46 @@ export class RecursosComponent implements OnInit {
     console.log('parejas map: ' + this.parejasMap);
 
     this.preguntaWrapper = new PreguntaWrapper();
+    this.avatarWrapper = new AvatarWrapper();
+    this.coleccionWrapper = new ColeccionWrapper();
+    this.imgPerfilWrapper = new ImagenesPerfilWrapper();
   }
 
-  uploadType() {
+  //Obtenemos el componente modal para poder cerrarlo desde aquí
+  @ViewChild('modalUploadRsc', { static: true }) modalUploadRsc: ModalContainerComponent;
+
+  //Función para cerrar modal y devolverlo al estado inicial
+  resetForm(){
+    this.finishForm = false;
+    this.respuestasForm = false;
+    this.imgAvataresForm = false;
+    this.cromosForm = false;
+
+    this.typeQuestion = undefined;
+    this.typeRscUpload = undefined;
+
+    this.form.reset();
+    this.modalUploadRsc.hide();
+  }
+
+  //Función auxiliar para customizar las inputs de las imagenes
+  activarInputImagen(inputId: string) {
+    document.getElementById(inputId).click();
+  }
+
+  /******************************************** */
+  /************** FORMULARIOS ***************** */
+  /******************************************** */
+
+  //Recoge el tipo de recurso a subir
+  updateTypeRsc() {
     if (this.form['typeRsc'].value != 'Seleccione un tipo de recurso...') {
       this.typeRscUpload = this.form['typeRsc'].value;
       console.log('typeRsc: ', this.typeRscUpload);
+      if(this.typeRscUpload == 'Imágenes de perfil'){
+        this.finishForm = true;
+      }
+      
       if (document.getElementById('typeRsc').style.borderColor == "red")
         document.getElementById('typeRsc').style.borderColor = "#525f7f";
     } else {
@@ -84,7 +130,13 @@ export class RecursosComponent implements OnInit {
     }
   }
 
-  uploadTypeQuestion() {
+  ////////////////FORM IMAGENES PERFIL////////////////
+  getImagenesPerfil($event){    
+    console.log('Falta x desarrollar getImagenesPerfil()');
+  }
+
+  ////////////////FORM PREGUNTA///////////////////
+  updateTypeQuestion() {
 
     if (this.form['tituloPregunta'].value != "") {
       if (document.getElementById('tituloPregunta').style.borderColor == "red")
@@ -228,12 +280,99 @@ export class RecursosComponent implements OnInit {
     });
   }
 
-  activarImagenPregunta() {
-    document.getElementById("imgPregunta").click();
+  /////////////////FORM AVATARES//////////////////////
+  updateAvatar(){
+    let cont = 0;
+
+    if (this.form['nombreAvatar'].value != '') {
+      if (document.getElementById('nombreAvatar').style.borderColor == "red")
+        document.getElementById('nombreAvatar').style.borderColor = "#525f7f";
+      this.avatarWrapper.nombreFamilia = this.form['nombreAvatar'].value;
+      cont++;
+    } else {
+      document.getElementById('nombreAvatar').style.borderColor = "red";
+    }
+
+    if (this.form['nombreCompAv1'].value != '') {
+      if (document.getElementById('nombreCompAv1').style.borderColor == "red")
+        document.getElementById('nombreCompAv1').style.borderColor = "#525f7f";
+      this.avatarWrapper.nombreComplemento1 = this.form['nombreCompAv1'].value;
+      cont++;
+    } else {
+      document.getElementById('nombreCompAv1').style.borderColor = "red";
+    }
+
+    if (this.form['nombreCompAv2'].value != '') {
+      if (document.getElementById('nombreCompAv2').style.borderColor == "red")
+        document.getElementById('nombreCompAv2').style.borderColor = "#525f7f";
+      this.avatarWrapper.nombreComplemento1 = this.form['nombreCompAv2'].value;
+      cont++;
+    } else {
+      document.getElementById('nombreCompAv2').style.borderColor = "red";
+    }
+
+    if (this.form['nombreCompAv3'].value != '') {
+      if (document.getElementById('nombreCompAv3').style.borderColor == "red")
+        document.getElementById('nombreCompAv3').style.borderColor = "#525f7f";
+      this.avatarWrapper.nombreComplemento1 = this.form['nombreCompAv3'].value;
+      cont++;
+    } else {
+      document.getElementById('nombreCompAv3').style.borderColor = "red";
+    }
+
+    if (this.form['nombreCompAv4'].value != '') {
+      if (document.getElementById('nombreCompAv4').style.borderColor == "red")
+        document.getElementById('nombreCompAv4').style.borderColor = "#525f7f";
+      this.avatarWrapper.nombreComplemento1 = this.form['nombreCompAv4'].value;
+      cont++;
+    } else {
+      document.getElementById('nombreCompAv4').style.borderColor = "red";
+    }
+
+    console.log(this.avatarWrapper);
+
+    if(cont == 5){
+      this.imgAvataresForm = true;
+      this.finishForm = true;
+    }
+    
+  }
+
+  getImagenSilueta($event){
+    console.log('Falta x desarrollar getImagenSilueta()');
+  }
+
+  ////////////////FORM COLECCIONES///////////////////
+  updateColeccion() {
+    let cont = 0;
+    if (this.form['nombreColeccion'].value != '') {
+      if (document.getElementById('nombreColeccion').style.borderColor == "red")
+        document.getElementById('nombreColeccion').style.borderColor = "#525f7f";
+      this.coleccionWrapper.nombre = this.form['nombreColeccion'].value;
+      cont++;
+    } else {
+      document.getElementById('nombreColeccion').style.borderColor = "red";
+    }
+
+    if(this.form['dosCaras'].value == 'Sí'){
+      this.coleccionWrapper.dosCaras = true;
+      cont++;
+    } else {
+      cont++;
+    }
+
+    if(cont == 2){
+      this.cromosForm = true;
+      this.finishForm = true;
+    }
+  }
+
+  getImagenColeccion($event){
+    console.log('falta x desarrollar getImagenColeccion');
   }
 
   /************************************ */
-  // SUBIR RECURSO Y CANCELAR SUBIDA
+  /********** SUBIR RECURSOS ********** */
   /************************************ */
 
   uploadResource() {
@@ -241,182 +380,183 @@ export class RecursosComponent implements OnInit {
     this.form = document.forms['rscForm'];
 
     let questionForm = document.forms['preguntaForm'];
+    let imgAvataresForm = document.forms['imgAvataresForm'];
 
     console.log('Tipo recurso a subir: ' + this.typeRscUpload);
 
     if (this.typeRscUpload == 'Pregunta') {
-
-      console.log('Tipo pregunta a subir: ', this.typeQuestion);
-      if (this.typeQuestion == 'Respuesta abierta') {
-
-        let contOpen = this.getCommonFieldPreguntas();
-
-        if (questionForm['respAbierta'].value != '') {
-          if (document.getElementById('respAbierta').style.borderColor == "red")
-            document.getElementById('respAbierta').style.borderColor = "#525f7f";
-          this.preguntaWrapper.respuestaCorrecta = questionForm['respAbierta'].value;
-          contOpen++;
-        } else {
-          document.getElementById('respAbierta').style.borderColor = "red";
-        }
-
-        if (contOpen == 5) {
-          this.pregunta = new Pregunta(
-            this.preguntaWrapper.titulo,
-            this.preguntaWrapper.tipo,
-            this.preguntaWrapper.pregunta,
-            this.preguntaWrapper.tematica,
-            this.preguntaWrapper.feedbackCorrecto,
-            this.preguntaWrapper.feedbackIncorrecto,
-            this.profesor.id,
-            this.preguntaWrapper.imagen,
-            null,
-            this.preguntaWrapper.respuestaCorrecta
-          );
-        }
-      } else if (this.typeQuestion == 'Cuatro opciones') {
-        let contOptions = this.contOptions;
-
-        if (questionForm['respOpciones'].value != '') {
-          if (document.getElementById('respOpciones').style.borderColor == "red")
-            document.getElementById('respOpciones').style.borderColor = "#525f7f";
-          this.preguntaWrapper.respuestaCorrecta = questionForm['respOpciones'].value;
-          contOptions++;
-        } else {
-          document.getElementById('respOpciones').style.borderColor = "red";
-        }
-
-        if (questionForm['respInc1'].value != '') {
-          if (document.getElementById('respInc1').style.borderColor == "red")
-            document.getElementById('respInc1').style.borderColor = "#525f7f";
-          this.preguntaWrapper.respuestaIncorrecta1 = questionForm['respInc1'].value;
-          contOptions++;
-        } else {
-          document.getElementById('respInc1').style.borderColor = "red";
-        }
-
-        if (questionForm['respInc2'].value != '') {
-          if (document.getElementById('respInc2').style.borderColor == "red")
-            document.getElementById('respInc2').style.borderColor = "#525f7f";
-          this.preguntaWrapper.respuestaIncorrecta2 = questionForm['respInc2'].value;
-          contOptions++;
-        } else {
-          document.getElementById('respInc2').style.borderColor = "red";
-        }
-
-        if (questionForm['respInc3'].value != '') {
-          if (document.getElementById('respInc3').style.borderColor == "red")
-            document.getElementById('respInc3').style.borderColor = "#525f7f";
-          this.preguntaWrapper.respuestaIncorrecta3 = questionForm['respInc3'].value;
-          contOptions++;
-        } else {
-          document.getElementById('respInc3').style.borderColor = "red";
-        }
-
-        console.log('wrapper final 4opt: ', this.preguntaWrapper);
-        console.log('cont options: ', contOptions);
-        if (contOptions == 8) {
-          this.pregunta = new Pregunta(
-            this.preguntaWrapper.titulo,
-            this.preguntaWrapper.tipo,
-            this.preguntaWrapper.pregunta,
-            this.preguntaWrapper.tematica,
-            this.preguntaWrapper.feedbackCorrecto,
-            this.preguntaWrapper.feedbackIncorrecto,
-            this.profesor.id,
-            this.preguntaWrapper.imagen,
-            [],
-            this.preguntaWrapper.respuestaCorrecta,
-            this.preguntaWrapper.respuestaIncorrecta1,
-            this.preguntaWrapper.respuestaIncorrecta2,
-            this.preguntaWrapper.respuestaIncorrecta3
-          );
-        }
-
-      } else if (this.typeQuestion == 'Verdadero o falso') {
-
-        let contVoF = this.getCommonFieldPreguntas();
-
-        if (questionForm['respVoF'].value != '') {
-          if (document.getElementById('respVoF').style.borderColor == "red")
-            document.getElementById('respVoF').style.borderColor = "#525f7f";
-          this.preguntaWrapper.respuestaCorrecta = questionForm['respVoF'].value;
-          contVoF++;
-        } else {
-          document.getElementById('respVoF').style.borderColor = "red";
-        }
-
-        if (contVoF == 5) {
-          this.pregunta = new Pregunta(
-            this.preguntaWrapper.titulo,
-            this.preguntaWrapper.tipo,
-            this.preguntaWrapper.pregunta,
-            this.preguntaWrapper.tematica,
-            this.preguntaWrapper.feedbackCorrecto,
-            this.preguntaWrapper.feedbackIncorrecto,
-            this.profesor.id,
-            this.preguntaWrapper.imagen,
-            null,
-            this.preguntaWrapper.respuestaCorrecta
-          );
-        }
-      } else if (this.typeQuestion == 'Emparejamiento') {
-
-        if (this.getParejasValues() != null) {
-          this.pregunta = new Pregunta(
-            this.preguntaWrapper.titulo,
-            this.preguntaWrapper.tipo,
-            this.preguntaWrapper.pregunta,
-            this.preguntaWrapper.tematica,
-            this.preguntaWrapper.feedbackCorrecto,
-            this.preguntaWrapper.feedbackIncorrecto,
-            this.profesor.id,
-            this.preguntaWrapper.imagen,
-            Array.from(this.getParejasValues().values()),
-          );
-        } else {
-          Swal.fire('Error', 'Rellena todos los campos', 'error');
-        }
-      }
-
-      if (this.pregunta != undefined) {
-        console.log('upload rsc: ', this.pregunta);
-        this.rscService.uploadPregunta(this.pregunta).subscribe((data) => {
-          console.log('respuesta subir pregunta: ', data);
-          if(this.pregunta.imagen != null){
-            this.imgService.uploadImgPregunta(this.imagenes).subscribe(() => {
-              this.preguntaWrapper.imagen = null;
-              this.resetForm();
-              Swal.fire('Hecho!', 'Pregunta subida con éxito.', 'success');
-            }, (error) => {
-              console.log(error);
-              Swal.fire('Error', 'Error al subir pregunta', 'error');
-            });
-          } else {
-            this.resetForm();
-            Swal.fire('Hecho!', 'Pregunta subida con éxito.', 'success');
-          }
-        }, (error) => {
-          console.log(error);
-          Swal.fire('Error', 'Error al subir pregunta', 'error');
-        });
-      }
+      this.uploadPregunta(questionForm);
+    } else if(this.typeRscUpload == 'Avatar'){
+      this.uploadAvatar(imgAvataresForm);
     }
   }
 
+  //Lógica para subir pregunta
+  uploadPregunta(questionForm){
+    console.log('Tipo pregunta a subir: ', this.typeQuestion);
+    if (this.typeQuestion == 'Respuesta abierta') {
 
-  @ViewChild('modalUploadRsc', { static: true }) modalUploadRsc: ModalContainerComponent;
+      let contOpen = this.getCommonFieldPreguntas();
 
-  resetForm(){
-    this.finishForm = false;
-    this.respuestasForm = false;
-    this.typeQuestion = undefined;
-    this.typeRscUpload = undefined;
-    this.form.reset();
-    this.modalUploadRsc.hide();
+      if (questionForm['respAbierta'].value != '') {
+        if (document.getElementById('respAbierta').style.borderColor == "red")
+          document.getElementById('respAbierta').style.borderColor = "#525f7f";
+        this.preguntaWrapper.respuestaCorrecta = questionForm['respAbierta'].value;
+        contOpen++;
+      } else {
+        document.getElementById('respAbierta').style.borderColor = "red";
+      }
+
+      if (contOpen == 5) {
+        this.newPregunta = new Pregunta(
+          this.preguntaWrapper.titulo,
+          this.preguntaWrapper.tipo,
+          this.preguntaWrapper.pregunta,
+          this.preguntaWrapper.tematica,
+          this.preguntaWrapper.feedbackCorrecto,
+          this.preguntaWrapper.feedbackIncorrecto,
+          this.profesor.id,
+          this.preguntaWrapper.imagen,
+          null,
+          this.preguntaWrapper.respuestaCorrecta
+        );
+      }
+    } else if (this.typeQuestion == 'Cuatro opciones') {
+      let contOptions = this.contOptions;
+
+      if (questionForm['respOpciones'].value != '') {
+        if (document.getElementById('respOpciones').style.borderColor == "red")
+          document.getElementById('respOpciones').style.borderColor = "#525f7f";
+        this.preguntaWrapper.respuestaCorrecta = questionForm['respOpciones'].value;
+        contOptions++;
+      } else {
+        document.getElementById('respOpciones').style.borderColor = "red";
+      }
+
+      if (questionForm['respInc1'].value != '') {
+        if (document.getElementById('respInc1').style.borderColor == "red")
+          document.getElementById('respInc1').style.borderColor = "#525f7f";
+        this.preguntaWrapper.respuestaIncorrecta1 = questionForm['respInc1'].value;
+        contOptions++;
+      } else {
+        document.getElementById('respInc1').style.borderColor = "red";
+      }
+
+      if (questionForm['respInc2'].value != '') {
+        if (document.getElementById('respInc2').style.borderColor == "red")
+          document.getElementById('respInc2').style.borderColor = "#525f7f";
+        this.preguntaWrapper.respuestaIncorrecta2 = questionForm['respInc2'].value;
+        contOptions++;
+      } else {
+        document.getElementById('respInc2').style.borderColor = "red";
+      }
+
+      if (questionForm['respInc3'].value != '') {
+        if (document.getElementById('respInc3').style.borderColor == "red")
+          document.getElementById('respInc3').style.borderColor = "#525f7f";
+        this.preguntaWrapper.respuestaIncorrecta3 = questionForm['respInc3'].value;
+        contOptions++;
+      } else {
+        document.getElementById('respInc3').style.borderColor = "red";
+      }
+
+      console.log('wrapper final 4opt: ', this.preguntaWrapper);
+      console.log('cont options: ', contOptions);
+      if (contOptions == 8) {
+        this.newPregunta = new Pregunta(
+          this.preguntaWrapper.titulo,
+          this.preguntaWrapper.tipo,
+          this.preguntaWrapper.pregunta,
+          this.preguntaWrapper.tematica,
+          this.preguntaWrapper.feedbackCorrecto,
+          this.preguntaWrapper.feedbackIncorrecto,
+          this.profesor.id,
+          this.preguntaWrapper.imagen,
+          [],
+          this.preguntaWrapper.respuestaCorrecta,
+          this.preguntaWrapper.respuestaIncorrecta1,
+          this.preguntaWrapper.respuestaIncorrecta2,
+          this.preguntaWrapper.respuestaIncorrecta3
+        );
+      }
+
+    } else if (this.typeQuestion == 'Verdadero o falso') {
+
+      let contVoF = this.getCommonFieldPreguntas();
+
+      if (questionForm['respVoF'].value != '') {
+        if (document.getElementById('respVoF').style.borderColor == "red")
+          document.getElementById('respVoF').style.borderColor = "#525f7f";
+        this.preguntaWrapper.respuestaCorrecta = questionForm['respVoF'].value;
+        contVoF++;
+      } else {
+        document.getElementById('respVoF').style.borderColor = "red";
+      }
+
+      if (contVoF == 5) {
+        this.newPregunta = new Pregunta(
+          this.preguntaWrapper.titulo,
+          this.preguntaWrapper.tipo,
+          this.preguntaWrapper.pregunta,
+          this.preguntaWrapper.tematica,
+          this.preguntaWrapper.feedbackCorrecto,
+          this.preguntaWrapper.feedbackIncorrecto,
+          this.profesor.id,
+          this.preguntaWrapper.imagen,
+          null,
+          this.preguntaWrapper.respuestaCorrecta
+        );
+      }
+    } else if (this.typeQuestion == 'Emparejamiento') {
+
+      if (this.getParejasValues() != null) {
+        this.newPregunta = new Pregunta(
+          this.preguntaWrapper.titulo,
+          this.preguntaWrapper.tipo,
+          this.preguntaWrapper.pregunta,
+          this.preguntaWrapper.tematica,
+          this.preguntaWrapper.feedbackCorrecto,
+          this.preguntaWrapper.feedbackIncorrecto,
+          this.profesor.id,
+          this.preguntaWrapper.imagen,
+          Array.from(this.getParejasValues().values()),
+        );
+      } else {
+        Swal.fire('Error', 'Rellena todos los campos', 'error');
+      }
+    }
+
+    if (this.newPregunta != undefined) {
+      console.log('upload rsc: ', this.newPregunta);
+      this.rscService.uploadPregunta(this.newPregunta).subscribe((data) => {
+        console.log('respuesta subir pregunta: ', data);
+        if(this.newPregunta.imagen != null){
+          this.imgService.uploadImgPregunta(this.imagenes).subscribe(() => {
+            this.preguntaWrapper.imagen = null;
+            this.resetForm();
+            Swal.fire('Hecho!', 'Pregunta subida con éxito.', 'success');
+          }, (error) => {
+            console.log(error);
+            Swal.fire('Error', 'Error al subir pregunta', 'error');
+          });
+        } else {
+          this.resetForm();
+          Swal.fire('Hecho!', 'Pregunta subida con éxito.', 'success');
+        }
+      }, (error) => {
+        console.log(error);
+        Swal.fire('Error', 'Error al subir pregunta', 'error');
+      });
+    }
   }
 
+  uploadAvatar(imgAvataresForm){
+
+  }
 }
+
+
+//////// **CLASES WRAPPER PARA GUARDAR DATOS FORMS** /////////
 
 class PreguntaWrapper {
   titulo: string;
@@ -451,34 +591,31 @@ class PreguntaWrapper {
 }
 
 class AvatarWrapper {
-  titulo: string;
-  tipo: string;
-  pregunta: string;
-  tematica: string;
-  imagen: any;
-  feedbackCorrecto: string;
-  feedbackIncorrecto: string;
-  respuestaCorrecta: string;
-  respuestaIncorrecta1: string;
-  respuestaIncorrecta2: string;
-  respuestaIncorrecta3: string;
-  emparejamientos: [];
+  nombreFamilia: string;
+  silueta: string;
   profesorId: number;
+  nombreComplemento1: string;
+  complemento1: string[];
+  nombreComplemento2: string;
+  complemento2: string[];
+  nombreComplemento3: string;
+  complemento3: string[];
+  nombreComplemento4: string;
+  complemento4: string[];
 
-  constructor(){
-    this.titulo = null;
-    this.tipo = null;
-    this.pregunta = null;
-    this.tematica = null;
-    this.imagen = null;
-    this.feedbackCorrecto = null;
-    this.feedbackIncorrecto = null;
-    this.respuestaCorrecta = null;
-    this.respuestaIncorrecta1 = null;
-    this.respuestaIncorrecta2 = null;
-    this.respuestaIncorrecta3 = null;
-    this.emparejamientos = [];
-    this.profesorId = 0;
+  constructor() {
+
+    this.nombreFamilia = null;
+    this.silueta = null;
+    this.profesorId = null;
+    this.nombreComplemento1 = null;
+    this.nombreComplemento2 = null;
+    this.nombreComplemento3 = null;
+    this.nombreComplemento4 = null;
+    this.complemento1 = [];
+    this.complemento2 = [];
+    this.complemento3 = [];
+    this.complemento4 = [];
   }
 }
 
@@ -490,7 +627,7 @@ class ImagenesPerfilWrapper {
 
   constructor() {
     this.nombreFamilia = null;
-    this.numeroImagenes = null;
+    this.numeroImagenes = 0;
     this.imagenes = [];
     this.profesorId = null;
   }
@@ -501,13 +638,13 @@ class ColeccionWrapper {
   imagenColeccion: string;
   dosCaras: boolean;
   profesorId: number;
-  cromos: [];
+  cromos: CromoWrapper[];
 
   constructor() {
 
     this.nombre = null;
     this.imagenColeccion = null;
-    this.dosCaras = null;
+    this.dosCaras = false;
     this.profesorId = null;
     this.cromos = [];
   }

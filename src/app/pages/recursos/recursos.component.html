@@ -187,7 +187,7 @@
   id="modalUploadRsc" role="dialog" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      
+
       <div class="modal-header justify-content-center">
         <h4 class="title title-up">SUBIR NUEVO RECURSO</h4>
       </div>
@@ -228,29 +228,31 @@
             <div *ngIf="this.typeQuestion != undefined">
               <form name="preguntaForm">
                 <!-- *************COMUNES***************** -->
-                <div class="form-group" *ngIf="this.respuestasForm == false" >
+                <div class="form-group" *ngIf="this.respuestasForm == false">
                   <label for="tematica">Temática*</label>
                   <input type="text" class="form-control" id="tematica" placeholder="Temática">
                 </div>
-                <div class="form-group" *ngIf="this.respuestasForm == false" >
+                <div class="form-group" *ngIf="this.respuestasForm == false">
                   <label for="pregunta">Pregunta*</label>
                   <input type="text" class="form-control" id="pregunta" placeholder="Pregunta">
                 </div>
-                <div class="form-group" *ngIf="this.respuestasForm == false" >
+                <div class="form-group" *ngIf="this.respuestasForm == false">
                   <label for="feddback1">Feedback positivo (respuesta si acierta)*</label>
                   <input type="text" class="form-control" id="feedback1" placeholder="Feedback positivo">
                 </div>
-                <div class="form-group" *ngIf="this.respuestasForm == false" >
+                <div class="form-group" *ngIf="this.respuestasForm == false">
                   <label for="feedback2">Feedback negativo (respuesta si falla)*</label>
                   <input type="text" class="form-control" id="feedback2" placeholder="Feedback negativo">
                 </div>
 
                 <!-- *************RESPUESTA ABIERTA Y VoF***************** -->
-                <div class="form-group" *ngIf="this.respuestasForm == false && this.typeQuestion == 'Respuesta abierta'">
+                <div class="form-group"
+                  *ngIf="this.respuestasForm == false && this.typeQuestion == 'Respuesta abierta'">
                   <label for="respAbierta">Respuesta correcta*</label>
                   <input type="text" class="form-control" id="respAbierta" placeholder="Respuesta correcta">
                 </div>
-                <div class="form-group" *ngIf="this.respuestasForm == false && this.typeQuestion == 'Verdadero o falso'">
+                <div class="form-group"
+                  *ngIf="this.respuestasForm == false && this.typeQuestion == 'Verdadero o falso'">
                   <label for="respVoF">Respuesta correcta*</label>
                   <select class="form-control" id="respVoF">
                     <option style="color: black;">verdadero</option>"
@@ -261,12 +263,15 @@
                 <!-- ***********IMAGEN PREGUNTA*************** -->
                 <div class="form-group" *ngIf="this.respuestasForm == false">
                   <label for="imgPregunta">Selecciona una imagen (opcional)</label>
-                  <input #file id="imgPregunta" type="file" accept="image/*" (change)="getImagenPregunta($event)" style="display: none;">
+                  <input #file id="imgPregunta" type="file" accept="image/*" (change)="getImagenPregunta($event)"
+                    style="display: none;">
                   <br>
-                  <button class="btn btn-default" (click)="activarImagenPregunta()"><i class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
+                  <button class="btn btn-default" (click)="activarInputImagen('imgPregunta')"><i
+                      class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
                   &nbsp;
-                  <span class="imgName" *ngIf="this.preguntaWrapper.imagen == null" >Ninguna imagen seleccionada</span>
-                  <span class="imgName" *ngIf="this.preguntaWrapper.imagen != null" >{{this.preguntaWrapper.imagen}}</span>
+                  <span class="imgName" *ngIf="this.preguntaWrapper.imagen == null">Ninguna imagen seleccionada</span>
+                  <span class="imgName"
+                    *ngIf="this.preguntaWrapper.imagen != null">{{this.preguntaWrapper.imagen}}</span>
                   <br><br>
                 </div>
 
@@ -290,16 +295,20 @@
                   <input type="text" class="form-control" id="respInc3" placeholder="Respuesta incorrecta 3">
                 </div>
               </form>
-              <div *ngIf="this.finishForm == true && this.respuestasForm==true && this.typeQuestion == 'Emparejamiento'">
+              <div
+                *ngIf="this.finishForm == true && this.respuestasForm==true && this.typeQuestion == 'Emparejamiento'">
                 <form name="parejasForm">
                   <!-- ***********EMPAREJAMIENTOS*************** -->
                   <div class="form-row">
-                    <label style="margin-left: auto; margin-right: auto;">Si quieres añadir más de 4 parejas, añade primero las filas</label>
+                    <label style="margin-left: auto; margin-right: auto;">Si quieres añadir más de 4 parejas, añade
+                      primero las filas</label>
                   </div>
-                  <div class="form-row" *ngFor="let pareja of parejasMap | keyvalue" >
+                  <div class="form-row" *ngFor="let pareja of parejasMap | keyvalue">
                     <div class="form-group col-md-6">
-                      <label for="parA{{pareja.key}}">Pareja {{pareja.key}}<span *ngIf="pareja.key <= 4">*</span> </label>
-                      <span *ngIf="pareja.key > 4" (click)='deleteRowParejaForm()'>&nbsp;<i class='tim-icons icon-trash-simple' style="color: red;"></i></span> 
+                      <label for="parA{{pareja.key}}">Pareja {{pareja.key}}<span *ngIf="pareja.key <= 4">*</span>
+                      </label>
+                      <span *ngIf="pareja.key > 4" (click)='deleteRowParejaForm()'>&nbsp;<i
+                          class='tim-icons icon-trash-simple' style="color: red;"></i></span>
                       <input type="text" class="form-control" id="parA{{pareja.key}}" placeholder="Opción A">
                     </div>
                     <div class="form-group col-md-6">
@@ -317,19 +326,108 @@
 
           <!-- *********** FORM COLECCION *************** -->
           <div *ngIf="this.typeRscUpload == 'Colección'">
+            <!-- *********** DATOS COLECCION *************** -->
+            <div *ngIf="!this.cromosForm">
+              <div class="form-group">
+                <label for="nombreColeccion">Nombre colección*</label>
+                <input type="text" class="form-control" id="nombreColeccion" placeholder="Nombre">
+              </div>
+              <div class="form-group">
+                <label for="dosCaras">Quieres que los cromos tengan dos caras?</label>
+                <select class="form-control" id="dosCaras">
+                  <option style="color: black;">Sí</option>
+                  <option style="color: black;">No</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="imgColeccion">Imagen colección</label>
+                  <input #file id="imgColeccion" type="file" accept="image/*" (change)="getImagenColeccion($event)"
+                    style="display: none;">
+                  <br>
+                  <button class="btn btn-default" (click)="activarInputImagen('imgColeccion')"><i
+                      class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
+                  &nbsp;
+                  <span class="imgName" *ngIf="this.coleccionWrapper.imagenColeccion== null">Ninguna imagen seleccionada</span>
+                  <span class="imgName" *ngIf="this.coleccionWrapper.imagenColeccion != null">{{this.coleccionWrapper.imagenColeccion}}</span>
+                  <br><br>
+              </div>
+            </div>
 
+            <!-- *********** CROMOS FORM *************** -->
+            <div *ngIf="this.cromosForm">
+              <form name='cromosForm'>
+                <h3>FALTA AÑADIR PARA SUBIR CROMOS</h3>
+              </form>
+            </div>
           </div>
 
           <!-- *********** FORM AVATAR *************** -->
           <div *ngIf="this.typeRscUpload == 'Avatar'">
-            <div class="form-group">
-              <label for="tituloAvatar">Título</label>
-              <input type="text" class="form-control" id="tituloAvatar" placeholder="Título">
+            <!-- ********* DATOS AVATARES *********** -->
+            <div *ngIf="!this.imgAvataresForm">
+              <div class="form-group">
+                <label for="nombreAvatar">Nombre família avatares*</label>
+                <input type="text" class="form-control" id="nombreAvatar" placeholder="Nombre">
+              </div>
+              <div class="form-group">
+                <label for="nombreCompAv1">Nombre complementos 1*</label>
+                <input type="text" class="form-control" id="nombreCompAv1" placeholder="Complemento 1">
+              </div>
+              <div class="form-group">
+                <label for="nombreCompAv2">Nombre complementos 2*</label>
+                <input type="text" class="form-control" id="nombreCompAv2" placeholder="Complemento 2">
+              </div>
+              <div class="form-group">
+                <label for="nombreCompAv3">Nombre complementos 3*</label>
+                <input type="text" class="form-control" id="nombreCompAv3" placeholder="Complemento 3">
+              </div>
+              <div class="form-group">
+                <label for="nombreCompAv4">Nombre complementos 4*</label>
+                <input type="text" class="form-control" id="nombreCompAv4" placeholder="Complemento 4">
+              </div>
+            </div>
+
+            <!-- ********** IMAGENES AVATARES ************ -->
+            <div *ngIf="this.imgAvataresForm">
+              <form name='imgAvataresForm'>
+                <div class="form-group" *ngIf="this.respuestasForm == false">
+                  <label for="imgSilueta">Imagen de silueta*</label>
+                  <input #file id="imgSilueta" type="file" accept="image/*" (change)="getImagenSilueta($event)"
+                    style="display: none;">
+                  <br>
+                  <button class="btn btn-default" (click)="activarInputImagen('imgSilueta')"><i
+                      class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
+                  &nbsp;
+                  <span class="imgName" *ngIf="this.avatarWrapper.silueta == null">Ninguna imagen seleccionada</span>
+                  <span class="imgName" *ngIf="this.avatarWrapper.silueta != null">{{this.avatarWrapper.silueta}}</span>
+                  <br><br>
+                </div>
+              </form>
             </div>
           </div>
           <!-- *********** FORM IMAGENES PERFIL *************** -->
           <div *ngIf="this.typeRscUpload == 'Imágenes de perfil'">
-
+            <!-- ********** NOMBRE FAMILIA ************ -->
+            <div class="form-group">
+              <label for="nombreImgsPerfil">Nombre família imágenes de perfil*</label>
+              <input type="text" class="form-control" id="nombreImgsPerfil" placeholder="Nombre">
+            </div>
+            <!-- ********** IMÁGENES ************ -->
+            <div class="form-group">
+              <label for="imgsPerfil">Imagenes*</label>
+              <input #file id="imgsPerfil" type="file" accept="image/*" (change)="getImagenesPerfil($event)"
+                style="display: none;">
+              <br>
+              <button class="btn btn-default" (click)="activarInputImagen('imgsPerfil')"><i
+                  class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
+              &nbsp;
+              <span class="imgName" *ngIf="this.imgPerfilWrapper.imagenes.length == 0">Ninguna imagen
+                seleccionada</span>
+              <span class="imgName" *ngIf="this.imgPerfilWrapper.imagenes.length != 0">
+                <span *ngFor="let imgName of this.imgPerfilWrapper.imagenes">{{this.imgPerfilWrapper.imagenes}}</span>
+              </span>
+              <br><br>
+            </div>
           </div>
         </form>
       </div>
@@ -344,16 +442,24 @@
           &nbsp;
           <!-- *********** BOTON NEXT TYPE RESOURCE *************** -->
           <button type="submit" class="btn btn-success btn-lg" *ngIf="this.typeRscUpload == undefined"
-            (click)="uploadType()">Siguiente</button>
+            (click)="updateTypeRsc()">Siguiente</button>
 
           <!-- *********** BOTON NEXT TYPE PREGUNTA *************** -->
           <button type="submit" class="btn btn-success btn-lg"
             *ngIf="this.typeRscUpload == 'Pregunta' && this.typeQuestion == undefined"
-            (click)="uploadTypeQuestion()">Siguiente</button>
+            (click)="updateTypeQuestion()">Siguiente</button>
 
           <button type="submit" class="btn btn-success btn-lg"
             *ngIf="this.typeRscUpload == 'Pregunta' && this.typeQuestion != undefined && this.respuestasForm == false && this.finishForm == false"
             (click)="getCommonFieldPreguntas()">Siguiente</button>
+
+          <!-- *********** BOTON NEXT IMAGENES AVATAR *************** -->
+          <button type="submit" class="btn btn-success btn-lg"
+            *ngIf="this.typeRscUpload == 'Avatar' && !this.imgAvataresForm" (click)="updateAvatar()">Siguiente</button>
+
+          <!-- *********** BOTON NEXT COLECCION (AÑADIR CROMOS) *************** -->
+          <button type="submit" class="btn btn-success btn-lg"
+            *ngIf="this.typeRscUpload == 'Colección' && !this.cromosForm" (click)="updateColeccion()">Siguiente</button>
 
           <!-- *********** BOTON SUBMIT UPLOAD RESOURCE *************** -->
           <button type="submit" class="btn btn-primary btn-lg"
