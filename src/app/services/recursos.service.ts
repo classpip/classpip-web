@@ -29,12 +29,7 @@ export class RecursosService {
   private APIUrlFamiliasDeImagenesDePerfil = this.host + ':3000/api/familiasImagenesPerfil';
   private APIUrlColecciones = this.host + ':3000/api/Colecciones';
 
-  private APIUrlImagenes = this.host + ':3000/api/imagenes';
-  private APIUrlImagenesAvatares = this.host + ':3000/api/imagenes/ImagenesAvatares';
-  private APIUrlImagenesCromos = this.host + ':3000/api/imagenes/ImagenCromo';
-  private APIUrlImagenesColecciones = this.host + ':3000/api/imagenes/ImagenColeccion';
-  private APIUrlImagenesPerfil = this.host + ':3000/api/imagenes/ImagenesPerfil';
-  private APIUrlImagenesPreguntas = this.host + ':3000/api/imagenes/ImagenesPreguntas';
+  // private APIUrlImagenesAvatares = this.host + ':3000/api/imagenes/ImagenesAvatares';
 
   private APIUrlPreguntas = this.host + ':3000/api/Preguntas';
 
@@ -43,73 +38,52 @@ export class RecursosService {
     private httpImagenes: Http
     ) { }
 
+
+  /*****************************************************/
+  ///********* SERVICIOS OBTENER RECURSOS ************///
+  /*****************************************************/
+
+  //Método para obtener los profesores y mostrar el nombre del propietario
   public DameProfesores(): Observable<Profesor[]> {
     return this.http.get<Profesor[]>(this.APIUrlProfesores);
   }
 
+  //FAMILIAS AVATARES
   public DameFamiliasAvataresPublicas(): Observable<FamiliaAvatares[]> {
     return this.http.get<FamiliaAvatares[]>(this.APIUrlFamiliarAvatares);
   }
 
-  public DameCuestionariosPublicos(): Observable<Cuestionario[]> {
-    return this.http.get<Cuestionario[]>(this.APIUrlCuestionarios);
-  }
-
-  public DameCuestionariosSatisfaccionPublicos(): Observable<CuestionarioSatisfaccion[]> {
-    return this.http.get<CuestionarioSatisfaccion[]>(this.APIUrlCuestionariosSatisfaccion);
-  }
-
+  //FAMILIAS IMÁGENES PERFIL
   public DameFamiliasDeImagenesDePerfilPublicas(): Observable<FamiliaDeImagenesDePerfil[]> {
     return this.http.get<FamiliaDeImagenesDePerfil[]>(this.APIUrlFamiliasDeImagenesDePerfil);
   }
 
+  //COLECCIONES
   public DameColeccionesPublicas(): Observable<Coleccion[]> {
     return this.http.get<Coleccion[]>(this.APIUrlColecciones);
   }
 
-  public DamePreguntasCuestionario(cuestionarioId: number): Observable<Pregunta[]> {
-    return this.http.get<Pregunta[]>(this.APIUrlCuestionarios + '/' + cuestionarioId + '/Preguntas');
-  }
-
+  //CROMOS
   public DameCromosColeccion(coleccionId: number): Observable<Cromo[]> {
     return this.http.get<Cromo[]>(this.APIUrlColecciones + '/' + coleccionId + '/cromos');
   }
 
+  //PREGUNTAS
   public DamePreguntas(): Observable<Pregunta[]>{
     return this.http.get<Pregunta[]>(this.APIUrlPreguntas);
   }
+  
+  // public DameCuestionariosPublicos(): Observable<Cuestionario[]> {
+  //   return this.http.get<Cuestionario[]>(this.APIUrlCuestionarios);
+  // }
 
-  /*****************************************************/
-  // ************* SERVICIOS IMAGENES ***************///
-  /*****************************************************/
+  // public DamePreguntasCuestionario(cuestionarioId: number): Observable<Pregunta[]> {
+  //   return this.http.get<Pregunta[]>(this.APIUrlCuestionarios + '/' + cuestionarioId + '/Preguntas');
+  // }
 
-  /************ DOWNLOAD **************/
-  public downloadImgCromo(imgName: string) {
-    return this.http.get(this.APIUrlImagenesCromos + '/download/'+imgName, {observe: 'body', responseType: 'blob'});
-  }
-
-  public downloadImgColeccion(imgName: string) {
-    return this.http.get(this.APIUrlImagenesColecciones + '/download/' + imgName, {observe: 'body', responseType: 'blob'});
-  }
-
-  public downloadImgSilueta(imgName: string) {
-    return this.http.get(this.APIUrlImagenesAvatares + '/download/' + imgName, {observe: 'body', responseType: 'blob'});
-    
-  }
-
-  public downloadImgComplementoAvatar(imgName: string) {
-    return this.http.get(this.APIUrlImagenesAvatares + '/download/' + imgName, {observe: 'body', responseType: 'blob'});
-  }
-
-  public downloadImgPerfil(imgName: string) {
-    return this.http.get(imgName, {observe: 'body', responseType: 'blob'});
-  }
-
-  public downloadImgPregunta(imgName: string){  
-    console.log(this.APIUrlImagenesPreguntas + '/download/'+ imgName);  
-    return this.http.get(this.APIUrlImagenesPreguntas + '/download/' + imgName, {observe: 'body', responseType: 'blob'});
-    
-  }
+  // public DameCuestionariosSatisfaccionPublicos(): Observable<CuestionarioSatisfaccion[]> {
+  //   return this.http.get<CuestionarioSatisfaccion[]>(this.APIUrlCuestionariosSatisfaccion);
+  // }
 
   /*****************************************************/
   ///*********** SERVICIOS BORRAR RECURSOS ************///
@@ -122,6 +96,10 @@ export class RecursosService {
     return this.http.delete(this.APIUrlColecciones + '/' + id);
   }
 
+  public deleteCromo(coleccionId: string){
+    return this.http.delete(this.APIUrlColecciones + coleccionId + '/cromos');
+  }
+
   public deleteFamiliaAvatares(id: string){
     return this.http.delete(this.APIUrlFamiliarAvatares + '/' + id);
   }
@@ -130,54 +108,27 @@ export class RecursosService {
     return this.http.delete(this.APIUrlFamiliasDeImagenesDePerfil + '/' + id);
   }
 
-  ///SERVICIOS SUBIR RECURSOS
-
   /*****************************************************/
   ///*********** SERVICIOS SUBIR RECURSOS ************///
   /*****************************************************/
 
-  /************ MODELOS ***************/
   public uploadPregunta(pregunta: Pregunta){
     return this.http.post(this.APIUrlPreguntas, pregunta, /* headers */);
   }
 
-  /************ IMAGENES **************/
-
-  public checkImgNameDuplicated(containerName: string) {
-    return this.http.get(this.APIUrlImagenes + '/' + containerName + '/files');
+  public uploadFamiliaAvatar(avatar: FamiliaAvatares){
+    return this.http.post(this.APIUrlFamiliarAvatares, avatar);
   }
 
-  public uploadImgPregunta(imgPregunta){
-    // let headers = { headers: new HttpHeaders().set('Content-Type', 'image/png')}
-    // headers.headers.set('charset', 'UTF-8')
-    return this.http.post(this.APIUrlImagenesPreguntas + '/upload', imgPregunta);
+  public uploadFamiliaImgPerfil(familia: FamiliaDeImagenesDePerfil){
+    return this.http.post(this.APIUrlFamiliasDeImagenesDePerfil, familia);
   }
 
-  
-  
-  
-  
-  
-  
-  
-  
-  //***************************************** */
-  //NO FUNCIONA
-   public DameImagenAvatar(imagen: string): Observable<any> {
-     console.log("esta es la imagen: ", imagen)
-    return this.http.get(this.APIUrlImagenesAvatares + '/download/' + imagen,    
-        {observe: 'body', responseType: 'blob'});
-      /* {responseType: ResponseContentType.Blob} );*/
-      /* return this.http.get(url, { headers: new HttpHeaders({
-        'Authorization': 'Basic ' + encodedAuth,
-        'Content-Type': 'application/octet-stream',
-        }), responseType: 'blob'}) */
-        /* { headers: new HttpHeaders({
-      'Content-Type': 'application/octet-stream',
-        }), responseType: 'blob'} */
-  } 
+  public uploadColeccion(coleccion: Coleccion){
+    return this.http.post(this.APIUrlColecciones, coleccion);
+  }
 
-  
-
-  
+  public uploadCromos(cromo: Cromo){
+    return this.http.post(this.APIUrlColecciones + cromo.coleccionId + '/cromos', cromo);
+  }
 }

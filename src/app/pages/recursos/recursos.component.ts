@@ -1,3 +1,4 @@
+import { ImagenesService } from './../../services/imagenes.service';
 import { Profesor } from 'src/app/clases/Profesor';
 import { RecursosService } from './../../services/recursos.service';
 import { Pregunta } from 'src/app/clases/recursos/Pregunta';
@@ -44,7 +45,12 @@ export class RecursosComponent implements OnInit {
   pregunta: Pregunta;
 
 
-  constructor(private auth: AuthService, private router: Router, private sesion: SesionService, private rscService: RecursosService) { }
+  constructor(
+    private auth: AuthService, 
+    private router: Router, 
+    private sesion: SesionService, 
+    private rscService: RecursosService,
+    private imgService: ImagenesService) { }
 
   ngOnInit(): void {
     if (this.auth.isLoggedIn()) {
@@ -200,7 +206,7 @@ export class RecursosComponent implements OnInit {
 
     console.log(img);
 
-    this.rscService.checkImgNameDuplicated('ImagenesPreguntas').subscribe((data: Array<any>) => {
+    this.imgService.checkImgNameDuplicated('ImagenesPreguntas').subscribe((data: Array<any>) => {
       if(data != null){
         console.log('files: ', data);
         data.forEach(file => {
@@ -378,7 +384,7 @@ export class RecursosComponent implements OnInit {
         this.rscService.uploadPregunta(this.pregunta).subscribe((data) => {
           console.log('respuesta subir pregunta: ', data);
           if(this.pregunta.imagen != null){
-            this.rscService.uploadImgPregunta(this.imagenes).subscribe(() => {
+            this.imgService.uploadImgPregunta(this.imagenes).subscribe(() => {
               this.preguntaWrapper.imagen = null;
               this.resetForm();
               Swal.fire('Hecho!', 'Pregunta subida con éxito.', 'success');

@@ -1,3 +1,4 @@
+import { ImagenesService } from './../../services/imagenes.service';
 import { RecursosService } from './../../services/recursos.service';
 import { SesionService } from 'src/app/services/sesion.service';
 import { Component, OnInit } from '@angular/core';
@@ -33,7 +34,8 @@ export class MostrarAvataresComponent implements OnInit {
   doblealto = '324px';
 
   constructor(
-    private recursos: RecursosService,
+    private rscService: RecursosService,
+    private imgService: ImagenesService,
     private sesion: SesionService,
     private router: Router
   ) { }
@@ -169,23 +171,19 @@ export class MostrarAvataresComponent implements OnInit {
     }
 
     this.familiaCargada = false;
-    console.log("Holaaaaaaa",this.familiaElegida);
-      // Traigo la imagen de la silueta
-    this.recursos.DameImagenAvatar (this.familiaElegida.silueta)
+    console.log("Familia elegida: ",this.familiaElegida);
+    // Traigo la imagen de la silueta
+    console.log('fichero: ', this.familiaElegida.silueta);
+    this.imgService.downloadImgAvatar(this.familiaElegida.silueta)
      .subscribe(response => {
-       const blob = new Blob([response.body], { type: 'image/jpg'});
-       console.log("BLOB:", blob)
+        
+        console.log("BLOB:", response)
 
-       const reader = new FileReader();
-       reader.addEventListener('load', () => {
-         this.imagenSilueta = reader.result.toString();
-         console.log("Imagen silueta", this.imagenSilueta)
-       }, false);
-
-
-       if (blob) {
-         reader.readAsDataURL(blob);
-       }
+        const reader = new FileReader();
+        reader.readAsDataURL(response);
+        reader.onload = () => {
+          this.imagenSilueta = reader.result.toString();
+        }
      });
 
 
@@ -205,9 +203,9 @@ export class MostrarAvataresComponent implements OnInit {
      }
      let cont1 = 0;
      this.familiaElegida.complemento1.forEach (imagenComplemento => {
-       this.recursos.DameImagenAvatar (imagenComplemento)
+       this.imgService.downloadImgAvatar(imagenComplemento)
        .subscribe(response => {
-         const blob = new Blob([response.body], { type: 'image/jpg'});
+         const blob = response;
          const reader = new FileReader();
          reader.addEventListener('load', () => {
              // Creo la imagen del complemento
@@ -234,9 +232,9 @@ export class MostrarAvataresComponent implements OnInit {
 
      let cont2 = 0;
      this.familiaElegida.complemento2.forEach (imagenComplemento => {
-        this.recursos.DameImagenAvatar (imagenComplemento)
+        this.imgService.downloadImgAvatar (imagenComplemento)
         .subscribe(response => {
-          const blob = new Blob([response.body], { type: 'image/jpg'});
+          const blob = response;
           const reader = new FileReader();
           reader.addEventListener('load', () => {
              // Creo la imagen del complemento
@@ -260,9 +258,9 @@ export class MostrarAvataresComponent implements OnInit {
       }
      let cont3 = 0;
      this.familiaElegida.complemento3.forEach (imagenComplemento => {
-         this.recursos.DameImagenAvatar (imagenComplemento)
+         this.imgService.downloadImgAvatar (imagenComplemento)
          .subscribe(response => {
-           const blob = new Blob([response.body], { type: 'image/jpg'});
+           const blob = response;
            const reader = new FileReader();
            reader.addEventListener('load', () => {
                // Creo la imagen del complemento
@@ -285,9 +283,9 @@ export class MostrarAvataresComponent implements OnInit {
      }
      let cont4 = 0;
      this.familiaElegida.complemento4.forEach (imagenComplemento => {
-          this.recursos.DameImagenAvatar (imagenComplemento)
+          this.imgService.downloadImgAvatar (imagenComplemento)
           .subscribe(response => {
-            const blob = new Blob([response.body], { type: 'image/jpg'});
+            const blob = response;
             const reader = new FileReader();
             reader.addEventListener('load', () => {
                // Creo la imagen del complemento

@@ -10,16 +10,10 @@ import { User } from '../clases/User';
 })
 export class AuthService {
   
-  profesorId: number;
-
   private host = environment.host;
 
-  //Usuarios
   private APIUrlUsers = this.host + ':3000/api/Users';
   private APIUrlProfesores = this.host + ':3000/api/Profesores';
-
-  //Recursos
-  private APIUrlCuestionarios = this.host + ':3000/api/Cuestionarios';
 
   constructor(private http: HttpClient) { }
 

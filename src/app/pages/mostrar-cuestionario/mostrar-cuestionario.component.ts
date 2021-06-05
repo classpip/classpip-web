@@ -34,25 +34,25 @@ export class MostrarCuestionarioComponent implements OnInit {
     private location: Location) { }
 
   ngOnInit(): void {
-     //Recogemos la informacion de la sesion
-     this.cuestinarioSeleccionado = this.sesion.DameCuestionario();
-     console.log("Cuestionario: ", this.cuestinarioSeleccionado);
-     //this.profesorId = this.auth.getProfesorId();
-     this.recursos.DamePreguntasCuestionario(this.cuestinarioSeleccionado.id)     
-     .subscribe((res) => {
-       this.preguntasCuestionarioSeleccionado = res;
-       this.dataSource = new MatTableDataSource(this.preguntasCuestionarioSeleccionado);
-       console.log("Preguntas:", this.preguntasCuestionarioSeleccionado);
-     });
+    //  //Recogemos la informacion de la sesion
+    //  this.cuestinarioSeleccionado = this.sesion.DameCuestionario();
+    //  console.log("Cuestionario: ", this.cuestinarioSeleccionado);
+    //  //this.profesorId = this.auth.getProfesorId();
+    //  this.recursos.DamePreguntasCuestionario(this.cuestinarioSeleccionado.id)     
+    //  .subscribe((res) => {
+    //    this.preguntasCuestionarioSeleccionado = res;
+    //    this.dataSource = new MatTableDataSource(this.preguntasCuestionarioSeleccionado);
+    //    console.log("Preguntas:", this.preguntasCuestionarioSeleccionado);
+    //  });
  
-     //Establecemos el valor que le corresponde a los inputs
-     this.titulo = this.cuestinarioSeleccionado.titulo;
-     this.descripcion = this.cuestinarioSeleccionado.descripcion;
+    //  //Establecemos el valor que le corresponde a los inputs
+    //  this.titulo = this.cuestinarioSeleccionado.titulo;
+    //  this.descripcion = this.cuestinarioSeleccionado.descripcion;
    }
  
- // Nos devolvera a mis cuestionarios
-   goBack() {
-     this.location.back();
-   }
+  // Nos devolvera a mis cuestionarios
+    goBack() {
+      this.location.back();
+    }
   }
 

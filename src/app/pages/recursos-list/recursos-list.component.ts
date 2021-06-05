@@ -1,3 +1,4 @@
+import { ImagenesService } from './../../services/imagenes.service';
 import { Pregunta } from 'src/app/clases/recursos/Pregunta';
 import { FamiliaDeImagenesDePerfil } from 'src/app/clases/recursos/FamiliaDeImagenesDePerfil';
 import { saveAs } from 'file-saver';
@@ -58,6 +59,7 @@ export class RecursosListComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private router: Router,
     private recursosService: RecursosService,
+    private imagenesService: ImagenesService,
     private sesion: SesionService
   ) { }
 
@@ -85,30 +87,6 @@ export class RecursosListComponent implements OnInit {
         break;
       }
 
-      case 'cuestionarios': {
-        this.rscName = 'Cuestionarios';
-        this.DameCuestionariosPublicos();
-        break;
-      }
-
-      case 'imagenes': {
-        this.rscName = 'Imágenes de perfil';
-        this.DameFamiliasImagenesPerfil();
-        break;
-      }
-
-      case 'rubricas': {
-        this.rscName = 'Rúbricas';
-        this.listRecursos = [];
-        break;
-      }
-
-      case 'satisfaccion': {
-        this.rscName = 'Cuestionarios de Satisfacción';
-        this.DameCuestionariosSatisfaccionPublicos();
-        break;
-      }
-
       case 'preguntas': {
         this.rscName = 'Preguntas';
         this.DameTodasPreguntas();
@@ -122,17 +100,41 @@ export class RecursosListComponent implements OnInit {
         break;
       }
 
-      case 'puntos': {
-        this.rscName = 'Puntos';
-        this.listRecursos = [];
+      case 'imagenes': {
+        this.rscName = 'Imágenes de perfil';
+        this.DameFamiliasImagenesPerfil();
         break;
       }
 
-      case 'escenarios': {
-        this.rscName = 'Escenarios';
-        this.listRecursos = [];
-        break;
-      }
+      // case 'cuestionarios': {
+      //   this.rscName = 'Cuestionarios';
+      //   this.DameCuestionariosPublicos();
+      //   break;
+      // }
+
+      // case 'rubricas': {
+      //   this.rscName = 'Rúbricas';
+      //   this.listRecursos = [];
+      //   break;
+      // }
+
+      // case 'satisfaccion': {
+      //   this.rscName = 'Cuestionarios de Satisfacción';
+      //   this.DameCuestionariosSatisfaccionPublicos();
+      //   break;
+      // }
+
+      // case 'puntos': {
+      //   this.rscName = 'Puntos';
+      //   this.listRecursos = [];
+      //   break;
+      // }
+
+      // case 'escenarios': {
+      //   this.rscName = 'Escenarios';
+      //   this.listRecursos = [];
+      //   break;
+      // }
     }
   }
 
@@ -294,68 +296,69 @@ export class RecursosListComponent implements OnInit {
   }
 
   //Funcion que obtiene los recursos publicos de cuestionarios
-  DameCuestionariosPublicos() {
-    this.recursosService.DameCuestionariosPublicos().subscribe(res => {
-      console.log(res);
-      if (res !== undefined) {
-        //Carga los recursos en la lista
-        this.listRecursos = res;
+  // DameCuestionariosPublicos() {
+  //   this.recursosService.DameCuestionariosPublicos().subscribe(res => {
+  //     console.log(res);
+  //     if (res !== undefined) {
+  //       //Carga los recursos en la lista
+  //       this.listRecursos = res;
 
-        //Cambia el profesorId por su nombre
-        this.listRecursos.forEach(recurso => {
-          console.log("Holi este es el id:", recurso.id)
-          if (this.mapProfesores.has(recurso.profesorId)) {
-            recurso.propietario = this.mapProfesores.get(recurso.profesorId).nombre + ' ';
-            recurso.propietario += this.mapProfesores.get(recurso.profesorId).primerApellido;
-          } else {
-            recurso.propietario = 'Desconocido';
-          }
+  //       //Cambia el profesorId por su nombre
+  //       this.listRecursos.forEach(recurso => {
+  //         console.log("Holi este es el id:", recurso.id)
+  //         if (this.mapProfesores.has(recurso.profesorId)) {
+  //           recurso.propietario = this.mapProfesores.get(recurso.profesorId).nombre + ' ';
+  //           recurso.propietario += this.mapProfesores.get(recurso.profesorId).primerApellido;
+  //         } else {
+  //           recurso.propietario = 'Desconocido';
+  //         }
 
-        });
-        //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
-        this.listRecursos = this.listRecursos.map(function (obj) {
-          obj['nombreRecurso'] = obj['titulo']; // Assign new key
-          //delete obj['Titulo']; // Delete old key
-          return obj;
-        });
-      }
-    },
-      (error) => {
-        console.log(error);
-        this.listRecursos = [];
-      });
-  }
+  //       });
+  //       //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
+  //       this.listRecursos = this.listRecursos.map(function (obj) {
+  //         obj['nombreRecurso'] = obj['titulo']; // Assign new key
+  //         //delete obj['Titulo']; // Delete old key
+  //         return obj;
+  //       });
+  //     }
+  //   },
+  //     (error) => {
+  //       console.log(error);
+  //       this.listRecursos = [];
+  //     });
+  // }
+
   //Funcion que obtiene los recursos publicos de cuestionarios de satisfaccion
-  DameCuestionariosSatisfaccionPublicos() {
-    this.recursosService.DameCuestionariosPublicos().subscribe(res => {
-      console.log(res);
-      if (res !== undefined) {
-        //Carga los recursos en la lista
-        this.listRecursos = res;
+  // DameCuestionariosSatisfaccionPublicos() {
+  //   this.recursosService.DameCuestionariosPublicos().subscribe(res => {
+  //     console.log(res);
+  //     if (res !== undefined) {
+  //       //Carga los recursos en la lista
+  //       this.listRecursos = res;
 
-        //Cambia el profesorId por su nombre
-        this.listRecursos.forEach(recurso => {
-          if (this.mapProfesores.has(recurso.profesorId)) {
-            recurso.propietario = this.mapProfesores.get(recurso.profesorId).nombre + ' ';
-            recurso.propietario += this.mapProfesores.get(recurso.profesorId).primerApellido;
-          } else {
-            recurso.propietario = 'Desconocido';
-          }
+  //       //Cambia el profesorId por su nombre
+  //       this.listRecursos.forEach(recurso => {
+  //         if (this.mapProfesores.has(recurso.profesorId)) {
+  //           recurso.propietario = this.mapProfesores.get(recurso.profesorId).nombre + ' ';
+  //           recurso.propietario += this.mapProfesores.get(recurso.profesorId).primerApellido;
+  //         } else {
+  //           recurso.propietario = 'Desconocido';
+  //         }
 
-        });
-        //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
-        this.listRecursos = this.listRecursos.map(function (obj) {
-          obj['nombreRecurso'] = obj['titulo']; // Assign new key
-          //delete obj['Titulo']; // Delete old key
-          return obj;
-        });
-      }
-    },
-      (error) => {
-        console.log(error);
-        this.listRecursos = [];
-      });
-  }
+  //       });
+  //       //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
+  //       this.listRecursos = this.listRecursos.map(function (obj) {
+  //         obj['nombreRecurso'] = obj['titulo']; // Assign new key
+  //         //delete obj['Titulo']; // Delete old key
+  //         return obj;
+  //       });
+  //     }
+  //   },
+  //     (error) => {
+  //       console.log(error);
+  //       this.listRecursos = [];
+  //     });
+  // }
 
   //Funcion que obtiene los recursos publicos de imaganes de perfil
   DameFamiliasImagenesPerfil() {
@@ -611,7 +614,7 @@ export class RecursosListComponent implements OnInit {
       zip.file(rsc.nombre + ".json", theJSON);
 
       //Descarga la imagen de la coleccion y la añade al ZIP
-      this.recursosService.downloadImgColeccion(rsc.imagenColeccion).subscribe((data: any) => {
+      this.imagenesService.downloadImgColeccion(rsc.imagenColeccion).subscribe((data: any) => {
         folder.file(`${rsc.imagenColeccion}`, data);
       });
 
@@ -627,7 +630,7 @@ export class RecursosListComponent implements OnInit {
 
       //Recorre los nombres para descargar la imagen
       imgNames.forEach((name: string) => {
-        this.recursosService.downloadImgCromo(name).subscribe((data: any) => {
+        this.imagenesService.downloadImgCromo(name).subscribe((data: any) => {
           //Añade la imagen a la carpeta
           folder.file(`${name}`, data);
 
@@ -667,7 +670,7 @@ export class RecursosListComponent implements OnInit {
 
     console.log(rsc.silueta)
 
-    this.recursosService.downloadImgSilueta(rsc.silueta).subscribe((data: any) => {
+    this.imagenesService.downloadImgAvatar(rsc.silueta).subscribe((data: any) => {
       folder.file(`${rsc.silueta}`, data);
 
       let complementos = new Array<string>();
@@ -687,7 +690,7 @@ export class RecursosListComponent implements OnInit {
       if (complementos.length != 0) {
         let cont = 0;
         complementos.forEach(c => {
-          this.recursosService.downloadImgComplementoAvatar(c).subscribe((data) => {
+          this.imagenesService.downloadImgAvatar(c).subscribe((data) => {
             compFolder.file(c, data);
             cont++;
             if (cont == complementos.length) {
@@ -733,7 +736,7 @@ export class RecursosListComponent implements OnInit {
     let count: number = 0;
 
     imgNames.forEach((name: string) => {
-      this.recursosService.downloadImgPerfil(this.urlImagenesPerfil + name).subscribe((data: any) => {
+      this.imagenesService.downloadImgPerfil(this.urlImagenesPerfil + name).subscribe((data: any) => {
         console.log('Img: ', data);
         //Añade la imagen a la carpeta
         folder.file(`${name}`, data);
@@ -769,7 +772,7 @@ export class RecursosListComponent implements OnInit {
     zip.file(rsc.titulo + ".json", theJSON);
 
     if (rsc.imagen != null) {
-      this.recursosService.downloadImgPregunta(rsc.imagen).subscribe((data: any) => {
+      this.imagenesService.downloadImgPregunta(rsc.imagen).subscribe((data: any) => {
         console.log("DATA: ", data)
         zip.file(`${rsc.imagen}`, data);
         this.isDownloading = false;
