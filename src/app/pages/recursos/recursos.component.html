@@ -390,7 +390,7 @@
             <!-- ********** IMAGENES AVATARES ************ -->
             <div *ngIf="this.imgAvataresForm">
               <form name='imgAvataresForm'>
-                <div class="form-group" *ngIf="this.respuestasForm == false">
+                <div class="form-group">
                   <label for="imgSilueta">Imagen de silueta*</label>
                   <input #file id="imgSilueta" type="file" accept="image/*" (change)="getImagenSilueta($event)"
                     style="display: none;">
@@ -400,6 +400,54 @@
                   &nbsp;
                   <span class="imgName" *ngIf="this.avatarWrapper.silueta == null">Ninguna imagen seleccionada</span>
                   <span class="imgName" *ngIf="this.avatarWrapper.silueta != null">{{this.avatarWrapper.silueta}}</span>
+                  <br><br>
+                </div>
+                <div class="form-group">
+                  <label for="imgComp1">Imágenes de {{this.avatarWrapper.nombreComplemento1}}*</label>
+                  <input #file id="imgComp1" type="file" accept="image/*" multiple (change)="getImagenesComp1($event)"
+                    style="display: none;">
+                  <br>
+                  <button class="btn btn-default" (click)="activarInputImagen('imgComp1')"><i
+                      class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
+                  &nbsp;
+                  <span class="imgName" *ngIf="this.avatarWrapper.complemento1.length == 0">Ninguna imagen seleccionada</span>
+                  <span class="imgName" *ngIf="this.avatarWrapper.complemento1.length != 0">{{this.avatarWrapper.complemento1}}</span>
+                  <br><br>
+                </div>
+                <div class="form-group" *ngIf="this.respuestasForm == false">
+                  <label for="imgComp2">Imágenes de {{this.avatarWrapper.nombreComplemento2}}*</label>
+                  <input #file id="imgComp2" type="file" accept="image/*" multiple (change)="getImagenesComp2($event)"
+                    style="display: none;">
+                  <br>
+                  <button class="btn btn-default" (click)="activarInputImagen('imgComp2')"><i
+                      class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
+                  &nbsp;
+                  <span class="imgName" *ngIf="this.avatarWrapper.complemento2.length == 0">Ninguna imagen seleccionada</span>
+                  <span class="imgName" *ngIf="this.avatarWrapper.complemento2.length != 0">{{this.avatarWrapper.complemento2}}</span>
+                  <br><br>
+                </div>
+                <div class="form-group" *ngIf="this.respuestasForm == false">
+                  <label for="imgComp3">Imágenes de {{this.avatarWrapper.nombreComplemento3}}*</label>
+                  <input #file id="imgComp3" type="file" accept="image/*" multiple (change)="getImagenesComp3($event)"
+                    style="display: none;">
+                  <br>
+                  <button class="btn btn-default" (click)="activarInputImagen('imgComp3')"><i
+                      class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
+                  &nbsp;
+                  <span class="imgName" *ngIf="this.avatarWrapper.complemento1.length == 0">Ninguna imagen seleccionada</span>
+                  <span class="imgName" *ngIf="this.avatarWrapper.complemento3.length != 0">{{this.avatarWrapper.complemento3}}</span>
+                  <br><br>
+                </div>
+                <div class="form-group" *ngIf="this.respuestasForm == false">
+                  <label for="imgComp4">Imágenes de {{this.avatarWrapper.nombreComplemento4}}*</label>
+                  <input #file id="imgComp4" type="file" accept="image/*" multiple (change)="getImagenesComp4($event)"
+                    style="display: none;">
+                  <br>
+                  <button class="btn btn-default" (click)="activarInputImagen('imgComp4')"><i
+                      class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
+                  &nbsp;
+                  <span class="imgName" *ngIf="this.avatarWrapper.complemento4.length == 0">Ninguna imagen seleccionada</span>
+                  <span class="imgName" *ngIf="this.avatarWrapper.complemento4.length != 0">{{this.avatarWrapper.complemento4}}</span>
                   <br><br>
                 </div>
               </form>

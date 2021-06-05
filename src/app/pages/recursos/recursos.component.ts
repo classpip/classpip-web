@@ -27,8 +27,8 @@ export class RecursosComponent implements OnInit {
   isLogged: boolean;
   profesor: Profesor;
   form;
+  duplicatedImg: boolean = false;
   typeRscUpload;
-  imagenes: FormData;
   uploadByJson: boolean;
   finishForm = false;
 
@@ -39,18 +39,24 @@ export class RecursosComponent implements OnInit {
   coleccionWrapper: ColeccionWrapper;
 
   //Variables subir pregunta
-  respuestasForm = false;
+  respuestasForm: boolean = false;
   typeQuestion: string;
-  contOptions = 0;
-  parejasMap = new Map<number, any>();
+  contOptions: number = 0;
+  imgPregunta: FormData;
+  parejasMap: Map<Number, any> = new Map<number, any>();
   newPregunta: Pregunta;
 
   //Variables subir avatares
   imgAvataresForm = false;
+  imgSilueta: FormData;
+  imagenesComp1: FormData;
+  imagenesComp2: FormData;
+  imagenesComp3: FormData;
+  imagenesComp4: FormData;
   newFamiliaAvatares: FamiliaAvatares;
 
   //Variables subir coleccion
-  cromosForm = false;
+  cromosForm: boolean = false;
   newColeccion: Coleccion;
 
   //Variables subir imagenes perfil
@@ -108,7 +114,7 @@ export class RecursosComponent implements OnInit {
   //Función auxiliar para customizar las inputs de las imagenes
   activarInputImagen(inputId: string) {
     document.getElementById(inputId).click();
-  }
+  }    
 
   /******************************************** */
   /************** FORMULARIOS ***************** */
@@ -270,8 +276,8 @@ export class RecursosComponent implements OnInit {
         });
 
         if(duplicated == false){
-          this.imagenes = new FormData();
-          this.imagenes.append(img.name, img);
+          this.imgPregunta = new FormData();
+          this.imgPregunta.append(img.name, img);
           this.preguntaWrapper.imagen = img.name;
         }
       }
@@ -305,7 +311,7 @@ export class RecursosComponent implements OnInit {
     if (this.form['nombreCompAv2'].value != '') {
       if (document.getElementById('nombreCompAv2').style.borderColor == "red")
         document.getElementById('nombreCompAv2').style.borderColor = "#525f7f";
-      this.avatarWrapper.nombreComplemento1 = this.form['nombreCompAv2'].value;
+      this.avatarWrapper.nombreComplemento2 = this.form['nombreCompAv2'].value;
       cont++;
     } else {
       document.getElementById('nombreCompAv2').style.borderColor = "red";
@@ -314,7 +320,7 @@ export class RecursosComponent implements OnInit {
     if (this.form['nombreCompAv3'].value != '') {
       if (document.getElementById('nombreCompAv3').style.borderColor == "red")
         document.getElementById('nombreCompAv3').style.borderColor = "#525f7f";
-      this.avatarWrapper.nombreComplemento1 = this.form['nombreCompAv3'].value;
+      this.avatarWrapper.nombreComplemento3 = this.form['nombreCompAv3'].value;
       cont++;
     } else {
       document.getElementById('nombreCompAv3').style.borderColor = "red";
@@ -323,7 +329,7 @@ export class RecursosComponent implements OnInit {
     if (this.form['nombreCompAv4'].value != '') {
       if (document.getElementById('nombreCompAv4').style.borderColor == "red")
         document.getElementById('nombreCompAv4').style.borderColor = "#525f7f";
-      this.avatarWrapper.nombreComplemento1 = this.form['nombreCompAv4'].value;
+      this.avatarWrapper.nombreComplemento4 = this.form['nombreCompAv4'].value;
       cont++;
     } else {
       document.getElementById('nombreCompAv4').style.borderColor = "red";
@@ -339,7 +345,80 @@ export class RecursosComponent implements OnInit {
   }
 
   getImagenSilueta($event){
-    console.log('Falta x desarrollar getImagenSilueta()');
+    
+    let duplicated = false;
+    
+    console.log($event.target.files[0]);
+    let img = $event.target.files[0];
+
+    this.imgService.checkImgNameDuplicated('ImagenesAvatares').subscribe((data: Array<any>) => {
+      if(data != null){
+        console.log('files: ', data);
+        data.forEach(file => {
+          if(file.name == img.name){
+            Swal.fire('Error', 'El nombre de la imagen ya existe. Renombra el fichero y vuelve a probar.', 'error');
+            duplicated = true;
+            this.avatarWrapper.silueta = null;
+          }
+        });
+
+        if(duplicated == false){
+          this.imgSilueta = new FormData();
+          this.imgSilueta.append(img.name, img);
+          this.avatarWrapper.silueta = img.name;
+        }
+      }
+    }, (error) => {
+      Swal.fire('Error', 'No se pueden subir imágenes ahora, pruebalo de nuevo más tarde.', 'error');
+    });
+
+    
+    
+    console.log(this.avatarWrapper.complemento1);
+  }
+
+  getImagenesComp1($event){
+    this.imagenesComp1 = new FormData();
+    console.log($event.target.files);
+    let images = $event.target.files;
+    for(let i=0; i < images.length; i++){
+      this.imagenesComp1.append(images[i].name, images[i]);
+      this.avatarWrapper.complemento1.push(images[i].name);
+    }
+    console.log(this.avatarWrapper.complemento1);
+  }
+
+  getImagenesComp2($event){
+    this.imagenesComp2 = new FormData();
+    console.log($event.target.files);
+    let images = $event.target.files;
+    for(let i=0; i < images.length; i++){
+      this.imagenesComp2.append(images[i].name, images[i]);
+      this.avatarWrapper.complemento2.push(images[i].name);
+    }
+    console.log(this.avatarWrapper.complemento2);
+  }
+
+  getImagenesComp3($event){
+    this.imagenesComp3 = new FormData();
+    console.log($event.target.files);
+    let images = $event.target.files;
+    for(let i=0; i < images.length; i++){
+      this.imagenesComp3.append(images[i].name, images[i]);
+      this.avatarWrapper.complemento3.push(images[i].name);
+    }
+    console.log(this.avatarWrapper.complemento3);
+  }
+
+  getImagenesComp4($event){
+    this.imagenesComp4 = new FormData();
+    console.log($event.target.files);
+    let images = $event.target.files;
+    for(let i=0; i < images.length; i++){
+      this.imagenesComp4.append(images[i].name, images[i]);
+      this.avatarWrapper.complemento4.push(images[i].name);
+    }
+    console.log(this.avatarWrapper.complemento4);
   }
 
   ////////////////FORM COLECCIONES///////////////////
@@ -531,7 +610,7 @@ export class RecursosComponent implements OnInit {
       this.rscService.uploadPregunta(this.newPregunta).subscribe((data) => {
         console.log('respuesta subir pregunta: ', data);
         if(this.newPregunta.imagen != null){
-          this.imgService.uploadImgPregunta(this.imagenes).subscribe(() => {
+          this.imgService.uploadImgPregunta(this.imgPregunta).subscribe(() => {
             this.preguntaWrapper.imagen = null;
             this.resetForm();
             Swal.fire('Hecho!', 'Pregunta subida con éxito.', 'success');
