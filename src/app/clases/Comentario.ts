@@ -7,6 +7,7 @@ export class Comentario {
     autorId: number;
     autor: Profesor;
     publicacionId: number;
+    isPropietario: boolean;
 
     constructor(comentario: string, fecha: string, likes: number, autorId: number, publicacionId: number, autor?: Profesor, id?: number) {
         this.comentario = comentario;
