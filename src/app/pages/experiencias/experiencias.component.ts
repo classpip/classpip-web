@@ -93,12 +93,18 @@ export class ExperienciasComponent implements OnInit {
                     comm.autor = autor;
                   }
                 });
+                if(this.profesor != undefined){
+                  comm.isPropietario = this.isPropietarioComment(comm)
+                }
+                console.log("Comentario",comm)
               });
+              
             };
           });
           //Comprueba si soy el propietario
           if (this.profesor != undefined) {
-            publi.isPropietario = this.isPropietario(publi);
+            publi.isPropietario = this.isPropietarioPubli(publi);
+            
           }
         });
 
@@ -132,6 +138,7 @@ export class ExperienciasComponent implements OnInit {
         })
       });
     }
+    this.ngOnInit();
   }
 
   sendPubli() {
@@ -239,10 +246,24 @@ export class ExperienciasComponent implements OnInit {
   }
 
   //Función para ver si soy el propietario del recurso
-  isPropietario(publi) {
+  isPropietarioPubli(publi) {
     console.log("this.prof: ", this.profesor.id);
     console.log("recurso.prof: ", publi.autorId);
     if (this.profesor.id == publi.autorId) {
+
+      return true
+    }
+    else {
+
+      return false
+    }
+
+  }
+
+  isPropietarioComment(comment) {
+    console.log("this.prof: ", this.profesor.id);
+    console.log("comment.prof: ", comment.autorId);
+    if (this.profesor.id == comment.autorId) {
 
       return true
     }
@@ -260,6 +281,16 @@ export class ExperienciasComponent implements OnInit {
     }), (error) => {
       console.log(error);
       Swal.fire("Error", "Error eliminando la publicación", "error");
+    }
+  }
+
+  borrarComment(comment: any){
+    this.publiService.deleteComment(comment.id).subscribe(() => {
+      Swal.fire("Hecho", "Comentario eliminado correctamente", "success")
+      this.ngOnInit();
+    }), (error) => {
+      console.log(error);
+      Swal.fire("Error", "Error eliminando el comentario", "error");
     }
   }
 }
