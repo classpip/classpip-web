@@ -76,6 +76,11 @@
                                         <i class="tim-icons icon-cloud-download-93"></i>
                                     </button>
                                     &nbsp;
+                                    <button type="button" rel="tooltip" class="btn btn-sm btn-primary btn-roundbtn-icon"
+                                        placement="bottom" tooltip="Recomendaciones de uso">
+                                        <i class="tim-icons icon-bulb-63"></i>
+                                    </button>
+                                    &nbsp;
                                     <button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-info btn-roundbtn-icon"
                                         placement="bottom" tooltip="Eliminar recurso" (click)="borraRecurso(rsc)" *ngIf=" isLoggedIn() && rsc.isPropietario ">
                                         <i class="tim-icons icon-trash-simple"></i>
@@ -84,6 +89,7 @@
                                         placement="bottom" tooltip="No puedes eliminar este recurso" *ngIf="isLoggedIn() && !rsc.isPropietario">
                                         <i class="tim-icons icon-trash-simple"></i>
                                     </button>
+                                    
                                     
 
                                     <!-- AVERIGUAR COMO MOSTRAR SOLO EN UNA FILA -->
