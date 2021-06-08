@@ -21,9 +21,9 @@
                         <i class="tim-icons icon-settings-gear-63"> </i> &nbsp; Filtros
                     </button>
                     &nbsp;
-                    <button class="btn btn-primary" type="button" style="margin-right: auto;"
+                    <button class="btn " type="button" style="margin-right: auto;"
                         (click)="descargaPerguntasSeleccionadas()">
-                        <i class="tim-icons icon-settings-gear-63"> </i> &nbsp; Desacargar
+                        <i class="tim-icons icon-cloud-download-93"> </i> &nbsp; Desacargar
                     </button>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                                 <th class="text-center" width="20px" *ngIf="isPreguntas()">Tipo</th>
 
                                 <th class="text-center" width="20px">ACCIONES</th>
-                                <th class="text-center" width="10px">SELECCIONA</th>
+                                <th class="text-center" width="10px" *ngIf="isPreguntas()">SELECCIONA</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -107,8 +107,8 @@
                                     &nbsp;
                                 </td>
 
-                                <td class="checkbox">
-                                    <input class="checkbox" type="checkbox" (click)="isSelected(rsc)"/>
+                                <td class="checkbox" *ngIf="isPreguntas()">
+                                    <input class="checkbox" type="checkbox" (click)="isSelected(rsc)" />
                                 </td>
                             </tr>
                         </tbody>

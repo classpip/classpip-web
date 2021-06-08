@@ -55,6 +55,9 @@ export class RecursosListComponent implements OnInit {
 
   isDownloading = false;
 
+  //variable para decargar más de 1 pregunta
+  listDescargas: any [] = [];
+
   constructor(
     private activeRoute: ActivatedRoute,
     private router: Router,
@@ -806,13 +809,28 @@ export class RecursosListComponent implements OnInit {
     }
   }
 
-  //Función para descargar varias preguntas
+  //Función para descargar todas las preguntas que seleccione
   descargaPerguntasSeleccionadas(){
     this.listRecursos.forEach(recurso =>{
       if(recurso.isSelected == true){
-        console.log("Probando", recurso)
+        this.listDescargas.push(recurso);
       }
+      
     })
+    console.log("lista descargas:", this.listDescargas);
+    let json=JSON.stringify(this.listDescargas)
+
+    let zip = new JSZip();
+    zip.file(".json", json);
+
+    zip.generateAsync({ type: "blob" }).then(function (blob) {
+      saveAs(blob, "Preguntas.zip");
+    }, function (err) {
+      console.log(err);
+      this.isDownloading = false;
+      Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+    })
+    
   }
 
   /********************************/
