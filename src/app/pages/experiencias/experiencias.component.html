@@ -96,8 +96,8 @@
               </div>
             </div>
             <br>
-            <div class="card card-comentario" *ngFor="let comment of publi.comentarios;">
-              <div class="comentario">
+            <div class="card card-comentario"  *ngIf="publi.comentarios != undefined" >
+              <div class="comentario" *ngFor="let comment of publi.comentarios;" >
                 <div class="comentario-header">
                   <div class="autor" id="autor-name">
                     <img *ngIf="comment.autor.imagenPerfil == null" src="../../../assets/img/logo.png"
@@ -109,6 +109,11 @@
 
                   </div>
                   <span id="comment-title">{{comment.fecha}}</span>
+                  &nbsp;
+                <button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-info btn-roundbtn-icon"
+                  placement="bottom" tooltip="Eliminar comentario" *ngIf="comment.isPropietario" (click)="borrarComment(comment)">
+                  <i class="tim-icons icon-trash-simple"></i>
+                </button>
                 </div>
                 <br>
                 <p>{{comment.comentario}}</p>
@@ -126,10 +131,10 @@
             <div *ngIf="this.isLogged == true">
               <div class="input-group">
                 <input id="{{publi.id}}" class="form-control" placeholder="Deja aqui tu comentario" type="text"
-                  (focus)="focus2 = true" (blur)="focus2 = false">
+                  (focus)="focus2 = true" (blur)="focus2 = false" (keyup.enter)="sendComment(publi.id)">
                 <div class="input-group-append">
                   <span class="input-group-text"><i id="sendIcon" class="tim-icons icon-send"
-                      (click)="sendComment(publi.id)" (keyup.enter)="logIn()"></i></span>
+                      (click)="sendComment(publi.id)" ></i></span>
                 </div>
               </div>
             </div>
