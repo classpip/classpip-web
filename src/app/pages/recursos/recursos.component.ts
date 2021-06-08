@@ -1,3 +1,4 @@
+import { forEach } from 'jszip';
 import { FamiliaDeImagenesDePerfil } from './../../clases/recursos/FamiliaDeImagenesDePerfil';
 import { Coleccion } from './../../clases/recursos/Coleccion';
 import { ImagenesService } from './../../services/imagenes.service';
@@ -12,6 +13,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { SesionService } from 'src/app/services/sesion.service';
 import Swal from 'sweetalert2';
 import { ModalContainerComponent } from 'ngx-bootstrap/modal';
+import { getMatFormFieldDuplicatedHintError } from '@angular/material/form-field';
 
 
 @Component({
@@ -60,6 +62,7 @@ export class RecursosComponent implements OnInit {
   newColeccion: Coleccion;
 
   //Variables subir imagenes perfil
+  imagenesPerfil: FormData;
   newFamiliaImgsPerfil: FamiliaDeImagenesDePerfil;
 
 
@@ -114,7 +117,7 @@ export class RecursosComponent implements OnInit {
   //Función auxiliar para customizar las inputs de las imagenes
   activarInputImagen(inputId: string) {
     document.getElementById(inputId).click();
-  }    
+  }   
 
   /******************************************** */
   /************** FORMULARIOS ***************** */
@@ -137,8 +140,37 @@ export class RecursosComponent implements OnInit {
   }
 
   ////////////////FORM IMAGENES PERFIL////////////////
-  getImagenesPerfil($event){    
-    console.log('Falta x desarrollar getImagenesPerfil()');
+  async getImagenesPerfil($event){
+    this.imagenesPerfil = new FormData();
+    console.log($event.target.files);
+    let images = $event.target.files;
+    let APIfileNames;
+  
+    await this.imgService.getFileNamesContainer('ImagenesPerfil').subscribe((data: Array<any>) => {
+      console.log('API files: ', data);
+      if(data != null){
+        APIfileNames = data;
+        for(let i=0; i < images.length; i++){
+          let filter = APIfileNames.find(f => f.name === images[i].name);
+          if(filter != null){
+            Swal.fire('Error', 'La imagen '+images[i].name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+            this.imgPerfilWrapper.imagenes = new Array();
+            break;
+          } else {
+            console.log('Se puede subir ', images[i].name);
+            this.imagenesPerfil.append(images[i].name, images[i]);
+            this.imgPerfilWrapper.imagenes.push(images[i].name);
+            console.log('Imagenes perfil: ', this.imgPerfilWrapper.imagenes);
+          }
+        }
+      }
+    });
+  }
+
+  unselectImgPerfil(imgName: string){
+    let names = this.imgPerfilWrapper.imagenes;
+    names.splice(names.indexOf(imgName), 1);
+    this.imagenesPerfil.delete(imgName);
   }
 
   ////////////////FORM PREGUNTA///////////////////
@@ -257,32 +289,19 @@ export class RecursosComponent implements OnInit {
     }
   }
 
-  getImagenPregunta($event) {
+  async getImagenPregunta($event) {
 
-    let duplicated = false;
     let img = $event.target.files[0];
-
-    console.log(img);
-
-    this.imgService.checkImgNameDuplicated('ImagenesPreguntas').subscribe((data: Array<any>) => {
-      if(data != null){
-        console.log('files: ', data);
-        data.forEach(file => {
-          if(file.name == img.name){
-            Swal.fire('Error', 'El nombre de la imagen ya existe. Renombra el fichero y vuelve a probar.', 'error');
-            duplicated = true;
-            this.preguntaWrapper.imagen = null;
-          }
-        });
-
-        if(duplicated == false){
-          this.imgPregunta = new FormData();
-          this.imgPregunta.append(img.name, img);
-          this.preguntaWrapper.imagen = img.name;
-        }
-      }
-    }, (error) => {
-      Swal.fire('Error', 'No se pueden subir imágenes ahora, pruebalo de nuevo más tarde.', 'error');
+    
+    this.imgService.checkImgNameDuplicated('ImagenesPreguntas', img.name).subscribe((data: any) => {
+      console.log('API file');
+      Swal.fire('Error', 'La imagen '+img.name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+      this.preguntaWrapper.imagen = null;
+    }, (notFound) => {
+      console.log('Se puede subir '+img.name);
+      this.imgPregunta = new FormData();
+      this.imgPregunta.append(img.name, img);
+      this.preguntaWrapper.imagen = img.name;
     });
   }
 
@@ -344,81 +363,166 @@ export class RecursosComponent implements OnInit {
     
   }
 
-  getImagenSilueta($event){
-    
-    let duplicated = false;
+  async getImagenSilueta($event){
     
     console.log($event.target.files[0]);
     let img = $event.target.files[0];
-
-    this.imgService.checkImgNameDuplicated('ImagenesAvatares').subscribe((data: Array<any>) => {
-      if(data != null){
-        console.log('files: ', data);
-        data.forEach(file => {
-          if(file.name == img.name){
-            Swal.fire('Error', 'El nombre de la imagen ya existe. Renombra el fichero y vuelve a probar.', 'error');
-            duplicated = true;
-            this.avatarWrapper.silueta = null;
-          }
-        });
-
-        if(duplicated == false){
-          this.imgSilueta = new FormData();
-          this.imgSilueta.append(img.name, img);
-          this.avatarWrapper.silueta = img.name;
-        }
-      }
-    }, (error) => {
-      Swal.fire('Error', 'No se pueden subir imágenes ahora, pruebalo de nuevo más tarde.', 'error');
+    
+    this.imgService.checkImgNameDuplicated('ImagenesAvatares',img.name).subscribe((data) => {
+      console.log('API file: ', data);
+      this.imgSilueta = null;
+      Swal.fire('Error', 'La imagen '+img.name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+    }, (notFound) => {
+      console.log('Se puede subir ', img.name);
+      this.imgSilueta = new FormData();
+      this.imgSilueta.append(img.name, img);
+      this.avatarWrapper.silueta = img.name;
     });
-
     
-    
-    console.log(this.avatarWrapper.complemento1);
+    console.log(this.avatarWrapper.silueta);
   }
 
-  getImagenesComp1($event){
+  async getImagenesComp1($event){
     this.imagenesComp1 = new FormData();
     console.log($event.target.files);
     let images = $event.target.files;
-    for(let i=0; i < images.length; i++){
-      this.imagenesComp1.append(images[i].name, images[i]);
-      this.avatarWrapper.complemento1.push(images[i].name);
-    }
-    console.log(this.avatarWrapper.complemento1);
+    let APIfileNames;
+  
+    await this.imgService.getFileNamesContainer('ImagenesAvatares').subscribe((data: Array<any>) => {
+      console.log('API files: ', data);
+      if(data != null){
+        APIfileNames = data;
+        for(let i=0; i < images.length; i++){
+          let filter = APIfileNames.find(f => f.name === images[i].name);
+          if(filter != null){
+            Swal.fire('Error', 'La imagen '+images[i].name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+            this.avatarWrapper.complemento1 = new Array();
+            break;
+          } else {
+            console.log('Se puede subir ', images[i].name);
+            this.imagenesComp1.append(images[i].name, images[i]);
+            this.avatarWrapper.complemento1.push(images[i].name);
+          }
+        }
+      }
+    });
+  
+    console.log('Complemento 1: ', this.avatarWrapper.complemento1);
   }
 
-  getImagenesComp2($event){
+  async getImagenesComp2($event){
     this.imagenesComp2 = new FormData();
     console.log($event.target.files);
     let images = $event.target.files;
-    for(let i=0; i < images.length; i++){
-      this.imagenesComp2.append(images[i].name, images[i]);
-      this.avatarWrapper.complemento2.push(images[i].name);
-    }
-    console.log(this.avatarWrapper.complemento2);
+    let APIfileNames;
+  
+    await this.imgService.getFileNamesContainer('ImagenesAvatares').subscribe((data: Array<any>) => {
+      console.log('API files: ', data);
+      if(data != null){
+        APIfileNames = data;
+        for(let i=0; i < images.length; i++){
+          let filter = APIfileNames.find(f => f.name === images[i].name);
+          if(filter != null){
+            Swal.fire('Error', 'La imagen '+images[i].name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+            this.avatarWrapper.complemento2 = new Array();
+            break;
+          } else {
+            console.log('Se puede subir ', images[i].name);
+            this.imagenesComp2.append(images[i].name, images[i]);
+            this.avatarWrapper.complemento2.push(images[i].name);
+          }
+        }
+      }
+    });
+  
+    console.log('Complemento 2: ', this.avatarWrapper.complemento2);
   }
 
-  getImagenesComp3($event){
+  async getImagenesComp3($event){
     this.imagenesComp3 = new FormData();
     console.log($event.target.files);
     let images = $event.target.files;
-    for(let i=0; i < images.length; i++){
-      this.imagenesComp3.append(images[i].name, images[i]);
-      this.avatarWrapper.complemento3.push(images[i].name);
-    }
-    console.log(this.avatarWrapper.complemento3);
+    let APIfileNames;
+  
+    await this.imgService.getFileNamesContainer('ImagenesAvatares').subscribe((data: Array<any>) => {
+      console.log('API files: ', data);
+      if(data != null){
+        APIfileNames = data;
+        for(let i=0; i < images.length; i++){
+          let filter = APIfileNames.find(f => f.name === images[i].name);
+          if(filter != null){
+            Swal.fire('Error', 'La imagen '+images[i].name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+            this.avatarWrapper.complemento3 = new Array();
+            break;
+          } else {
+            console.log('Se puede subir ', images[i].name);
+            this.imagenesComp3.append(images[i].name, images[i]);
+            this.avatarWrapper.complemento3.push(images[i].name);
+          }
+        }
+      }
+    });
+  
+    console.log('Complemento 3: ', this.avatarWrapper.complemento3);
   }
 
-  getImagenesComp4($event){
+  async getImagenesComp4($event){
     this.imagenesComp4 = new FormData();
     console.log($event.target.files);
     let images = $event.target.files;
-    for(let i=0; i < images.length; i++){
-      this.imagenesComp4.append(images[i].name, images[i]);
-      this.avatarWrapper.complemento4.push(images[i].name);
+    let APIfileNames;
+  
+    await this.imgService.getFileNamesContainer('ImagenesAvatares').subscribe((data: Array<any>) => {
+      console.log('API files: ', data);
+      if(data != null){
+        APIfileNames = data;
+        for(let i=0; i < images.length; i++){
+          let filter = APIfileNames.find(f => f.name === images[i].name);
+          if(filter != null){
+            Swal.fire('Error', 'La imagen '+images[i].name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+            this.avatarWrapper.complemento4 = new Array();
+            break;
+          } else {
+            console.log('Se puede subir ', images[i].name);
+            this.imagenesComp4.append(images[i].name, images[i]);
+            this.avatarWrapper.complemento4.push(images[i].name);
+          }
+        }
+      }
+    });
+  
+    console.log('Complemento 4: ', this.avatarWrapper.complemento4);
+  }
+
+  unselectImgAvatar(compNumber, imgName){
+    let names;
+
+    switch(compNumber){
+      case 1:{
+        names = this.avatarWrapper.complemento1;
+        names.splice(names.indexOf(imgName), 1);
+        this.imagenesComp1.delete(imgName);
+        break;
+      }
+      case 2:{
+        names = this.avatarWrapper.complemento2;
+        names.splice(names.indexOf(imgName), 1);
+        this.imagenesComp2.delete(imgName);
+        break;
+      }
+      case 3:{
+        names = this.avatarWrapper.complemento3;
+        names.splice(names.indexOf(imgName), 1);
+        this.imagenesComp3.delete(imgName);
+        break;
+      }
+      case 4:{
+        names = this.avatarWrapper.complemento4;
+        names.splice(names.indexOf(imgName), 1);
+        this.imagenesComp4.delete(imgName);
+        break;
+      }
     }
-    console.log(this.avatarWrapper.complemento4);
   }
 
   ////////////////FORM COLECCIONES///////////////////
@@ -459,14 +563,23 @@ export class RecursosComponent implements OnInit {
     this.form = document.forms['rscForm'];
 
     let questionForm = document.forms['preguntaForm'];
-    let imgAvataresForm = document.forms['imgAvataresForm'];
+    let cromosForm = document.forms['cromosForm'];
 
     console.log('Tipo recurso a subir: ' + this.typeRscUpload);
 
-    if (this.typeRscUpload == 'Pregunta') {
-      this.uploadPregunta(questionForm);
-    } else if(this.typeRscUpload == 'Avatar'){
-      this.uploadAvatar(imgAvataresForm);
+    switch(this.typeRscUpload){
+      case 'Pregunta':
+        this.uploadPregunta(questionForm);
+        break;
+      case 'Avatar':
+        this.uploadAvatar();
+        break;
+      case 'Colección':
+        this.uploadColeccion(cromosForm);
+        break;
+      case 'Imágenes de perfil':
+        this.uploadImagenesPerfil(this.form);
+        break;
     }
   }
 
@@ -629,7 +742,120 @@ export class RecursosComponent implements OnInit {
     }
   }
 
-  uploadAvatar(imgAvataresForm){
+  uploadAvatar(){
+    let voidElems = new Array<string>();
+
+    if(this.avatarWrapper.silueta == null){
+      voidElems.push(' Silueta');
+    }
+
+    if(this.avatarWrapper.complemento1.length == 0){
+      voidElems.push(' '+this.avatarWrapper.nombreComplemento1);
+    }
+
+    if(this.avatarWrapper.complemento2.length == 0){
+      voidElems.push(' '+this.avatarWrapper.nombreComplemento2);
+    }
+
+    if(this.avatarWrapper.complemento3.length == 0){
+      voidElems.push(' '+this.avatarWrapper.nombreComplemento3);
+    }
+
+    if(this.avatarWrapper.complemento4.length == 0){
+      voidElems.push(' '+this.avatarWrapper.nombreComplemento4);
+    }
+
+    if(voidElems.length > 0){
+      Swal.fire('Error','Faltan los archivos de:'+voidElems, 'error');
+    } else {
+      this.newFamiliaAvatares = new FamiliaAvatares(
+        this.avatarWrapper.nombreFamilia,
+        this.profesor.id,
+        this.avatarWrapper.silueta,
+        this.avatarWrapper.nombreComplemento1,
+        this.avatarWrapper.complemento1,
+        this.avatarWrapper.nombreComplemento2,
+        this.avatarWrapper.complemento2,
+        this.avatarWrapper.nombreComplemento3,
+        this.avatarWrapper.complemento3,
+        this.avatarWrapper.nombreComplemento4,
+        this.avatarWrapper.complemento4
+      );
+      console.log(this.newFamiliaAvatares);
+      this.rscService.uploadFamiliaAvatar(this.newFamiliaAvatares).subscribe(data => {
+        console.log('respuesta subir avatares: ', data);
+        this.imgService.uploadImgAvatares(this.imgSilueta).subscribe(() => {
+          this.imgService.uploadImgAvatares(this.imagenesComp1).subscribe(() => {
+            this.imgService.uploadImgAvatares(this.imagenesComp2).subscribe(() => {
+              this.imgService.uploadImgAvatares(this.imagenesComp3).subscribe(() => {
+                this.imgService.uploadImgAvatares(this.imagenesComp4).subscribe(() => {
+                  this.avatarWrapper = new AvatarWrapper();
+                  this.resetForm();
+                  Swal.fire('Hecho!', 'Avatares subidos con éxito.', 'success');
+                }, (error) => {
+                  console.log(error);
+                  Swal.fire('Error', 'Error al subir complementos de '+this.avatarWrapper.nombreComplemento4, 'error');
+                })
+              }, (error) => {
+                console.log(error);
+                Swal.fire('Error', 'Error al subir complementos de '+this.avatarWrapper.nombreComplemento3, 'error');
+              })
+            }, (error) => {
+              console.log(error);
+              Swal.fire('Error', 'Error al subir complementos de '+this.avatarWrapper.nombreComplemento2, 'error');
+            })
+          }, (error) => {
+            console.log(error);
+            Swal.fire('Error', 'Error al subir complementos de '+this.avatarWrapper.nombreComplemento1, 'error');
+          })
+        }, (error) => {
+          console.log(error);
+          Swal.fire('Error', 'Error al subir silueta', 'error');
+        });
+      }, (error) => {
+        console.log(error);
+        Swal.fire('Error', 'Error al subir avatares', 'error');
+      });
+    }
+  }
+
+  uploadImagenesPerfil(imgForm){
+
+    let cont = 0;
+
+    if(imgForm['nombreImgsPerfil'].value != '') {
+      if (document.getElementById('nombreImgsPerfil').style.borderColor == "red")
+        document.getElementById('nombreImgsPerfil').style.borderColor = "#525f7f";
+      this.imgPerfilWrapper.nombreFamilia = imgForm['nombreImgsPerfil'].value;
+      cont++;
+    } else {
+      document.getElementById('nombreImgsPerfil').style.borderColor = "red";
+    }
+
+    if(this.imgPerfilWrapper.imagenes.length == 0){
+      Swal.fire('Error', 'Añade al menos 1 imagen', 'error');
+    } else {
+      this.newFamiliaImgsPerfil = new FamiliaDeImagenesDePerfil(
+        this.imgPerfilWrapper.nombreFamilia,
+        this.imgPerfilWrapper.imagenes.length,
+        this.imgPerfilWrapper.imagenes,
+        this.profesor.id
+      );
+      this.rscService.uploadFamiliaImgPerfil(this.newFamiliaImgsPerfil).subscribe((data) => {
+        console.log('respuesta subir imgs perfil: '+data);
+        this.imgService.uploadImgFamiliaImagenes(this.imagenesPerfil).subscribe(() => {
+          this.imgPerfilWrapper = new ImagenesPerfilWrapper();
+          this.resetForm();
+          Swal.fire('Hecho!', 'Avatares subidos con éxito.', 'success');
+        }, (error) => {
+          console.log(error);
+          Swal.fire('Error', 'Error al subir imágenes', 'error');
+        });
+      })
+    }
+  }
+
+  uploadColeccion(cromosForm){
 
   }
 }

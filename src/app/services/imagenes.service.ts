@@ -21,7 +21,11 @@ export class ImagenesService {
 
   //Web Service que comprueba que no haya una imagen en la API con el mismo nombre, ya que si no el
   //archivo no se subirá correctamente. Con este método, comprobamos antes de subir la imagen
-  public checkImgNameDuplicated(containerName: string) {
+  public checkImgNameDuplicated(containerName: string, imgName: string) {
+    return this.http.get(this.APIUrlImagenes + '/' + containerName + '/files/'+imgName);
+  }
+
+  public getFileNamesContainer(containerName: string){
     return this.http.get(this.APIUrlImagenes + '/' + containerName + '/files');
   }
 
