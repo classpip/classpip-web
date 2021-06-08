@@ -358,7 +358,7 @@ export class RecursosComponent implements OnInit {
           if(file.name == img.name){
             Swal.fire('Error', 'El nombre de la imagen ya existe. Renombra el fichero y vuelve a probar.', 'error');
             duplicated = true;
-            this.avatarWrapper.silueta = null;
+            this.avatarWrapper.silueta = null;3961
           }
         });
 

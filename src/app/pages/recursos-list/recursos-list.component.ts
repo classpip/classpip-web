@@ -273,6 +273,7 @@ export class RecursosListComponent implements OnInit {
           if (this.mapProfesores.has(recurso.profesorId)) {
             recurso.propietario = this.mapProfesores.get(recurso.profesorId).nombre + ' ';
             recurso.propietario += this.mapProfesores.get(recurso.profesorId).primerApellido;
+            
           } else {
             recurso.propietario = 'Desconocido';
           }
@@ -280,6 +281,7 @@ export class RecursosListComponent implements OnInit {
           if (this.profesor != undefined) {
             recurso.isPropietario = this.isPropietario(recurso);
           }
+          
         });
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function (obj) {
@@ -487,6 +489,7 @@ export class RecursosListComponent implements OnInit {
             }
             this.mapPreguntasTematica.get(recurso.tematica).push(recurso);
           };
+          recurso.isSelected = false;
         });
 
         if (this.mapPreguntasTipo.size != 0) this.listTipo = Array.from(this.mapPreguntasTipo.keys());
@@ -573,6 +576,12 @@ export class RecursosListComponent implements OnInit {
         break;
       }
     }
+  }
+
+  //Función para seleccionar varios recursos a descargar
+  isSelected(rsc: any){
+    rsc.isSelected =  true;
+    console.log(rsc)
   }
 
   //Función para descargar la colección
@@ -797,6 +806,15 @@ export class RecursosListComponent implements OnInit {
     }
   }
 
+  //Función para descargar varias preguntas
+  descargaPerguntasSeleccionadas(){
+    this.listRecursos.forEach(recurso =>{
+      if(recurso.isSelected == true){
+        console.log("Probando", recurso)
+      }
+    })
+  }
+
   /********************************/
   /*FUNCIONES PARA BORRAR RECURSOS*/
   /********************************/
@@ -860,6 +878,8 @@ export class RecursosListComponent implements OnInit {
       Swal.fire("Error", "Error eliminando recurso", "error");
     }
   }
+
+  
 
 }
 
