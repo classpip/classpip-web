@@ -811,26 +811,41 @@ export class RecursosListComponent implements OnInit {
 
   //Función para descargar todas las preguntas que seleccione
   descargaPerguntasSeleccionadas(){
+
+    let zip = new JSZip();
+    
     this.listRecursos.forEach(recurso =>{
       if(recurso.isSelected == true){
         this.listDescargas.push(recurso);
-      }
-      
+       
+      }      
     })
     console.log("lista descargas:", this.listDescargas);
     let json=JSON.stringify(this.listDescargas)
 
-    let zip = new JSZip();
-    zip.file(".json", json);
+    
+    zip.file("Fichero.json", json);
 
+    this.listDescargas.forEach(recurso => {
+      if (recurso.imagen != null) {
+        let folder = zip.folder("Imagenes");
+        this.imagenesService.downloadImgPregunta(recurso.imagen).subscribe((data: any) => {
+          console.log("DATA:" + recurso.imagen, data)
+          
+          zip.file("tus muertos");            
+        });
+         
+      }
+    })
+  
     zip.generateAsync({ type: "blob" }).then(function (blob) {
       saveAs(blob, "Preguntas.zip");
     }, function (err) {
       console.log(err);
       this.isDownloading = false;
       Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
-    })
-    
+    })       
+  
   }
 
   /********************************/
