@@ -882,7 +882,9 @@ export class RecursosListComponent implements OnInit {
   }
 
   resetDescargarPreguntasSeleccionadas(){
-    (<HTMLInputElement>document.getElementsByClassName('checkbox')).value
+    for(let key of this.mapCheckPreguntas.keys()){
+      (<HTMLInputElement>document.getElementById('check'+key)).checked = false;
+    }
     this.listDescargasPreguntas = new Array<Pregunta>();
   }
 
