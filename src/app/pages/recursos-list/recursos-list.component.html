@@ -22,7 +22,7 @@
                     </button>
                     &nbsp;
                     <button class="btn " type="button" style="margin-right: auto;"
-                        (click)="descargaPerguntasSeleccionadas()">
+                        (click)="modalDownloadQuestions.show()">
                         <i class="tim-icons icon-cloud-download-93"> </i> &nbsp; Descargar
                     </button>
                 </div>
@@ -108,7 +108,8 @@
                                 </td>
 
                                 <td class="checkbox" *ngIf="isPreguntas()">
-                                    <input class="checkbox" type="checkbox"  (change)="isSelected($event, indice, rsc)"/>
+                                    <input class="checkbox" type="checkbox"
+                                        (change)="isSelected($event, indice, rsc)" />
                                 </td>
                             </tr>
                         </tbody>
@@ -204,6 +205,42 @@
                 <button class="btn btn-danger" data-dismiss="modal" type="button" (click)="modalShowQuestion.hide()">
                     Cerrar
                 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- POPUP Descargar PREGUNTAS -->
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black"
+    #modalDownloadQuestions="bs-modal" id="modalDownloadQuestions" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h4 class="title title-up" style="text-align: center;">¿QUIERES DESCARGAR UN FICHERO JSON CONJUNTO O UNO
+                    POR CADA PERGUNTA?</h4>
+            </div>
+            <div class="modal-body">
+
+                <button class="btn btn-success" data-dismiss="modal" type="button"
+                    (click)="modalDownloadQuestions.hide();  descargaPerguntasSeleccionadas()">
+                    JSON CONJUNTO
+                </button>
+                &nbsp;
+                <button class="btn btn-primary" data-dismiss="modal" type="button"
+                    (click)="modalDownloadQuestions.hide()">
+                    JSONs INDIVIDUALES
+                </button>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <div style="text-align: center; margin-left: auto; margin-right: auto;">
+                    <button class="btn btn-danger" data-dismiss="modal" type="button"
+                        (click)="modalDownloadQuestions.hide()">
+                        Cerrar
+                    </button>
+                </div>
             </div>
         </div>
     </div>

@@ -1,3 +1,4 @@
+import { LandingpageComponent } from './pages/examples/landingpage/landingpage.component';
 import { MostrarCuestionarioComponent } from './pages/mostrar-cuestionario/mostrar-cuestionario.component';
 import { RecursosListComponent } from './pages/recursos-list/recursos-list.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
@@ -36,6 +37,7 @@ const routes: Routes = [
   { path: "register", component: RegisterComponent},
   { path: "index", component: IndexComponent},
   { path: "perfil", component: PerfilComponent},
+  { path: "landing", component: LandingpageComponent},
 ];
 
 @NgModule({
