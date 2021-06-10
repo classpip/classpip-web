@@ -604,7 +604,7 @@ export class RecursosComponent implements OnInit {
       if (form[i+'A'].value == "" || form[i+'parB'].value == "") {
         return null;
       } else {
-        auxMap.set(i, { "l": form[i+'A'].value, "r": form[i+'B'].value });
+        //auxMap.set(i, { "l": form[i+'A'].value, "r": form[i+'B'].value });
       }
     }
     console.log(auxMap);
