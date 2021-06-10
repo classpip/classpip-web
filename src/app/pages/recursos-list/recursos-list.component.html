@@ -108,8 +108,7 @@
                                 </td>
 
                                 <td class="checkbox" *ngIf="isPreguntas()">
-                                    <input class="checkbox" type="checkbox"
-                                        (change)="isSelected($event, indice, rsc)" />
+                                    <input id="check{{indice}}" type="checkbox"  (change)="isSelected($event, indice, rsc)"/>
                                 </td>
                             </tr>
                         </tbody>
