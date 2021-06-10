@@ -356,7 +356,43 @@
             <!-- *********** CROMOS FORM *************** -->
             <div *ngIf="this.cromosForm">
               <form name='cromosForm'>
-                <h3>FALTA AÑADIR PARA SUBIR CROMOS</h3>
+                <div class="form-row">
+                  <label style="margin-left: auto; margin-right: auto;">Añade
+                    primero las filas</label>
+                </div>
+                <div *ngFor="let cromo of cromosMap | keyvalue">
+                  <label for="data{{cromo.key}}">Cromo {{cromo.key}}<span *ngIf="cromo.key <= 6">*</span>
+                  </label>
+                  <span *ngIf="cromo.key > 6" (click)='deleteRowCromoForm()'>&nbsp;<i
+                    class='tim-icons icon-trash-simple' style="color: red;"></i></span>
+                  <div class="form-row" id="data{{cromo.key}}">
+                    <div class="form-group col-md-4">
+                      <label for="prob{{cromo.key}}">Nombre</label>
+                      <input type="text" class="form-control" id="name{{cromo.key}}" placeholder="Nombre">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="prob{{cromo.key}}">Probabilidad</label>
+                      <input type="text" class="form-control" id="prob{{cromo.key}}" placeholder="Probabilidad">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="nivel{{cromo.key}}">Nivel</label>
+                      <input type="text" class="form-control" id="nivel{{cromo.key}}" placeholder="Nivel">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="{{cromo.key}}A"><button class="btn btn-small btn-default">Imagen delantera</button></label>
+                      <input type="file" accept="image/*" class="form-control" id="{{cromo.key}}A" (change)="getImgDelanteCromos($event, cromo.key)">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="{{cromo.key}}B"><button class="btn btn-small btn-default">Imagen trasera</button></label>
+                      <input type="file" accept="image/*" class="form-control" id="{{cromo.key}}B" (change)="getImgDetrasCromos($event, cromo.key)">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <button class="btn btn-primary" (click)="addRowCromoForm()">Añadir cromo</button>
+                </div>
               </form>
             </div>
           </div>

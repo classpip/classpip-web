@@ -1,3 +1,4 @@
+import { Cromo } from './../../clases/recursos/Cromo';
 import { forEach } from 'jszip';
 import { FamiliaDeImagenesDePerfil } from './../../clases/recursos/FamiliaDeImagenesDePerfil';
 import { Coleccion } from './../../clases/recursos/Coleccion';
@@ -30,7 +31,7 @@ export class RecursosComponent implements OnInit {
   profesor: Profesor;
   form;
   duplicatedImg: boolean = false;
-  typeRscUpload;
+  typeRscUpload: string;
   uploadByJson: boolean;
   finishForm = false;
 
@@ -45,11 +46,11 @@ export class RecursosComponent implements OnInit {
   typeQuestion: string;
   contOptions: number = 0;
   imgPregunta: FormData;
-  parejasMap: Map<Number, any> = new Map<number, any>();
+  parejasMap: Map<number, any> = new Map<number, any>();
   newPregunta: Pregunta;
 
   //Variables subir avatares
-  imgAvataresForm = false;
+  imgAvataresForm: boolean = false;
   imgSilueta: FormData;
   imagenesComp1: FormData;
   imagenesComp2: FormData;
@@ -59,6 +60,9 @@ export class RecursosComponent implements OnInit {
 
   //Variables subir coleccion
   cromosForm: boolean = false;
+  imgColeccion: FormData;
+  imagenesCromos: FormData;
+  cromosMap: Map<number, Cromo[]> = new Map<number, Cromo[]>();
   newColeccion: Coleccion;
 
   //Variables subir imagenes perfil
@@ -90,6 +94,11 @@ export class RecursosComponent implements OnInit {
       this.parejasMap.set(i, new Object);
     }
     console.log('parejas map: ' + this.parejasMap);
+
+    for (let i = 1; i < 7; i++) {
+      this.cromosMap.set(i, new Array<Cromo>());
+    }
+    console.log('cromos map: ' + this.cromosMap);
 
     this.preguntaWrapper = new PreguntaWrapper();
     this.avatarWrapper = new AvatarWrapper();
@@ -535,6 +544,7 @@ export class RecursosComponent implements OnInit {
       cont++;
     } else {
       document.getElementById('nombreColeccion').style.borderColor = "red";
+      cont--;
     }
 
     if(this.form['dosCaras'].value == 'Sí'){
@@ -544,14 +554,74 @@ export class RecursosComponent implements OnInit {
       cont++;
     }
 
-    if(cont == 2){
+    if(this.coleccionWrapper.imagenColeccion != null){
+      cont++;
+    }
+
+    if(cont == 3){
       this.cromosForm = true;
       this.finishForm = true;
+      console.log(this.coleccionWrapper);
     }
   }
 
   getImagenColeccion($event){
-    console.log('falta x desarrollar getImagenColeccion');
+    console.log($event.target.files[0]);
+    let img = $event.target.files[0];
+    
+    this.imgService.checkImgNameDuplicated('ImagenColeccion',img.name).subscribe((data) => {
+      console.log('API file: ', data);
+      this.imgColeccion = null;
+      this.coleccionWrapper.imagenColeccion = null;
+      Swal.fire('Error', 'La imagen '+img.name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+    }, (notFound) => {
+      console.log('Se puede subir ', img.name);
+      this.imgColeccion = new FormData();
+      this.imgColeccion.append(img.name, img);
+      this.coleccionWrapper.imagenColeccion = img.name;
+      console.log('coleccion wrapper: ', this.coleccionWrapper);
+    });
+  }
+
+  getImgDelanteCromos($event, numCromo){
+    console.log('falta x desarrollar imagenes cromos (linea 579)');
+  }
+
+  getImgDetrasCromos($event, numCromo){
+    console.log('falta x desarrollar imagenes cromos (linea 579)');
+  }
+
+  /* nombre: string;
+  imagenDelante: string;
+  imagenDetras: string;
+  probabilidad: string;
+  nivel: string;
+  coleccionId: number; */
+  getCromos(){
+    let auxMap = new Map<number, Cromo[]>();
+    let form = document.forms['cromosForm'];
+    for (let i = 1; i < this.cromosMap.size + 1; i++) {
+      if (form[i+'A'].value == "" || form[i+'parB'].value == "") {
+        return null;
+      } else {
+        auxMap.set(i, { "l": form[i+'A'].value, "r": form[i+'B'].value });
+      }
+    }
+    console.log(auxMap);
+    return auxMap;
+  }
+
+  addRowCromoForm(){
+    let form = document.forms['cromosForm'];
+    this.cromosMap.set(this.cromosMap.size + 1, new Array<Cromo>());
+    let length = form.length;
+    length = length + 1;
+  }
+
+  deleteRowCromoForm(){
+    this.cromosMap.delete(this.cromosMap.size);
+    let length = document.forms['parejasForm'].length;
+    length = length - 1;
   }
 
   /************************************ */
