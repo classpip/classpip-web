@@ -16,21 +16,20 @@
     </div>
 
     <div class="container">
-      <!-- *********** DESCOMENTAR ESTO CUANDO ESTE HECHO SUBIR RECURSOS *************** -->
-      <!-- <div *ngIf="this.isLogged == true; else loginWarn"> -->
+      <div *ngIf="this.isLogged == true; else loginWarn">
       <div class="button" data-target="#modalUploadRsc" style="text-align: center;">
         <button class="btn btn-success btn-default btn-small" type="submit" (click)="modalUploadRsc.show()">
           Subir recurso <i class="tim-icons icon-simple-add"> </i>
         </button>
       </div>
       <br>
-      <!-- </div>
+      </div>
       <ng-template #loginWarn>
         <div class="card card-upload card-header">
           <p style="text-align: center;"><a class="login" routerLink="/login">Inicia sesión</a> o <a class="register"
               routerLink="/register">regístarte</a> para poder subir recursos</p>
         </div>
-      </ng-template> -->
+      </ng-template>
     </div>
 
 
@@ -418,7 +417,7 @@
                           <i class="tim-icons icon-attach-87"></i>&nbsp;Imagen
                         </button>
                       </label>
-                      <input type="file" accept="image/*" class="form-control" id="{{cromo.key}}A" (change)="getImgDelanteCromos($event, cromo.key.toString()+'A')" style="display: none;">
+                      <input type="file" accept="image/*" class="form-control" id="{{cromo.key}}A" (change)="getImgDelanteCromos($event, cromo.key)" style="display: none;">
                       &nbsp;
                       <span class="imgName" *ngIf="this.cromosMap.get(cromo.key).imagenDelante == null">
                         Ninguna imagen seleccionada

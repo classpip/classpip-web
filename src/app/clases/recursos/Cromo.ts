@@ -7,12 +7,13 @@ export class Cromo {
   id: number;
   coleccionId: number;
 
-  constructor(nombre: string, probabilidad?: string, nivel?: string, imagenDelante?: string, imagenDetras?: string) {
+  constructor(nombre: string, colId: number, probabilidad?: string, nivel?: string, imagenDelante?: string, imagenDetras?: string) {
 
     this.nombre = nombre;
     this.probabilidad = probabilidad;
     this.nivel = nivel;
     this.imagenDelante = imagenDelante;
     this.imagenDetras = imagenDetras;
+    this.coleccionId = colId;
   }
 }

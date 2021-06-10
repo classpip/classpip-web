@@ -60,8 +60,7 @@ export class RecursosComponent implements OnInit {
 
   //Variables subir coleccion
   cromosForm: boolean = false;
-  imgColeccion: FormData;
-  imagenesCromos: FormData;
+  imagenesColeccion = new Map<string, FormData>();
   cromosMap: Map<number, CromoWrapper> = new Map<number, CromoWrapper>();
   newColeccion: Coleccion;
 
@@ -118,6 +117,8 @@ export class RecursosComponent implements OnInit {
     this.typeQuestion = undefined;
     this.typeRscUpload = undefined;
 
+    this.contOptions = 0;
+
     this.form.reset();
     this.modalUploadRsc.hide();
 
@@ -125,6 +126,16 @@ export class RecursosComponent implements OnInit {
     this.preguntaWrapper = new PreguntaWrapper();
     this.coleccionWrapper = new ColeccionWrapper();
     this.imgPerfilWrapper = new ImagenesPerfilWrapper();
+
+    this.imagenesColeccion = new Map<string,FormData>();
+
+    for (let i = 1; i < 5; i++) {
+      this.parejasMap.set(i, new Object);
+    }
+
+    for (let i = 1; i < 7; i++) {
+      this.cromosMap.set(i, new CromoWrapper());
+    }
   }
 
   //Función auxiliar para customizar las inputs de las imagenes
@@ -561,6 +572,8 @@ export class RecursosComponent implements OnInit {
 
     if(this.coleccionWrapper.imagenColeccion != null){
       cont++;
+    } else {
+      Swal.fire('Error','Imagen colección obligatoria','error');
     }
 
     if(cont == 3){
@@ -576,16 +589,19 @@ export class RecursosComponent implements OnInit {
     
     this.imgService.checkImgNameDuplicated('ImagenColeccion',img.name).subscribe((data) => {
       console.log('API file: ', data);
-      this.imgColeccion = null;
       this.coleccionWrapper.imagenColeccion = null;
+      if(this.imagenesColeccion.has(img.name)) this.imagenesColeccion.delete(img.name);
       Swal.fire('Error', 'La imagen '+img.name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
     }, (notFound) => {
       console.log('Se puede subir ', img.name);
-      this.imgColeccion = new FormData();
-      this.imgColeccion.append(img.name, img);
+      let imgFile = new FormData();
+      imgFile.append(img.name, img);
+      this.imagenesColeccion.set(img.name, imgFile);
       this.coleccionWrapper.imagenColeccion = img.name;
       console.log('coleccion wrapper: ', this.coleccionWrapper);
     });
+
+    console.log('fotos coleccion: ', this.imagenesColeccion);
   }
 
   activarInputCromoDelante(inputId){
@@ -595,24 +611,38 @@ export class RecursosComponent implements OnInit {
 
   getImgDelanteCromos($event, numCromo){
     console.log($event.target.files[0]);
+    console.log('num cromo: ', numCromo);
     let img = $event.target.files[0];
-    
-    this.imgService.checkImgNameDuplicated('ImagenCromo',img.name).subscribe((data) => {
-      console.log('API file: ', data);
-      this.cromosMap.get(numCromo).imagenDelante = null;
-      Swal.fire('Error', 'La imagen '+img.name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
-    }, (notFound) => {
-      console.log('Se puede subir ', img.name);
-      this.cromosMap.get(numCromo).imagenDelante = img.name
-      this.cromosMap.get(numCromo).imgData.append(img.name, img);
-      console.log('cromo wrapper: ', this.cromosMap.get(numCromo));
-    });
+
+    if(this.imagenesColeccion.has(img.name)){
+      console.log('entra hasNameMapDelante');
+      document.forms['cromosForm'][numCromo+'A'].value = null;
+      Swal.fire('Error', 'Ya has seleccionado una imagen con el mismo nombre', 'error');
+    } else {
+      this.imgService.checkImgNameDuplicated('ImagenCromo',img.name).subscribe((data) => {
+        console.log('API file: ', data);
+        this.cromosMap.get(numCromo).imagenDelante = null;
+        Swal.fire('Error', 'La imagen '+img.name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+      }, (notFound) => {
+        console.log('Se puede subir ', img.name);
+        this.cromosMap.get(numCromo).imagenDelante = img.name;
+        let imgFile = new FormData();
+        imgFile.append(img.name, img);
+        this.imagenesColeccion.set(img.name, imgFile);
+        console.log('cromo wrapper: ', this.cromosMap.get(numCromo));
+      });
+    }
+
+    console.log('fotos coleccion: ', this.imagenesColeccion);
+
   }
 
   unselectImgCromoDelante(index){
     let name = this.cromosMap.get(index).imagenDelante;
     this.cromosMap.get(index).imagenDelante = null;
-    this.cromosMap.get(index).imgData.delete(name);
+    this.imagenesColeccion.delete(name);
+    console.log('fotos coleccion: ', this.imagenesColeccion);
+
   }
 
   activarInputCromoDetras(inputId){
@@ -623,22 +653,34 @@ export class RecursosComponent implements OnInit {
     console.log($event.target.files[0]);
     let img = $event.target.files[0];
     
-    this.imgService.checkImgNameDuplicated('ImagenCromo',img.name).subscribe((data) => {
-      console.log('API file: ', data);
-      this.cromosMap.get(numCromo).imagenDetras = null;
-      Swal.fire('Error', 'La imagen '+img.name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
-    }, (notFound) => {
-      console.log('Se puede subir ', img.name);
-      this.cromosMap.get(numCromo).imagenDetras = img.name
-      this.cromosMap.get(numCromo).imgData.append(img.name, img);
-      console.log('cromo wrapper: ', this.cromosMap.get(numCromo));
-    });
+    if(this.imagenesColeccion.has(img.name)){
+      console.log('entra hasNameMapDetras');
+      document.forms['cromosForm'][numCromo+'B'].value = null;
+      Swal.fire('Error', 'Ya has seleccionado una imagen con el mismo nombre', 'error');
+    } else {
+      this.imgService.checkImgNameDuplicated('ImagenCromo',img.name).subscribe((data) => {
+        console.log('API file: ', data);
+        this.cromosMap.get(numCromo).imagenDetras = null;
+        Swal.fire('Error', 'La imagen '+img.name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+      }, (notFound) => {
+        console.log('Se puede subir ', img.name);
+        this.cromosMap.get(numCromo).imagenDetras = img.name
+        let imgFile = new FormData();
+        imgFile.append(img.name, img);
+        this.imagenesColeccion.set(img.name, imgFile);
+        console.log('cromo wrapper: ', this.cromosMap.get(numCromo));
+      });
+    }
+    console.log('fotos coleccion: ', this.imagenesColeccion);
+
   }
 
   unselectImgCromoDetras(index){
     let name = this.cromosMap.get(index).imagenDetras;
     this.cromosMap.get(index).imagenDetras = null;
-    this.cromosMap.get(index).imgData.delete(name);
+    this.imagenesColeccion.delete(name);
+    console.log('fotos coleccion: ', this.imagenesColeccion);
+
   }
 
   /* nombre: string;
@@ -648,17 +690,39 @@ export class RecursosComponent implements OnInit {
   nivel: string;
   coleccionId: number; */
   getCromos(){
-    let auxMap = new Map<number, Cromo[]>();
-    let form = document.forms['cromosForm'];
-    for (let i = 1; i < this.cromosMap.size + 1; i++) {
-      if (form[i+'A'].value == "" || form[i+'parB'].value == "") {
-        return null;
+    let cont = 0;
+    let auxMap = new Map<number, Cromo>();
+    let cromosForm = document.forms['cromosForm'];
+    for (let numCromo = 1; numCromo < this.cromosMap.size + 1; numCromo++) {
+      if (cromosForm['name'+numCromo.toString()].value != '') {
+        if (document.getElementById('name'+numCromo.toString()).style.borderColor == "red")
+          document.getElementById('name'+numCromo.toString()).style.borderColor = "#525f7f";
+        let auxCromo = this.cromosMap.get(numCromo);
+        console.log('name'+numCromo.toString()+': ', cromosForm['name'+numCromo.toString()].value);
+        auxCromo.nombre = cromosForm['name'+numCromo.toString()].value;
+        auxCromo.nivel = cromosForm['nivel'+numCromo.toString()].value;
+        auxCromo.probabilidad = cromosForm['prob'+numCromo.toString()].value;
+        auxMap.set(numCromo, new Cromo(
+          auxCromo.nombre,
+          null,
+          auxCromo.probabilidad,
+          auxCromo.nivel,
+          auxCromo.imagenDelante,
+          auxCromo.imagenDetras
+        ));
+        cont++;
       } else {
-        // auxMap.set(i, { "l": form[i+'A'].value, "r": form[i+'B'].value });
+        document.getElementById('name'+numCromo.toString()).style.borderColor = "red";
+        if(cont != 0) cont--;
       }
     }
-    console.log(auxMap);
-    return auxMap;
+
+    if(cont == this.cromosMap.size){
+      console.log(auxMap);
+      return auxMap;
+    } else {
+      return null;
+    }
   }
 
   addRowCromoForm(){
@@ -976,7 +1040,80 @@ export class RecursosComponent implements OnInit {
   }
 
   uploadColeccion(cromosForm){
+    let ready = false;
 
+    for(let numCromo = 1; numCromo < this.cromosMap.size+1; numCromo++){
+      if(this.coleccionWrapper.dosCaras){
+        if(this.cromosMap.get(numCromo).imagenDelante == null || this.cromosMap.get(numCromo).imagenDetras == null){
+          Swal.fire('Error','Faltan imágenes por añadir en el cromo '+numCromo, 'error');
+        } else {
+          if(this.getCromos() != null){
+            ready = true;
+          }
+         
+        }
+      } else {
+        if(this.cromosMap.get(numCromo).imagenDelante == null){
+          Swal.fire('Error','Falta imagen en el cromo '+numCromo, 'error');
+        } else {
+          if(this.getCromos() != null){
+            ready = true;
+          }
+        }
+      }
+    }
+
+    if(ready){
+      let coleccion = new Coleccion(
+        this.coleccionWrapper.nombre,
+        this.profesor.id,
+        this.coleccionWrapper.imagenColeccion,
+        this.coleccionWrapper.dosCaras
+      );
+      this.rscService.uploadColeccion(coleccion).subscribe((data: Coleccion) => {
+        console.log('respuesta upload coleccion: ', data);
+        if(data != null){
+          let colId = data.id;
+          let cromosData = this.getCromos();
+          let contCromos = 0;
+          let contImgs = 0;
+          for(let cromo of cromosData.values()){
+            cromo.coleccionId = colId;
+            contCromos++;
+            console.log('cont cromos: ', contCromos, cromosData.size);
+            this.rscService.uploadCromos(cromo).subscribe(() => {
+              if(contCromos == cromosData.size){
+                this.imgService.uploadImgColeccion(this.imagenesColeccion.get(this.coleccionWrapper.imagenColeccion))
+                  .subscribe(() => {
+                    this.imagenesColeccion.delete(this.coleccionWrapper.imagenColeccion);
+                    for(let img of this.imagenesColeccion.values()){
+                      this.imgService.uploadImgCromo(img).subscribe((data) => {
+                        console.log('respuesta upload cromos: ', data);
+                        contImgs++;
+                        console.log('cont imgs: ', contImgs, this.imagenesColeccion.size);
+                        if(contImgs == this.imagenesColeccion.size){
+                          Swal.fire('Success', 'Colección subida con éxito', 'success');
+                          this.resetForm();
+                        }
+                      }, (error) => {
+                        Swal.fire('error','Error al subir imagenes del cromo '+(contImgs+1),'error');
+                      })
+                    }
+                  }, (error) => {
+                    console.log(error);
+                    Swal.fire('Error', 'Error al subir imagen colección', 'error');
+                  });
+              }
+            }, (error) => {
+              console.log(error);
+              Swal.fire('Error', 'Error al subir cromos', 'error');
+            })
+          }
+        }
+      }, (error) => {
+        Swal.fire('Error','Error al subir colección', 'error');
+      })
+    }
   }
 }
 
@@ -1071,9 +1208,6 @@ class ColeccionWrapper {
     this.imagenColeccion = null;
     this.dosCaras = false;
     this.profesorId = null;
-    for(let i = 0; i < 6; i++){
-      this.cromos.push(new CromoWrapper());
-    }
   }
 }
 
@@ -1081,7 +1215,6 @@ class CromoWrapper {
   nombre: string;
   imagenDelante: string;
   imagenDetras: string;
-  imgData: FormData;
   probabilidad: string;
   nivel: string;
   coleccionId: number;
@@ -1093,7 +1226,6 @@ class CromoWrapper {
     this.nivel = null;
     this.imagenDelante = null;
     this.imagenDetras = null;
-    this.imgData = new FormData();
     this.coleccionId = null;
   }
 }

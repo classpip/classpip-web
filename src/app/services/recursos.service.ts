@@ -129,6 +129,6 @@ export class RecursosService {
   }
 
   public uploadCromos(cromo: Cromo){
-    return this.http.post(this.APIUrlColecciones + cromo.coleccionId + '/cromos', cromo);
+    return this.http.post(this.APIUrlColecciones + '/' + cromo.coleccionId + '/cromos', cromo);
   }
 }

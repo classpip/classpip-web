@@ -7,12 +7,11 @@ export class Coleccion {
   profesorId: number;
   cromos: Cromo[];
 
-  constructor(nombre: string, profesorId: number, imagenColeccion: string, dosCaras: boolean, cromos:Cromo[]) {
+  constructor(nombre: string, profesorId: number, imagenColeccion: string, dosCaras: boolean) {
 
     this.nombre = nombre;
     this.imagenColeccion = imagenColeccion;
     this.dosCaras = dosCaras;
     this.profesorId = profesorId;
-    this.cromos = cromos;
   }
 }
