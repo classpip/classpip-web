@@ -83,7 +83,8 @@
                                     </button>
                                     &nbsp;
                                     <button type="button" rel="tooltip" class="btn btn-sm btn-primary btn-roundbtn-icon"
-                                        placement="bottom" tooltip="Recomendaciones de uso">
+                                        placement="bottom" tooltip="Recomendaciones de uso"
+                                        (click)="showRecomendations(modalRecomendations, rsc)">
                                         <i class="tim-icons icon-bulb-63"></i>
                                     </button>
                                     &nbsp;
@@ -108,7 +109,8 @@
                                 </td>
 
                                 <td class="checkbox" *ngIf="isPreguntas()">
-                                    <input id="check{{indice}}" type="checkbox"  (change)="isSelected($event, indice, rsc)"/>
+                                    <input id="check{{indice}}" type="checkbox"
+                                        (change)="isSelected($event, indice, rsc)" />
                                 </td>
                             </tr>
                         </tbody>
@@ -247,4 +249,33 @@
     </div>
 </div>
 
+<!-- POPUP RECOMENDACIONES -->
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black"
+    #modalRecomendations="bs-modal" id="modalRecomendations" role="dialog" tabindex="-1">
+    <div class="modal-dialog" *ngIf="this.rscModal != null">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h4 class="title title-up" style="text-align: center;">Recomendaciones de uso</h4>
+            </div>
+            <div class="modal-body" style="text-align: center; margin-left: auto; margin-right: auto;">
+                <!-- Aqui va "recomendaciones" -->
+                <div *ngIf="this.rscModal.nombreRecurso != null; else noRecomendation">
+                    Esto es una recomendación de {{this.rscModal.nombreRecurso}}
+                </div>
+                <ng-template #noRecomendation>
+                    No hay recomendaciones para este recurso
+                </ng-template>
+
+            </div>
+            <div class="modal-footer">
+                <div style="text-align: center; margin-left: auto; margin-right: auto;">
+                    <button class="btn btn-danger" data-dismiss="modal" type="button"
+                        (click)="modalRecomendations.hide()">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <app-footer></app-footer>

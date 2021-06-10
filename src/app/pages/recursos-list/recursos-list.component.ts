@@ -1033,7 +1033,17 @@ export class RecursosListComponent implements OnInit {
     }
   }
 
+/************************************* */
+/*RECOMENDACIONES USO*/
+/*********************************** */
 
+rscModal;
+
+showRecomendations(modal, rsc: any){
+  modal.show();
+  
+  this.rscModal = rsc;
+}
 
 }
 
