@@ -270,7 +270,7 @@
                       class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
                   &nbsp;
                   <span class="imgName" *ngIf="this.preguntaWrapper.imagen == null">Ninguna imagen seleccionada</span>
-                  <span class="imgName"
+                  <span style="color: violet" class="imgName"
                     *ngIf="this.preguntaWrapper.imagen != null">{{this.preguntaWrapper.imagen}}</span>
                   <br><br>
                 </div>
@@ -347,8 +347,8 @@
                   <button class="btn btn-default" (click)="activarInputImagen('imgColeccion')"><i
                       class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
                   &nbsp;
-                  <span class="imgName" *ngIf="this.coleccionWrapper.imagenColeccion== null">Ninguna imagen seleccionada</span>
-                  <span class="imgName" *ngIf="this.coleccionWrapper.imagenColeccion != null">{{this.coleccionWrapper.imagenColeccion}}</span>
+                  <span class="imgName" *ngIf="this.coleccionWrapper.imagenColeccion == null">Ninguna imagen seleccionada</span>
+                  <span style="color: violet" class="imgName" *ngIf="this.coleccionWrapper.imagenColeccion != null">{{this.coleccionWrapper.imagenColeccion}}</span>
                   <br><br>
               </div>
             </div>
@@ -357,8 +357,7 @@
             <div *ngIf="this.cromosForm">
               <form name='cromosForm'>
                 <div class="form-row">
-                  <label style="margin-left: auto; margin-right: auto;">Añade
-                    primero las filas</label>
+                  <label style="margin-left: auto; margin-right: auto;">Añade primero las filas</label>
                 </div>
                 <div *ngFor="let cromo of cromosMap | keyvalue">
                   <label for="data{{cromo.key}}">Cromo {{cromo.key}}<span *ngIf="cromo.key <= 6">*</span>
@@ -367,26 +366,66 @@
                     class='tim-icons icon-trash-simple' style="color: red;"></i></span>
                   <div class="form-row" id="data{{cromo.key}}">
                     <div class="form-group col-md-4">
-                      <label for="prob{{cromo.key}}">Nombre</label>
+                      <label for="name{{cromo.key}}">Nombre</label>
                       <input type="text" class="form-control" id="name{{cromo.key}}" placeholder="Nombre">
                     </div>
                     <div class="form-group col-md-4">
                       <label for="prob{{cromo.key}}">Probabilidad</label>
-                      <input type="text" class="form-control" id="prob{{cromo.key}}" placeholder="Probabilidad">
+                      <select type="text" class="form-control" id="prob{{cromo.key}}" placeholder="Probabilidad">
+                        <option style="color: black;">Muy alta</option>
+                        <option style="color: black;">Alta</option>
+                        <option style="color: black;">Baja</option>
+                        <option style="color: black;">Muy baja</option>
+                      </select>
                     </div>
                     <div class="form-group col-md-4">
                       <label for="nivel{{cromo.key}}">Nivel</label>
-                      <input type="text" class="form-control" id="nivel{{cromo.key}}" placeholder="Nivel">
+                      <select type="text" class="form-control" id="nivel{{cromo.key}}" placeholder="Nivel">
+                        <option style="color: black;">Bronce</option>
+                        <option style="color: black;">Plata</option>
+                        <option style="color: black;">Oro</option>
+                        <option style="color: black;">Diamante</option>
+
+                      </select>
                     </div>
                   </div>
-                  <div class="form-row">
+                  <div class="form-row" *ngIf="this.coleccionWrapper.dosCaras" >
                     <div class="form-group col-md-6">
-                      <label for="{{cromo.key}}A"><button class="btn btn-small btn-default">Imagen delantera</button></label>
-                      <input type="file" accept="image/*" class="form-control" id="{{cromo.key}}A" (change)="getImgDelanteCromos($event, cromo.key)">
+                      <label for="{{cromo.key}}A" *ngIf="this.cromosMap.get(cromo.key).imagenDelante == null">
+                        <button class="btn btn-small btn-default" (click)="activarInputCromoDelante(cromo.key.toString()+'A')">Imagen delantera</button>
+                      </label>
+                      <input type="file" accept="image/*" class="form-control" id="{{cromo.key}}A" (change)="getImgDelanteCromos($event, cromo.key)" style="display: none;">
+                      
+                      <span style="color: violet" class="imgName" *ngIf="this.cromosMap.get(cromo.key).imagenDelante != null">
+                        <span>{{this.cromosMap.get(cromo.key).imagenDelante}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgCromoDelante(cromo.key)"></i></span>
+                      </span>
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="{{cromo.key}}B"><button class="btn btn-small btn-default">Imagen trasera</button></label>
-                      <input type="file" accept="image/*" class="form-control" id="{{cromo.key}}B" (change)="getImgDetrasCromos($event, cromo.key)">
+                      <label for="{{cromo.key}}B" *ngIf="this.cromosMap.get(cromo.key).imagenDetras == null">
+                        <button class="btn btn-small btn-default" (click)="activarInputCromoDetras(cromo.key.toString()+'B')">Imagen trasera</button>
+                      </label>
+                      <input type="file" accept="image/*" class="form-control" id="{{cromo.key}}B" (change)="getImgDetrasCromos($event, cromo.key)" style="display: none;">
+                      
+                      <span style="color: violet" class="imgName" *ngIf="this.cromosMap.get(cromo.key).imagenDetras != null">
+                        <span>{{this.cromosMap.get(cromo.key).imagenDetras}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgCromoDetras(cromo.key)"></i></span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="form-row" *ngIf="!this.coleccionWrapper.dosCaras" >
+                    <div class="form-group">
+                      <label for="{{cromo.key}}A">
+                        <button class="btn btn-small btn-default" (click)="activarInputCromoDelante(cromo.key.toString()+'A')">
+                          <i class="tim-icons icon-attach-87"></i>&nbsp;Imagen
+                        </button>
+                      </label>
+                      <input type="file" accept="image/*" class="form-control" id="{{cromo.key}}A" (change)="getImgDelanteCromos($event, cromo.key.toString()+'A')" style="display: none;">
+                      &nbsp;
+                      <span class="imgName" *ngIf="this.cromosMap.get(cromo.key).imagenDelante == null">
+                        Ninguna imagen seleccionada
+                      </span>
+                      <span style="color: violet" class="imgName" *ngIf="this.cromosMap.get(cromo.key).imagenDelante != null">
+                        <span>{{this.cromosMap.get(cromo.key).imagenDelante}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgCromoDelante(cromo.key)"></i></span>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -435,7 +474,7 @@
                       class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
                   &nbsp;
                   <span class="imgName" *ngIf="this.avatarWrapper.silueta == null">Ninguna imagen seleccionada</span>
-                  <span class="imgName" *ngIf="this.avatarWrapper.silueta != null">{{this.avatarWrapper.silueta}}</span>
+                  <span style="color: violet" class="imgName" *ngIf="this.avatarWrapper.silueta != null">{{this.avatarWrapper.silueta}}</span>
                   <br><br>
                 </div>
                 <div class="form-group">
@@ -448,7 +487,7 @@
                   <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento1.length != 0" (click)="activarInputImagen('imgComp1')" >Cambiar imagenes</button>
                   &nbsp;
                   <span class="imgName" *ngIf="this.avatarWrapper.complemento1.length == 0">Ninguna imagen seleccionada</span>
-                  <span class="imgName" *ngIf="this.avatarWrapper.complemento1.length != 0">
+                  <span style="color: violet" class="imgName" *ngIf="this.avatarWrapper.complemento1.length != 0">
                     <span *ngFor="let imgName of this.avatarWrapper.complemento1"><br>{{imgName}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgAvatar(1, imgName)"></i></span>
                   </span>
                   <br><br>
@@ -463,7 +502,7 @@
                   <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento2.length != 0" (click)="activarInputImagen('imgComp2')">Cambiar imagenes</button>
                   &nbsp;
                   <span class="imgName" *ngIf="this.avatarWrapper.complemento2.length == 0">Ninguna imagen seleccionada</span>
-                  <span class="imgName" *ngIf="this.avatarWrapper.complemento2.length != 0">
+                  <span style="color: violet" class="imgName" *ngIf="this.avatarWrapper.complemento2.length != 0">
                     <span *ngFor="let imgName of this.avatarWrapper.complemento2"><br>{{imgName}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgAvatar(2, imgName)"></i></span>
                   </span>
                   <br><br>
@@ -478,7 +517,7 @@
                   <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento3.length != 0" (click)="activarInputImagen('imgComp3')">Cambiar imagenes</button>
                   &nbsp;
                   <span class="imgName" *ngIf="this.avatarWrapper.complemento3.length == 0">Ninguna imagen seleccionada</span>
-                  <span class="imgName" *ngIf="this.avatarWrapper.complemento3.length != 0">
+                  <span style="color: violet" class="imgName" *ngIf="this.avatarWrapper.complemento3.length != 0">
                     <span *ngFor="let imgName of this.avatarWrapper.complemento3"><br>{{imgName}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgAvatar(3, imgName)"></i></span>
                   </span>
                   <br><br>
@@ -493,7 +532,7 @@
                   <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento4.length != 0" (click)="activarInputImagen('imgComp4')">Cambiar imagenes</button>
                   &nbsp;
                   <span class="imgName" *ngIf="this.avatarWrapper.complemento4.length == 0">Ninguna imagen seleccionada</span>
-                  <span class="imgName" *ngIf="this.avatarWrapper.complemento4.length != 0">
+                  <span style="color: violet" class="imgName" *ngIf="this.avatarWrapper.complemento4.length != 0">
                     <span *ngFor="let imgName of this.avatarWrapper.complemento4"><br>{{imgName}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgAvatar(4, imgName)"></i></span>
                   </span>
                   <br><br>
@@ -520,7 +559,7 @@
               &nbsp;
               <span class="imgName" *ngIf="this.imgPerfilWrapper.imagenes.length == 0">Ninguna imagen
                 seleccionada</span>
-              <span class="imgName" *ngIf="this.imgPerfilWrapper.imagenes.length != 0">
+              <span style="color: violet" class="imgName" *ngIf="this.imgPerfilWrapper.imagenes.length != 0">
                 <span *ngFor="let imgName of this.imgPerfilWrapper.imagenes"><br>{{imgName}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgPerfil(imgName)"></i></span>
               </span>
               <br><br>

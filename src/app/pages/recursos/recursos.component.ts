@@ -62,7 +62,7 @@ export class RecursosComponent implements OnInit {
   cromosForm: boolean = false;
   imgColeccion: FormData;
   imagenesCromos: FormData;
-  cromosMap: Map<number, Cromo[]> = new Map<number, Cromo[]>();
+  cromosMap: Map<number, CromoWrapper> = new Map<number, CromoWrapper>();
   newColeccion: Coleccion;
 
   //Variables subir imagenes perfil
@@ -93,12 +93,11 @@ export class RecursosComponent implements OnInit {
     for (let i = 1; i < 5; i++) {
       this.parejasMap.set(i, new Object);
     }
-    console.log('parejas map: ' + this.parejasMap);
 
     for (let i = 1; i < 7; i++) {
-      this.cromosMap.set(i, new Array<Cromo>());
+      this.cromosMap.set(i, new CromoWrapper());
     }
-    console.log('cromos map: ' + this.cromosMap);
+    
 
     this.preguntaWrapper = new PreguntaWrapper();
     this.avatarWrapper = new AvatarWrapper();
@@ -121,6 +120,11 @@ export class RecursosComponent implements OnInit {
 
     this.form.reset();
     this.modalUploadRsc.hide();
+
+    this.avatarWrapper = new AvatarWrapper();
+    this.preguntaWrapper = new PreguntaWrapper();
+    this.coleccionWrapper = new ColeccionWrapper();
+    this.imgPerfilWrapper = new ImagenesPerfilWrapper();
   }
 
   //Función auxiliar para customizar las inputs de las imagenes
@@ -551,6 +555,7 @@ export class RecursosComponent implements OnInit {
       this.coleccionWrapper.dosCaras = true;
       cont++;
     } else {
+      this.coleccionWrapper.dosCaras = false;
       cont++;
     }
 
@@ -583,12 +588,57 @@ export class RecursosComponent implements OnInit {
     });
   }
 
+  activarInputCromoDelante(inputId){
+    console.log('inputIMG: '+inputId);
+    document.getElementById(inputId).click();
+  }
+
   getImgDelanteCromos($event, numCromo){
-    console.log('falta x desarrollar imagenes cromos (linea 579)');
+    console.log($event.target.files[0]);
+    let img = $event.target.files[0];
+    
+    this.imgService.checkImgNameDuplicated('ImagenCromo',img.name).subscribe((data) => {
+      console.log('API file: ', data);
+      this.cromosMap.get(numCromo).imagenDelante = null;
+      Swal.fire('Error', 'La imagen '+img.name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+    }, (notFound) => {
+      console.log('Se puede subir ', img.name);
+      this.cromosMap.get(numCromo).imagenDelante = img.name
+      this.cromosMap.get(numCromo).imgData.append(img.name, img);
+      console.log('cromo wrapper: ', this.cromosMap.get(numCromo));
+    });
+  }
+
+  unselectImgCromoDelante(index){
+    let name = this.cromosMap.get(index).imagenDelante;
+    this.cromosMap.get(index).imagenDelante = null;
+    this.cromosMap.get(index).imgData.delete(name);
+  }
+
+  activarInputCromoDetras(inputId){
+    document.getElementById(inputId).click();
   }
 
   getImgDetrasCromos($event, numCromo){
-    console.log('falta x desarrollar imagenes cromos (linea 579)');
+    console.log($event.target.files[0]);
+    let img = $event.target.files[0];
+    
+    this.imgService.checkImgNameDuplicated('ImagenCromo',img.name).subscribe((data) => {
+      console.log('API file: ', data);
+      this.cromosMap.get(numCromo).imagenDetras = null;
+      Swal.fire('Error', 'La imagen '+img.name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+    }, (notFound) => {
+      console.log('Se puede subir ', img.name);
+      this.cromosMap.get(numCromo).imagenDetras = img.name
+      this.cromosMap.get(numCromo).imgData.append(img.name, img);
+      console.log('cromo wrapper: ', this.cromosMap.get(numCromo));
+    });
+  }
+
+  unselectImgCromoDetras(index){
+    let name = this.cromosMap.get(index).imagenDetras;
+    this.cromosMap.get(index).imagenDetras = null;
+    this.cromosMap.get(index).imgData.delete(name);
   }
 
   /* nombre: string;
@@ -604,7 +654,7 @@ export class RecursosComponent implements OnInit {
       if (form[i+'A'].value == "" || form[i+'parB'].value == "") {
         return null;
       } else {
-        auxMap.set(i, { "l": form[i+'A'].value, "r": form[i+'B'].value });
+        // auxMap.set(i, { "l": form[i+'A'].value, "r": form[i+'B'].value });
       }
     }
     console.log(auxMap);
@@ -613,14 +663,14 @@ export class RecursosComponent implements OnInit {
 
   addRowCromoForm(){
     let form = document.forms['cromosForm'];
-    this.cromosMap.set(this.cromosMap.size + 1, new Array<Cromo>());
+    this.cromosMap.set(this.cromosMap.size + 1, new CromoWrapper());
     let length = form.length;
     length = length + 1;
   }
 
   deleteRowCromoForm(){
     this.cromosMap.delete(this.cromosMap.size);
-    let length = document.forms['parejasForm'].length;
+    let length = document.forms['cromosForm'].length;
     length = length - 1;
   }
 
@@ -1013,7 +1063,7 @@ class ColeccionWrapper {
   imagenColeccion: string;
   dosCaras: boolean;
   profesorId: number;
-  cromos: CromoWrapper[];
+  cromos: CromoWrapper[] = [];
 
   constructor() {
 
@@ -1021,7 +1071,9 @@ class ColeccionWrapper {
     this.imagenColeccion = null;
     this.dosCaras = false;
     this.profesorId = null;
-    this.cromos = [];
+    for(let i = 0; i < 6; i++){
+      this.cromos.push(new CromoWrapper());
+    }
   }
 }
 
@@ -1029,6 +1081,7 @@ class CromoWrapper {
   nombre: string;
   imagenDelante: string;
   imagenDetras: string;
+  imgData: FormData;
   probabilidad: string;
   nivel: string;
   coleccionId: number;
@@ -1040,6 +1093,7 @@ class CromoWrapper {
     this.nivel = null;
     this.imagenDelante = null;
     this.imagenDetras = null;
+    this.imgData = new FormData();
     this.coleccionId = null;
   }
 }
