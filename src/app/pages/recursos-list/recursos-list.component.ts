@@ -56,7 +56,7 @@ export class RecursosListComponent implements OnInit {
   isDownloading = false;
 
   //variable para decargar más de 1 pregunta
-  listDescargas: any [] = [];
+  listDescargas: any[] = [];
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -276,7 +276,7 @@ export class RecursosListComponent implements OnInit {
           if (this.mapProfesores.has(recurso.profesorId)) {
             recurso.propietario = this.mapProfesores.get(recurso.profesorId).nombre + ' ';
             recurso.propietario += this.mapProfesores.get(recurso.profesorId).primerApellido;
-            
+
           } else {
             recurso.propietario = 'Desconocido';
           }
@@ -284,7 +284,7 @@ export class RecursosListComponent implements OnInit {
           if (this.profesor != undefined) {
             recurso.isPropietario = this.isPropietario(recurso);
           }
-          
+
         });
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function (obj) {
@@ -582,8 +582,8 @@ export class RecursosListComponent implements OnInit {
   }
 
   //Función para seleccionar varios recursos a descargar
-  isSelected(rsc: any){
-    rsc.isSelected =  true;
+  isSelected(rsc: any) {
+    rsc.isSelected = true;
     console.log(rsc)
   }
 
@@ -810,42 +810,66 @@ export class RecursosListComponent implements OnInit {
   }
 
   //Función para descargar todas las preguntas que seleccione
-  descargaPerguntasSeleccionadas(){
+  descargaPerguntasSeleccionadas() {
 
     let zip = new JSZip();
-    
-    this.listRecursos.forEach(recurso =>{
-      if(recurso.isSelected == true){
+
+    this.listRecursos.forEach(recurso => {
+      if (recurso.isSelected == true) {
         this.listDescargas.push(recurso);
-       
-      }      
+
+      }
     })
     console.log("lista descargas:", this.listDescargas);
-    let json=JSON.stringify(this.listDescargas)
+    let json = JSON.stringify(this.listDescargas)
 
-    
+
     zip.file("Fichero.json", json);
+
+    let imageNames = new Array<string>();
 
     this.listDescargas.forEach(recurso => {
       if (recurso.imagen != null) {
-        let folder = zip.folder("Imagenes");
-        this.imagenesService.downloadImgPregunta(recurso.imagen).subscribe((data: any) => {
-          console.log("DATA:" + recurso.imagen, data)
-          
-          zip.file("tus muertos");            
-        });
-         
+        imageNames.push(recurso.imagen);
       }
     })
-  
-    zip.generateAsync({ type: "blob" }).then(function (blob) {
-      saveAs(blob, "Preguntas.zip");
-    }, function (err) {
-      console.log(err);
-      this.isDownloading = false;
-      Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
-    })       
-  
+
+    if (imageNames.length > 0) {
+      let folder = zip.folder("Imagenes");
+      let count = 0;
+      imageNames.forEach(img => {
+        this.imagenesService.downloadImgPregunta(img).subscribe((data: any) => {
+          console.log("DATA:" + img, data)
+          folder.file(`${img}`, data);
+          count++;
+          if (count == imageNames.length) {
+            zip.generateAsync({ type: "blob" }).then(function (blob) {
+              saveAs(blob, "Preguntas.zip");
+            }, function (err) {
+              console.log(err);
+             
+              Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+            })
+          }
+
+
+        });
+      })
+
+
+    }
+    else {
+      zip.generateAsync({ type: "blob" }).then(function (blob) {
+        saveAs(blob, "Preguntas.zip");
+      }, function (err) {
+        console.log(err);
+    
+        Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+      })
+
+    }
+
+
   }
 
   /********************************/
@@ -912,7 +936,7 @@ export class RecursosListComponent implements OnInit {
     }
   }
 
-  
+
 
 }
 
