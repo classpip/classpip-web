@@ -218,15 +218,17 @@
                 <h4 class="title title-up" style="text-align: center;">¿QUIERES DESCARGAR UN FICHERO JSON CONJUNTO O UNO
                     POR CADA PERGUNTA?</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="text-align: center; margin-left: auto; margin-right: auto;">
 
                 <button class="btn btn-success" data-dismiss="modal" type="button"
                     (click)="modalDownloadQuestions.hide();  descargaPerguntasSeleccionadas()">
+                    <i class="tim-icons icon-notes"></i>
                     JSON CONJUNTO
                 </button>
                 &nbsp;
                 <button class="btn btn-primary" data-dismiss="modal" type="button"
-                    (click)="modalDownloadQuestions.hide()">
+                    (click)="modalDownloadQuestions.hide(); descargaPerguntasSeleccionadasIndividual() ">
+                    <i class="tim-icons icon-single-copy-04"></i>
                     JSONs INDIVIDUALES
                 </button>
 
