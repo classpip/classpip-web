@@ -23,7 +23,7 @@
                     &nbsp;
                     <button class="btn " type="button" style="margin-right: auto;"
                         (click)="descargaPerguntasSeleccionadas()">
-                        <i class="tim-icons icon-cloud-download-93"> </i> &nbsp; Desacargar
+                        <i class="tim-icons icon-cloud-download-93"> </i> &nbsp; Descargar
                     </button>
                 </div>
             </div>
@@ -108,7 +108,7 @@
                                 </td>
 
                                 <td class="checkbox" *ngIf="isPreguntas()">
-                                    <input class="checkbox" type="checkbox" (click)="isSelected(rsc)" />
+                                    <input class="checkbox" type="checkbox"  (change)="isSelected($event, indice, rsc)"/>
                                 </td>
                             </tr>
                         </tbody>

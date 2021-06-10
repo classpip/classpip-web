@@ -53,10 +53,11 @@ export class RecursosListComponent implements OnInit {
   backup = null;
   pregunta;
 
-  isDownloading = false;
+  
 
-  //variable para decargar más de 1 pregunta
-  listDescargas: any[] = [];
+  //variables descargas
+  listDescargasPreguntas = new Array<Pregunta>();
+  isDownloading = false;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -492,7 +493,7 @@ export class RecursosListComponent implements OnInit {
             }
             this.mapPreguntasTematica.get(recurso.tematica).push(recurso);
           };
-          recurso.isSelected = false;
+          
         });
 
         if (this.mapPreguntasTipo.size != 0) this.listTipo = Array.from(this.mapPreguntasTipo.keys());
@@ -581,10 +582,18 @@ export class RecursosListComponent implements OnInit {
     }
   }
 
+  mapCheckPreguntas = new Map<number,Pregunta>();
+
   //Función para seleccionar varios recursos a descargar
-  isSelected(rsc: any) {
-    rsc.isSelected = true;
-    console.log(rsc)
+  isSelected($event, index: number, rsc: Pregunta) {
+    if(this.mapCheckPreguntas.has(index)){
+      this.mapCheckPreguntas.delete(index)
+    }
+    else{
+      this.mapCheckPreguntas.set(index,rsc);
+    }
+    console.log("check:", this.mapCheckPreguntas);
+    console.log("event:", $event.checked)
   }
 
   //Función para descargar la colección
@@ -814,21 +823,23 @@ export class RecursosListComponent implements OnInit {
 
     let zip = new JSZip();
 
-    this.listRecursos.forEach(recurso => {
-      if (recurso.isSelected == true) {
-        this.listDescargas.push(recurso);
-
-      }
+    //Creamos un array con las preguntas que queremos descargar para poder crear el json
+    this.mapCheckPreguntas.forEach(recurso =>{
+      this.listDescargasPreguntas.push(recurso);      
     })
-    console.log("lista descargas:", this.listDescargas);
-    let json = JSON.stringify(this.listDescargas)
+
+      
+    
+    console.log("lista descargas:", this.listDescargasPreguntas);
+    let json = JSON.stringify(this.listDescargasPreguntas)
 
 
     zip.file("Fichero.json", json);
 
     let imageNames = new Array<string>();
 
-    this.listDescargas.forEach(recurso => {
+    //Creamos una lista con los nombres de las imagenes de las preguntas, si hay
+    this.listDescargasPreguntas.forEach(recurso => {
       if (recurso.imagen != null) {
         imageNames.push(recurso.imagen);
       }
@@ -855,8 +866,6 @@ export class RecursosListComponent implements OnInit {
 
         });
       })
-
-
     }
     else {
       zip.generateAsync({ type: "blob" }).then(function (blob) {
@@ -869,7 +878,12 @@ export class RecursosListComponent implements OnInit {
 
     }
 
+    this.resetDescargarPreguntasSeleccionadas();
+  }
 
+  resetDescargarPreguntasSeleccionadas(){
+    (<HTMLInputElement>document.getElementsByClassName('checkbox')).value
+    this.listDescargasPreguntas = new Array<Pregunta>();
   }
 
   /********************************/
