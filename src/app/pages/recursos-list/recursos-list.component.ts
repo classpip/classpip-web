@@ -53,10 +53,11 @@ export class RecursosListComponent implements OnInit {
   backup = null;
   pregunta;
 
-  isDownloading = false;
+  
 
-  //variable para decargar más de 1 pregunta
-  listDescargas: any [] = [];
+  //variables descargas
+  listDescargasPreguntas = new Array<Pregunta>();
+  isDownloading = false;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -276,7 +277,7 @@ export class RecursosListComponent implements OnInit {
           if (this.mapProfesores.has(recurso.profesorId)) {
             recurso.propietario = this.mapProfesores.get(recurso.profesorId).nombre + ' ';
             recurso.propietario += this.mapProfesores.get(recurso.profesorId).primerApellido;
-            
+
           } else {
             recurso.propietario = 'Desconocido';
           }
@@ -284,7 +285,7 @@ export class RecursosListComponent implements OnInit {
           if (this.profesor != undefined) {
             recurso.isPropietario = this.isPropietario(recurso);
           }
-          
+
         });
         //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
         this.listRecursos = this.listRecursos.map(function (obj) {
@@ -492,7 +493,7 @@ export class RecursosListComponent implements OnInit {
             }
             this.mapPreguntasTematica.get(recurso.tematica).push(recurso);
           };
-          recurso.isSelected = false;
+          
         });
 
         if (this.mapPreguntasTipo.size != 0) this.listTipo = Array.from(this.mapPreguntasTipo.keys());
@@ -581,10 +582,18 @@ export class RecursosListComponent implements OnInit {
     }
   }
 
+  mapCheckPreguntas = new Map<number,Pregunta>();
+
   //Función para seleccionar varios recursos a descargar
-  isSelected(rsc: any){
-    rsc.isSelected =  true;
-    console.log(rsc)
+  isSelected($event, index: number, rsc: Pregunta) {
+    if(this.mapCheckPreguntas.has(index)){
+      this.mapCheckPreguntas.delete(index)
+    }
+    else{
+      this.mapCheckPreguntas.set(index,rsc);
+    }
+    console.log("check:", this.mapCheckPreguntas);
+    console.log("event:", $event.checked)
   }
 
   //Función para descargar la colección
@@ -810,27 +819,71 @@ export class RecursosListComponent implements OnInit {
   }
 
   //Función para descargar todas las preguntas que seleccione
-  descargaPerguntasSeleccionadas(){
-    this.listRecursos.forEach(recurso =>{
-      if(recurso.isSelected == true){
-        this.listDescargas.push(recurso);
-      }
-      
-    })
-    console.log("lista descargas:", this.listDescargas);
-    let json=JSON.stringify(this.listDescargas)
+  descargaPerguntasSeleccionadas() {
 
     let zip = new JSZip();
-    zip.file(".json", json);
 
-    zip.generateAsync({ type: "blob" }).then(function (blob) {
-      saveAs(blob, "Preguntas.zip");
-    }, function (err) {
-      console.log(err);
-      this.isDownloading = false;
-      Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+    //Creamos un array con las preguntas que queremos descargar para poder crear el json
+    this.mapCheckPreguntas.forEach(recurso =>{
+      this.listDescargasPreguntas.push(recurso);      
     })
+
+      
     
+    console.log("lista descargas:", this.listDescargasPreguntas);
+    let json = JSON.stringify(this.listDescargasPreguntas)
+
+
+    zip.file("Fichero.json", json);
+
+    let imageNames = new Array<string>();
+
+    //Creamos una lista con los nombres de las imagenes de las preguntas, si hay
+    this.listDescargasPreguntas.forEach(recurso => {
+      if (recurso.imagen != null) {
+        imageNames.push(recurso.imagen);
+      }
+    })
+
+    if (imageNames.length > 0) {
+      let folder = zip.folder("Imagenes");
+      let count = 0;
+      imageNames.forEach(img => {
+        this.imagenesService.downloadImgPregunta(img).subscribe((data: any) => {
+          console.log("DATA:" + img, data)
+          folder.file(`${img}`, data);
+          count++;
+          if (count == imageNames.length) {
+            zip.generateAsync({ type: "blob" }).then(function (blob) {
+              saveAs(blob, "Preguntas.zip");
+            }, function (err) {
+              console.log(err);
+             
+              Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+            })
+          }
+
+
+        });
+      })
+    }
+    else {
+      zip.generateAsync({ type: "blob" }).then(function (blob) {
+        saveAs(blob, "Preguntas.zip");
+      }, function (err) {
+        console.log(err);
+    
+        Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+      })
+
+    }
+
+    this.resetDescargarPreguntasSeleccionadas();
+  }
+
+  resetDescargarPreguntasSeleccionadas(){
+    (<HTMLInputElement>document.getElementsByClassName('checkbox')).value
+    this.listDescargasPreguntas = new Array<Pregunta>();
   }
 
   /********************************/
@@ -897,7 +950,7 @@ export class RecursosListComponent implements OnInit {
     }
   }
 
-  
+
 
 }
 
