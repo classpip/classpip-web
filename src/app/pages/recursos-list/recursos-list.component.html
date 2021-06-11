@@ -42,13 +42,18 @@
                                 <th class="text-center" width="20px" *ngIf="isPreguntas()">Tipo</th>
 
                                 <th class="text-center" width="20px">ACCIONES</th>
-                                <th class="text-center" width="10px" *ngIf="isPreguntas()">SELECCIONA</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
                             <!-- 4 COLUMNAS: Numero, nombre, propietario y boton. Silueta???? -->
                             <tr *ngFor="let rsc of listRecursos; let indice=index">
-                                <td class="text-center" width="40px">{{indice + 1}}</td>
+                                
+                                <td class="text-center" width="40px">{{indice + 1}}
+                                    &nbsp;
+                                    <input id="check{{indice}}" type="checkbox"
+                                        (change)="isSelected($event, indice, rsc)" />
+                                </td>
                                 <td class="text-center" width="100px">{{rsc.nombreRecurso}}</td>
                                 <td class="text-center" width="100px" *ngIf="isLoggedIn()">{{rsc.propietario}}</td>
                                 <td class="text-center" width="100px" *ngIf="isPreguntas()">{{rsc.tematica}}</td>
@@ -108,10 +113,7 @@
                                     &nbsp;
                                 </td>
 
-                                <td class="checkbox" *ngIf="isPreguntas()">
-                                    <input id="check{{indice}}" type="checkbox"
-                                        (change)="isSelected($event, indice, rsc)" />
-                                </td>
+                               
                             </tr>
                         </tbody>
                     </table>
@@ -259,8 +261,8 @@
             </div>
             <div class="modal-body" style="text-align: center; margin-left: auto; margin-right: auto;">
                 <!-- Aqui va "recomendaciones" -->
-                <div *ngIf="this.rscModal.nombreRecurso != null; else noRecomendation">
-                    Esto es una recomendación de {{this.rscModal.nombreRecurso}}
+                <div *ngIf="this.rscModal.recomendacion != null; else noRecomendation">
+                    {{this.rscModal.recomendacion}}
                 </div>
                 <ng-template #noRecomendation>
                     No hay recomendaciones para este recurso

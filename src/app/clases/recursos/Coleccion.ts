@@ -6,6 +6,7 @@ export class Coleccion {
   id: number;
   profesorId: number;
   cromos: Cromo[];
+  recomendacion: string;
 
   constructor(nombre: string, profesorId: number, imagenColeccion: string, dosCaras: boolean) {
 

@@ -1043,6 +1043,8 @@ showRecomendations(modal, rsc: any){
   modal.show();
   
   this.rscModal = rsc;
+  console.log("rsc:", this.rscModal);
+  console.log("recom:", this.rscModal.recomendacion)
 }
 
 }
