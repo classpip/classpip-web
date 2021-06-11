@@ -39,6 +39,7 @@ export class RecursosComponent implements OnInit {
   rscJsonName = null;
   imgsJson: FormData;
   imgsJsonNames = new Array<string>();
+  ejemploJSON: string;
 
   //Variables wrappers para subir recursos (clases al final del documento)
   preguntaWrapper: PreguntaWrapper;
@@ -107,6 +108,12 @@ export class RecursosComponent implements OnInit {
     this.avatarWrapper = new AvatarWrapper();
     this.coleccionWrapper = new ColeccionWrapper();
     this.imgPerfilWrapper = new ImagenesPerfilWrapper();
+
+    console.log(JSON.stringify(this.preguntaWrapper));
+    console.log(JSON.stringify(this.avatarWrapper));
+    console.log(JSON.stringify(this.coleccionWrapper));
+    console.log(JSON.stringify(this.imgPerfilWrapper));
+
   }
 
   //Obtenemos el componente modal para poder cerrarlo desde aquí
@@ -185,6 +192,42 @@ export class RecursosComponent implements OnInit {
 
   activarInputJSON(){
     document.getElementById("json").click();
+  }
+
+  showInfoJson(){
+    let mensaje2;
+    let mensaje = 'Para subir un recurso de tipo '+this.typeRscUpload+' a través de un archivo JSON, debes asegurarte de que el fichero cumple con los requisitos del modelo.\n\n ';
+    mensaje += 'EJEMPLO MODELO '+this.typeRscUpload +'\n\n';
+    switch(this.typeRscUpload){
+      case 'Pregunta':{
+        mensaje += '{\n\"titulo\":\"text\",\n\"tipo\":\"text\",\n\"pregunta\":\"text\",\n'
+        +'\"tematica\":\"text\",\n\"imagen\":\"nombre-imagen.png\",\n\"feedbackCorrecto\":\"text\",\n'
+        +'\"feedbackIncorrecto\":\"text\",\n\"respuestaCorrecta\":\"text\",\n\"respuestaIncorrecta1\":\"text\",\n'
+        +'\"respuestaIncorrecta2\":\"text\",\n\"respuestaIncorrecta3\":\"text\",\n\"emparejamientos\":\n[\n'
+        +'{\"l\": \"Valor 1\", \"r\": \"Valor 2\"},\n'
+        +']\n}\n\n';
+        
+        mensaje2 = 'Según el tipo, se rellenan unos datos especificos. Los datos que no necesites, no los pongas o asígnales valor null (sin comillas). ';
+        mensaje2 += 'Los casos según el tipo de pregunta son los siguientes (en cualquier caso, la imagen en las preguntas es opcional):\n\n'
+        mensaje2 += '- Cuatro opciones: todos los campos menos emparejamientos.\n\n';
+        mensaje2 += '- Verdadero o falso: campos respuestaIncorrectaX y emparejamientos no necesarios, "respuestaCorrecta":true/false.\n\n';
+        mensaje2 += '- Respuesta abierta: campos respuestaIncorrectaX y emparejamientos no necesarios.\n\n';
+        mensaje2 += '- Emparejamiento: campos respuesta no necesarios, poner tantos elementos en emparejamientos como parejas deseadas.\n\n';
+
+        break;
+      }
+      case 'Colección': {
+        
+      }
+      case 'Avatar': {
+        
+      }
+      case 'Imágenes de perfil': {
+        
+      }
+    }
+    alert(mensaje);
+    if(mensaje2 != null) alert(mensaje2);
   }
 
   getRscJSON($event){
@@ -288,13 +331,12 @@ export class RecursosComponent implements OnInit {
     this.imgsJson.delete(imgName);
   }
 
-  verifyImagenes(typeRsc, imgNames, json){
+  verifyDataJson(typeRsc, json, imgNames){
     switch(typeRsc){
       case 'Pregunta': {
         if(json.imagen == imgNames[0])
           return true;
         else return false;
-        break;
       }
     }
   }
@@ -308,7 +350,7 @@ export class RecursosComponent implements OnInit {
       case 'Pregunta':{
         console.log(this.rscJson);
         if(this.imgsJsonNames.length == 1 && this.rscJson.imagen != null){
-          if(this.verifyImagenes(this.typeRscUpload, this.imgsJsonNames, this.rscJson)){
+          if(this.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames)){
             let pregunta = new Pregunta(
               this.rscJson.titulo,
               this.rscJson.tipo,

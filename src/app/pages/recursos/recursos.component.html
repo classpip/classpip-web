@@ -228,6 +228,8 @@
           <div *ngIf="this.typeRscUpload != undefined && this.uploadByJson == true">
             <div class="form-group">
               <label for="json">Fichero JSON*</label>
+              &nbsp;&nbsp;&nbsp;
+              <span class="jsonHelp" (click)="showInfoJson()"><i class="tim-icons icon-bulb-63"></i>&nbsp;AYUDA</span>
               <br>
               <button class="btn btn-default" *ngIf="this.rscJson == null" (click)="activarInputJSON()">Seleccionar
                 archivo</button>
@@ -243,7 +245,8 @@
               <input #file id="imgsJson" type="file" accept="image/*" multiple (change)="getImagenesJSON($event)"
                 style="display: none;">
               <br>
-              <button class="btn btn-default" (click)="activarInputImgsJson()"><i class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagenes</button>
+              <button class="btn btn-default" (click)="activarInputImgsJson()"><i
+                  class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagenes</button>
               <!-- <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento1.length != 0"
                 (click)="activarInputImagen('imgComp1')">Cambiar imagenes</button> -->
               &nbsp;
@@ -699,5 +702,6 @@
     </div>
   </div>
 </div>
+
 
 <app-footer></app-footer>
