@@ -207,13 +207,13 @@ export class RecursosComponent implements OnInit {
         +'{\"l\": \"Valor 1\", \"r\": \"Valor 2\"},\n'
         +']\n}\n\n';
         
-        mensaje2 = 'Según el tipo, se rellenan unos datos especificos. Los datos que no necesites, no los pongas o asígnales valor null (sin comillas). ';
+        mensaje2 = 'Según el tipo, se rellenan unos datos especificos. Los datos que no necesites, no los pongas o asígnales valor null (sin comillas). '
         + 'Los casos según el tipo de pregunta son los siguientes (en cualquier caso, la imagen en las preguntas es opcional):\n\n'
-        + '- Cuatro opciones: todos los campos menos emparejamientos.\n\n';
-        + '- Verdadero o falso: campos respuestaIncorrectaX y emparejamientos no necesarios, "respuestaCorrecta":true/false.\n\n';
-        + '- Respuesta abierta: campos respuestaIncorrectaX y emparejamientos no necesarios.\n\n';
-        + '- Emparejamiento: campos respuesta no necesarios, poner tantos elementos en emparejamientos como parejas deseadas.\n\n';
-
+        + '- Cuatro opciones: todos los campos menos emparejamientos.\n\n'
+        + '- Verdadero o falso: campos respuestaIncorrectaX y emparejamientos no necesarios, "respuestaCorrecta":true/false.\n\n'
+        + '- Respuesta abierta: campos respuestaIncorrectaX y emparejamientos no necesarios.\n\n'
+        + '- Emparejamiento: campos respuesta no necesarios, poner tantos elementos en emparejamientos como parejas deseadas.\n\n'
+        + 'Asegúrate de que el tipo del JSON coincide con los tipos especificados.'
         break;
       }
       case 'Colección': {
