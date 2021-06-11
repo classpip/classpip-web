@@ -208,11 +208,11 @@ export class RecursosComponent implements OnInit {
         +']\n}\n\n';
         
         mensaje2 = 'Según el tipo, se rellenan unos datos especificos. Los datos que no necesites, no los pongas o asígnales valor null (sin comillas). ';
-        mensaje2 += 'Los casos según el tipo de pregunta son los siguientes (en cualquier caso, la imagen en las preguntas es opcional):\n\n'
-        mensaje2 += '- Cuatro opciones: todos los campos menos emparejamientos.\n\n';
-        mensaje2 += '- Verdadero o falso: campos respuestaIncorrectaX y emparejamientos no necesarios, "respuestaCorrecta":true/false.\n\n';
-        mensaje2 += '- Respuesta abierta: campos respuestaIncorrectaX y emparejamientos no necesarios.\n\n';
-        mensaje2 += '- Emparejamiento: campos respuesta no necesarios, poner tantos elementos en emparejamientos como parejas deseadas.\n\n';
+        + 'Los casos según el tipo de pregunta son los siguientes (en cualquier caso, la imagen en las preguntas es opcional):\n\n'
+        + '- Cuatro opciones: todos los campos menos emparejamientos.\n\n';
+        + '- Verdadero o falso: campos respuestaIncorrectaX y emparejamientos no necesarios, "respuestaCorrecta":true/false.\n\n';
+        + '- Respuesta abierta: campos respuestaIncorrectaX y emparejamientos no necesarios.\n\n';
+        + '- Emparejamiento: campos respuesta no necesarios, poner tantos elementos en emparejamientos como parejas deseadas.\n\n';
 
         break;
       }
@@ -223,7 +223,10 @@ export class RecursosComponent implements OnInit {
         
       }
       case 'Imágenes de perfil': {
-        
+        mensaje += '{\n\"nombreFamilia\":\"text\",\n\"numeroImagenes\":0,\n'
+        +'\"imagenes\": [ \"imagen1.jpg\", \"imagen2.jpg\", .... ]\n}\n\n';
+
+        mensaje += 'Asegúrate de seleccionar las imágenes cuyo nombre se ha introducido en la cadena de imágenes.\n';
       }
     }
     alert(mensaje);
