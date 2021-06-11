@@ -17,12 +17,12 @@
 
     <div class="container">
       <div *ngIf="this.isLogged == true; else loginWarn">
-      <div class="button" data-target="#modalUploadRsc" style="text-align: center;">
-        <button class="btn btn-success btn-default btn-small" type="submit" (click)="modalUploadRsc.show()">
-          Subir recurso <i class="tim-icons icon-simple-add"> </i>
-        </button>
-      </div>
-      <br>
+        <div class="button" data-target="#modalUploadRsc" style="text-align: center;">
+          <button class="btn btn-success btn-default btn-small" type="submit" (click)="modalUploadRsc.show()">
+            Subir recurso <i class="tim-icons icon-simple-add"> </i>
+          </button>
+        </div>
+        <br>
       </div>
       <ng-template #loginWarn>
         <div class="card card-upload card-header">
@@ -193,7 +193,8 @@
 
       <div class="modal-body">
         <form name="rscForm">
-          <!-- *********** SELECT TYPE RESOURCE *************** -->
+          <!-- *********** SELECT INITIAL DATA FORM *************** -->
+          <!-- /////////// SELECT TYPE RESOURCE /////////////// -->
           <div *ngIf="this.typeRscUpload == undefined">
             <div class="form-group">
               <label for="typeRsc">Tipo de recurso*</label>
@@ -205,16 +206,21 @@
                 <option style="color: black;">Imágenes de perfil</option>
               </select>
             </div>
-            <!-- *********** SELECT TYPE UPLOAD *************** -->
+            <!-- /////////// SELECT TYPE UPLOAD /////////////// -->
             <div class="form-group">
               <label for="typeUpload" *ngIf="this.uploadByJson == null">¿Cómo quieres subir el recurso?</label>
               <div class="form-row" id="typeUpload" style="margin-right: auto; margin-left: auto; text-align: center;">
-                <button class="btn btn-default" *ngIf="this.uploadByJson == null" (click)="checkUploadJSON(false)">Formulario</button>
+                <button class="btn btn-default" *ngIf="this.uploadByJson == null"
+                  (click)="checkUploadJSON(false)">Formulario</button>
                 &nbsp;
-                <button class="btn btn-default" *ngIf="this.uploadByJson == null" (click)="checkUploadJSON(true)">Fichero JSON</button>
+                <button class="btn btn-default" *ngIf="this.uploadByJson == null"
+                  (click)="checkUploadJSON(true)">Fichero JSON</button>
               </div>
               <span *ngIf="this.uploadByJson == true">Método seleccionado: Fichero JSON</span>
               <span *ngIf="this.uploadByJson == false">Método seleccionado: Formulario</span>
+              &nbsp;
+              <span *ngIf="this.uploadByJson != null"><i class="tim-icons icon-simple-remove"
+                  (click)="this.uploadByJson = null"></i></span>
             </div>
           </div>
 
@@ -222,7 +228,32 @@
           <div *ngIf="this.typeRscUpload != undefined && this.uploadByJson == true">
             <div class="form-group">
               <label for="json">Fichero JSON*</label>
-              <input type="file" id="json">
+              <br>
+              <button class="btn btn-default" *ngIf="this.rscJson == null" (click)="activarInputJSON()">Seleccionar
+                archivo</button>
+              <button class="btn btn-default" *ngIf="this.rscJson != null" (click)="activarInputJSON()">Cambiar
+                archivo</button>
+              <input type="file" id="json" style="display: none;" (change)="getRscJSON($event)">
+              &nbsp;
+              <span class="imgName" *ngIf="this.rscJsonName == null">Ningun archivo seleccionado</span>
+              <span style="color: violet" class="imgName" *ngIf="this.rscJsonName != null">{{this.rscJsonName}}</span>
+            </div>
+            <div class="form-group">
+              <label for="imgsJson">Imágenes del recurso</label>
+              <input #file id="imgsJson" type="file" accept="image/*" multiple (change)="getImagenesJSON($event)"
+                style="display: none;">
+              <br>
+              <button class="btn btn-default" (click)="activarInputImgsJson()"><i class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagenes</button>
+              <!-- <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento1.length != 0"
+                (click)="activarInputImagen('imgComp1')">Cambiar imagenes</button> -->
+              &nbsp;
+              <span class="imgName" *ngIf="this.imgsJson == null">Ninguna imagen
+                seleccionada</span>
+              <br>
+              <span style="color: violet" class="imgName" *ngIf="this.imgsJson != null">
+                <span *ngFor="let imgName of this.imgsJsonNames"><br>{{imgName}} &nbsp; <i
+                    class="tim-icons icon-simple-remove" (click)="unselectImgJson(imgName)"></i></span>
+              </span>
             </div>
           </div>
 
@@ -361,15 +392,17 @@
               </div>
               <div class="form-group">
                 <label for="imgColeccion">Imagen colección</label>
-                  <input #file id="imgColeccion" type="file" accept="image/*" (change)="getImagenColeccion($event)"
-                    style="display: none;">
-                  <br>
-                  <button class="btn btn-default" (click)="activarInputImagen('imgColeccion')"><i
-                      class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
-                  &nbsp;
-                  <span class="imgName" *ngIf="this.coleccionWrapper.imagenColeccion == null">Ninguna imagen seleccionada</span>
-                  <span style="color: violet" class="imgName" *ngIf="this.coleccionWrapper.imagenColeccion != null">{{this.coleccionWrapper.imagenColeccion}}</span>
-                  <br><br>
+                <input #file id="imgColeccion" type="file" accept="image/*" (change)="getImagenColeccion($event)"
+                  style="display: none;">
+                <br>
+                <button class="btn btn-default" (click)="activarInputImagen('imgColeccion')"><i
+                    class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
+                &nbsp;
+                <span class="imgName" *ngIf="this.coleccionWrapper.imagenColeccion == null">Ninguna imagen
+                  seleccionada</span>
+                <span style="color: violet" class="imgName"
+                  *ngIf="this.coleccionWrapper.imagenColeccion != null">{{this.coleccionWrapper.imagenColeccion}}</span>
+                <br><br>
               </div>
             </div>
 
@@ -383,7 +416,7 @@
                   <label for="data{{cromo.key}}">Cromo {{cromo.key}}<span *ngIf="cromo.key <= 6">*</span>
                   </label>
                   <span *ngIf="cromo.key > 6" (click)='deleteRowCromoForm()'>&nbsp;<i
-                    class='tim-icons icon-trash-simple' style="color: red;"></i></span>
+                      class='tim-icons icon-trash-simple' style="color: red;"></i></span>
                   <div class="form-row" id="data{{cromo.key}}">
                     <div class="form-group col-md-4">
                       <label for="name{{cromo.key}}">Nombre</label>
@@ -409,42 +442,56 @@
                       </select>
                     </div>
                   </div>
-                  <div class="form-row" *ngIf="this.coleccionWrapper.dosCaras" >
+                  <div class="form-row" *ngIf="this.coleccionWrapper.dosCaras">
                     <div class="form-group col-md-6">
                       <label for="{{cromo.key}}A" *ngIf="this.cromosMap.get(cromo.key).imagenDelante == null">
-                        <button class="btn btn-small btn-default" (click)="activarInputCromoDelante(cromo.key.toString()+'A')">Imagen delantera</button>
+                        <button class="btn btn-small btn-default"
+                          (click)="activarInputCromoDelante(cromo.key.toString()+'A')">Imagen delantera</button>
                       </label>
-                      <input type="file" accept="image/*" class="form-control" id="{{cromo.key}}A" (change)="getImgDelanteCromos($event, cromo.key)" style="display: none;">
-                      
-                      <span style="color: violet" class="imgName" *ngIf="this.cromosMap.get(cromo.key).imagenDelante != null">
-                        <span>{{this.cromosMap.get(cromo.key).imagenDelante}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgCromoDelante(cromo.key)"></i></span>
+                      <input type="file" accept="image/*" class="form-control" id="{{cromo.key}}A"
+                        (change)="getImgDelanteCromos($event, cromo.key)" style="display: none;">
+
+                      <span style="color: violet" class="imgName"
+                        *ngIf="this.cromosMap.get(cromo.key).imagenDelante != null">
+                        <span>{{this.cromosMap.get(cromo.key).imagenDelante}} &nbsp; <i
+                            class="tim-icons icon-simple-remove"
+                            (click)="unselectImgCromoDelante(cromo.key)"></i></span>
                       </span>
                     </div>
                     <div class="form-group col-md-6">
                       <label for="{{cromo.key}}B" *ngIf="this.cromosMap.get(cromo.key).imagenDetras == null">
-                        <button class="btn btn-small btn-default" (click)="activarInputCromoDetras(cromo.key.toString()+'B')">Imagen trasera</button>
+                        <button class="btn btn-small btn-default"
+                          (click)="activarInputCromoDetras(cromo.key.toString()+'B')">Imagen trasera</button>
                       </label>
-                      <input type="file" accept="image/*" class="form-control" id="{{cromo.key}}B" (change)="getImgDetrasCromos($event, cromo.key)" style="display: none;">
-                      
-                      <span style="color: violet" class="imgName" *ngIf="this.cromosMap.get(cromo.key).imagenDetras != null">
-                        <span>{{this.cromosMap.get(cromo.key).imagenDetras}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgCromoDetras(cromo.key)"></i></span>
+                      <input type="file" accept="image/*" class="form-control" id="{{cromo.key}}B"
+                        (change)="getImgDetrasCromos($event, cromo.key)" style="display: none;">
+
+                      <span style="color: violet" class="imgName"
+                        *ngIf="this.cromosMap.get(cromo.key).imagenDetras != null">
+                        <span>{{this.cromosMap.get(cromo.key).imagenDetras}} &nbsp; <i
+                            class="tim-icons icon-simple-remove" (click)="unselectImgCromoDetras(cromo.key)"></i></span>
                       </span>
                     </div>
                   </div>
-                  <div class="form-row" *ngIf="!this.coleccionWrapper.dosCaras" >
+                  <div class="form-row" *ngIf="!this.coleccionWrapper.dosCaras">
                     <div class="form-group">
                       <label for="{{cromo.key}}A">
-                        <button class="btn btn-small btn-default" (click)="activarInputCromoDelante(cromo.key.toString()+'A')">
+                        <button class="btn btn-small btn-default"
+                          (click)="activarInputCromoDelante(cromo.key.toString()+'A')">
                           <i class="tim-icons icon-attach-87"></i>&nbsp;Imagen
                         </button>
                       </label>
-                      <input type="file" accept="image/*" class="form-control" id="{{cromo.key}}A" (change)="getImgDelanteCromos($event, cromo.key)" style="display: none;">
+                      <input type="file" accept="image/*" class="form-control" id="{{cromo.key}}A"
+                        (change)="getImgDelanteCromos($event, cromo.key)" style="display: none;">
                       &nbsp;
                       <span class="imgName" *ngIf="this.cromosMap.get(cromo.key).imagenDelante == null">
                         Ninguna imagen seleccionada
                       </span>
-                      <span style="color: violet" class="imgName" *ngIf="this.cromosMap.get(cromo.key).imagenDelante != null">
-                        <span>{{this.cromosMap.get(cromo.key).imagenDelante}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgCromoDelante(cromo.key)"></i></span>
+                      <span style="color: violet" class="imgName"
+                        *ngIf="this.cromosMap.get(cromo.key).imagenDelante != null">
+                        <span>{{this.cromosMap.get(cromo.key).imagenDelante}} &nbsp; <i
+                            class="tim-icons icon-simple-remove"
+                            (click)="unselectImgCromoDelante(cromo.key)"></i></span>
                       </span>
                     </div>
                   </div>
@@ -494,7 +541,8 @@
                       class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
                   &nbsp;
                   <span class="imgName" *ngIf="this.avatarWrapper.silueta == null">Ninguna imagen seleccionada</span>
-                  <span style="color: violet" class="imgName" *ngIf="this.avatarWrapper.silueta != null">{{this.avatarWrapper.silueta}}</span>
+                  <span style="color: violet" class="imgName"
+                    *ngIf="this.avatarWrapper.silueta != null">{{this.avatarWrapper.silueta}}</span>
                   <br><br>
                 </div>
                 <div class="form-group">
@@ -502,13 +550,17 @@
                   <input #file id="imgComp1" type="file" accept="image/*" multiple (change)="getImagenesComp1($event)"
                     style="display: none;">
                   <br>
-                  <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento1.length == 0" (click)="activarInputImagen('imgComp1')" ><i
-                      class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
-                  <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento1.length != 0" (click)="activarInputImagen('imgComp1')" >Cambiar imagenes</button>
+                  <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento1.length == 0"
+                    (click)="activarInputImagen('imgComp1')"><i class="tim-icons icon-attach-87"></i>&nbsp;Añadir
+                    imagen</button>
+                  <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento1.length != 0"
+                    (click)="activarInputImagen('imgComp1')">Cambiar imagenes</button>
                   &nbsp;
-                  <span class="imgName" *ngIf="this.avatarWrapper.complemento1.length == 0">Ninguna imagen seleccionada</span>
+                  <span class="imgName" *ngIf="this.avatarWrapper.complemento1.length == 0">Ninguna imagen
+                    seleccionada</span>
                   <span style="color: violet" class="imgName" *ngIf="this.avatarWrapper.complemento1.length != 0">
-                    <span *ngFor="let imgName of this.avatarWrapper.complemento1"><br>{{imgName}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgAvatar(1, imgName)"></i></span>
+                    <span *ngFor="let imgName of this.avatarWrapper.complemento1"><br>{{imgName}} &nbsp; <i
+                        class="tim-icons icon-simple-remove" (click)="unselectImgAvatar(1, imgName)"></i></span>
                   </span>
                   <br><br>
                 </div>
@@ -517,13 +569,17 @@
                   <input #file id="imgComp2" type="file" accept="image/*" multiple (change)="getImagenesComp2($event)"
                     style="display: none;">
                   <br>
-                  <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento2.length == 0" (click)="activarInputImagen('imgComp2')"><i
-                      class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagenes</button>
-                  <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento2.length != 0" (click)="activarInputImagen('imgComp2')">Cambiar imagenes</button>
+                  <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento2.length == 0"
+                    (click)="activarInputImagen('imgComp2')"><i class="tim-icons icon-attach-87"></i>&nbsp;Añadir
+                    imagenes</button>
+                  <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento2.length != 0"
+                    (click)="activarInputImagen('imgComp2')">Cambiar imagenes</button>
                   &nbsp;
-                  <span class="imgName" *ngIf="this.avatarWrapper.complemento2.length == 0">Ninguna imagen seleccionada</span>
+                  <span class="imgName" *ngIf="this.avatarWrapper.complemento2.length == 0">Ninguna imagen
+                    seleccionada</span>
                   <span style="color: violet" class="imgName" *ngIf="this.avatarWrapper.complemento2.length != 0">
-                    <span *ngFor="let imgName of this.avatarWrapper.complemento2"><br>{{imgName}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgAvatar(2, imgName)"></i></span>
+                    <span *ngFor="let imgName of this.avatarWrapper.complemento2"><br>{{imgName}} &nbsp; <i
+                        class="tim-icons icon-simple-remove" (click)="unselectImgAvatar(2, imgName)"></i></span>
                   </span>
                   <br><br>
                 </div>
@@ -532,13 +588,17 @@
                   <input #file id="imgComp3" type="file" accept="image/*" multiple (change)="getImagenesComp3($event)"
                     style="display: none;">
                   <br>
-                  <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento3.length == 0" (click)="activarInputImagen('imgComp3')"><i
-                      class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagenes</button>
-                  <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento3.length != 0" (click)="activarInputImagen('imgComp3')">Cambiar imagenes</button>
+                  <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento3.length == 0"
+                    (click)="activarInputImagen('imgComp3')"><i class="tim-icons icon-attach-87"></i>&nbsp;Añadir
+                    imagenes</button>
+                  <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento3.length != 0"
+                    (click)="activarInputImagen('imgComp3')">Cambiar imagenes</button>
                   &nbsp;
-                  <span class="imgName" *ngIf="this.avatarWrapper.complemento3.length == 0">Ninguna imagen seleccionada</span>
+                  <span class="imgName" *ngIf="this.avatarWrapper.complemento3.length == 0">Ninguna imagen
+                    seleccionada</span>
                   <span style="color: violet" class="imgName" *ngIf="this.avatarWrapper.complemento3.length != 0">
-                    <span *ngFor="let imgName of this.avatarWrapper.complemento3"><br>{{imgName}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgAvatar(3, imgName)"></i></span>
+                    <span *ngFor="let imgName of this.avatarWrapper.complemento3"><br>{{imgName}} &nbsp; <i
+                        class="tim-icons icon-simple-remove" (click)="unselectImgAvatar(3, imgName)"></i></span>
                   </span>
                   <br><br>
                 </div>
@@ -547,13 +607,17 @@
                   <input #file id="imgComp4" type="file" accept="image/*" multiple (change)="getImagenesComp4($event)"
                     style="display: none;">
                   <br>
-                  <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento4.length == 0" (click)="activarInputImagen('imgComp4')"><i
-                      class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagenes</button>
-                  <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento4.length != 0" (click)="activarInputImagen('imgComp4')">Cambiar imagenes</button>
+                  <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento4.length == 0"
+                    (click)="activarInputImagen('imgComp4')"><i class="tim-icons icon-attach-87"></i>&nbsp;Añadir
+                    imagenes</button>
+                  <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento4.length != 0"
+                    (click)="activarInputImagen('imgComp4')">Cambiar imagenes</button>
                   &nbsp;
-                  <span class="imgName" *ngIf="this.avatarWrapper.complemento4.length == 0">Ninguna imagen seleccionada</span>
+                  <span class="imgName" *ngIf="this.avatarWrapper.complemento4.length == 0">Ninguna imagen
+                    seleccionada</span>
                   <span style="color: violet" class="imgName" *ngIf="this.avatarWrapper.complemento4.length != 0">
-                    <span *ngFor="let imgName of this.avatarWrapper.complemento4"><br>{{imgName}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgAvatar(4, imgName)"></i></span>
+                    <span *ngFor="let imgName of this.avatarWrapper.complemento4"><br>{{imgName}} &nbsp; <i
+                        class="tim-icons icon-simple-remove" (click)="unselectImgAvatar(4, imgName)"></i></span>
                   </span>
                   <br><br>
                 </div>
@@ -573,14 +637,17 @@
               <input #file id="imgsPerfil" type="file" accept="image/*" multiple (change)="getImagenesPerfil($event)"
                 style="display: none;">
               <br>
-              <button class="btn btn-default" *ngIf="this.imgPerfilWrapper.imagenes.length == 0" (click)="activarInputImagen('imgsPerfil')"><i
-                  class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagenes</button>
-              <button class="btn btn-default" *ngIf="this.imgPerfilWrapper.imagenes.length != 0" (click)="activarInputImagen('imgsPerfil')">Cambiar imagenes</button>
+              <button class="btn btn-default" *ngIf="this.imgPerfilWrapper.imagenes.length == 0"
+                (click)="activarInputImagen('imgsPerfil')"><i class="tim-icons icon-attach-87"></i>&nbsp;Añadir
+                imagenes</button>
+              <button class="btn btn-default" *ngIf="this.imgPerfilWrapper.imagenes.length != 0"
+                (click)="activarInputImagen('imgsPerfil')">Cambiar imagenes</button>
               &nbsp;
               <span class="imgName" *ngIf="this.imgPerfilWrapper.imagenes.length == 0">Ninguna imagen
                 seleccionada</span>
               <span style="color: violet" class="imgName" *ngIf="this.imgPerfilWrapper.imagenes.length != 0">
-                <span *ngFor="let imgName of this.imgPerfilWrapper.imagenes"><br>{{imgName}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgPerfil(imgName)"></i></span>
+                <span *ngFor="let imgName of this.imgPerfilWrapper.imagenes"><br>{{imgName}} &nbsp; <i
+                    class="tim-icons icon-simple-remove" (click)="unselectImgPerfil(imgName)"></i></span>
               </span>
               <br><br>
             </div>
@@ -611,18 +678,22 @@
 
           <!-- *********** BOTON NEXT IMAGENES AVATAR *************** -->
           <button type="submit" class="btn btn-success btn-lg"
-            *ngIf="this.typeRscUpload == 'Avatar' && this.uploadByJson == false && !this.imgAvataresForm" (click)="updateAvatar()">Siguiente</button>
+            *ngIf="this.typeRscUpload == 'Avatar' && this.uploadByJson == false && !this.imgAvataresForm"
+            (click)="updateAvatar()">Siguiente</button>
 
           <!-- *********** BOTON NEXT COLECCION (AÑADIR CROMOS) *************** -->
           <button type="submit" class="btn btn-success btn-lg"
-            *ngIf="this.typeRscUpload == 'Colección' && this.uploadByJson == false && !this.cromosForm" (click)="updateColeccion()">Siguiente</button>
+            *ngIf="this.typeRscUpload == 'Colección' && this.uploadByJson == false && !this.cromosForm"
+            (click)="updateColeccion()">Siguiente</button>
 
-          <!-- *********** BOTON SUBMIT UPLOAD RESOURCE *************** -->
+          <!-- *********** BOTON SUBMIT UPLOAD RESOURCE FORM *************** -->
           <button type="submit" class="btn btn-primary btn-lg"
-            *ngIf="this.typeRscUpload != undefined && this.uploadByJson == false && this.finishForm == true" (click)="uploadResource()">Subir</button>
-          <!-- *********** BOTON SUBMIT UPLOAD RESOURCE *************** -->
+            *ngIf="this.typeRscUpload != undefined && this.uploadByJson == false && this.finishForm == true"
+            (click)="uploadResource()">Subir</button>
+          <!-- *********** BOTON SUBMIT UPLOAD RESOURCE JSON *************** -->
           <button type="submit" class="btn btn-primary btn-lg"
-            *ngIf="this.typeRscUpload != undefined && this.uploadByJson == false && this.finishForm == true" (click)="uploadResourceJSON()">Subir</button>
+            *ngIf="this.typeRscUpload != undefined && this.uploadByJson == true"
+            (click)="uploadResourceJSON()">Subir</button>
         </div>
       </div>
     </div>

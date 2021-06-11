@@ -25,14 +25,20 @@ import { getMatFormFieldDuplicatedHintError } from '@angular/material/form-field
 export class RecursosComponent implements OnInit {
   
   isCollapsed = true;
-
-  //Variables para subir recursos
   isLogged: boolean;
   profesor: Profesor;
+
+  //Variables para subir recursos por formulario
   form;
   typeRscUpload: string;
-  uploadByJson: boolean = null;
   finishForm = false;
+
+  //Variable para subir recursos por JSON
+  uploadByJson: boolean = null;
+  rscJson = null;
+  rscJsonName = null;
+  imgsJson: FormData;
+  imgsJsonNames = new Array<string>();
 
   //Variables wrappers para subir recursos (clases al final del documento)
   preguntaWrapper: PreguntaWrapper;
@@ -113,6 +119,8 @@ export class RecursosComponent implements OnInit {
     this.imgAvataresForm = false;
     this.cromosForm = false;
     this.uploadByJson = null;
+    this.rscJson = null;
+    this.rscJsonName = null;
 
     this.typeQuestion = undefined;
     this.typeRscUpload = undefined;
@@ -128,6 +136,9 @@ export class RecursosComponent implements OnInit {
     this.imgPerfilWrapper = new ImagenesPerfilWrapper();
 
     this.imagenesColeccion = new Map<string,FormData>();
+
+    this.imgsJson = null;
+    this.imgsJsonNames = new Array<string>();
 
     for (let i = 1; i < 5; i++) {
       this.parejasMap.set(i, new Object);
@@ -167,8 +178,108 @@ export class RecursosComponent implements OnInit {
     }
   }
 
+  /////////////// SUBIR RSC CON JSON ////////////////
   checkUploadJSON(value){
     this.uploadByJson = value;
+  }
+
+  activarInputJSON(){
+    document.getElementById("json").click();
+  }
+
+  getRscJSON($event){
+    let file = $event.target.files[0];
+    console.log(file);
+    if(file.type == 'application/json'){
+      this.rscJson = new FormData();
+      this.rscJson.append(file.name, file);
+      this.rscJsonName = file.name;
+    } else {
+      Swal.fire('Error','El fichero debe ser de tipo \"*.json\"', 'error');
+    }
+  }
+
+  async getImagenesJSON($event){
+    this.imgsJson = new FormData();
+    console.log($event.target.files);
+    let images = $event.target.files;
+    let APIfileNames;
+    let containerName = null;
+    let colContainer = null;
+
+    switch(this.typeRscUpload){
+      case 'Pregunta':{
+        if(images.length > 1){
+          Swal.fire('Error','Solo puedes subir 1 imagen para este recurso', 'error');
+          break;
+        } else {
+          containerName = 'ImagenesPreguntas';
+          break;
+        }
+      }
+      case 'Colección': {
+        containerName = 'ImagenCromo';
+        colContainer = 'ImagenColeccion';
+        break;
+      }
+      case 'Avatar': {
+        containerName = 'ImagenesAvatares';
+        break;
+      }
+      case 'Imágenes de perfil': {
+        containerName = 'ImagenesPerfil';
+        break;
+      }
+    }
+  
+    if(containerName != null){
+      await this.imgService.getFileNamesContainer(containerName).subscribe((data: Array<any>) => {
+        console.log('API files: ', data);
+        if(data != null){
+          APIfileNames = data;
+          for(let i=0; i < images.length; i++){
+            let filter = APIfileNames.find(f => f.name === images[i].name);
+            if(filter != null){
+              Swal.fire('Error', 'La imagen '+images[i].name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+              break;
+            } else {
+              console.log('Se puede subir ', images[i].name);
+              this.imgsJson.append(images[i].name, images[i]);
+              this.imgsJsonNames.push(images[i].name);
+            }
+          }
+
+          if(colContainer != null){
+            this.imgService.getFileNamesContainer(colContainer).subscribe((data: Array<any>) => {
+              APIfileNames = data;
+              for(let i=0; i < images.length; i++){
+                let filter = APIfileNames.find(f => f.name === images[i].name);
+                if(filter != null){
+                  Swal.fire('Error', 'La imagen '+images[i].name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+                  break;
+                } else {
+                  console.log('Se puede subir ', images[i].name);
+                  this.imgsJson.append(images[i].name, images[i]);
+                  this.imgsJsonNames.push(images[i].name);
+                }
+              }
+            })
+          }
+        }
+      });
+    }
+    
+  
+    console.log('Imágenes: ', this.imgsJsonNames);
+  }
+
+  activarInputImgsJson(){
+    document.getElementById('imgsJson').click();
+  }
+
+  unselectImgJson(imgName){
+    this.imgsJsonNames.splice(this.imgsJsonNames.indexOf(imgName), 1);
+    this.imgsJson.delete(imgName);
   }
 
   ////////////////FORM IMAGENES PERFIL////////////////
