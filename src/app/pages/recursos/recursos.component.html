@@ -247,10 +247,10 @@
               <!-- <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento1.length != 0"
                 (click)="activarInputImagen('imgComp1')">Cambiar imagenes</button> -->
               &nbsp;
-              <span class="imgName" *ngIf="this.imgsJson == null">Ninguna imagen
+              <span class="imgName" *ngIf="this.imgsJsonNames.length == 0">Ninguna imagen
                 seleccionada</span>
               <br>
-              <span style="color: violet" class="imgName" *ngIf="this.imgsJson != null">
+              <span style="color: violet" class="imgName" *ngIf="this.imgsJsonNames.length != 0">
                 <span *ngFor="let imgName of this.imgsJsonNames"><br>{{imgName}} &nbsp; <i
                     class="tim-icons icon-simple-remove" (click)="unselectImgJson(imgName)"></i></span>
               </span>
@@ -693,7 +693,7 @@
           <!-- *********** BOTON SUBMIT UPLOAD RESOURCE JSON *************** -->
           <button type="submit" class="btn btn-primary btn-lg"
             *ngIf="this.typeRscUpload != undefined && this.uploadByJson == true"
-            (click)="uploadResourceJSON()">Subir</button>
+            (click)="uploadRscByJson()">Subir</button>
         </div>
       </div>
     </div>
