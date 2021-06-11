@@ -30,9 +30,8 @@ export class RecursosComponent implements OnInit {
   isLogged: boolean;
   profesor: Profesor;
   form;
-  duplicatedImg: boolean = false;
   typeRscUpload: string;
-  uploadByJson: boolean;
+  uploadByJson: boolean = null;
   finishForm = false;
 
   //Variables wrappers para subir recursos (clases al final del documento)
@@ -113,6 +112,7 @@ export class RecursosComponent implements OnInit {
     this.respuestasForm = false;
     this.imgAvataresForm = false;
     this.cromosForm = false;
+    this.uploadByJson = null;
 
     this.typeQuestion = undefined;
     this.typeRscUpload = undefined;
@@ -149,18 +149,26 @@ export class RecursosComponent implements OnInit {
 
   //Recoge el tipo de recurso a subir
   updateTypeRsc() {
-    if (this.form['typeRsc'].value != 'Seleccione un tipo de recurso...') {
-      this.typeRscUpload = this.form['typeRsc'].value;
-      console.log('typeRsc: ', this.typeRscUpload);
-      if(this.typeRscUpload == 'Imágenes de perfil'){
-        this.finishForm = true;
+    if(this.uploadByJson != null){
+      if (this.form['typeRsc'].value != 'Seleccione un tipo de recurso...') {
+        this.typeRscUpload = this.form['typeRsc'].value;
+        console.log('typeRsc: ', this.typeRscUpload);
+        if(this.typeRscUpload == 'Imágenes de perfil'){
+          this.finishForm = true;
+        }
+        
+        if (document.getElementById('typeRsc').style.borderColor == "red")
+          document.getElementById('typeRsc').style.borderColor = "#525f7f";
+      } else {
+        document.getElementById('typeRsc').style.borderColor = "red";
       }
-      
-      if (document.getElementById('typeRsc').style.borderColor == "red")
-        document.getElementById('typeRsc').style.borderColor = "#525f7f";
     } else {
-      document.getElementById('typeRsc').style.borderColor = "red";
+      Swal.fire('Error', 'Selecciona método de subida', 'error');
     }
+  }
+
+  checkUploadJSON(value){
+    this.uploadByJson = value;
   }
 
   ////////////////FORM IMAGENES PERFIL////////////////
@@ -1114,6 +1122,10 @@ export class RecursosComponent implements OnInit {
         Swal.fire('Error','Error al subir colección', 'error');
       })
     }
+  }
+
+  uploadResourceJSON(){
+
   }
 }
 
