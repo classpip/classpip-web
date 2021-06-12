@@ -213,20 +213,41 @@ export class RecursosComponent implements OnInit {
         + '- Verdadero o falso: campos respuestaIncorrectaX y emparejamientos no necesarios, "respuestaCorrecta":true/false.\n\n'
         + '- Respuesta abierta: campos respuestaIncorrectaX y emparejamientos no necesarios.\n\n'
         + '- Emparejamiento: campos respuesta no necesarios, poner tantos elementos en emparejamientos como parejas deseadas.\n\n'
-        + 'Asegúrate de que el tipo del JSON coincide con los tipos especificados.'
+        + 'Asegúrate de que el tipo del JSON coincide con los tipos especificados. Asegúrate también de que el nombre de la imagen coincide con el del JSON.'
         break;
       }
       case 'Colección': {
-        
+        mensaje += '{\n\"nombre\":\"text\",\n\"imagenColeccion\":\"imagen-silueta.png\",\n\"dosCaras\":true/false,\n'
+        +'\"cromos\":[\n'
+        +'{\n\"nombre\":\"text\",\n\"probabilidad\":\"MUY ALTA\",\n\"nivel\":\"BRONCE\",\n\"imagenDelante\":\"imagen1.png\",\n\"imagenDetras\":\"imagen2.jpg\"},\n'
+        +'. . .\n'
+        +']\n}\n\n';
+
+        mensaje += 'Asegúrate de añadir al menos 6 cromos.\n\n';
+
+        mensaje2 = 'Los campos de probabilidad y nivel deben llenarse con estos valores (en mayúsculas):\n'
+        + '- Probabilidad: MUY ALTA, ALTA, BAJA, MUY BAJA\n'
+        + '- Nivel: BRONCE, PLATA, ORO, DIAMANTE\n\n'
+
+        mensaje2 += 'En caso de poner en el JSON dosCaras=false, la imagenDetras del cromo no es necesaria.\n'
+        + 'Asegúrate de seleccionar las imágenes cuyos nombres se han introducido en los campos de imágenes.\n';
+        break;
       }
       case 'Avatar': {
-        
+        mensaje += '{\n\"nombreFamilia\":\"text\",\n\"silueta\":\"imagen-silueta.png\",\n\"nombreComplemento1\":\"text\",\n'
+        +'\"nombreComplemento2\":\"text\",\n\"nombreComplemento3\":\"text\",\n\"nombreComplemento4\":\"text\",\n'
+        +'\"complemento1\": [ \"imagen1.jpg\", \"imagen2.jpg\", .... ],\n\"complemento2\": [ \"imagen3.jpg\", \"imagen4.jpg\", .... ],\n'
+        +'\"complemento3\": [ \"imagen5.jpg\", \"imagen6.jpg\", .... ],\n\"complemento4\": [ \"imagen7.jpg\", \"imagen8.jpg\", .... ]\n}\n\n';
+
+        mensaje += 'Asegúrate de seleccionar las imágenes cuyos nombres se han introducido en los campos de imágenes.\n';
+        break;
       }
       case 'Imágenes de perfil': {
         mensaje += '{\n\"nombreFamilia\":\"text\",\n\"numeroImagenes\":0,\n'
         +'\"imagenes\": [ \"imagen1.jpg\", \"imagen2.jpg\", .... ]\n}\n\n';
 
         mensaje += 'Asegúrate de seleccionar las imágenes cuyo nombre se ha introducido en la cadena de imágenes.\n';
+        break;
       }
     }
     alert(mensaje);

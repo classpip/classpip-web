@@ -26,7 +26,7 @@
       </div>
       <ng-template #loginWarn>
         <div class="card card-upload card-header">
-          <p style="text-align: center;"><a class="login" routerLink="/login">Inicia sesión</a> o <a class="register"
+          <p style="text-align: center;"><a class="login" [routerLink]="['/login']" [queryParams]="{redirectTo: 'recursos'}">Inicia sesión</a> o <a class="register"
               routerLink="/register">regístarte</a> para poder subir recursos</p>
         </div>
       </ng-template>
@@ -428,19 +428,19 @@
                     <div class="form-group col-md-4">
                       <label for="prob{{cromo.key}}">Probabilidad</label>
                       <select type="text" class="form-control" id="prob{{cromo.key}}" placeholder="Probabilidad">
-                        <option style="color: black;">Muy alta</option>
-                        <option style="color: black;">Alta</option>
-                        <option style="color: black;">Baja</option>
-                        <option style="color: black;">Muy baja</option>
+                        <option style="color: black;">MUY ALTA</option>
+                        <option style="color: black;">ALTA</option>
+                        <option style="color: black;">BAJA</option>
+                        <option style="color: black;">MUY BAJA</option>
                       </select>
                     </div>
                     <div class="form-group col-md-4">
                       <label for="nivel{{cromo.key}}">Nivel</label>
                       <select type="text" class="form-control" id="nivel{{cromo.key}}" placeholder="Nivel">
-                        <option style="color: black;">Bronce</option>
-                        <option style="color: black;">Plata</option>
-                        <option style="color: black;">Oro</option>
-                        <option style="color: black;">Diamante</option>
+                        <option style="color: black;">BRONCE</option>
+                        <option style="color: black;">PLATA</option>
+                        <option style="color: black;">ORO</option>
+                        <option style="color: black;">DIAMANTE</option>
 
                       </select>
                     </div>

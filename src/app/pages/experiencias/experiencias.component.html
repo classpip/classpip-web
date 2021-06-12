@@ -43,7 +43,7 @@
         </div>
         <ng-template #loginWarn>
           <div class="card card-publicacion card-header">
-            <p style="text-align: center;"><a class="login" routerLink="/login">Inicia sesión</a> o <a class="register"
+            <p style="text-align: center;"><a class="login" [routerLink]="['/login']" [queryParams]="{redirectTo: 'experiencias'}">Inicia sesión</a> o <a class="register"
                 routerLink="/register">regístarte</a> para poder publicar o comentar experiencias</p>
           </div>
         </ng-template>

@@ -1,7 +1,7 @@
 import { Profesor } from './../../clases/Profesor';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, OnDestroy, HostListener, Output, EventEmitter } from "@angular/core";
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { SesionService } from 'src/app/services/sesion.service';
 
@@ -16,11 +16,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   focus1;
   focus2;
 
+  redirectTo = null;
+
   pass;
   nombre;
   profesor: Profesor;
   
-  constructor(private authService: AuthService, private route: Router, private sesion: SesionService) {}
+  constructor(private authService: AuthService, private route: Router, private sesion: SesionService, private actRoute: ActivatedRoute) {}
   
   @HostListener("document:mousemove", ["$event"])
   onMouseMove(e) {
@@ -91,6 +93,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     body.classList.add("register-page");
 
     this.onMouseMove(event);
+
+    this.actRoute.queryParams.subscribe(params => {
+      console.log(params);
+      this.redirectTo = params.redirectTo;
+      console.log(this.redirectTo);
+    });
+
   }
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];
@@ -117,7 +126,11 @@ export class LoginComponent implements OnInit, OnDestroy {
               this.profesor = prof[0];
               this.sesion.EnviaProfesor(this.profesor);
               console.log ('vamos inicio');
-              this.route.navigateByUrl('/#/home');
+              if(this.redirectTo != null){
+                this.route.navigateByUrl(this.redirectTo);
+              } else {
+                this.route.navigateByUrl('home');
+              }
             } else {
               Swal.fire('Error', 'No se encuentra al profesor', 'error');
             }
