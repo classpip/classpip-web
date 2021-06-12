@@ -166,8 +166,6 @@ export class RecursosListComponent implements OnInit {
 
   //Función para ver si soy el propietario del recurso
   isPropietario(recurso) {
-    console.log("this.prof: ", this.profesor.id);
-    console.log("recurso.prof: ", recurso.profesorId);
     if (this.profesor.id == recurso.profesorId) {
 
       return true
@@ -996,56 +994,145 @@ export class RecursosListComponent implements OnInit {
   }
 
   borraPregunta(rsc: any) {
-    this.recursosService.deletePregunta(rsc.id).subscribe(() => {
-      Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
-      this.DameTodasPreguntas();
-    }), (error) => {
-      console.log(error);
-      Swal.fire("Error", "Error eliminando recurso", "error");
+    if (rsc.imagen != null) {
+      this.recursosService.deleteImagenPregunta(rsc.imagen).subscribe(() => {
+        this.recursosService.deletePregunta(rsc.id).subscribe(() => {
+          Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
+          this.DameTodasPreguntas();
+        }), (error) => {
+          console.log(error);
+          Swal.fire("Error", "Error eliminando recurso", "error");
+        }
+      })
+    }
+    else {
+      this.recursosService.deletePregunta(rsc.id).subscribe(() => {
+        Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
+        this.DameTodasPreguntas();
+      }), (error) => {
+        console.log(error);
+        Swal.fire("Error", "Error eliminando recurso", "error");
+      }
     }
   }
 
   borraColeccion(rsc: any) {
-    this.recursosService.deleteColeccion(rsc.id).subscribe(() => {
-      Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
-      this.DameColecciones();
-    }), (error) => {
-      console.log(error);
-      Swal.fire("Error", "Error eliminando recurso", "error");
-    }
+
+    let count = 0;
+    this.recursosService.DameCromosColeccion(rsc.id).subscribe(cromos => {
+
+      cromos.forEach(cromo => {
+        if (cromo.imagenDetras != null) {
+          this.recursosService.deleteImagenCromo(cromo.imagenDetras).subscribe(() => {
+            this.recursosService.deleteImagenCromo(cromo.imagenDelante).subscribe(() => {
+              this.recursosService.deleteCromos(rsc.id).subscribe(() => {
+                count++;
+                if (count == cromos.length) {
+                  this.recursosService.deleteImagenColeccion(rsc.imagenColeccion).subscribe(() => {
+                    this.recursosService.deleteColeccion(rsc.id).subscribe(() => {
+                      Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
+                      this.DameColecciones();
+                    }), (error) => {
+                      console.log(error);
+                      Swal.fire("Error", "Error eliminando recurso", "error");
+                    }
+                  })
+                }
+              })
+            })
+          })
+        }
+        else {
+          this.recursosService.deleteImagenCromo(cromo.imagenDelante).subscribe(() => {
+            this.recursosService.deleteCromos(rsc.id).subscribe(() => {
+              count++;
+              if (count == cromos.length) {
+                this.recursosService.deleteImagenColeccion(rsc.imagenColeccion).subscribe(() => {
+                  this.recursosService.deleteColeccion(rsc.id).subscribe(() => {
+                    Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
+                    this.DameColecciones();
+                  }), (error) => {
+                    console.log(error);
+                    Swal.fire("Error", "Error eliminando recurso", "error");
+                  }
+                })
+              }
+            })
+          })
+        }
+      })
+    })
   }
+
   borraFamiliaAvatares(rsc: any) {
-    this.recursosService.deleteFamiliaAvatares(rsc.id).subscribe(() => {
-      Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
-      this.DameFamiliasDeAvataresPublicas();
-    }), (error) => {
-      console.log(error);
-      Swal.fire("Error", "Error eliminando recurso", "error");
-    }
+    let count = 0;
+    let listaComplementos = new Array<string>();
+    rsc.complemento1.forEach(complemento =>{
+      listaComplementos.push(complemento)
+    })
+    rsc.complemento2.forEach(complemento =>{
+      listaComplementos.push(complemento)
+    })
+    rsc.complemento3.forEach(complemento =>{
+      listaComplementos.push(complemento)
+    })
+    rsc.complemento4.forEach(complemento =>{
+      listaComplementos.push(complemento)
+    })
+
+    console.log(listaComplementos)
+
+    listaComplementos.forEach(complemento =>{
+      this.recursosService.deleteImagenesAvatares(complemento).subscribe(()=>{
+        count ++
+        if (count == listaComplementos.length){
+          this.recursosService.deleteImagenesAvatares(rsc.silueta).subscribe(()=>{
+            this.recursosService.deleteFamiliaAvatares(rsc.id).subscribe(() => {
+              Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
+              this.DameFamiliasDeAvataresPublicas();
+            }), (error) => {
+              console.log(error);
+              Swal.fire("Error", "Error eliminando recurso", "error");
+            }
+          })
+        }
+      })
+    })
   }
+
   borraFamiliaImagenes(rsc: any) {
-    this.recursosService.deleteFamiliaImagenesPerfil(rsc.id).subscribe(() => {
-      Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
-      this.DameFamiliasImagenesPerfil();
-    }), (error) => {
-      console.log(error);
-      Swal.fire("Error", "Error eliminando recurso", "error");
-    }
+    let count = 0;
+    rsc.imagenes.forEach(imagen => {
+
+      this.recursosService.deleteImagenPerfil(imagen).subscribe(() => {
+        count++;
+        if (count == rsc.imagenes.length) {
+          this.recursosService.deleteFamiliaImagenesPerfil(rsc.id).subscribe(() => {
+            Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
+            this.DameFamiliasImagenesPerfil();
+          }), (error) => {
+            console.log(error);
+            Swal.fire("Error", "Error eliminando recurso", "error");
+          }
+        }
+      })
+    })
+
   }
 
-/************************************* */
-/*RECOMENDACIONES USO*/
-/*********************************** */
+  /************************************* */
+  /*RECOMENDACIONES USO*/
+  /*********************************** */
 
-rscModal;
+  rscModal;
 
-showRecomendations(modal, rsc: any){
-  modal.show();
-  
-  this.rscModal = rsc;
-  console.log("rsc:", this.rscModal);
-  console.log("recom:", this.rscModal.recomendacion)
-}
+  showRecomendations(modal, rsc: any) {
+    modal.show();
+
+    this.rscModal = rsc;
+    console.log("rsc:", this.rscModal);
+    console.log("recom:", this.rscModal.recomendacion)
+  }
 
 }
 

@@ -52,7 +52,7 @@
                                 <td class="text-center" width="40px">{{indice + 1}}
                                     &nbsp;
                                     <input id="check{{indice}}" type="checkbox"
-                                        (change)="isSelected($event, indice, rsc)" />
+                                        (change)="isSelected($event, indice, rsc)" *ngIf="isPreguntas()" />
                                 </td>
                                 <td class="text-center" width="100px">{{rsc.nombreRecurso}}</td>
                                 <td class="text-center" width="100px" *ngIf="isLoggedIn()">{{rsc.propietario}}</td>

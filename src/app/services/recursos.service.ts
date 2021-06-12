@@ -23,11 +23,20 @@ export class RecursosService {
 
   private APIUrlProfesores = this.host + ':3000/api/Profesores';
 
+  //URLS RECURSOS
   private APIUrlFamiliarAvatares = this.host + ':3000/api/familiasAvatares';
   private APIUrlCuestionariosSatisfaccion = this.host + ':3000/api/cuestionariosSatisfaccion';
   private APIUrlCuestionarios = this.host + ':3000/api/Cuestionarios';
   private APIUrlFamiliasDeImagenesDePerfil = this.host + ':3000/api/familiasImagenesPerfil';
   private APIUrlColecciones = this.host + ':3000/api/Colecciones';
+
+  //URLS IMAGENES
+  private APIUrlImagenes = this.host + ':3000/api/imagenes';
+  private APIUrlImagenesAvatares = this.host + ':3000/api/imagenes/ImagenesAvatares';
+  private APIUrlImagenesCromos = this.host + ':3000/api/imagenes/ImagenCromo';
+  private APIUrlImagenesColecciones = this.host + ':3000/api/imagenes/ImagenColeccion';
+  private APIUrlImagenesPerfil = this.host + ':3000/api/imagenes/ImagenesPerfil';
+  private APIUrlImagenesPreguntas = this.host + ':3000/api/imagenes/ImagenesPreguntas';
 
   // private APIUrlImagenesAvatares = this.host + ':3000/api/imagenes/ImagenesAvatares';
 
@@ -93,19 +102,39 @@ export class RecursosService {
   }
 
   public deleteColeccion(id: string){
-    return this.http.delete(this.APIUrlColecciones + '/' + id);
+    return this.http.delete(this.APIUrlColecciones + '/' +  id);
   }
 
-  public deleteCromo(coleccionId: string){
-    return this.http.delete(this.APIUrlColecciones + coleccionId + '/cromos');
+  public deleteImagenColeccion(imagen: string){
+    return this.http.delete(this.APIUrlImagenesColecciones + '/files/' + imagen);
+  }
+
+  public deleteCromos(coleccionId: string){
+    return this.http.delete(this.APIUrlColecciones + '/' + coleccionId + '/cromos');
+  }
+
+  public deleteImagenCromo(imagen:string){
+    return this.http.delete(this.APIUrlImagenesCromos + '/files/' + imagen)
   }
 
   public deleteFamiliaAvatares(id: string){
     return this.http.delete(this.APIUrlFamiliarAvatares + '/' + id);
   }
 
+  public deleteImagenesAvatares(imagen: string){
+    return this.http.delete(this.APIUrlImagenesAvatares + '/files/' + imagen)
+  }
+
   public deleteFamiliaImagenesPerfil(id: string){
     return this.http.delete(this.APIUrlFamiliasDeImagenesDePerfil + '/' + id);
+  }
+
+  public deleteImagenPerfil(imagen: string){
+    return this.http.delete(this.APIUrlImagenesPerfil + '/files/' + imagen)
+  }
+
+  public deleteImagenPregunta(imagen:string){
+    return this.http.delete(this.APIUrlImagenesPreguntas + '/files/' + imagen)
   }
 
   /*****************************************************/

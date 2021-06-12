@@ -19,7 +19,7 @@
       <div *ngIf="this.isLogged == true; else loginWarn">
         <div class="button" data-target="#modalUploadRsc" style="text-align: center;">
           <button class="btn btn-success btn-default btn-small" type="submit" (click)="modalUploadRsc.show()">
-            Subir recurso <i class="tim-icons icon-simple-add"> </i>
+            Subir recurso <i class="tim-icons icon-cloud-upload-94"> </i>
           </button>
         </div>
         <br>
@@ -354,8 +354,8 @@
                 <form name="parejasForm">
                   <!-- ***********EMPAREJAMIENTOS*************** -->
                   <div class="form-row">
-                    <label style="margin-left: auto; margin-right: auto;">Si quieres añadir más de 4 parejas, añade
-                      primero las filas</label>
+                   <label style="margin-left: auto; margin-right: auto;"> <i class='tim-icons icon-alert-circle-exc' style="color: yellow;"></i>&nbsp;Si quieres añadir más de 4 parejas, añade
+                      primero las filas&nbsp;<i class='tim-icons icon-alert-circle-exc' style="color: yellow;"></i></label>
                   </div>
                   <div class="form-row" *ngFor="let pareja of parejasMap | keyvalue">
                     <div class="form-group col-md-6">
