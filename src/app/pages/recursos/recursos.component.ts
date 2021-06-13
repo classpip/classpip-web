@@ -406,7 +406,7 @@ export class RecursosComponent implements OnInit {
     switch(this.typeRscUpload){
       case 'Pregunta':{
         console.log(this.rscJson);
-        if(this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames)){
+        if(this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames, null)){
           let pregunta = new Pregunta(
             this.rscJson.titulo,
             this.rscJson.tipo,
@@ -451,7 +451,7 @@ export class RecursosComponent implements OnInit {
       }
       case 'Colección': {
         console.log(this.rscJson);
-        if(this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames)){
+        if(this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames, this.imgColJsonName)){
           let coleccion = new Coleccion(
             this.rscJson.nombre,
             this.profesor.id,
@@ -505,7 +505,7 @@ export class RecursosComponent implements OnInit {
       }
       case 'Avatar': {
         console.log(this.rscJson);
-        if(this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames)){
+        if(this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames, null)){
           let avatar = new FamiliaAvatares(
             this.rscJson.nombreFamilia,
             this.profesor.id,
@@ -547,8 +547,7 @@ export class RecursosComponent implements OnInit {
       }
       case 'Imágenes de perfil': {
         console.log(this.rscJson);
-        console.log('return: ', this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames));
-        if(this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames)){
+        if(this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames, null)){
           let imagenesPerfil = new FamiliaDeImagenesDePerfil(
             this.rscJson.nombreFamilia,
             this.rscJson.numeroImagenes,

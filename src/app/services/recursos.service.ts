@@ -163,7 +163,7 @@ export class RecursosService {
   }
 
   ///////// FUNCIONES COMPROBAR RECURSOS ////////////
-  public verifyDataJson(typeRsc, json, imgNames){
+  public verifyDataJson(typeRsc, json, imgNames, imgColName){
     switch(typeRsc){
       case 'Pregunta': {
         if((json.imagen != null && json.imagen == imgNames[0]) || (json.imagen == null && imgNames[0] == null)){
@@ -253,14 +253,84 @@ export class RecursosService {
       } 
       
       case 'Avatar': {
-        console.log('falta desarrollar verify avatar');
-        return true;
+        if(json.complemento1 != null && json.complemento2 != null && json.complemento3 != null && json.complemento4 != null
+           && json.nombreComplemento1 != null && json.nombreComplemento2 != null && json.nombreComplemento3 != null && json.nombreComplemento4 != null){
+            if(json.complemento1.length != 0 && json.complemento2.length != 0 && json.complemento3.length != 0 && json.complemento4.length != 0){
+              
+              let comps = new Array<any>();
+              
+              json.complemento1.forEach((c) => {
+                comps.push(c);
+              });
+
+              json.complemento2.forEach((c) => {
+                comps.push(c);
+              });
+
+              json.complemento3.forEach((c) => {
+                comps.push(c);
+              });
+
+              json.complemento4.forEach((c) => {
+                comps.push(c);
+              });
+
+              if(comps.length > 0){
+                if(comps.length == imgNames.length - 1){
+                  let cont = 0;
+                  comps.forEach(comp => {
+                    let filter = imgNames.find(file => file === comp);
+                    if(filter != null){
+                      cont++;
+                    } else {
+                      Swal.fire('Error', 'Asegúrate de seleccionar solo todas las imágenes especificadas', 'error').then(() => {
+                        return false;
+                      });
+                    }
+                  });
+                  
+                  if(cont == comps.length){
+                    if(json.nombreFamilia != null){
+                      if(json.silueta != null){
+                        let filter2 = imgNames.find(file => file === json.silueta);
+                        if(filter2 != null) return true;
+                        else {
+                          Swal.fire('Error', 'Selecciona la imagen de silueta', 'error').then(() => {
+                            return false;
+                          });
+                        }
+                      } else {
+                        Swal.fire('Error', 'El campo \"silueta\" es obligatorio', 'error').then(() => {
+                          return false;
+                        });
+                      }
+                    } else {
+                      Swal.fire('Error', 'El campo \"nombreFamilia\" es obligatorio', 'error').then(() => {
+                        return false;
+                      });
+                    }
+                  }
+
+                } else {
+                  Swal.fire('Error', 'Asegúrate de seleccionar todas las imágenes especificadas', 'error').then(() => {
+                    return false;
+                  });
+                }
+              }
+            } else {
+              Swal.fire('Error', 'Asegúrate de que los 4 complementos tienen al menos 1 imagen cada uno', 'error').then(() => {
+                return false;
+              });
+            }
+        } else {
+          Swal.fire('Error', 'Asegúrate de especificar 4 complementos con su nombre y al menos 1 imagen', 'error').then(() => {
+            return false;
+          });
+        }
         break;
       }
 
       case 'Imágenes de perfil': {
-        console.log('verify json: '+json.imagenes);
-        console.log('verify json imgs: '+imgNames);
         if(json.imagenes != null && json.imagenes.length > 0){
           if(imgNames.length == json.imagenes.length && imgNames.length == json.numeroImagenes){
 
@@ -323,8 +393,149 @@ export class RecursosService {
       }
 
       case 'Colección': {
-        console.log('falta desarrollar verify coleccion');
-        return true;
+        if(imgNames.length != 0 && imgColName != null){
+          if(json.nombre != null){
+            if(json.imagenColeccion != null){
+              if(json.imagenColeccion == imgColName){
+                if(json.cromos.length >= 6){
+                  if(json.dosCaras != null && (json.dosCaras != true || json.dosCaras != false)){
+                    
+                    let imgsCromos = new Array<string>();
+                    json.cromos.forEach(cromo => {
+                      if(cromo.nombre != null){
+                        if(cromo.probabilidad != null && (cromo.probabilidad == 'MUY ALTA' || cromo.probabilidad == 'ALTA' || cromo.probabilidad == 'BAJA' || cromo.probabilidad == 'MUY BAJA')){
+                          if(cromo.nivel != null && (cromo.nivel == 'BRONCE' || cromo.nivel == 'PLATA' || cromo.nivel == 'ORO' || cromo.nivel == 'DIAMANTE')){
+                            
+                            if(!json.dosCaras){
+                              if(cromo.imagenDetras == null){
+                                if(cromo.imagenDelante != null){
+                                  imgsCromos.push(cromo.imagenDelante);
+                                } else {
+                                  Swal.fire('Error', 'El campo \"imagenDelante\" en los cromos es obligatorio', 'error').then(() => {
+                                    return false;
+                                  });
+                                }
+                              } else {
+                                Swal.fire('Error', 'El campo \"imagenDetras\" en los cromos debe ser null (sin comillas) si \"dosCaras\":false', 'error').then(() => {
+                                  return false;
+                                });
+                              }
+
+                              if(imgsCromos.length == json.cromos.length && imgsCromos.length == imgNames.length){
+                                let cont = 0;
+                                imgsCromos.forEach(img => {
+                                  let filter = imgNames.find(file => file === img);
+                                  if(filter != null){
+                                    cont++;
+                                    if(cont == imgsCromos.length){
+                                      return true;
+                                    }
+                                  } else {
+                                    Swal.fire('Error','Asegúrate de seleccionar solo todas las imágenes especificadas', 'error').then(() => {
+                                      return false;
+                                    });
+                                  }
+                                });
+                              } else if(imgsCromos.length != imgNames.length){
+                                Swal.fire('Error','Asegúrate de seleccionar todas las imágenes especificadas en los cromos', 'error').then(() => {
+                                  return false;
+                                })
+                              }
+
+                            } else { //DOS CARAS = TRUE
+                              if(cromo.imagenDetras != null){
+                                if(cromo.imagenDelante != null){
+                                  imgsCromos.push(cromo.imagenDelante, cromo.imagenDetras);
+                                } else {
+                                  Swal.fire('Error', 'El campo \"imagenDelante\" en los cromos es obligatorio', 'error').then(() => {
+                                    return false;
+                                  });
+                                }
+                              } else {
+                                Swal.fire('Error', 'El campo \"imagenDetras\" en los cromos es obligatorio si \"dosCaras\":true', 'error').then(() => {
+                                  return false;
+                                });
+                              }
+
+                              if(imgsCromos.length == json.cromos.length*2 && imgsCromos.length == imgNames.length){
+                                let cont = 0;
+                                imgsCromos.forEach(img => {
+                                  let filter = imgNames.find(file => file === img);
+                                  if(filter != null){
+                                    cont++;
+                                    if(cont == imgsCromos.length){
+                                      return true;
+                                    }
+                                  } else {
+                                    Swal.fire('Error','Asegúrate de seleccionar solo todas las imágenes especificadas', 'error').then(() => {
+                                      return false;
+                                    });
+                                  }
+                                });
+                              } else if(imgsCromos.length != imgNames.length){
+                                Swal.fire('Error','Asegúrate de seleccionar todas las imágenes especificadas en los cromos', 'error').then(() => {
+                                  return false;
+                                })
+                              }
+                            }
+                          } else if(cromo.nivel == null){
+                            Swal.fire('Error', 'El campo \"nivel\" en los cromos es obligatorio', 'error').then(() => {
+                              return false;
+                            });
+                          } else {
+                            Swal.fire('Error', 'El campo \"nivel\" en los cromos debe ser \"BRONCE\", \"PLATA\", \"ORO\" o \"DIAMANTE\"', 'error').then(() => {
+                              return false;
+                            });
+                          }
+                        } else if(cromo.probabilidad == null){
+                          Swal.fire('Error', 'El campo \"probabilidad\" en los cromos es obligatorio', 'error').then(() => {
+                            return false;
+                          });
+                        } else {
+                          Swal.fire('Error', 'El campo \"probabilidad\" en los cromos debe ser \"MUY ALTA\", \"ALTA\", \"BAJA\" o \"MUY BAJA\"', 'error').then(() => {
+                            return false;
+                          });
+                        }
+                      } else {
+                        Swal.fire('Error', 'El campo \"nombre\" en los cromos es obligatorio', 'error').then(() => {
+                          return false;
+                        });
+                      }
+                    });                     
+                  } else {
+                    Swal.fire('Error', 'El campo \"dosCaras\" es obligatorio y debe ser true o false (sin comillas)', 'error').then(() => {
+                      return false;
+                    });
+                  }
+                } else {
+                  Swal.fire('Error','Introduce al menos 6 cromos', 'error').then(() => {
+                    return false;
+                  });
+                }
+              } else {
+                Swal.fire('Error', 'El campo \"imagenColeccion\" no coincide con la imagen seleccionada', 'error').then(() => {
+                  return false;
+                });
+              }
+            } else {
+              Swal.fire('Error', 'El campo \"imagenColeccion\" es obligatorio', 'error').then(() => {
+                return false;
+              });
+            }
+          } else {
+            Swal.fire('Error', 'El campo \"nombre\" es obligatorio', 'error').then(() => {
+              return false;
+            });
+          }
+        } else if(imgColName == null){
+          Swal.fire('Error', 'Selecciona la imagen de la colección', 'error').then(() => {
+            return false;
+          });
+        } else if(imgNames.length == 0){
+          Swal.fire('Error', 'Selecciona las imágenes especificadas para los cromos', 'error').then(() => {
+            return false;
+          });
+        }
         break;
       }
     }
