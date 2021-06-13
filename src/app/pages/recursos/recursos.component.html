@@ -235,20 +235,34 @@
                 archivo</button>
               <button class="btn btn-default" *ngIf="this.rscJson != null" (click)="activarInputJSON()">Cambiar
                 archivo</button>
-              <input type="file" id="json" style="display: none;" (change)="getRscJSON($event)">
+              <input type="file" id="json" accept="application/json" style="display: none;" (change)="getRscJSON($event)">
               &nbsp;
               <span class="imgName" *ngIf="this.rscJsonName == null">Ningun archivo seleccionado</span>
               <span style="color: violet" class="imgName" *ngIf="this.rscJsonName != null">{{this.rscJsonName}}</span>
             </div>
+            <div class="form-group" *ngIf="this.typeRscUpload == 'Colección'">
+              <label for="imgColJson">Imagen de la colección</label>
+              <input #file id="imgColJson" type="file" accept="image/*" (change)="getImgColeccionJSON($event)"
+                style="display: none;">
+              <br>
+              <button class="btn btn-default" (click)="activarInputImgsJson('imgColJson')"><i
+                  class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
+              &nbsp;
+              <span class="imgName" *ngIf="this.imgsJsonNames.length == 0">Ninguna imagen
+                seleccionada</span>
+              <br>
+              <span style="color: violet" class="imgName" *ngIf="this.imgColJsonName != null">
+                <span><br>{{this.imgColJsonName}}</span>
+              </span>
+            </div>
             <div class="form-group">
-              <label for="imgsJson">Imágenes del recurso</label>
+              <label for="imgsJson" *ngIf="this.typeRscUpload != 'Colección'" >Imágenes del recurso</label>
+              <label for="imgsJson" *ngIf="this.typeRscUpload == 'Colección'">Imágenes de los cromos</label> 
               <input #file id="imgsJson" type="file" accept="image/*" multiple (change)="getImagenesJSON($event)"
                 style="display: none;">
               <br>
-              <button class="btn btn-default" (click)="activarInputImgsJson()"><i
+              <button class="btn btn-default" (click)="activarInputImgsJson('imgsJson')"><i
                   class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagenes</button>
-              <!-- <button class="btn btn-default" *ngIf="this.avatarWrapper.complemento1.length != 0"
-                (click)="activarInputImagen('imgComp1')">Cambiar imagenes</button> -->
               &nbsp;
               <span class="imgName" *ngIf="this.imgsJsonNames.length == 0">Ninguna imagen
                 seleccionada</span>

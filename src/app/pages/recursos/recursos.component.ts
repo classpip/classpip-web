@@ -1,3 +1,4 @@
+import { ImagenesColeccion } from './../../URLs/urls';
 import { Cromo } from './../../clases/recursos/Cromo';
 import { forEach } from 'jszip';
 import { FamiliaDeImagenesDePerfil } from './../../clases/recursos/FamiliaDeImagenesDePerfil';
@@ -15,6 +16,7 @@ import { SesionService } from 'src/app/services/sesion.service';
 import Swal from 'sweetalert2';
 import { ModalContainerComponent } from 'ngx-bootstrap/modal';
 import { getMatFormFieldDuplicatedHintError } from '@angular/material/form-field';
+import { i18nMetaToJSDoc } from '@angular/compiler/src/render3/view/i18n/meta';
 
 
 @Component({
@@ -37,9 +39,11 @@ export class RecursosComponent implements OnInit {
   uploadByJson: boolean = null;
   rscJson = null;
   rscJsonName = null;
-  imgsJson: FormData;
+  mapImgsJson = new Map<string, FormData>();
   imgsJsonNames = new Array<string>();
   ejemploJSON: string;
+  imgColJson: FormData;
+  imgColJsonName: string = null;
 
   //Variables wrappers para subir recursos (clases al final del documento)
   preguntaWrapper: PreguntaWrapper;
@@ -144,7 +148,7 @@ export class RecursosComponent implements OnInit {
 
     this.imagenesColeccion = new Map<string,FormData>();
 
-    this.imgsJson = null;
+    this.mapImgsJson = null;
     this.imgsJsonNames = new Array<string>();
 
     for (let i = 1; i < 5; i++) {
@@ -262,9 +266,17 @@ export class RecursosComponent implements OnInit {
       const reader = new FileReader();
       reader.readAsText(file);
       reader.onload = () => {
-        console.log('carga JSON');
-        this.rscJson = JSON.parse(reader.result.toString());
-        console.log(this.rscJson);
+        try {
+          console.log('carga JSON');
+          this.rscJson = JSON.parse(reader.result.toString());
+          console.log(this.rscJson);
+        }
+        catch(error) {
+          console.log(error);
+          this.rscJsonName = null;
+          this.rscJson = null;
+          Swal.fire('Error','Formato fichero incorrecto, revisa el formato', 'error');
+        }
       }
     } else {
       Swal.fire('Error','El fichero debe ser de tipo \"*.json\"', 'error');
@@ -276,8 +288,6 @@ export class RecursosComponent implements OnInit {
     let images = $event.target.files;
     let APIfileNames;
     let containerName = null;
-    let colContainer = null;
-    let duplicated = false;
 
     switch(this.typeRscUpload){
       case 'Pregunta':{
@@ -290,8 +300,37 @@ export class RecursosComponent implements OnInit {
         }
       }
       case 'Colección': {
-        containerName = 'ImagenCromo';
-        colContainer = 'ImagenColeccion';
+        let cromoContainer = 'ImagenCromo';
+        let colContainer = 'ImagenColeccion';
+        let APIFilesCromos;
+
+        await this.imgService.getFileNamesContainer(colContainer).subscribe((data: Array<any>) => {
+          console.log('API files: ', data);
+          if(data != null){
+            APIfileNames = data;
+            this.imgService.getFileNamesContainer(cromoContainer).subscribe((data: Array<any>) => {
+              if(data != null){
+                APIFilesCromos = data;
+                for(let i=0; i < images.length; i++){
+                  let filter = APIfileNames.find(f => f.name === images[i].name);
+                  let filter2 = APIFilesCromos.find(f => f.name === images[i].name);
+                  if(filter != null || filter2 != null){
+                    Swal.fire('Error', 'La imagen '+images[i].name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+                    break;
+                  } else {
+                    console.log('Se puede subir ', images[i].name);
+                    this.mapImgsJson.set(images[i].name, new FormData());
+                    this.mapImgsJson.get(images[i].name).append(images[i].name, images[i]);
+                    this.imgsJsonNames.push(images[i].name);
+                  }
+                }
+                console.log('Imágenes: ', this.imgsJsonNames);
+              }
+            }, (error) => {
+              Swal.fire('Error', 'No se pueden subir imágenes ahora','error');
+            })
+          }
+        });
         break;
       }
       case 'Avatar': {
@@ -313,56 +352,50 @@ export class RecursosComponent implements OnInit {
             let filter = APIfileNames.find(f => f.name === images[i].name);
             if(filter != null){
               Swal.fire('Error', 'La imagen '+images[i].name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
-              duplicated = true;
               break;
             } else {
               console.log('Se puede subir ', images[i].name);
-              this.imgsJson = new FormData();
-              this.imgsJson.append(images[i].name, images[i]);
+              this.mapImgsJson.set(images[i].name, new FormData());
+              this.mapImgsJson.get(images[i].name).append(images[i].name, images[i]);
               this.imgsJsonNames.push(images[i].name);
             }
           }
-
-          if(colContainer != null && !duplicated){
-            this.imgService.getFileNamesContainer(colContainer).subscribe((data: Array<any>) => {
-              APIfileNames = data;
-              for(let i=0; i < images.length; i++){
-                let filter = APIfileNames.find(f => f.name === images[i].name);
-                if(filter != null){
-                  Swal.fire('Error', 'La imagen '+images[i].name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
-                  break;
-                } else {
-                  console.log('Se puede subir ', images[i].name);
-                  this.imgsJson.append(images[i].name, images[i]);
-                  this.imgsJsonNames.push(images[i].name);
-                }
-              }
-            })
-          }
+          console.log('Imágenes: ', this.imgsJsonNames);
         }
       });
     }
-  
-    console.log('Imágenes: ', this.imgsJsonNames);
   }
 
-  activarInputImgsJson(){
-    document.getElementById('imgsJson').click();
+  activarInputImgsJson(id: string){
+    document.getElementById(id).click();
   }
 
   unselectImgJson(imgName){
     this.imgsJsonNames.splice(this.imgsJsonNames.indexOf(imgName), 1);
-    this.imgsJson.delete(imgName);
+    this.mapImgsJson.delete(imgName);
   }
 
-  verifyDataJson(typeRsc, json, imgNames){
-    switch(typeRsc){
-      case 'Pregunta': {
-        if(json.imagen == imgNames[0])
-          return true;
-        else return false;
+  async getImgColeccionJSON($event){
+    console.log($event.target.files[0]);
+    let img = $event.target.files[0];
+    let APIfileNames;
+    await this.imgService.getFileNamesContainer('ImagenColeccion').subscribe((data: Array<any>) => {
+      console.log('API files: ', data);
+      if(data != null){
+        APIfileNames = data;
+        let filter = APIfileNames.find(f => f.name === img.name);
+        if(filter != null){
+          Swal.fire('Error', 'La imagen '+img.name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+          this.imgColJson = null;
+          this.imgColJsonName = null;
+        } else {
+          console.log('Se puede subir ', img.name);
+          this.imgColJson = new FormData();
+          this.imgColJson.append(img.name, img);
+          this.imgColJsonName = img.name;
+        }
       }
-    }
+    });
   }
 
   uploadRscByJson(){
@@ -373,28 +406,28 @@ export class RecursosComponent implements OnInit {
     switch(this.typeRscUpload){
       case 'Pregunta':{
         console.log(this.rscJson);
-        if(this.imgsJsonNames.length == 1 && this.rscJson.imagen != null){
-          if(this.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames)){
-            let pregunta = new Pregunta(
-              this.rscJson.titulo,
-              this.rscJson.tipo,
-              this.rscJson.pregunta,
-              this.rscJson.tematica,
-              this.rscJson.feedbackCorrecto,
-              this.rscJson.feedbackIncorrecto,
-              this.profesor.id,
-              this.rscJson.imagen,
-              this.rscJson.emparejamientos,
-              this.rscJson.respuestaCorrecta,
-              this.rscJson.respuestaIncorrecta1,
-              this.rscJson.respuestaIncorrecta2,
-              this.rscJson.respuestaIncorrecta3
-            );
-            console.log('new pregunta: ', pregunta);
-            this.rscService.uploadPregunta(pregunta).subscribe((data) => {
-              console.log('respuesta upload pregunta: ', data);
-              if(data != null){
-                this.imgService.uploadImgPregunta(this.imgsJson).subscribe((data) => {
+        if(this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames)){
+          let pregunta = new Pregunta(
+            this.rscJson.titulo,
+            this.rscJson.tipo,
+            this.rscJson.pregunta,
+            this.rscJson.tematica,
+            this.rscJson.feedbackCorrecto,
+            this.rscJson.feedbackIncorrecto,
+            this.profesor.id,
+            this.rscJson.imagen,
+            this.rscJson.emparejamientos,
+            this.rscJson.respuestaCorrecta,
+            this.rscJson.respuestaIncorrecta1,
+            this.rscJson.respuestaIncorrecta2,
+            this.rscJson.respuestaIncorrecta3
+          );
+          console.log('new pregunta: ', pregunta);
+          this.rscService.uploadPregunta(pregunta).subscribe((data) => {
+            console.log('respuesta upload pregunta: ', data);
+            if(data != null){
+              if(this.mapImgsJson != null){
+                this.imgService.uploadImgPregunta(this.mapImgsJson.get(this.rscJson.imagen)).subscribe((data) => {
                   console.log('respuesta upload img: ', data);
                   if(data != null){
                     Swal.fire('Success', 'Pregunta subida con éxito', 'success');
@@ -403,27 +436,148 @@ export class RecursosComponent implements OnInit {
                 }, (error) => {
                   console.log(error);
                   Swal.fire('Error', 'Error al subir imagen', 'error');
-                })
+                });
+              } else {
+                Swal.fire('Success', 'Pregunta subida con éxito', 'success');
+                this.resetForm();
               }
-            }, (error) => {
-              console.log(error);
-              Swal.fire('Error','Error al subir pregunta', 'error');
-            })
-          } else {
-            Swal.fire('Error','La imagen seleccionada no coincide con la imagen del JSON','error');
-          }
-        } else {
-          Swal.fire('Error', 'Selecciona la imagen correspondiente al campo \"imagen\" del archivo','error');
+            }
+          }, (error) => {
+            console.log(error);
+            Swal.fire('Error','Error al subir pregunta', 'error');
+          })
         }
         break;
       }
       case 'Colección': {
+        console.log(this.rscJson);
+        if(this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames)){
+          let coleccion = new Coleccion(
+            this.rscJson.nombre,
+            this.profesor.id,
+            this.rscJson.imagenColeccion,
+            this.rscJson.dosCaras
+          );
+          let cromos = this.rscJson.cromos;
+          console.log('new coleccion: ', coleccion);
+          this.rscService.uploadColeccion(coleccion).subscribe((data: any) => {
+            console.log('respuesta upload coleccion: ', data);
+            if(data != null){
+              let count = 0;
+              cromos.forEach(cromo => {
+                let c = new Cromo(
+                  cromo.nombre,
+                  data.id,
+                  cromo.probabilidad,
+                  cromo.nivel,
+                  cromo.imagenDelante,
+                  cromo.imagenDetras
+                );
+                this.rscService.uploadCromos(c).subscribe(() => {
+                  count++;
+                  if(count == cromos.length){
+                    this.imgService.uploadImgColeccion(this.imgColJson).subscribe((data) => {
+                      for(let img of this.mapImgsJson.values()){
+                        this.imgService.uploadImgCromo(img).subscribe((data) => {
+                          console.log('respuesta upload img: ', data);
+                          if(data != null){
+                            Swal.fire('Success', 'Colección subida con éxito', 'success');
+                            this.resetForm();
+                          }
+                        }, (error) => {
+                          console.log(error);
+                          Swal.fire('Error', 'Error al subir imagenes cromos', 'error');
+                        });
+                      }
+                    }, (error) => {
+                      Swal.fire('Error', 'Error al subir imagen de colección', 'error');
+                    });
+                  }
+                });
+              });
+            }
+          }, (error) => {
+            console.log(error);
+            Swal.fire('Error','Error al subir colección', 'error');
+          })
+        }
         break;
       }
       case 'Avatar': {
+        console.log(this.rscJson);
+        if(this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames)){
+          let avatar = new FamiliaAvatares(
+            this.rscJson.nombreFamilia,
+            this.profesor.id,
+            this.rscJson.silueta,
+            this.rscJson.nombreComplemento1,
+            this.rscJson.complemento1,
+            this.rscJson.nombreComplemento2,
+            this.rscJson.complemento2,
+            this.rscJson.nombreComplemento3,
+            this.rscJson.complemento3,
+            this.rscJson.nombreComplemento4,
+            this.rscJson.complemento4,
+          )
+          console.log('new avatar: ', avatar);
+          this.rscService.uploadFamiliaAvatar(avatar).subscribe((data) => {
+            console.log('respuesta upload avatar: ', data);
+            if(data != null){
+              let cont = 0;
+              for(let img of this.mapImgsJson.values()){
+                this.imgService.uploadImgAvatares(img).subscribe((data) => {
+                  console.log('respuesta upload img: ', data);
+                  cont++;
+                  if(cont == this.mapImgsJson.size){
+                    Swal.fire('Success', 'Familia avatares subida con éxito', 'success');
+                    this.resetForm();
+                  }
+                }, (error) => {
+                  console.log(error);
+                  Swal.fire('Error', 'Error al subir família avatares', 'error');
+                });
+              }              
+            }
+          }, (error) => {
+            console.log(error);
+            Swal.fire('Error','Error al subir família avatares', 'error');
+          })
+        }
         break;
       }
       case 'Imágenes de perfil': {
+        console.log(this.rscJson);
+        if(this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames)){
+          let imagenesPerfil = new FamiliaDeImagenesDePerfil(
+            this.rscJson.nombreFamilia,
+            this.rscJson.numeroImagenes,
+            this.rscJson.imagenes,
+            this.profesor.id
+          );
+          console.log('new imgsPerfil: ', imagenesPerfil);
+          this.rscService.uploadFamiliaImgPerfil(imagenesPerfil).subscribe((data) => {
+            console.log('respuesta upload imgPerfil: ', data);
+            if(data != null){
+              let cont = 0;
+              for(let img of this.mapImgsJson.values()){
+                this.imgService.uploadImgFamiliaImagenes(img).subscribe((data) => {
+                  console.log('respuesta upload img: ', data);
+                  cont++;
+                  if(cont == this.mapImgsJson.size){
+                    Swal.fire('Success', 'Familia imágenes de perfil subida con éxito', 'success');
+                    this.resetForm();
+                  }
+                }, (error) => {
+                  console.log(error);
+                  Swal.fire('Error', 'Error al subir família imágenes de perfil', 'error');
+                });
+              }              
+            }
+          }, (error) => {
+            console.log(error);
+            Swal.fire('Error','Error al subir família imágenes de perfil', 'error');
+          })
+        }
         break;
       }
     }

@@ -12,6 +12,7 @@ import { Coleccion } from '../clases/recursos/Coleccion';
 import { Pregunta } from '../clases/recursos/Pregunta';
 import { Cromo } from '../clases/recursos/Cromo';
 import { Http, ResponseContentType } from '@angular/http';
+import Swal from 'sweetalert2';
 
 
 @Injectable({
@@ -159,5 +160,114 @@ export class RecursosService {
 
   public uploadCromos(cromo: Cromo){
     return this.http.post(this.APIUrlColecciones + '/' + cromo.coleccionId + '/cromos', cromo);
+  }
+
+  ///////// FUNCIONES COMPROBAR RECURSOS ////////////
+  public verifyDataJson(typeRsc, json, imgNames){
+    switch(typeRsc){
+      case 'Pregunta': {
+        if((json.imagen != null && json.imagen == imgNames[0]) || (json.imagen == null && imgNames[0] == null)){
+          if(json.titulo == null){
+            Swal.fire('Error', 'El título debe estar relleno', 'error').then(() => {
+              return false;
+            });
+          } else if(json.tematica == null){
+            Swal.fire('Error', 'La temática debe estar rellena', 'error').then(() => {
+              return false;
+            });
+          } else if(json.feedbackCorrecto == null){
+            Swal.fire('Error', 'Feedback correcto debe estar relleno', 'error').then(() => {
+              return false;
+            });
+          } else if(json.feedbackIncorrecto == null){
+            Swal.fire('Error', 'Feedback incorrecto debe estar relleno', 'error').then(() => {
+              return false;
+            });
+          } else if(json.pregunta == null){
+            Swal.fire('Error', 'La pregunta debe estar rellena', 'error').then(() => {
+              return false;
+            });
+          } else if(json.tipo == null){
+            Swal.fire('Error', 'El tipo debe estar relleno', 'error').then(() => {
+              return false;
+            });
+          } else {
+            if(json.tipo != 'Emparejamiento' && json.emparejamientos != null){
+              Swal.fire('Error', 'No includas el campo emparejamientos en el archivo si la pregunta no es de tipo \"Emparejamiento\"').then(() => {
+                return false;
+              })
+            } else {
+              if(json.tipo == 'Respuesta abierta'){
+                if(json.respuestaCorrecta == null){
+                  Swal.fire('Error', 'La respuesta correcta debe estar rellena', 'error').then(() => {
+                    return false;
+                  });
+                } else return true;
+              } else if(json.tipo == 'Emparejamiento'){
+                if(json.emparejamientos != null && json.emparejamientos.length > 0){
+                  json.emparejamientos.forEach(pareja => {
+                    if(pareja.l == null || pareja.r == null){
+                      Swal.fire('Error', 'Emparejamientos incorrectos', 'error').then(() => {
+                        return false;
+                      })
+                    }
+                  })
+                  return true;
+                }
+                else {
+                  Swal.fire('Error', 'Emparejamientos incorrectos.', 'error').then(() => {
+                    return false;
+                  });
+                }
+              } else if(json.tipo == 'Verdadero o falso'){
+                if(json.respuestaCorrecta == null || (json.respuestaCorrecta != true && json.respuestaCorrecta != false)){
+                  Swal.fire('Error', 'La respuesta correcta debe ser true o false', 'error').then(() => {
+                    return false;
+                  });
+                } else return true;
+              } else if(json.tipo == 'Cuatro opciones'){
+                if(json.respuestaCorrecta == null || json.respuestaIncorrecta1 == null ||
+                  json.respuestaIncorrecta2 == null || json.respuestaIncorrecta3 == null){
+                    Swal.fire('Error', 'Rellena la respuesta correcta y las 3 incorrectas', 'error').then(()=>{
+                      return false
+                    });
+                } else return true;
+              } else {
+                Swal.fire('Error', 'Tipo de pregunta incompatible', 'error').then(() => {
+                  return false;
+                });
+              }
+            }
+          }
+        } 
+        else if(json.imagen != null && json.imagen != imgNames[0]){
+          Swal.fire('Error', 'Selecciona la imagen correspondiente al campo \"imagen\" del archivo','error').then(() => {
+            return false;
+          });
+        } 
+        else if(json.imagen == null && imgNames != null){
+          Swal.fire('Error', 'El archivo no contiene el campo imagen', 'error').then(() => {
+            return false;
+          });
+        }
+      } 
+      
+      case 'Avatar': {
+        console.log('falta desarrollar verify avatar');
+        return true;
+        break;
+      }
+
+      case 'Imágenes de perfil': {
+        console.log('falta desarrollar verify imagenes');
+        return true;
+      }
+
+      case 'Colección': {
+        console.log('falta desarrollar verify coleccion');
+        return true;
+        break;
+      }
+    }
   }
 }

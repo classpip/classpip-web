@@ -43,11 +43,11 @@ export class ImagenesService {
   }
 
   /************ UPLOAD **************/
-  public uploadImgColeccion(imgColeccion: FormData){
+  public uploadImgColeccion(imgColeccion){
     return this.http.post(this.APIUrlImagenesColecciones + '/upload', imgColeccion);
   }
 
-  public uploadImgCromo(imgCromo: FormData){
+  public uploadImgCromo(imgCromo){
     return this.http.post(this.APIUrlImagenesCromos + '/upload', imgCromo);
   }
 
