@@ -148,7 +148,7 @@ export class RecursosComponent implements OnInit {
 
     this.imagenesColeccion = new Map<string,FormData>();
 
-    this.mapImgsJson = null;
+    this.mapImgsJson = new Map<string, FormData>();
     this.imgsJsonNames = new Array<string>();
 
     for (let i = 1; i < 5; i++) {
@@ -547,6 +547,7 @@ export class RecursosComponent implements OnInit {
       }
       case 'Imágenes de perfil': {
         console.log(this.rscJson);
+        console.log('return: ', this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames));
         if(this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames)){
           let imagenesPerfil = new FamiliaDeImagenesDePerfil(
             this.rscJson.nombreFamilia,

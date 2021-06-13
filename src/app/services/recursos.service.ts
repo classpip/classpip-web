@@ -259,8 +259,67 @@ export class RecursosService {
       }
 
       case 'Imágenes de perfil': {
-        console.log('falta desarrollar verify imagenes');
-        return true;
+        console.log('verify json: '+json.imagenes);
+        console.log('verify json imgs: '+imgNames);
+        if(json.imagenes != null && json.imagenes.length > 0){
+          if(imgNames.length == json.imagenes.length && imgNames.length == json.numeroImagenes){
+
+            if(json.numeroImagenes == json.imagenes.length){
+
+              if(json.nombreFamilia == null){
+                Swal.fire('Error','El campo \"nombreFamilia\" debe especificarse en el fichero JSON', 'error').then(() => {
+                  return false;
+                });
+              } else {
+                let cont = 0;
+                json.imagenes.forEach((img) => {
+                  let filter = imgNames.find(file => file === img);
+                  if(filter != null){
+                    cont++;
+                  } else {
+                    Swal.fire('Error','Asegúrate de seleccionar solo todas las imágenes especificadas en el campo \"imagenes\"', 'error').then(() => {
+                      return false;
+                    });
+                  }
+                  console.log('cont verify: ', cont, json.imagenes.length);
+                });
+                if(cont == json.imagenes.length){
+                  console.log('entra return');
+                  return true;
+                }
+              }
+  
+            } else {
+              Swal.fire('Error', 'El campo \"numeroImagenes\" no coincide con la cantidad de imagenes especificadas.', 'error').then(()=>{
+                return false;
+              });
+            }
+          
+          } else if(imgNames.length == 0){
+            Swal.fire('Error','Selecciona las imágenes correspondientes.','error').then(() => {
+              return false;
+            });
+          } else if(imgNames.length != json.imagenes.length){
+            Swal.fire('Error','El nº de imágenes seleccionadas no coincide con las especificadas', 'error').then(() => {
+              return false;
+            });
+          } else if(imgNames.length != json.numeroImagenes){
+            Swal.fire('Error','El nº de imágenes seleccionadas no coincide con el campo \"numeroImagenes\"', 'error').then(() => {
+              return false;
+            });
+          }
+        } else {
+          if(json.imagenes != null && json.imagenes.length == 0){
+            Swal.fire('Error','Introduce los nombres de las imágenes a subir en el campo \"imagenes\".','error').then(() => {
+              return false;
+            })
+          } else if(json.imagenes == null){
+            Swal.fire('Error','El archivo JSON no contiene el campo \"imagenes\".','error').then(()=>{
+              return false;
+            })
+          }
+        }
+        break;
       }
 
       case 'Colección': {
