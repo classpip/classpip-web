@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="container">
                         <div class="col-lg-4 col-md-6 ml-auto mr-auto" >
-                            <div class="card card-coin card-plain" style="padding-top: 100px; width: 125%;">
+                            <div class="card card-coin card-plain" style="padding-top: 100px; width: 125%;" *ngIf="this.profesor && this.user">
                                 <div class="card-header">
                                     <br>
                                     <div class="image">
@@ -24,8 +24,11 @@
                                     </div>
                                     <h4 class="title">{{this.profesor.nombre}} {{this.profesor.primerApellido}}</h4>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body" >
                                     <form name="userData">
+                                        <label for="username">Nombre de usuario</label>
+                                        <input #username style="width: 100%" id="username" class="form-control" type="text" value='{{this.user.username}}' readOnly>
+
                                         <label for="name">Nombre</label>
                                         <input #name style="width: 100%" id="name" class="form-control" type="text" value='{{this.profesor.nombre}}' readOnly>
                                      

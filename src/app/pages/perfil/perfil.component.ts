@@ -132,18 +132,54 @@ export class PerfilComponent implements OnInit {
     (<HTMLInputElement>document.getElementById("surname")).readOnly = false;
     (<HTMLInputElement>document.getElementById("surname2")).readOnly = false;
     (<HTMLInputElement>document.getElementById("email")).readOnly = false;
+    (<HTMLInputElement>document.getElementById("username")).readOnly = false;
   }
 
   updateUser(){
-    this.user = {
-      username: document.getElementById("username"),
-      email: document.getElementById("email")
+    
+    let form = document.forms["userData"];
+    if (this.profesor.nombre != form["name"].value || this.profesor.primerApellido != form["surname"].value || this.profesor.segundoApellido != form["surname2"].value){
+      let profesor = new Profesor(
+        form["name"].value,
+        form["surname"].value,
+        form["surname2"].value,
+        this.profesor.imagenPerfil,
+        this.profesor.identificador,
+        this.profesor.id,
+        this.profesor.userId
+      )
+      console.log("profesor", profesor)
+      this.auth.updateProfesor(this.profesor.id, profesor).subscribe((data: any) =>{
+        this.profesor = data;
+        if(this.user.username != form["username"].value || this.user.email != form["email"].value){
+          let user = new User(
+            form["username"].value,
+            this.user.password,
+            form["email"]
+          )
+          this.auth.updateUser(this.profesor.userId, user).subscribe(() => {
+            Swal.fire('Success', 'Datos actualizados correctamente', 'success')
+          })
+        }
+      }, (error) => {
+        console.log(error);
+        Swal.fire("Error", "No se ha podido actualizar al profesor", "error")
+      })
     }
-    this.profesor = {
-      nombre: ,
-      primerApellido: ,
-      segundoApellido: ,
-      
+    else{
+      if(this.user.username != form["username"].value || this.user.email != form["email"].value){
+        let user = new User(
+          form["username"].value,
+          this.user.password,
+          form["email"]
+        )
+        this.auth.updateUser(this.profesor.userId, user).subscribe(() => {
+          Swal.fire('Success', 'Datos actualizados correctamente', 'success')
+        })
+      }
+      else{
+        Swal.fire("Error", "No se ha podido actualizar al profesor", "error")
+      }
     }
   }
 
