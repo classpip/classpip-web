@@ -10,29 +10,94 @@
                             <div class="card-header">
                                 <div class="image">
                                     <img *ngIf="this.profesor.imagenPerfil != null"
-                                    class="img-center img-fluid rounded-circle"
-                                    style = "border-radius: 8px; width: 150px; height: 150px;"
-                                    src={{this.profesor.imagenPerfil}}
-                                    />
+                                        class="img-center img-fluid rounded-circle"
+                                        style="border-radius: 8px; width: 150px; height: 150px;"
+                                        src={{this.profesor.imagenPerfil}} />
                                     <img *ngIf="this.profesor.imagenPerfil == null"
-                                    class="img-center img-fluid rounded-circle"
-                                    style = "border-radius: 8px; width: 150px; height: 150px;"
-                                    src="../../../assets/img/logo.png"
-                                    />
+                                        class="img-center img-fluid rounded-circle"
+                                        style="border-radius: 8px; width: 150px; height: 150px;"
+                                        src="../../../assets/img/logo.png" />
                                 </div>
-                                <div class="overlay img-center" (click)="jaja()">
+                                <div class="overlay img-center" (click)="goHome()">
                                     <div class="text"><i class="tim-icons icon-camera-18"></i>Cambiar</div>
                                 </div>
                                 <h4 class="title">{{this.profesor.nombre}} {{this.profesor.primerApellido}}</h4>
                             </div>
                             <div class="card-body">
+                                <button class="btn btn-success btn-round" (click)="modalChangePassword.show()">Cambia tu
+                                    contraseña</button>
+                                <br>
+                                <br>
+
                                 <button class="btn btn-warning btn-round" (click)="logout()">Cerrar sesión</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>           
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black"
+    #modalChangePassword="bs-modal" id="modalChangePassword" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h4 class="title title-up" style="text-align: center;">CAMBIA TU CONTRASEÑA</h4>
+            </div>
+            <div class="modal-body">
+                <label for="old">Contraseña actual</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fas fa-eye" (click)="x.type=x.type=='password'?'text':'password'"></i>
+                        </div>
+                    </div>
+                    <input #x id="old" class="form-control" placeholder="Contraseña actual" type="password" value="">
+                </div>
+
+                <br>
+                <label for="new">Contraseña nueva</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fas fa-eye" (click)="y.type=y.type=='password'?'text':'password'"></i>
+                        </div>
+                    </div>
+                    <input #y id="new" class="form-control" placeholder="Contraseña nueva" type="password" value="">
+                </div>
+                
+                <br>
+                <label for="repeat">Repite la nueva contraseña</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fas fa-eye" (click)="z.type=z.type=='password'?'text':'password'"></i>
+                        </div>
+                    </div>
+                    <input #z id="repeat" class="form-control" placeholder="Repite la nueva contraseña" type="password"
+                    value="">
+                </div>
+                
+                <br>
+                <div class="button-class" style="text-align: center;">
+                    <button class="btn btn-round btn-primary" type="button" (click)="changePassword()"
+                    (click)="modalChangePassword.hide()" >
+                    Cambiar contraseña
+                </button>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <div style="text-align: center; margin-left: auto; margin-right: auto;">
+                    <button class="btn btn-danger" data-dismiss="modal" type="button"
+                        (click)="modalChangePassword.hide()">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

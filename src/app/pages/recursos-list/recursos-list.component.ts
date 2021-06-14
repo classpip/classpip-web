@@ -58,6 +58,7 @@ export class RecursosListComponent implements OnInit {
   //variables descargas
   listDescargasPreguntas = new Array<Pregunta>();
   isDownloading = false;
+  listRecursos2;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -298,71 +299,6 @@ export class RecursosListComponent implements OnInit {
         this.listRecursos = [];
       });
   }
-
-  //Funcion que obtiene los recursos publicos de cuestionarios
-  // DameCuestionariosPublicos() {
-  //   this.recursosService.DameCuestionariosPublicos().subscribe(res => {
-  //     console.log(res);
-  //     if (res !== undefined) {
-  //       //Carga los recursos en la lista
-  //       this.listRecursos = res;
-
-  //       //Cambia el profesorId por su nombre
-  //       this.listRecursos.forEach(recurso => {
-  //         console.log("Holi este es el id:", recurso.id)
-  //         if (this.mapProfesores.has(recurso.profesorId)) {
-  //           recurso.propietario = this.mapProfesores.get(recurso.profesorId).nombre + ' ';
-  //           recurso.propietario += this.mapProfesores.get(recurso.profesorId).primerApellido;
-  //         } else {
-  //           recurso.propietario = 'Desconocido';
-  //         }
-
-  //       });
-  //       //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
-  //       this.listRecursos = this.listRecursos.map(function (obj) {
-  //         obj['nombreRecurso'] = obj['titulo']; // Assign new key
-  //         //delete obj['Titulo']; // Delete old key
-  //         return obj;
-  //       });
-  //     }
-  //   },
-  //     (error) => {
-  //       console.log(error);
-  //       this.listRecursos = [];
-  //     });
-  // }
-
-  //Funcion que obtiene los recursos publicos de cuestionarios de satisfaccion
-  // DameCuestionariosSatisfaccionPublicos() {
-  //   this.recursosService.DameCuestionariosPublicos().subscribe(res => {
-  //     console.log(res);
-  //     if (res !== undefined) {
-  //       //Carga los recursos en la lista
-  //       this.listRecursos = res;
-
-  //       //Cambia el profesorId por su nombre
-  //       this.listRecursos.forEach(recurso => {
-  //         if (this.mapProfesores.has(recurso.profesorId)) {
-  //           recurso.propietario = this.mapProfesores.get(recurso.profesorId).nombre + ' ';
-  //           recurso.propietario += this.mapProfesores.get(recurso.profesorId).primerApellido;
-  //         } else {
-  //           recurso.propietario = 'Desconocido';
-  //         }
-
-  //       });
-  //       //Esto lo hacemos porque cada recurso llama de una forma distinta al nombre de este (NombreFamilias, Titulo...) y asi lo mapeamos 
-  //       this.listRecursos = this.listRecursos.map(function (obj) {
-  //         obj['nombreRecurso'] = obj['titulo']; // Assign new key
-  //         //delete obj['Titulo']; // Delete old key
-  //         return obj;
-  //       });
-  //     }
-  //   },
-  //     (error) => {
-  //       console.log(error);
-  //       this.listRecursos = [];
-  //     });
-  // }
 
   //Funcion que obtiene los recursos publicos de imaganes de perfil
   DameFamiliasImagenesPerfil() {
@@ -677,63 +613,72 @@ export class RecursosListComponent implements OnInit {
 
     this.isDownloading = true;
 
-    this.familia = rsc
-
-    console.log("Familia: ", this.familia)
-    const theJSON = JSON.stringify(this.familia);
+    console.log("Familia: ", rsc)
 
     let zip = new JSZip();
-    let folder = zip.folder('Avatares_' + rsc.nombreFamilia);
-    let compFolder = folder.folder('Imagenes complementos');
-    folder.file(rsc.nombreFamilia + ".json", theJSON);
 
-    console.log(rsc.silueta)
+    this.recursosService.DameFamiliasAvataresPublicas().subscribe((res) => {
+      if (res != undefined){
+        this.listRecursos2 = res;
+        this.listRecursos2.forEach(familia => {
+          if (familia.id == rsc.id) {
+            const theJSON = JSON.stringify(familia);
 
-    this.imagenesService.downloadImgAvatar(rsc.silueta).subscribe((data: any) => {
-      folder.file(`${rsc.silueta}`, data);
-
-      let complementos = new Array<string>();
-      rsc.complemento1.forEach(complemento => {
-        complementos.push(complemento);
-      });
-      rsc.complemento2.forEach(complemento => {
-        complementos.push(complemento);
-      });
-      rsc.complemento3.forEach(complemento => {
-        complementos.push(complemento);
-      });
-      rsc.complemento4.forEach(complemento => {
-        complementos.push(complemento);
-      });
-
-      if (complementos.length != 0) {
-        let cont = 0;
-        complementos.forEach(c => {
-          this.imagenesService.downloadImgAvatar(c).subscribe((data) => {
-            compFolder.file(c, data);
-            cont++;
-            if (cont == complementos.length) {
-              this.isDownloading = false;
-              zip.generateAsync({ type: "blob" }).then(function (blob) {
-                saveAs(blob, 'Avatares_' + rsc.nombreFamilia + ".zip");
-              }, function (err) {
-                console.log(err);
-                this.isDownloading = false;
-                Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+            let folder = zip.folder('Avatares_' + rsc.nombreFamilia);
+            let compFolder = folder.folder('Imagenes complementos');
+            folder.file(familia.nombreFamilia + ".json", theJSON);
+             
+            this.imagenesService.downloadImgAvatar(familia.silueta).subscribe((data: any) => {
+              folder.file(`${familia.silueta}`, data);
+        
+              let complementos = new Array<string>();
+              familia.complemento1.forEach(complemento => {
+                complementos.push(complemento);
               });
-            }
-          }, (error) => {
-            console.log(error);
-            this.isDownloading = false;
-            Swal.fire('Error', 'Error al descargar imagen ' + c, 'error');
-          });
-        });
+              familia.complemento2.forEach(complemento => {
+                complementos.push(complemento);
+              });
+              familia.complemento3.forEach(complemento => {
+                complementos.push(complemento);
+              });
+              familia.complemento4.forEach(complemento => {
+                complementos.push(complemento);
+              });
+        
+              if (complementos.length != 0) {
+                let cont = 0;
+                complementos.forEach(c => {
+                  this.imagenesService.downloadImgAvatar(c).subscribe((data) => {
+                    compFolder.file(c, data);
+                    cont++;
+                    if (cont == complementos.length) {
+                      this.isDownloading = false;
+                      zip.generateAsync({ type: "blob" }).then(function (blob) {
+                        saveAs(blob, 'Avatares_' + familia.nombreFamilia + ".zip");
+                      }, function (err) {
+                        console.log(err);
+                        this.isDownloading = false;
+                        Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+                      });
+                    }
+                  }, (error) => {
+                    console.log(error);
+                    this.isDownloading = false;
+                    Swal.fire('Error', 'Error al descargar imagen ' + c, 'error');
+                  });
+                });
+              }
+            }, (error) => {
+              console.log(error);
+              this.isDownloading = false;
+              Swal.fire('Error', 'Error al descargar imágenes', 'error');
+            });
+
+          }
+        })
       }
-    }, (error) => {
-      console.log(error);
-      this.isDownloading = false;
-      Swal.fire('Error', 'Error al descargar imágenes', 'error');
-    });
+    })
+  
 
   }
 
@@ -746,34 +691,44 @@ export class RecursosListComponent implements OnInit {
     console.log("RSC: ", rsc);
 
     let zip = new JSZip();
-    let folder = zip.folder('FamiliaImagenesDePerfil_' + rsc.nombreFamilia);
 
-    let imgNames: string[] = rsc.imagenes;
+    this.recursosService.DameFamiliasDeImagenesDePerfilPublicas().subscribe((res) => {
+      if (res != undefined) {
+        this.listRecursos2 = res;
+        this.listRecursos2.forEach(familia => {
+          if (familia.id == rsc.id) {
+            const theJSON = JSON.stringify(familia);
+            zip.file(rsc.nombreFamilia + ".json", theJSON);
 
+            let folder = zip.folder('FamiliaImagenesDePerfil_' + rsc.nombreFamilia);
+            let imgNames: string[] = rsc.imagenes;
 
-    console.log(imgNames);
-    let count: number = 0;
+            console.log(imgNames);
+            let count: number = 0;
 
-    imgNames.forEach((name: string) => {
-      this.imagenesService.downloadImgPerfil(this.urlImagenesPerfil + name).subscribe((data: any) => {
-        console.log('Img: ', data);
-        //Añade la imagen a la carpeta
-        folder.file(`${name}`, data);
+            imgNames.forEach((name: string) => {
+              this.imagenesService.downloadImgPerfil(this.urlImagenesPerfil + name).subscribe((data: any) => {
+                //Añade la imagen a la carpeta
+                folder.file(`${name}`, data);
 
-        count++;
+                count++;
 
-        //Crea el ZIP al haber descargado todas las fotos
-        if (count == imgNames.length) {
-          this.isDownloading = false;
-          zip.generateAsync({ type: "blob" }).then(function (blob) {
-            saveAs(blob, "FamiliaImagenesPerfil_" + rsc.nombreFamilia + ".zip");
-          }, function (err) {
-            console.log(err);
-            this.isDownloading = false;
-            Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
-          });
-        }
-      });
+                //Crea el ZIP al haber descargado todas las fotos
+                if (count == imgNames.length) {
+                  this.isDownloading = false;
+                  zip.generateAsync({ type: "blob" }).then(function (blob) {
+                    saveAs(blob, "FamiliaImagenesPerfil_" + rsc.nombreFamilia + ".zip");
+                  }, function (err) {
+                    console.log(err);
+                    this.isDownloading = false;
+                    Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+                  });
+                }
+              });
+            })
+          }
+        })
+      }
     })
   }
 
@@ -785,38 +740,50 @@ export class RecursosListComponent implements OnInit {
 
     console.log("RSC: ", rsc)
 
-    const theJSON = JSON.stringify(rsc);
-
     let zip = new JSZip();
-    zip.file(rsc.titulo + ".json", theJSON);
 
-    if (rsc.imagen != null) {
-      this.imagenesService.downloadImgPregunta(rsc.imagen).subscribe((data: any) => {
-        console.log("DATA: ", data)
-        zip.file(`${rsc.imagen}`, data);
-        this.isDownloading = false;
-        zip.generateAsync({ type: "blob" }).then(function (blob) {
-          saveAs(blob, 'Pregunta_' + rsc.titulo + ".zip");
-        }, function (err) {
-          console.log(err);
-          this.isDownloading = false;
-          Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+    this.recursosService.DamePreguntas().subscribe((res) => {
+      if (res != undefined) {
+        this.listRecursos2 = res;
+        this.listRecursos2.forEach(pregunta => {
+          if (pregunta.id == rsc.id) {
+            const theJSON = JSON.stringify(pregunta);
+            zip.file(pregunta.titulo + ".json", theJSON);
+
+            if (rsc.imagen != null) {
+              this.imagenesService.downloadImgPregunta(rsc.imagen).subscribe((data: any) => {
+                console.log("DATA: ", data)
+                zip.file(`${rsc.imagen}`, data);
+                this.isDownloading = false;
+                zip.generateAsync({ type: "blob" }).then(function (blob) {
+                  saveAs(blob, 'Pregunta_' + rsc.titulo + ".zip");
+                }, function (err) {
+                  console.log(err);
+                  this.isDownloading = false;
+                  Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+                })
+              });
+            }
+            else {
+              this.isDownloading = false;
+              zip.generateAsync({ type: "blob" }).then(function (blob) {
+                saveAs(blob, 'Pregunta_' + rsc.titulo + ".zip");
+              }, function (err) {
+                console.log(err);
+                this.isDownloading = false;
+                Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+              })
+            }
+          }
         })
-      });
-    }
-    else {
-      this.isDownloading = false;
-      zip.generateAsync({ type: "blob" }).then(function (blob) {
-        saveAs(blob, 'Pregunta_' + rsc.titulo + ".zip");
-      }, function (err) {
-        console.log(err);
-        this.isDownloading = false;
-        Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
-      })
-    }
+      }
+    })
+
+
+
   }
 
-  //Función para descargar todas las preguntas que seleccione
+  //Función para descargar todas las preguntas que seleccione en un solo json
   descargaPerguntasSeleccionadas() {
 
     if (this.mapCheckPreguntas.size == 0) {
@@ -888,6 +855,7 @@ export class RecursosListComponent implements OnInit {
     }
   }
 
+  //Funcion para descargar las preguntas que seleccione en un json por pregunta
   descargaPerguntasSeleccionadasIndividual() {
 
     if (this.mapCheckPreguntas.size == 0) {
@@ -959,6 +927,7 @@ export class RecursosListComponent implements OnInit {
     }
   }
 
+  //Función auxiliar para resetear las listas usadas para descargar varias preguntas
   resetDescargarPreguntasSeleccionadas() {
     for (let key of this.mapCheckPreguntas.keys()) {
       (<HTMLInputElement>document.getElementById('check' + key)).checked = false;
@@ -993,6 +962,7 @@ export class RecursosListComponent implements OnInit {
     }
   }
 
+  //Funcion para borrar preguntas
   borraPregunta(rsc: any) {
     if (rsc.imagen != null) {
       this.recursosService.deleteImagenPregunta(rsc.imagen).subscribe(() => {
@@ -1016,6 +986,7 @@ export class RecursosListComponent implements OnInit {
     }
   }
 
+  //Función para borrar colecciones
   borraColeccion(rsc: any) {
 
     let count = 0;
@@ -1064,29 +1035,30 @@ export class RecursosListComponent implements OnInit {
     })
   }
 
+  //Función para borrar familias de avatares
   borraFamiliaAvatares(rsc: any) {
     let count = 0;
     let listaComplementos = new Array<string>();
-    rsc.complemento1.forEach(complemento =>{
+    rsc.complemento1.forEach(complemento => {
       listaComplementos.push(complemento)
     })
-    rsc.complemento2.forEach(complemento =>{
+    rsc.complemento2.forEach(complemento => {
       listaComplementos.push(complemento)
     })
-    rsc.complemento3.forEach(complemento =>{
+    rsc.complemento3.forEach(complemento => {
       listaComplementos.push(complemento)
     })
-    rsc.complemento4.forEach(complemento =>{
+    rsc.complemento4.forEach(complemento => {
       listaComplementos.push(complemento)
     })
 
     console.log(listaComplementos)
 
-    listaComplementos.forEach(complemento =>{
-      this.recursosService.deleteImagenesAvatares(complemento).subscribe(()=>{
-        count ++
-        if (count == listaComplementos.length){
-          this.recursosService.deleteImagenesAvatares(rsc.silueta).subscribe(()=>{
+    listaComplementos.forEach(complemento => {
+      this.recursosService.deleteImagenesAvatares(complemento).subscribe(() => {
+        count++
+        if (count == listaComplementos.length) {
+          this.recursosService.deleteImagenesAvatares(rsc.silueta).subscribe(() => {
             this.recursosService.deleteFamiliaAvatares(rsc.id).subscribe(() => {
               Swal.fire("Hecho", "Recurso eliminado correctamente", "success");
               this.DameFamiliasDeAvataresPublicas();
@@ -1100,6 +1072,7 @@ export class RecursosListComponent implements OnInit {
     })
   }
 
+  //Función para borrar imagenes de perfil
   borraFamiliaImagenes(rsc: any) {
     let count = 0;
     rsc.imagenes.forEach(imagen => {
@@ -1130,8 +1103,7 @@ export class RecursosListComponent implements OnInit {
     modal.show();
 
     this.rscModal = rsc;
-    console.log("rsc:", this.rscModal);
-    console.log("recom:", this.rscModal.recomendacion)
+
   }
 
 }

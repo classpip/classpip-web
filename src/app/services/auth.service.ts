@@ -76,7 +76,7 @@ export class AuthService {
   //   return this.http.post(this.APIUrlUsers + '/update?[where][id]='+id, body);
   // }
   
-  // public changePassword(old: String, newPass: String): Observable<any> {
-  //   return this.http.post(this.APIUrlUsers + '/change-password', {"oldPassword": old, "newPassword": newPass});
-  // }
+  public changePassword(old: String, newPass: String): Observable<any> {
+    return this.http.post(this.APIUrlUsers + '/change-password', {"oldPassword": old, "newPassword": newPass});
+  }
 }
