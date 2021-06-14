@@ -226,6 +226,7 @@
 
           <!-- *********** FORM UPLOAD BY JSON *************** -->
           <div *ngIf="this.typeRscUpload != undefined && this.uploadByJson == true">
+            <!-- ////// JSON ////////// -->
             <div class="form-group">
               <label for="json">Fichero JSON*</label>
               &nbsp;&nbsp;&nbsp;
@@ -240,21 +241,22 @@
               <span class="imgName" *ngIf="this.rscJsonName == null">Ningun archivo seleccionado</span>
               <span style="color: violet" class="imgName" *ngIf="this.rscJsonName != null">{{this.rscJsonName}}</span>
             </div>
+            <!-- ////// IMAGEN COLECCION (only if rscType == coleccion) ////////// -->
             <div class="form-group" *ngIf="this.typeRscUpload == 'Colección'">
               <label for="imgColJson">Imagen de la colección</label>
-              <input #file id="imgColJson" type="file" accept="image/*" (change)="getImgColeccionJSON($event)"
-                style="display: none;">
-              <br>
-              <button class="btn btn-default" (click)="activarInputImgsJson('imgColJson')"><i
-                  class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
-              &nbsp;
-              <span class="imgName" *ngIf="this.imgsJsonNames.length == 0">Ninguna imagen
-                seleccionada</span>
-              <br>
+              <div *ngIf="this.imgColJsonName == null">
+                <input #file id="imgColJson" type="file" accept="image/*" (change)="getImgColeccionJSON($event)"
+                  style="display: none;">
+                <button class="btn btn-default" (click)="activarInputImgsJson('imgColJson')"><i
+                    class="tim-icons icon-attach-87"></i>&nbsp;Añadir imagen</button>
+                &nbsp;
+                <span class="imgName">Ninguna imagen seleccionada</span>
+              </div>
               <span style="color: violet" class="imgName" *ngIf="this.imgColJsonName != null">
-                <span><br>{{this.imgColJsonName}}</span>
+                <span><br>{{this.imgColJsonName}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgColJson()"></i></span>
               </span>
             </div>
+            <!-- ////// IMAGENES RECURSO ////////// -->
             <div class="form-group">
               <label for="imgsJson" *ngIf="this.typeRscUpload != 'Colección'" >Imágenes del recurso</label>
               <label for="imgsJson" *ngIf="this.typeRscUpload == 'Colección'">Imágenes de los cromos</label> 

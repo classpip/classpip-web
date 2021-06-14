@@ -401,6 +401,7 @@ export class RecursosService {
                   if(json.dosCaras != null && (json.dosCaras != true || json.dosCaras != false)){
                     
                     let imgsCromos = new Array<string>();
+                    let ready = false;
                     json.cromos.forEach(cromo => {
                       if(cromo.nombre != null){
                         if(cromo.probabilidad != null && (cromo.probabilidad == 'MUY ALTA' || cromo.probabilidad == 'ALTA' || cromo.probabilidad == 'BAJA' || cromo.probabilidad == 'MUY BAJA')){
@@ -410,6 +411,29 @@ export class RecursosService {
                               if(cromo.imagenDetras == null){
                                 if(cromo.imagenDelante != null){
                                   imgsCromos.push(cromo.imagenDelante);
+                                  console.log('imgsCromos: '+imgsCromos.length);
+                                  console.log('json cromos: '+json.cromos.length);
+                                  console.log('imgNames: '+imgNames.length);
+                                  if(imgsCromos.length == json.cromos.length && imgsCromos.length == imgNames.length){
+                                    let cont = 0;
+                                    imgsCromos.forEach(img => {
+                                      let filter = imgNames.find(file => file === img);
+                                      if(filter != null){
+                                        cont++;
+                                        if(cont == imgsCromos.length){
+                                          ready = true;
+                                        }
+                                      } else {
+                                        Swal.fire('Error','Asegúrate de seleccionar solo todas las imágenes especificadas', 'error').then(() => {
+                                          return false;
+                                        });
+                                      }
+                                    });
+                                  } else if(imgsCromos.length != imgNames.length){
+                                    Swal.fire('Error','Asegúrate de seleccionar todas las imágenes especificadas en los cromos', 'error').then(() => {
+                                      return false;
+                                    })
+                                  }
                                 } else {
                                   Swal.fire('Error', 'El campo \"imagenDelante\" en los cromos es obligatorio', 'error').then(() => {
                                     return false;
@@ -421,31 +445,34 @@ export class RecursosService {
                                 });
                               }
 
-                              if(imgsCromos.length == json.cromos.length && imgsCromos.length == imgNames.length){
-                                let cont = 0;
-                                imgsCromos.forEach(img => {
-                                  let filter = imgNames.find(file => file === img);
-                                  if(filter != null){
-                                    cont++;
-                                    if(cont == imgsCromos.length){
-                                      return true;
-                                    }
-                                  } else {
-                                    Swal.fire('Error','Asegúrate de seleccionar solo todas las imágenes especificadas', 'error').then(() => {
-                                      return false;
-                                    });
-                                  }
-                                });
-                              } else if(imgsCromos.length != imgNames.length){
-                                Swal.fire('Error','Asegúrate de seleccionar todas las imágenes especificadas en los cromos', 'error').then(() => {
-                                  return false;
-                                })
-                              }
-
                             } else { //DOS CARAS = TRUE
                               if(cromo.imagenDetras != null){
                                 if(cromo.imagenDelante != null){
                                   imgsCromos.push(cromo.imagenDelante, cromo.imagenDetras);
+                                  if(imgsCromos.length == json.cromos.length*2 && imgsCromos.length == imgNames.length){
+                                    let cont = 0;
+                                    imgsCromos.forEach(img => {
+                                      let filter = imgNames.find(file => file === img);
+                                      if(filter != null){
+                                        cont++;
+                                        if(cont == imgNames.length){
+                                          ready = true;
+                                        }
+                                      } else {
+                                        console.log('el jordi es feisimo');
+                                        Swal.fire('Error','Asegúrate de seleccionar solo todas las imágenes especificadas', 'error').then(() => {
+                                          return false;
+                                        });
+                                      }
+                                    });
+                                  } else if(json.cromos.length*2 != imgNames.length){
+                                    console.log('mis muertos pisoteaos');
+                                    console.log('1',json.cromos.length);
+                                    console.log('2',imgNames.length);
+                                    Swal.fire('Error','Asegúrate de seleccionar todas las imágenes especificadas en los cromos', 'error').then(() => {
+                                      return false;
+                                    })
+                                  }
                                 } else {
                                   Swal.fire('Error', 'El campo \"imagenDelante\" en los cromos es obligatorio', 'error').then(() => {
                                     return false;
@@ -455,27 +482,6 @@ export class RecursosService {
                                 Swal.fire('Error', 'El campo \"imagenDetras\" en los cromos es obligatorio si \"dosCaras\":true', 'error').then(() => {
                                   return false;
                                 });
-                              }
-
-                              if(imgsCromos.length == json.cromos.length*2 && imgsCromos.length == imgNames.length){
-                                let cont = 0;
-                                imgsCromos.forEach(img => {
-                                  let filter = imgNames.find(file => file === img);
-                                  if(filter != null){
-                                    cont++;
-                                    if(cont == imgsCromos.length){
-                                      return true;
-                                    }
-                                  } else {
-                                    Swal.fire('Error','Asegúrate de seleccionar solo todas las imágenes especificadas', 'error').then(() => {
-                                      return false;
-                                    });
-                                  }
-                                });
-                              } else if(imgsCromos.length != imgNames.length){
-                                Swal.fire('Error','Asegúrate de seleccionar todas las imágenes especificadas en los cromos', 'error').then(() => {
-                                  return false;
-                                })
                               }
                             }
                           } else if(cromo.nivel == null){
@@ -501,7 +507,10 @@ export class RecursosService {
                           return false;
                         });
                       }
-                    });                     
+                    });
+                    
+                    if(ready) return true;
+
                   } else {
                     Swal.fire('Error', 'El campo \"dosCaras\" es obligatorio y debe ser true o false (sin comillas)', 'error').then(() => {
                       return false;

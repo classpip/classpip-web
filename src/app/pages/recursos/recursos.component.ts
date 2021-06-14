@@ -125,21 +125,24 @@ export class RecursosComponent implements OnInit {
 
   //Función para cerrar modal y devolverlo al estado inicial
   resetForm(){
-    this.finishForm = false;
+    this.typeRscUpload = undefined;
     this.respuestasForm = false;
     this.imgAvataresForm = false;
     this.cromosForm = false;
+    this.finishForm = false;
+    
+    //Variables subir JSON
     this.uploadByJson = null;
     this.rscJson = null;
     this.rscJsonName = null;
+    this.mapImgsJson = new Map<string, FormData>();
+    this.imgsJsonNames = new Array<string>();
+    this.imgColJsonName = null;
+    this.imgColJson = null;
 
     this.typeQuestion = undefined;
-    this.typeRscUpload = undefined;
 
     this.contOptions = 0;
-
-    this.form.reset();
-    this.modalUploadRsc.hide();
 
     this.avatarWrapper = new AvatarWrapper();
     this.preguntaWrapper = new PreguntaWrapper();
@@ -148,9 +151,6 @@ export class RecursosComponent implements OnInit {
 
     this.imagenesColeccion = new Map<string,FormData>();
 
-    this.mapImgsJson = new Map<string, FormData>();
-    this.imgsJsonNames = new Array<string>();
-
     for (let i = 1; i < 5; i++) {
       this.parejasMap.set(i, new Object);
     }
@@ -158,6 +158,9 @@ export class RecursosComponent implements OnInit {
     for (let i = 1; i < 7; i++) {
       this.cromosMap.set(i, new CromoWrapper());
     }
+
+    this.form.reset();
+    this.modalUploadRsc.hide();
   }
 
   //Función auxiliar para customizar las inputs de las imagenes
@@ -398,6 +401,11 @@ export class RecursosComponent implements OnInit {
     });
   }
 
+  unselectImgColJson(){
+    this.imgColJson = null;
+    this.imgColJsonName = null;
+  }
+
   uploadRscByJson(){
     if(this.rscJson == null){
       Swal.fire('Error', 'Selecciona un archivo JSON', 'error');
@@ -426,20 +434,22 @@ export class RecursosComponent implements OnInit {
           this.rscService.uploadPregunta(pregunta).subscribe((data) => {
             console.log('respuesta upload pregunta: ', data);
             if(data != null){
-              if(this.mapImgsJson != null){
+              if(this.rscJson.imagen != null){
                 this.imgService.uploadImgPregunta(this.mapImgsJson.get(this.rscJson.imagen)).subscribe((data) => {
                   console.log('respuesta upload img: ', data);
                   if(data != null){
-                    Swal.fire('Success', 'Pregunta subida con éxito', 'success');
-                    this.resetForm();
+                    Swal.fire('Hecho!', 'Pregunta subida con éxito', 'success').then(() => {
+                      this.resetForm();
+                    })
                   }
                 }, (error) => {
                   console.log(error);
                   Swal.fire('Error', 'Error al subir imagen', 'error');
                 });
               } else {
-                Swal.fire('Success', 'Pregunta subida con éxito', 'success');
-                this.resetForm();
+                Swal.fire('Hecho!', 'Pregunta subida con éxito', 'success').then(() => {
+                  this.resetForm();
+                })
               }
             }
           }, (error) => {
@@ -451,6 +461,7 @@ export class RecursosComponent implements OnInit {
       }
       case 'Colección': {
         console.log(this.rscJson);
+        console.log('returnsss: ', this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames, this.imgColJsonName));
         if(this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames, this.imgColJsonName)){
           let coleccion = new Coleccion(
             this.rscJson.nombre,
@@ -481,8 +492,9 @@ export class RecursosComponent implements OnInit {
                         this.imgService.uploadImgCromo(img).subscribe((data) => {
                           console.log('respuesta upload img: ', data);
                           if(data != null){
-                            Swal.fire('Success', 'Colección subida con éxito', 'success');
-                            this.resetForm();
+                            Swal.fire('Hecho!', 'Colección subida con éxito', 'success').then(() => {
+                              this.resetForm();
+                            });
                           }
                         }, (error) => {
                           console.log(error);
@@ -529,8 +541,9 @@ export class RecursosComponent implements OnInit {
                   console.log('respuesta upload img: ', data);
                   cont++;
                   if(cont == this.mapImgsJson.size){
-                    Swal.fire('Success', 'Familia avatares subida con éxito', 'success');
-                    this.resetForm();
+                    Swal.fire('Hecho!', 'Familia avatares subida con éxito', 'success').then(() => {
+                      this.resetForm();
+                    })
                   }
                 }, (error) => {
                   console.log(error);
@@ -564,8 +577,9 @@ export class RecursosComponent implements OnInit {
                   console.log('respuesta upload img: ', data);
                   cont++;
                   if(cont == this.mapImgsJson.size){
-                    Swal.fire('Success', 'Familia imágenes de perfil subida con éxito', 'success');
-                    this.resetForm();
+                    Swal.fire('Hecho!', 'Familia imágenes de perfil subida con éxito', 'success').then(() => {
+                      this.resetForm();
+                    })
                   }
                 }, (error) => {
                   console.log(error);
@@ -1329,15 +1343,17 @@ export class RecursosComponent implements OnInit {
         if(this.newPregunta.imagen != null){
           this.imgService.uploadImgPregunta(this.imgPregunta).subscribe(() => {
             this.preguntaWrapper.imagen = null;
-            this.resetForm();
-            Swal.fire('Hecho!', 'Pregunta subida con éxito.', 'success');
+            Swal.fire('Hecho!', 'Pregunta subida con éxito.', 'success').then(() => {
+              this.resetForm();
+            })
           }, (error) => {
             console.log(error);
             Swal.fire('Error', 'Error al subir pregunta', 'error');
           });
         } else {
-          this.resetForm();
-          Swal.fire('Hecho!', 'Pregunta subida con éxito.', 'success');
+          Swal.fire('Hecho!', 'Pregunta subida con éxito.', 'success').then(() => {
+            this.resetForm();
+          })
         }
       }, (error) => {
         console.log(error);
@@ -1394,8 +1410,9 @@ export class RecursosComponent implements OnInit {
               this.imgService.uploadImgAvatares(this.imagenesComp3).subscribe(() => {
                 this.imgService.uploadImgAvatares(this.imagenesComp4).subscribe(() => {
                   this.avatarWrapper = new AvatarWrapper();
-                  this.resetForm();
-                  Swal.fire('Hecho!', 'Avatares subidos con éxito.', 'success');
+                  Swal.fire('Hecho!', 'Avatares subidos con éxito.', 'success').then(() => {
+                    this.resetForm();
+                  })
                 }, (error) => {
                   console.log(error);
                   Swal.fire('Error', 'Error al subir complementos de '+this.avatarWrapper.nombreComplemento4, 'error');
@@ -1449,8 +1466,9 @@ export class RecursosComponent implements OnInit {
         console.log('respuesta subir imgs perfil: '+data);
         this.imgService.uploadImgFamiliaImagenes(this.imagenesPerfil).subscribe(() => {
           this.imgPerfilWrapper = new ImagenesPerfilWrapper();
-          this.resetForm();
-          Swal.fire('Hecho!', 'Avatares subidos con éxito.', 'success');
+          Swal.fire('Hecho!', 'Avatares subidos con éxito.', 'success').then(() => {
+            this.resetForm();
+          })
         }, (error) => {
           console.log(error);
           Swal.fire('Error', 'Error al subir imágenes', 'error');
@@ -1512,8 +1530,9 @@ export class RecursosComponent implements OnInit {
                         contImgs++;
                         console.log('cont imgs: ', contImgs, this.imagenesColeccion.size);
                         if(contImgs == this.imagenesColeccion.size){
-                          Swal.fire('Success', 'Colección subida con éxito', 'success');
-                          this.resetForm();
+                          Swal.fire('Hecho!', 'Colección subida con éxito', 'success').then(() => {
+                            this.resetForm();
+                          })
                         }
                       }, (error) => {
                         Swal.fire('error','Error al subir imagenes del cromo '+(contImgs+1),'error');

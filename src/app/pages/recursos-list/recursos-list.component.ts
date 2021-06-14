@@ -616,11 +616,11 @@ export class RecursosListComponent implements OnInit {
       //Itera los cromos para obtener sus datos
       cromos.forEach(cromo => {
         const c = {
-          nombreCromo: cromo.nombre,
-          nombreImagenCromoDelante: cromo.imagenDelante,
-          nombreImagenCromoDetras: cromo.imagenDetras,
-          nivelCromo: cromo.nivel,
-          probabilidadCromo: cromo.probabilidad,
+          nombre: cromo.nombre,
+          imagenDelante: cromo.imagenDelante,
+          imagenDetras: cromo.imagenDetras,
+          nivel: cromo.nivel,
+          probabilidad: cromo.probabilidad,
         };
         //Guarda los cromos en la coleccion
         this.coleccion.cromos.push(c);
