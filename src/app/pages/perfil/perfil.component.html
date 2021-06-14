@@ -5,9 +5,10 @@
             <div class="container">
                 <div class="row">
                     <div class="container">
-                        <div class="col-lg-4 col-md-6 ml-auto mr-auto">
-                            <div class="card card-coin card-plain" style="padding-top: 100px;">
+                        <div class="col-lg-4 col-md-6 ml-auto mr-auto" >
+                            <div class="card card-coin card-plain" style="padding-top: 100px; width: 125%;">
                                 <div class="card-header">
+                                    <br>
                                     <div class="image">
                                         <img *ngIf="this.profesor.imagenPerfil != null"
                                             class="img-center img-fluid rounded-circle"
@@ -24,38 +25,26 @@
                                     <h4 class="title">{{this.profesor.nombre}} {{this.profesor.primerApellido}}</h4>
                                 </div>
                                 <div class="card-body">
-                                    <label for="name">Nombre</label>
-                                    <div class="input-group">
-                                        <input #name id="name" class="form-control" 
-                                            type="text" value='{{this.profesor.nombre}}' readOnly>
-                                    </div>
-                                    <br>
-                                    <label for="surname">Primer Apellido</label>
-                                    <div class="input-group">
-                                        <input #surname id="surname" class="form-control" 
-                                            type="text" value='{{this.profesor.primerApellido}}' readOnly>
-                                    </div>
-                                    <br>
-                                    <label for="surname2">Segundo Apellido</label>
-                                    <div class="input-group">
-                                        <input #surname2 id="surname2" class="form-control" 
-                                            type="text" value='{{this.profesor.segundoApellido}}' readOnly>
-                                    </div>
-                                    <br>
-                                    <label for="email">Email</label>
-                                    <div class="input-group">
-                                        <input #email id="email" class="form-control" 
-                                            type="text" value='{{this.user.email}}' readOnly>
-                                    </div>
-                                    <br>
+                                    <form name="userData">
+                                        <label for="name">Nombre</label>
+                                        <input #name style="width: 100%" id="name" class="form-control" type="text" value='{{this.profesor.nombre}}' readOnly>
+                                     
+                                        <label for="surname">Primer Apellido</label>
+                                        <input #surname style="width: 100%" id="surname" class="form-control" type="text" value='{{this.profesor.primerApellido}}' readOnly>
+                                        
+                                        <label for="surname2">Segundo Apellido</label>
+                                        <input #surname2 style="width: 100%" id="surname2" class="form-control" type="text" value='{{this.profesor.segundoApellido}}' readOnly>
+                                 
+                                        <label for="email">Email</label>
+                                        <input #email style="width: 100%" id="email" class="form-control" type="text" value='{{this.user.email}}' readOnly>    
+                                    </form>
+                                </div>
+                                <div class="card-footer" style="text-align: center;">
                                     <button class="btn btn-primary btn-round" (click)="editUser()" *ngIf="name.readOnly == true">Edita la información del perfil</button>
                                     <button class="btn btn-primary btn-round" (click)="updateUser()" *ngIf="name.readOnly == false">Actualiza la información del perfil</button>
                                     <br>
-                                    <button class="btn btn-success btn-round" (click)="modalChangePassword.show()">Cambia tu
-                                        contraseña</button>
-                                    <br>
-                                    <br>
-    
+                                    <button class="btn btn-success btn-round" (click)="modalChangePassword.show()">Cambia tu contraseña</button>
+                                    <br>    
                                     <button class="btn btn-warning btn-round" (click)="logout()">Cerrar sesión</button>
                                 </div>
                             </div>
