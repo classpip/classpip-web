@@ -537,7 +537,6 @@ export class RecursosListComponent implements OnInit {
 
     //Prepara el fichero ZIP a descargar
     let zip = new JSZip();
-    
     let folder = zip.folder('imagenes');
 
     //Guarda los datos de la coleccion a guardar
