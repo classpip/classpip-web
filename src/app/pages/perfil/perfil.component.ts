@@ -151,6 +151,7 @@ export class PerfilComponent implements OnInit {
       console.log("profesor", profesor)
       this.auth.updateProfesor(this.profesor.id, profesor).subscribe((data: any) =>{
         this.profesor = data;
+        this.sesion.TomaProfesor(this.profesor);
         if(this.user.username != form["username"].value || this.user.email != form["email"].value){
           let user = new User(
             form["username"].value,
@@ -160,6 +161,9 @@ export class PerfilComponent implements OnInit {
           this.auth.updateUser(this.profesor.userId, user).subscribe(() => {
             Swal.fire('Success', 'Datos actualizados correctamente', 'success')
           })
+        }
+        else{
+          Swal.fire('Success', 'Datos actualizados correctamente', 'success')
         }
       }, (error) => {
         console.log(error);
