@@ -1,12 +1,12 @@
-// .enColumna{
-//     display: flex;
-//     display: -webkit-flex;
-//     display: -ms-flexbox;
-  
-//     justify-content: left ;
-//     flex-direction: column;
-//     // align-items: flex-start;
-//     border: solid transparent;
-//     align-items: center;
-//     width: 100%;
-//   }
+.back-button {
+    display: inline-block;
+    background: transparent;
+}
+
+.resource-header {
+    padding-left: 10px;
+}
+
+h1 {
+    display: inline-block;
+}

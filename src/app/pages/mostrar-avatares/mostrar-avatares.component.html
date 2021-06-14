@@ -1,80 +1,43 @@
 <app-navbar></app-navbar>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<div *ngIf='familiaElegida' class="subtitulo" style="text-align: center;">
-  <h1>{{familiaElegida.nombreFamilia}}</h1>
-</div>
 
-<div class="container">
+<br>
 
-  <div class="enColumna">
-    <div class="wrapper" style="text-align: left;">
-      <div *ngIf="familiaCargada" class="enFila">
-
-        <div id="imagenAvatar">
-
-          <img id="silueta" *ngIf="imagenSilueta" [src]="imagenSilueta">
-
-        </div>
+<div class="wrapper">
+  <div class="main">
+    <div class="section section-basic" id="header">
+      <div class="resource-header">
+        <button class="btn back-button" (click)="goBack()"><i
+            class="tim-icons icon-minimal-left"></i>&nbsp;Volver</button>
+        &nbsp;
+        <h1 class="rsc-name" style="text-align: center;">{{this.familiaElegida.nombreFamilia}}</h1>
       </div>
     </div>
-    <div class="enColumna" style="width: 70%">
-      <div class="wrapper" style="text-align: right;">
 
-        <br>
-        <h4> Haz click sobre el complemento que quieres colocar en la silueta</h4>
-        <br>
-        <div class="enFila" styte="width:20%">
-          <div style="margin-left: 5%;">
-            <h4>{{familiaElegida.nombreComplemento1}}</h4>
-            <button style="width: 30%; height: 35%" mat-button (click)="QuitarComplemento (1)"
-              class="btn Eliminar">Quitar
-            </button>
+    <div class="row" style="text-align: center;">
+      <div class="col-4">
+        <h3>Silueta</h3>
+      </div>
+      <div class="col-8">
+        <h3>Complementos</h3>
+        <div style="text-align: center;">
+          <div class="row" style="margin-left: auto; margin-right: auto;">
+            <h5>Complemento 1</h5>
           </div>
-          <div id="imagenesComplementos1" style="width: 80%;">
+          <div class="row" style="margin-left: auto; margin-right: auto;">
+            <h5>Complemento 2</h5>
           </div>
-        </div>
-        <div class="enFila" styte="width:20%">
-          <div style="margin-left: 5%;">
-            <h4>{{familiaElegida.nombreComplemento2}}</h4>
-            <button style="width: 30%; height: 35%" mat-button (click)="QuitarComplemento (2)"
-              class="btn Eliminar">Quitar
-            </button>
+          <div class="row" style="margin-left: auto; margin-right: auto;">
+            <h5>Complemento 3</h5>
           </div>
-          <div id="imagenesComplementos2" style="width: 80%; ">
-          </div>
-        </div>
-        <div class="enFila" styte="width:20%">
-          <div style="margin-left: 5%;">
-            <h4>{{familiaElegida.nombreComplemento3}}</h4>
-            <button style="width: 30%; height: 35%" mat-button (click)="QuitarComplemento (3)"
-              class="btn Eliminar">Quitar
-            </button>
-          </div>
-          <div id="imagenesComplementos3" style="width: 80%; ">
-          </div>
-        </div>
-        <div class="enFila" styte="width:20%">
-          <div style="margin-left: 5%;">
-            <h4>{{familiaElegida.nombreComplemento4}}</h4>
-            <button style="width: 30%; height: 35%" mat-button (click)="QuitarComplemento (4)"
-              class="btn Eliminar">Quitar
-            </button>
-          </div>
-          <div id="imagenesComplementos4" style="width: 80%; ">
+          <div class="row" style="margin-left: auto; margin-right: auto;">
+            <h5>Complemento 4</h5>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-
-  <button type="button" class="btn Back" (click)="goBack()">Volver </button>
-
 </div>
+
 
 <app-footer></app-footer>
