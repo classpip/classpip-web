@@ -6,6 +6,7 @@ import { Profesor } from './../../clases/Profesor';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import Swal from 'sweetalert2';
 import { ModalContainerComponent } from 'ngx-bootstrap/modal';
+import { EmailValidator } from '@angular/forms';
 
 @Component({
   selector: 'app-perfil',
@@ -124,6 +125,26 @@ export class PerfilComponent implements OnInit {
       })
     }
 
+  }
+  
+  editUser(){
+    (<HTMLInputElement>document.getElementById("name")).readOnly = false;
+    (<HTMLInputElement>document.getElementById("surname")).readOnly = false;
+    (<HTMLInputElement>document.getElementById("surname2")).readOnly = false;
+    (<HTMLInputElement>document.getElementById("email")).readOnly = false;
+  }
+
+  updateUser(){
+    this.user = {
+      username: document.getElementById("username"),
+      email: document.getElementById("email")
+    }
+    this.profesor = {
+      nombre: ,
+      primerApellido: ,
+      segundoApellido: ,
+      
+    }
   }
 
 

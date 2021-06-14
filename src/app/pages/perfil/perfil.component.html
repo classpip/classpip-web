@@ -27,28 +27,29 @@
                                     <label for="name">Nombre</label>
                                     <div class="input-group">
                                         <input #name id="name" class="form-control" 
-                                            type="text" value='{{this.profesor.nombre}}'>
+                                            type="text" value='{{this.profesor.nombre}}' readOnly>
                                     </div>
                                     <br>
                                     <label for="surname">Primer Apellido</label>
                                     <div class="input-group">
                                         <input #surname id="surname" class="form-control" 
-                                            type="text" value='{{this.profesor.primerApellido}}'>
+                                            type="text" value='{{this.profesor.primerApellido}}' readOnly>
                                     </div>
                                     <br>
                                     <label for="surname2">Segundo Apellido</label>
                                     <div class="input-group">
                                         <input #surname2 id="surname2" class="form-control" 
-                                            type="text" value='{{this.profesor.segundoApellido}}'>
+                                            type="text" value='{{this.profesor.segundoApellido}}' readOnly>
                                     </div>
                                     <br>
                                     <label for="email">Email</label>
                                     <div class="input-group">
                                         <input #email id="email" class="form-control" 
-                                            type="text" value='{{this.user.email}}'>
+                                            type="text" value='{{this.user.email}}' readOnly>
                                     </div>
                                     <br>
-                                    <button class="btn btn-primary btn-round">Actualiza la información del perfil</button>
+                                    <button class="btn btn-primary btn-round" (click)="editUser()" *ngIf="name.readOnly == true">Edita la información del perfil</button>
+                                    <button class="btn btn-primary btn-round" (click)="updateUser()" *ngIf="name.readOnly == false">Actualiza la información del perfil</button>
                                     <br>
                                     <button class="btn btn-success btn-round" (click)="modalChangePassword.show()">Cambia tu
                                         contraseña</button>
