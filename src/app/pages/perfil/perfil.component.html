@@ -2,7 +2,7 @@
 
 <div class="wrapper">
     <div class="page-header header-filter">
-        <div class="content">
+        <div class="container">
             <div class="row">
                 <div class="container">
                     <div class="col-lg-4 col-md-6 ml-auto mr-auto">
@@ -21,9 +21,35 @@
                                 <div class="overlay img-center" (click)="goHome()">
                                     <div class="text"><i class="tim-icons icon-camera-18"></i>Cambiar</div>
                                 </div>
-                                <h4 class="title">{{this.profesor.nombre}} {{this.profesor.primerApellido}}</h4>
+                                <h4 class="title">{{this.user.username}} </h4>
                             </div>
                             <div class="card-body">
+                                <label for="old">Nombre</label>
+                                <div class="input-group">
+                                    <input #x id="old" class="form-control" 
+                                        type="text" value='{{this.profesor.nombre}}'>
+                                </div>
+                                <br>
+                                <label for="old">Primer Apellido</label>
+                                <div class="input-group">
+                                    <input #x id="old" class="form-control" 
+                                        type="text" value='{{this.profesor.primerApellido}}'>
+                                </div>
+                                <br>
+                                <label for="old">Segundo Apellido</label>
+                                <div class="input-group">
+                                    <input #x id="old" class="form-control" 
+                                        type="text" value='{{this.profesor.segundoApellido}}'>
+                                </div>
+                                <br>
+                                <label for="old">Email</label>
+                                <div class="input-group">
+                                    <input #x id="old" class="form-control" 
+                                        type="text" value='{{this.user.email}}'>
+                                </div>
+                                <br>
+                                <button class="btn btn-primary btn-round">Actualiza la información del perfil</button>
+                                <br>
                                 <button class="btn btn-success btn-round" (click)="modalChangePassword.show()">Cambia tu
                                     contraseña</button>
                                 <br>
@@ -67,7 +93,7 @@
                     </div>
                     <input #y id="new" class="form-control" placeholder="Contraseña nueva" type="password" value="">
                 </div>
-                
+
                 <br>
                 <label for="repeat">Repite la nueva contraseña</label>
                 <div class="input-group">
@@ -77,17 +103,17 @@
                         </div>
                     </div>
                     <input #z id="repeat" class="form-control" placeholder="Repite la nueva contraseña" type="password"
-                    value="">
+                        value="">
                 </div>
-                
+
                 <br>
                 <div class="button-class" style="text-align: center;">
                     <button class="btn btn-round btn-primary" type="button" (click)="changePassword()"
-                    (click)="modalChangePassword.hide()" >
-                    Cambiar contraseña
-                </button>
+                        (click)="modalChangePassword.hide()">
+                        Cambiar contraseña
+                    </button>
                 </div>
-                
+
             </div>
             <div class="modal-footer">
                 <div style="text-align: center; margin-left: auto; margin-right: auto;">

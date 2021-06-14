@@ -1,9 +1,9 @@
+import { User } from './../clases/User';
 import { HttpClient } from '@angular/common/http';
 import * as environment from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Profesor } from '../clases/Profesor';
-import { User } from '../clases/User';
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +59,14 @@ export class AuthService {
   
   public getUser(id: number): Observable<any> {
     return this.http.get<User>(this.APIUrlUsers + '/' + id);
+  }
+
+  public updateProfesor (id: number, body: Profesor){
+    return this.http.put(this.APIUrlProfesores + '/' + id, body);
+  }
+
+  public updateUser (id: number, body: User){
+    return this.http.put(this.APIUrlProfesores + '/' + id, body);
   }
 
   public checkUsername(username: string): Observable<User> {
