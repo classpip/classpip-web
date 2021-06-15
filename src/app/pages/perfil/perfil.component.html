@@ -128,16 +128,15 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header justify-content-center">
-                <h4 class="title title-up" style="text-align: center;">CONTRASEÑA</h4>
-                <br>
-                <span>Por motivos de seguridad, introduce tu contraseña</span>
+                <h4 style="text-align: center;">CONTRASEÑA</h4>
             </div>
             <div class="modal-body">
+                <label style="margin-left: auto; margin-right: auto;">Por motivos de seguridad, introduce tu contraseña</label>
                 <form name="securityForm">
                     <div class="input-group">
                         <input #pswd id="pswd" class="form-control has-danger" placeholder="Contraseña" type="password">
                         <div class="input-group-append">
-                            <span class="input-group-text" id="oldIcon">
+                            <span class="input-group-text" id="pswdIcon">
                                 <i class="fas fa-eye" *ngIf="pswd.type=='password'" (click)="pswd.type=old.type=='password'?'text':'password'"></i>
                                 <i class="fas fa-eye-slash" *ngIf="pswd.type=='text'" (click)="pswd.type=old.type=='password'?'text':'password'"></i>
                             </span>

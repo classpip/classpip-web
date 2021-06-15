@@ -95,7 +95,8 @@ export class PerfilComponent implements OnInit {
 
     if(cont == 3){
       console.log('username: ', this.user.username);
-      this.auth.login({ "username": this.user.username, "password": this.oldPassword }).subscribe(() => {
+      this.auth.login({ "username": this.user.username, "password": this.oldPassword }).subscribe((data: any) => {
+        sessionStorage.setItem('ACCESS_TOKEN', data.id);
         if (this.newPassword == this.repeatPassword){
           if(this.oldPassword != this.newPassword) {
             this.auth.changePassword(this.oldPassword, this.newPassword).subscribe(() => {
@@ -142,68 +143,106 @@ export class PerfilComponent implements OnInit {
     console.log('prof1: ',this.profesor);
     console.log('user1: ', this.user);
     let form = document.forms["userData"];
-    let pswd = document.forms['securityForm']['pswd'].value;
+    let secForm = document.forms['securityForm'];
+    let pswd = secForm['pswd'].value;
 
     if(pswd != ''){
 
       if(document.getElementById('pswd').style.borderColor == "red"){
-        document.getElementById('pswd').style.borderColor == "#525f7f";
+        document.getElementById('pswd').style.borderColor = "#525f7f";
+        document.getElementById('pswdIcon').style.borderColor = "#525f7f";
       }
-      
-      if (this.profesor.nombre != form["name"].value || this.profesor.primerApellido != form["surname"].value || this.profesor.segundoApellido != form["surname2"].value){
-        let profesor = new Profesor(
-          form["name"].value,
-          form["surname"].value,
-          form["surname2"].value,
-          this.profesor.imagenPerfil,
-          this.profesor.identificador,
-          this.profesor.id,
-          this.profesor.userId
-        )
-        console.log("prof2", profesor);
-        this.auth.updateProfesor(this.profesor.id, profesor).subscribe((data: any) =>{
-          this.profesor = data;
-          console.log('respuesta subir prof: ',data);
-          console.log('new thisprofesor: ', this.profesor);
-          this.sesion.TomaProfesor(this.profesor);
-          if(this.user.username != form["username"].value || this.user.email != form["email"].value){
-            let user = new User(
-              form["username"].value,
-              form["email"].value,
-              pswd
-            );
-            console.log('user2:', user);
-            this.auth.updateUser(this.profesor.userId, user).subscribe((data) => {
-              console.log('respuesta subir user2: ', data);
-              Swal.fire('Success', 'Datos actualizados correctamente', 'success')
-            })
-          }
-          else{
-            Swal.fire('Success', 'Datos actualizados correctamente', 'success')
-          }
+
+      if(this.user.username != form["username"].value || this.user.email != form["email"].value){
+        this.auth.login({"username":this.user.username, "password": pswd}).subscribe((data) => {
+          sessionStorage.setItem('ACCESS_TOKEN', data.id);
+          let user = new User(
+            form["username"].value,
+            form["email"].value,
+            pswd
+          );
+          console.log('user2:', user);
+          this.auth.updateUser(this.profesor.userId, user).subscribe((data: any) => {
+            console.log('respuesta subir user2: ', data);
+            this.user = data;
+            if (this.profesor.nombre != form["name"].value || this.profesor.primerApellido != form["surname"].value || this.profesor.segundoApellido != form["surname2"].value){
+              let profesor = new Profesor(
+                form["name"].value,
+                form["surname"].value,
+                form["surname2"].value,
+                this.profesor.imagenPerfil,
+                this.profesor.identificador,
+                this.profesor.id,
+                this.profesor.userId
+              )
+              console.log("prof2", profesor);
+              this.auth.updateProfesor(this.profesor.id, profesor).subscribe((data: any) =>{
+                this.modalSecurity.hide();
+                Swal.fire('Success', 'Datos actualizados correctamente', 'success').then(() => {
+                  secForm.reset();
+                  this.profesor = data;
+                  console.log('respuesta subir prof: ',data);
+                  console.log('new thisprofesor: ', this.profesor);
+                  this.sesion.TomaProfesor(this.profesor);
+                });
+              }, (error) => {
+                console.log(error);
+                this.modalSecurity.hide();
+                Swal.fire("Error", "No se ha podido actualizar al profesor", "error")
+              })
+            } else {
+              Swal.fire('Success', 'Datos actualizados correctamente', 'success').then(() => {
+                secForm.reset();
+              });
+              this.modalSecurity.hide();
+            }
+          })
         }, (error) => {
-          console.log(error);
-          Swal.fire("Error", "No se ha podido actualizar al profesor", "error")
+          Swal.fire('Error','Contraseña incorrecta','error');
+        });
+      }
+      else if(this.profesor.nombre != form["name"].value || this.profesor.primerApellido != form["surname"].value || this.profesor.segundoApellido != form["surname2"].value){
+        this.auth.login({"username":this.user.username, "password": pswd}).subscribe((data) => {
+          sessionStorage.setItem('ACCESS_TOKEN', data.id);
+          let profesor = new Profesor(
+            form["name"].value,
+            form["surname"].value,
+            form["surname2"].value,
+            this.profesor.imagenPerfil,
+            this.profesor.identificador,
+            this.profesor.id,
+            this.profesor.userId
+          )
+          console.log("prof2", profesor);
+          this.auth.updateProfesor(this.profesor.id, profesor).subscribe((data: any) =>{
+            this.modalSecurity.hide();
+            Swal.fire('Success', 'Datos actualizados correctamente', 'success').then(() => {
+              secForm.reset();
+              this.profesor = data;
+              console.log('respuesta subir prof: ',data);
+              console.log('new thisprofesor: ', this.profesor);
+              this.sesion.TomaProfesor(this.profesor);
+            });
+          }, (error) => {
+            console.log(error);
+            Swal.fire("Error", "No se ha podido actualizar al profesor", "error");
+            this.modalSecurity.hide();
+          })
+        }, (error) => {
+          Swal.fire('Error','Contraseña incorrecta','error');
         })
-      }
-      else if(this.user.username != form["username"].value || this.user.email != form["email"].value){
-        let user = new User(
-          form["username"].value,
-          form["email"].value,
-          pswd
-        );
-        console.log('user3: ',user);
-        this.auth.updateUser(this.profesor.userId, user).subscribe((data) => {
-          console.log('respuesta subir user3: ', data);
-          Swal.fire('Success', 'Datos actualizados correctamente', 'success')
-        }, (error) => {
-          Swal.fire("Error", "No se ha podido actualizar al profesor", "error");
+      } else {
+        //NO MODIFIED DATA
+        Swal.fire("Error", "Cambia al menos el valor de algún campo", "error").then(() => {
+          this.modalSecurity.hide();
+          secForm.reset();
         });
       }
 
     } else {
       if(document.getElementById('pswd').style.borderColor != "red"){
         document.getElementById('pswd').style.borderColor = "red";
+        document.getElementById('pswdIcon').style.borderColor = "red";
       }
     }
   }

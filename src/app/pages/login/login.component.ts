@@ -139,7 +139,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       },
       (err) => {
         console.log ('ERROR');
-        Swal.fire('Error', 'Fallo en la conexion con la base de datos', 'error');
+        Swal.fire('Error', 'Credenciales incorrectas', 'error');
       }
     );
   }

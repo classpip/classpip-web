@@ -66,7 +66,7 @@ export class AuthService {
   }
 
   public updateUser (id: number, body: any){
-    return this.http.put(this.APIUrlProfesores + '/' + id, body);
+    return this.http.put(this.APIUrlUsers + '/' + id, body);
   }
 
   public checkUsername(username: string): Observable<User> {
