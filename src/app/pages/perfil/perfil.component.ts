@@ -7,6 +7,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import Swal from 'sweetalert2';
 import { ModalContainerComponent } from 'ngx-bootstrap/modal';
 import { EmailValidator } from '@angular/forms';
+import { reduce } from 'rxjs/operators';
 
 @Component({
   selector: 'app-perfil',
@@ -27,7 +28,7 @@ export class PerfilComponent implements OnInit {
   ngOnInit(): void {
     if (this.auth.isLoggedIn()) {
       this.profesor = this.sesion.DameProfesor();
-      console.log("prof", this.profesor);
+      console.log("profesor onInit", this.profesor);
       this.auth.getUser(this.profesor.userId).subscribe((res) => {
         this.user = res;
       });
@@ -135,58 +136,81 @@ export class PerfilComponent implements OnInit {
     (<HTMLInputElement>document.getElementById("username")).readOnly = false;
   }
 
+  @ViewChild('modalSecurity', { static: true }) modalSecurity: ModalContainerComponent;
+
   updateUser(){
-    
+    console.log('prof1: ',this.profesor);
+    console.log('user1: ', this.user);
     let form = document.forms["userData"];
-    if (this.profesor.nombre != form["name"].value || this.profesor.primerApellido != form["surname"].value || this.profesor.segundoApellido != form["surname2"].value){
-      let profesor = new Profesor(
-        form["name"].value,
-        form["surname"].value,
-        form["surname2"].value,
-        this.profesor.imagenPerfil,
-        this.profesor.identificador,
-        this.profesor.id,
-        this.profesor.userId
-      )
-      console.log("profesor", profesor)
-      this.auth.updateProfesor(this.profesor.id, profesor).subscribe((data: any) =>{
-        this.profesor = data;
-        this.sesion.TomaProfesor(this.profesor);
-        if(this.user.username != form["username"].value || this.user.email != form["email"].value){
-          let user = new User(
-            form["username"].value,
-            this.user.password,
-            form["email"]
-          )
-          this.auth.updateUser(this.profesor.userId, user).subscribe(() => {
-            Swal.fire('Success', 'Datos actualizados correctamente', 'success')
-          })
-        }
-        else{
-          Swal.fire('Success', 'Datos actualizados correctamente', 'success')
-        }
-      }, (error) => {
-        console.log(error);
-        Swal.fire("Error", "No se ha podido actualizar al profesor", "error")
-      })
-    }
-    else{
-      if(this.user.username != form["username"].value || this.user.email != form["email"].value){
-        let user = new User(
-          form["username"].value,
-          this.user.password,
-          form["email"]
+    let pswd = document.forms['securityForm']['pswd'].value;
+
+    if(pswd != ''){
+
+      if(document.getElementById('pswd').style.borderColor == "red"){
+        document.getElementById('pswd').style.borderColor == "#525f7f";
+      }
+      
+      if (this.profesor.nombre != form["name"].value || this.profesor.primerApellido != form["surname"].value || this.profesor.segundoApellido != form["surname2"].value){
+        let profesor = new Profesor(
+          form["name"].value,
+          form["surname"].value,
+          form["surname2"].value,
+          this.profesor.imagenPerfil,
+          this.profesor.identificador,
+          this.profesor.id,
+          this.profesor.userId
         )
-        this.auth.updateUser(this.profesor.userId, user).subscribe(() => {
-          Swal.fire('Success', 'Datos actualizados correctamente', 'success')
+        console.log("prof2", profesor);
+        this.auth.updateProfesor(this.profesor.id, profesor).subscribe((data: any) =>{
+          this.profesor = data;
+          console.log('respuesta subir prof: ',data);
+          console.log('new thisprofesor: ', this.profesor);
+          this.sesion.TomaProfesor(this.profesor);
+          if(this.user.username != form["username"].value || this.user.email != form["email"].value){
+            let user = new User(
+              form["username"].value,
+              form["email"].value,
+              pswd
+            );
+            console.log('user2:', user);
+            this.auth.updateUser(this.profesor.userId, user).subscribe((data) => {
+              console.log('respuesta subir user2: ', data);
+              Swal.fire('Success', 'Datos actualizados correctamente', 'success')
+            })
+          }
+          else{
+            Swal.fire('Success', 'Datos actualizados correctamente', 'success')
+          }
+        }, (error) => {
+          console.log(error);
+          Swal.fire("Error", "No se ha podido actualizar al profesor", "error")
         })
       }
-      else{
-        Swal.fire("Error", "No se ha podido actualizar al profesor", "error")
+      else if(this.user.username != form["username"].value || this.user.email != form["email"].value){
+        let user = new User(
+          form["username"].value,
+          form["email"].value,
+          pswd
+        );
+        console.log('user3: ',user);
+        this.auth.updateUser(this.profesor.userId, user).subscribe((data) => {
+          console.log('respuesta subir user3: ', data);
+          Swal.fire('Success', 'Datos actualizados correctamente', 'success')
+        }, (error) => {
+          Swal.fire("Error", "No se ha podido actualizar al profesor", "error");
+        });
+      }
+
+    } else {
+      if(document.getElementById('pswd').style.borderColor != "red"){
+        document.getElementById('pswd').style.borderColor = "red";
       }
     }
   }
 
+  resetEditUser(){
+    this.modalSecurity.hide();
+  }
 
   //Obtenemos el componente modal para poder cerrarlo desde aquí
   @ViewChild('modalChangePassword', { static: true }) modalPswd: ModalContainerComponent;

@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="card-footer" style="text-align: center;">
                                     <button class="btn btn-primary btn-round" (click)="editUser()" *ngIf="name.readOnly == true">Edita la información del perfil</button>
-                                    <button class="btn btn-primary btn-round" (click)="updateUser()" *ngIf="name.readOnly == false">Actualiza la información del perfil</button>
+                                    <button class="btn btn-primary btn-round" (click)="modalSecurity.show()" *ngIf="name.readOnly == false">Actualiza la información del perfil</button>
                                     <br>
                                     <button class="btn btn-success btn-round" (click)="modalChangePassword.show()">Cambia tu contraseña</button>
                                     <br>    
@@ -116,6 +116,44 @@
                     &nbsp;
                     <button class="btn btn-round btn-primary" type="button" (click)="changePassword()">
                         Cambiar contraseña
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black"
+    #modalSecurity="bs-modal" id="modalSecurity" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h4 class="title title-up" style="text-align: center;">CONTRASEÑA</h4>
+                <br>
+                <span>Por motivos de seguridad, introduce tu contraseña</span>
+            </div>
+            <div class="modal-body">
+                <form name="securityForm">
+                    <div class="input-group">
+                        <input #pswd id="pswd" class="form-control has-danger" placeholder="Contraseña" type="password">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="oldIcon">
+                                <i class="fas fa-eye" *ngIf="pswd.type=='password'" (click)="pswd.type=old.type=='password'?'text':'password'"></i>
+                                <i class="fas fa-eye-slash" *ngIf="pswd.type=='text'" (click)="pswd.type=old.type=='password'?'text':'password'"></i>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div style="text-align: center; margin-left: auto; margin-right: auto;">
+                    <button class="btn btn-round btn-danger" data-dismiss="modal" type="button"
+                        (click)="this.resetEditUser()">
+                        Cancelar
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-round btn-primary" type="button" (click)="updateUser()">
+                        Finalizar
                     </button>
                 </div>
             </div>

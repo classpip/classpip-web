@@ -65,7 +65,7 @@ export class AuthService {
     return this.http.put(this.APIUrlProfesores + '/' + id, body);
   }
 
-  public updateUser (id: number, body: User){
+  public updateUser (id: number, body: any){
     return this.http.put(this.APIUrlProfesores + '/' + id, body);
   }
 
