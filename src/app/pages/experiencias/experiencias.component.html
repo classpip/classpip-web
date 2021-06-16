@@ -84,8 +84,12 @@
               <h3 style="text-align:center;"> {{publi.titulo}} {{publi.id}} {{i}}</h3>
 
               <p style="text-align:justify; margin-right: 10%;">{{publi.publicacion}}</p>
-              <p *ngIf="publi.ficheros != null" >{{publi.ficheros}}</p>
-              <p *ngIf="publi.imagenes != null" >{{publi.imagenes}}</p>
+              <div class="button" *ngIf="publi.ficheros != null && publi.ficheros.length > 0"  data-target="#modalFiles" style="text-align: center;">
+                <button class="btn btn-success btn-default btn-small" type="button" (click)="modalFiles.show()" (click)="setFilesModal(publi.ficheros)">
+                  Ver ficheros
+                </button>
+              </div>              
+              <p *ngIf="publi.imagenes != null && publi.imagenes.length > 0" >{{publi.imagenes}}</p>
               <br>
               <br>
               <div class="likes">
@@ -101,7 +105,7 @@
             <div class="card card-comentario"  *ngIf="publi.comentarios != undefined" >
               <div class="comentario" *ngFor="let comment of publi.comentarios;" >
                 <div class="comentario-header">
-                  <div class="autor" id="autor-name">
+                  <div class="autor" id="autor-name" *ngIf="comment.autor" >
                     <img *ngIf="comment.autor.imagenPerfil == null" src="../../../assets/img/logo.png"
                       routerLink="/perfil" style="border-radius: 50%" width="20" height="20" />
                     <img *ngIf="comment.autor.imagenPerfil != null" src={{comment.autor.imagenPerfil}}
@@ -213,4 +217,29 @@
       </div>
     </div>
   </div>
+
+ <!-- MODAL FICHEROS PUBLICACIÓN -->
+  <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #modalFiles="bs-modal"
+    id="modalFiles" role="dialog" tabindex="-1">
+    <div class="modal-dialog" style="width:1250px;">
+      <div class="modal-content">
+
+        <div class="modal-header justify-content-center">
+          <div class="text-center mb-4 mt-3">
+            FICHEROS
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <button class="btn-default" (click)="downloadAllFiles(this.filesSeeModal)">Descargar todos</button>
+          <div style="color: violet">
+            <span *ngFor="let fileName of this.filesSeeModal"><br>{{fileName}} &nbsp; <i
+                class="tim-icons icon-cloud-download-93" (click)="downloadFile(fileName)"></i></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <app-footer></app-footer>

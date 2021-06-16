@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import Swal from 'sweetalert2';
 import { ImagenesService } from 'src/app/services/imagenes.service';
 import { ModalContainerComponent } from 'ngx-bootstrap/modal';
+import {saveAs as importedSaveAs} from "file-saver";
 
 @Component({
   selector: 'app-experiencias',
@@ -41,9 +42,13 @@ export class ExperienciasComponent implements OnInit {
   imgNames = new Array<string>();
   mapImgs = new Map<string, FormData>();
 
+  //Variables para ver imagenes y ficheros
+  filesSeeModal;
+
   constructor(private auth: AuthService, private publiService: PublicacionesService, private sesion: SesionService, private imgService: ImagenesService) { }
 
   ngOnInit(): void {
+
     //Comprueba si el usuario esta loggeado
     if (this.auth.isLoggedIn()) {
       this.isLogged = true;
@@ -305,6 +310,41 @@ export class ExperienciasComponent implements OnInit {
     });
   }
 
+  setFilesModal(ficheros){
+    console.log('entra ficheros: ', ficheros);
+    this.filesSeeModal = ficheros;
+  }
+
+  downloadFile(fileName){
+    console.log('Fichero a descargar: ', fileName);
+    this.imgService.downloadFilePublicacion(fileName).subscribe((data) => {
+      try {
+        const blob = new Blob([data]);
+        importedSaveAs(blob, fileName);
+      }
+      catch(error){
+        Swal.fire('Error','Error descargando fichero','error');
+      }
+    }, (error) => {
+      Swal.fire('Error','Error obteniendo fichero','error');
+    })
+  }
+
+  downloadAllFiles(fileNames){
+    for(let fileName of fileNames){
+      this.imgService.downloadFilePublicacion(fileName).subscribe((data) => {
+        try {
+          const blob = new Blob([data]);
+          importedSaveAs(blob, fileName);
+        }
+        catch(error){
+          Swal.fire('Error','Error descargando fichero '+fileName,'error');
+        }
+      }, (error) => {
+        Swal.fire('Error','Error obteniendo fichero '+fileName,'error');
+      })
+    }
+  }
 
   /* *********************************** */
   /******* FUNCIONES COMENTARIOS *********/
