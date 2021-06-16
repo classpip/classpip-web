@@ -4,9 +4,11 @@ import { SesionService } from './../../services/sesion.service';
 import { Profesor } from './../../clases/Profesor';
 import { AuthService } from './../../services/auth.service';
 import { PublicacionesService } from './../../services/publicaciones.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
+import { ImagenesService } from 'src/app/services/imagenes.service';
+import { ModalContainerComponent } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-experiencias',
@@ -19,22 +21,30 @@ export class ExperienciasComponent implements OnInit {
   focus1;
   focus2;
 
+  //Variables para ver publicaciones
   publicaciones;
   mapPublicaciones = new Map<String, Publicacion>();
-
   comments;
 
+  //Variables para subir publicaciones
   isLogged;
   profesor;
-
   sndbtn;
 
-  file;
-  newImg;
+  //Variables para subir ficheros
+  files: FormData;
+  fileNames = new Array<string>();
+  mapFiles = new Map<string, FormData>();
 
-  constructor(private auth: AuthService, private publiService: PublicacionesService, private sesion: SesionService) { }
+  //Variables para subir imágenes
+  imgs: FormData;
+  imgNames = new Array<string>();
+  mapImgs = new Map<string, FormData>();
+
+  constructor(private auth: AuthService, private publiService: PublicacionesService, private sesion: SesionService, private imgService: ImagenesService) { }
 
   ngOnInit(): void {
+    //Comprueba si el usuario esta loggeado
     if (this.auth.isLoggedIn()) {
       this.isLogged = true;
       this.profesor = this.sesion.DameProfesor();
@@ -45,6 +55,7 @@ export class ExperienciasComponent implements OnInit {
     }
     else this.isLogged = false;
 
+    //Obtiene las publicaciones para mostrarlas
     this.publiService.damePublicaciones().subscribe(data => {
       console.log('publicaciones: ' + data);
       if (data != undefined) {
@@ -98,69 +109,167 @@ export class ExperienciasComponent implements OnInit {
                 }
                 console.log("Comentario",comm)
               });
-              
             };
           });
           //Comprueba si soy el propietario
           if (this.profesor != undefined) {
             publi.isPropietario = this.isPropietarioPubli(publi);
-            
           }
         });
-
-
       }
-
-
-
     });
   }
 
-  sendComment(publiId: number) {
-    console.log('entra send ' + publiId);
-    if ((<HTMLInputElement>document.getElementById(publiId.toString())).value.length != 0) {
-      const comentario = (<HTMLInputElement>document.getElementById(publiId.toString())).value;
-      console.log(comentario);
-      (<HTMLInputElement>document.getElementById(publiId.toString())).value = '';
-
-      const today = new Date().toISOString();
-
-      const newComment = { "comentario": comentario, "fecha": today, "likes": 0, "autorId": this.profesor.id, "publicacionId": publiId };
-      console.log('new comment: ' + newComment);
-
-      this.publiService.comentar(publiId, newComment).subscribe(data => {
-        console.log(data);
-        data.autor = this.profesor;
-        this.publicaciones.forEach(publi => {
-          if (publi.id == publiId) {
-            publi.comentarios.unshift(data);
-          }
-        })
-      });
-    }
-    this.ngOnInit();
-  }
-
+  /* *********************************** */
+  /****** FUNCIONES PUBLICACIONES ********/
+  /* *********************************** */
   sendPubli() {
-    const titulo = (<HTMLInputElement>document.getElementById("TituloPublicacion")).value;
-    (<HTMLInputElement>document.getElementById("TituloPublicacion")).value = '';
 
-    const experiencia = (<HTMLInputElement>document.getElementById("Experiencia")).value;
-    (<HTMLInputElement>document.getElementById("Experiencia")).value = '';
+    let form = document.forms['newPubliForm'];
+    let titulo: string;
+    let experiencia: string;
+
+    if(form['titulo'].value != ''){
+      if(document.getElementById('titulo').style.borderColor == 'red'){
+        document.getElementById('titulo').style.borderColor = '#525f7f';
+      }
+      titulo = form['titulo'].value;
+    } else {
+      document.getElementById('titulo').style.borderColor = 'red';
+    }
+    
+
+    if(form['experiencia'].value != ''){
+      if(document.getElementById('experiencia').style.borderColor == 'red'){
+        document.getElementById('experiencia').style.borderColor = '#525f7f';
+      }
+      experiencia = form['experiencia'].value;
+    } else {
+      document.getElementById('experiencia').style.borderColor = 'red';
+    }
 
     const today = new Date().toISOString();
     console.log(today);
 
-    let publi = new Publicacion(titulo, experiencia, today, this.profesor.id, [], []);
-    console.log('publi: ', publi)
+    if(this.mapImgs.size == 0 && this.mapFiles.size == 0){
+      //SUBIR PUBLI SIN ARCHIVOS
+      let publi = new Publicacion(titulo, experiencia, today, this.profesor.id, [], []);
+      console.log('publi: ', publi)
+  
+      this.publiService.publicar(publi).subscribe((data) => {
+        console.log(data);
+        Swal.fire('Success','Experiencia publicada! Muchas gracias.', 'success').then(() => {
+          this.resetFormNewPubli();
+          data.autor = this.profesor;
+          data.fecha = moment(data.fecha).lang('es').fromNow();
+          data.likes = [];
+          this.publicaciones.unshift(data);
+        })
+      }, (error) => {
+        Swal.fire('Error', 'Error al subir experiencia', 'error');
+      })
+    } else {
+      //SUBIR PUBLI CON ARCHIVOS
+      let publi = new Publicacion(titulo, experiencia, today, this.profesor.id, [], [], this.fileNames, this.imgNames);
+      console.log('publi: ', publi)
+  
+      this.publiService.publicar(publi).subscribe((newPubli) => {
+        console.log('respuesta upload publi: ', newPubli);
+        if(this.mapImgs.size > 0 && this.mapFiles.size > 0){
 
-    this.publiService.publicar(publi).subscribe((data) => {
-      console.log(data);
-      data.autor = this.profesor;
-      data.fecha = moment(data.fecha).lang('es').fromNow();
-      data.likes = [];
-      this.publicaciones.unshift(data);
-    })
+          let contImg = 0;
+          let contFile = 0;
+
+          for(let file of this.mapFiles.values()){
+            this.imgService.uploadFilePublicacion(file).subscribe((fileData) => {
+              console.log('respuesta subir ficheros: ', fileData);
+              contFile++;
+              if(contFile == this.mapFiles.size){
+                for(let img of this.mapImgs.values()){
+                  this.imgService.uploadImgPublicacion(img).subscribe((imgData) => {
+                    console.log('respuesta subir imagenes: ', imgData);
+                    contImg++;
+                    if(contImg == this.mapImgs.size){
+                      this.resetFormNewPubli();
+                      Swal.fire('Success', 'Experiencia publicada! Muchas gracias.', 'success').then(() => {
+                        newPubli.autor = this.profesor;
+                        newPubli.fecha = moment(newPubli.fecha).lang('es').fromNow();
+                        newPubli.likes = [];
+                        this.publicaciones.unshift(newPubli);
+                      });
+                    }
+                  }, (error) => {
+                    Swal.fire('Error','Error al subir imágenes', 'error').then(() => {
+                      this.publiService.deletePubli(newPubli.id.toString());
+                    });
+                  });
+                }
+              } 
+            }, (error) => {
+              Swal.fire('Error','Error al subir ficheros', 'error').then(() => {
+                this.publiService.deletePubli(newPubli.id.toString());
+              })
+            })
+          }
+
+        } else if(this.mapFiles.size > 0) {
+          let cont = 0;
+          for(let file of this.mapFiles.values()){
+            this.imgService.uploadFilePublicacion(file).subscribe((fileData) => {
+              console.log('respuesta subir ficheros: ', fileData);
+              cont++;
+              if(cont == this.mapFiles.size){
+                this.resetFormNewPubli();
+                Swal.fire('Success', 'Experiencia publicada! Muchas gracias.', 'success').then(() => {
+                  newPubli.autor = this.profesor;
+                  newPubli.fecha = moment(newPubli.fecha).lang('es').fromNow();
+                  newPubli.likes = [];
+                  this.publicaciones.unshift(newPubli);
+                });
+              }
+            }, (error) => {
+              Swal.fire('Error','Error al subir ficheros', 'error').then(() => {
+                this.publiService.deletePubli(newPubli.id.toString());
+              })
+            })
+          }
+        } else if(this.mapImgs.size > 0){
+          let cont = 0;
+          for(let img of this.mapImgs.values()){
+            this.imgService.uploadImgPublicacion(img).subscribe((imgData) => {
+              console.log('respuesta subir imagenes: ', imgData);
+              cont++;
+              if(cont == this.mapImgs.size){
+                Swal.fire('Success', 'Experiencia publicada! Muchas gracias.', 'success').then(() => {
+                  newPubli.autor = this.profesor;
+                  newPubli.fecha = moment(newPubli.fecha).lang('es').fromNow();
+                  newPubli.likes = [];
+                  this.publicaciones.unshift(newPubli);
+                  this.resetFormNewPubli();
+                });
+              }
+            }, (error) => {
+              Swal.fire('Error','Error al subir imágenes', 'error').then(() => {
+                this.publiService.deletePubli(newPubli.id.toString());
+              });
+            });
+          }
+        } 
+      }, (error) => {
+        Swal.fire('Error','Error al subir publicacion', 'error');
+      });
+    }
+  }
+
+  @ViewChild('modalNewPubli', { static: true }) modalNewPubli: ModalContainerComponent;
+  
+  resetFormNewPubli(){
+    this.mapFiles = new Map<string,FormData>();
+    this.mapImgs = new Map<string,FormData>();
+    this.imgNames = new Array<string>();
+    this.fileNames = new Array<string>();
+    document.forms['newPubliForm'].reset();
+    this.modalNewPubli.hide();
   }
 
   likePubli(publiId: number) {
@@ -194,6 +303,35 @@ export class ExperienciasComponent implements OnInit {
         }
       })
     });
+  }
+
+
+  /* *********************************** */
+  /******* FUNCIONES COMENTARIOS *********/
+  /* *********************************** */
+  sendComment(publiId: number) {
+    console.log('entra send ' + publiId);
+    if ((<HTMLInputElement>document.getElementById(publiId.toString())).value.length != 0) {
+      const comentario = (<HTMLInputElement>document.getElementById(publiId.toString())).value;
+      console.log(comentario);
+      (<HTMLInputElement>document.getElementById(publiId.toString())).value = '';
+
+      const today = new Date().toISOString();
+
+      const newComment = { "comentario": comentario, "fecha": today, "likes": 0, "autorId": this.profesor.id, "publicacionId": publiId };
+      console.log('new comment: ' + newComment);
+
+      this.publiService.comentar(publiId, newComment).subscribe(data => {
+        console.log(data);
+        data.autor = this.profesor;
+        this.publicaciones.forEach(publi => {
+          if (publi.id == publiId) {
+            publi.comentarios.unshift(data);
+          }
+        })
+      });
+    }
+    this.ngOnInit();
   }
   //INTENTO DE DAR LIKE FALLIDO
   /* likeComment(commentId: number){
@@ -229,52 +367,113 @@ export class ExperienciasComponent implements OnInit {
     });
   }
 
-  mostrarImagenUpload($event) {
-    this.file = $event.target.files[0];
+  /* *********************************** */
+  /****** FUNCIONES SUBIR ARCHIVOS *******/
+  /* *********************************** */
+  activarInput(id) {
+    document.getElementById(id).click();
+  }
 
-    console.log('fichero: ', this.file.name);
-    const reader = new FileReader();
-    reader.readAsDataURL(this.file);
-    reader.onload = () => {
-      console.log('carga imagen');
-      this.newImg = reader.result.toString();
+  async getImagen($event) {
+    let files = $event.target.files;
+    let APIfileNames;
+
+    await this.imgService.getFileNamesContainer('ImagenesPublicacion').subscribe((data: Array<any>) => {
+      console.log('API files: ', data);
+      if(data != null){
+        APIfileNames = data;
+        for(let i=0; i < files.length; i++){
+          let filter = APIfileNames.find(f => f.name === files[i].name);
+          if(filter != null){
+            Swal.fire('Error', 'El fichero '+files[i].name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+            break;
+          } else {
+            console.log('Se puede subir ', files[i].name);
+            if(!this.mapImgs.has(files[i].name)){
+              this.mapImgs.set(files[i].name, new FormData());
+              this.mapImgs.get(files[i].name).append(files[i].name, files[i]);
+              this.imgNames.push(files[i].name);
+            }
+          }
+        }
+      }
+    });
+  }
+
+  async getFiles($event) {
+    let files = $event.target.files;
+    let APIfileNames;
+
+    await this.imgService.getFileNamesContainer('FicherosPublicacion').subscribe((data: Array<any>) => {
+      console.log('API files: ', data);
+      if(data != null){
+        APIfileNames = data;
+        for(let i=0; i < files.length; i++){
+          let filter = APIfileNames.find(f => f.name === files[i].name);
+          if(filter != null){
+            Swal.fire('Error', 'El fichero '+files[i].name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+            break;
+          } else {
+            console.log('Se puede subir ', files[i].name);
+            if(!this.mapFiles.has(files[i].name)){
+              this.mapFiles.set(files[i].name, new FormData());
+              this.mapFiles.get(files[i].name).append(files[i].name, files[i]);
+              this.fileNames.push(files[i].name);
+            }
+          }
+        }
+      }
+    });
+  }
+
+  unselectFile(type: string, name: string){
+    switch(type){
+      case 'img': {
+        this.mapImgs.delete(name);
+        this.imgNames.splice(this.imgNames.indexOf(name), 1);
+        break;
+      }
+      case 'file': {
+        this.mapFiles.delete(name);
+        this.fileNames.splice(this.fileNames.indexOf(name), 1);
+        break;
+      }
     }
   }
 
-  activarInput() {
-    document.getElementById("inp").click();
-  }
-
-  //Función para ver si soy el propietario del recurso
+  /* *********************************** */
+  /******** FUNCIONES ELIMINAR ***********/
+  /* *********************************** */
+  
+  //Función para ver si soy el propietario de la publi
   isPropietarioPubli(publi) {
     console.log("this.prof: ", this.profesor.id);
     console.log("recurso.prof: ", publi.autorId);
     if (this.profesor.id == publi.autorId) {
-
       return true
     }
     else {
-
       return false
     }
-
   }
 
+  //Función para ver si soy el propietario del comentario
   isPropietarioComment(comment) {
     console.log("this.prof: ", this.profesor.id);
     console.log("comment.prof: ", comment.autorId);
     if (this.profesor.id == comment.autorId) {
-
       return true
     }
     else {
-
       return false
     }
-
   }
 
+  //Función para borrar publicación
   borrarPublicacion(publi: any){
+    
+    console.log('Falta eliminar archivos (si tiene)');
+
     this.publiService.deletePubli(publi.id).subscribe(() => {
       Swal.fire("Hecho", "Publicación eliminada correctamente", "success")
       this.ngOnInit();
@@ -284,6 +483,7 @@ export class ExperienciasComponent implements OnInit {
     }
   }
 
+  //Función para borrar comentario
   borrarComment(comment: any){
     this.publiService.deleteComment(comment.id).subscribe(() => {
       Swal.fire("Hecho", "Comentario eliminado correctamente", "success")

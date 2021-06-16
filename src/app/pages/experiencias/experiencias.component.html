@@ -17,7 +17,7 @@
 
 
         <div *ngIf="this.isLogged == true; else loginWarn">
-          <div class="button" data-target="#myModal2" (click)="myModal2.show()" style="text-align: center;">
+          <div class="button" data-target="#modalNewPubli" (click)="modalNewPubli.show()" style="text-align: center;">
             <button class="btn btn-success btn-default btn-small" type="submit">
               Nueva publicación <i class="tim-icons icon-simple-add"> </i>
             </button>
@@ -69,9 +69,9 @@
                   <img *ngIf="publi.autor.imagenPerfil != null" src={{publi.autor.imagenPerfil}} routerLink="/perfil"
                     style="border-radius: 50%" width="20" height="20" />
                   &nbsp;
-                  <span>{{publi.autor.nombre}} {{publi.autor.PrimerApellido}}</span>
+                  <span>{{publi.autor.nombre}} {{publi.autor.primerApellido}}</span>
                 </div>
-                <span id="publi-title">{{publi.fecha}}</span>
+                <span id="publi-title" style="text-align: right;">{{publi.fecha}}</span>
                 &nbsp;
                 <button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-info btn-roundbtn-icon"
                   placement="bottom" tooltip="Eliminar publicación" *ngIf="publi.isPropietario" (click)="borrarPublicacion(publi)">
@@ -83,7 +83,9 @@
               <br><br>
               <h3 style="text-align:center;"> {{publi.titulo}} {{publi.id}} {{i}}</h3>
 
-              <p>{{publi.publicacion}}</p>
+              <p style="text-align:justify; margin-right: 10%;">{{publi.publicacion}}</p>
+              <p *ngIf="publi.ficheros != null" >{{publi.ficheros}}</p>
+              <p *ngIf="publi.imagenes != null" >{{publi.imagenes}}</p>
               <br>
               <br>
               <div class="likes">
@@ -148,48 +150,66 @@
         </ng-template>
       </div>
 
-
-
-
-      <!-- <input #file id="inp" type="file" accept='image/*' (change)="mostrarImagenUpload($event)" style="display:none;">
-    <button (click)="activarInput();"> <i class="tim-icons icon-attach-87"></i></button>
-    <img src="{{this.newImg}}"/> -->
+    <!-- <img src="{{this.newImg}}"/> -->
 
     </div>
   </div>
   <!-- </div> -->
   <!-- DEFINICIÓN DEL POPUP DE NUEVA PUBLICACIÓN -->
-  <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #myModal2="bs-modal"
-    id="myModal2" role="dialog" tabindex="-1">
+  <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #modalNewPubli="bs-modal"
+    id="modalNewPubli" role="dialog" tabindex="-1">
     <div class="modal-dialog" style="width:1250px;">
       <div class="modal-content">
+
         <div class="modal-header justify-content-center">
-          <button aria-hidden="true" class="close" data-dismiss="modal" (click)="myModal2.hide()" type="button">
-            <i class="tim-icons icon-simple-remove text-white"> </i>
-          </button>
-
-        </div>
-        <div class="modal-body">
-
           <div class="text-center mb-4 mt-3">
             EXPLÍCANOS TU EXPERIENCIA USANDO CLASSPIP
           </div>
-          <form role="form">
+        </div>
+
+        <div class="modal-body">
+          <form #publiForm name="newPubliForm">
             <div class="form-group mb-3">
-              <input type="titulo" class="form-control" id="TituloPublicacion"
+              <label for="titulo">Título*</label>
+              <input type="titulo" class="form-control" id="titulo"
                 placeholder="Escríbe el título de tu publicación" />
             </div>
             <div class="form-group">
-              <label for="Experiencia">Experiencia</label>
-              <textarea class="form-control" id="Experiencia"></textarea>
+              <label for="experiencia">Experiencia</label>
+              <textarea class="form-control" id="experiencia"></textarea>
             </div>
-            <div class="text-center">
-              <button class="btn btn-primary my-4" type="button" (click)="sendPubli()" (click)="myModal2.hide()">
-                Publicar
-              </button>
+            <div class="form-group">
+              <input id="img" type="file" accept='image/*' (change)="getImagen($event)" style="display:none;" multiple>
+              <button class="btn btn-info btn-med" (click)="activarInput('img');"> <i class="tim-icons icon-camera-18"></i>&nbsp;Añadir imagenes</button>
+              &nbsp;
+              <input id="file" type="file" accept='application/*' (change)="getFiles($event)" style="display:none;" multiple>
+              <button class="btn btn-success btn-med" (click)="activarInput('file')"> <i class="tim-icons icon-attach-87"></i>&nbsp;Añadir ficheros</button>
             </div>
+            <div class="form-group">
+              <div class="row">
+                <div style="color: violet" class="col" *ngIf="this.imgNames.length > 0">
+                  <span *ngFor="let imgName of this.imgNames"><br>{{imgName}} &nbsp; <i
+                      class="tim-icons icon-simple-remove" (click)="unselectFile('img', imgName)"></i></span>
+                </div>
+                <div style="color: violet" class="col" *ngIf="this.fileNames.length > 0">
+                  <span *ngFor="let fileName of this.fileNames"><br>{{fileName}} &nbsp; <i
+                      class="tim-icons icon-simple-remove" (click)="unselectFile('file', fileName)"></i></span>
+                </div>
+              </div>
+            </div> 
           </form>
+          <br>
+          <div style="text-align: center;">
+            <button class="btn btn-danger btn-med" type="button" (click)="this.resetFormNewPubli()">
+              Cerrar
+            </button>
+            &nbsp;
+            <button class="btn btn-primary btn-med" type="submit" (click)="sendPubli()">
+              Publicar
+            </button>
+          </div>
         </div>
+
       </div>
     </div>
   </div>

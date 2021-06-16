@@ -16,6 +16,8 @@ export class ImagenesService {
   private APIUrlImagenesColecciones = this.host + ':3000/api/imagenes/ImagenColeccion';
   private APIUrlImagenesPerfil = this.host + ':3000/api/imagenes/ImagenesPerfil';
   private APIUrlImagenesPreguntas = this.host + ':3000/api/imagenes/ImagenesPreguntas';
+  private APIUrlImagenesPublicacion = this.host + ':3000/api/imagenes/ImagenesPublicacion';
+  private APIUrlFicherosPublicacion = this.host + ':3000/api/imagenes/FicherosPublicacion';
 
   constructor(private http: HttpClient) { }
 
@@ -93,5 +95,33 @@ export class ImagenesService {
   /************ UPLOAD **************/
   public uploadImgPregunta(imgPregunta: FormData){
     return this.http.post(this.APIUrlImagenesPreguntas + '/upload', imgPregunta);
+  }
+
+  /*****************************************************/
+  // ********** IMAGENES PUBLICACIONES ***************///
+  /*****************************************************/
+
+  /************ DOWNLOAD **************/
+  public downloadImgPublicacion(imgName: string){  
+    return this.http.get(this.APIUrlImagenesPublicacion + '/download/' + imgName, {observe: 'body', responseType: 'blob'});
+  }
+
+  /************ UPLOAD **************/
+  public uploadImgPublicacion(img: FormData){
+    return this.http.post(this.APIUrlImagenesPublicacion + '/upload', img);
+  }
+
+  /*****************************************************/
+  // ********** FICHEROS PUBLICACIONES ***************///
+  /*****************************************************/
+
+  /************ DOWNLOAD **************/
+  public downloadFilePublicacion(fileName: string){  
+    return this.http.get(this.APIUrlFicherosPublicacion + '/download/' + fileName, {observe: 'body', responseType: 'blob'});
+  }
+
+  /************ UPLOAD **************/
+  public uploadFilePublicacion(file: FormData){
+    return this.http.post(this.APIUrlFicherosPublicacion + '/upload', file);
   }
 }
