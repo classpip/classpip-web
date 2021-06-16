@@ -53,6 +53,8 @@ export class ImagenesService {
     return this.http.post(this.APIUrlImagenesCromos + '/upload', imgCromo);
   }
 
+  
+
   /*****************************************************/
   // ******** IMAGENES RECURSO AVATARES **************///
   /*****************************************************/
@@ -123,5 +125,13 @@ export class ImagenesService {
   /************ UPLOAD **************/
   public uploadFilePublicacion(file: FormData){
     return this.http.post(this.APIUrlFicherosPublicacion + '/upload', file);
+  }
+
+  /*****************************************************/
+  // ********** CAMBIAR IMAGEN PERFIL ***************///
+  /*****************************************************/
+
+  public uploadImgPerfil(imgPerfil){
+    return this.http.post(this.APIUrlImagenesPerfil + '/upload', imgPerfil);
   }
 }

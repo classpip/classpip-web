@@ -1,3 +1,4 @@
+import { ImagenesService } from './../../services/imagenes.service';
 import { User } from './../../clases/User';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
@@ -23,7 +24,9 @@ export class PerfilComponent implements OnInit {
   newPassword: string;
   repeatPassword: string;
 
-  constructor(private sesion: SesionService, private auth: AuthService, private router: Router) { }
+  imgPerfil: FormData;
+
+  constructor(private sesion: SesionService, private auth: AuthService, private router: Router, private imgService: ImagenesService) { }
 
   ngOnInit(): void {
     if (this.auth.isLoggedIn()) {
@@ -271,6 +274,41 @@ export class PerfilComponent implements OnInit {
     this.modalPswd.hide();
   }
 
+  changeProfileImage(){
+    this.imgService.uploadImgPregunta(this.imgPerfil).subscribe((data) => {
+      console.log('respuesta upload img: ', data);
+      if(data != null){
+        Swal.fire('Hecho!', 'Pregunta subida con éxito', 'success').then(() => {
+        })
+      }
+    }, (error) => {
+      console.log(error);
+      Swal.fire('Error', 'Error al subir imagen', 'error');
+    });  
+  }
+
+  async getImagenPerfil($event){
+    
+    console.log($event.target.files[0]);
+    let img = $event.target.files[0];
+    
+    this.imgService.checkImgNameDuplicated('ImagenesPerfil',img.name).subscribe((data) => {
+      console.log('API file: ', data);
+      this.imgPerfil = null;
+      Swal.fire('Error', 'La imagen '+img.name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+    }, (notFound) => {
+      console.log('Se puede subir ', img.name);
+      this.imgPerfil = new FormData();
+      this.imgPerfil.append(img.name, img);
+      this.profesor.imagenPerfil = img.name;
+    });
+    
+    console.log(this.profesor.imagenPerfil);
+  }
+
+  activarInputImagen(inputId: string) {
+    document.getElementById(inputId).click();
+  }   
 
 
 }

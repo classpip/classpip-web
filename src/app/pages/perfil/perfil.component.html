@@ -5,8 +5,9 @@
             <div class="container">
                 <div class="row">
                     <div class="container">
-                        <div class="col-lg-4 col-md-6 ml-auto mr-auto" >
-                            <div class="card card-coin card-plain" style="padding-top: 100px; width: 125%;" *ngIf="this.profesor && this.user">
+                        <div class="col-lg-4 col-md-6 ml-auto mr-auto">
+                            <div class="card card-coin card-plain" style="padding-top: 100px; width: 125%;"
+                                *ngIf="this.profesor && this.user">
                                 <div class="card-header">
                                     <br>
                                     <div class="image">
@@ -19,35 +20,46 @@
                                             style="border-radius: 8px; width: 150px; height: 150px;"
                                             src="../../../assets/img/logo.png" />
                                     </div>
-                                    <div class="overlay img-center" (click)="goHome()">
-                                        <div class="text"><i class="tim-icons icon-camera-18"></i>Cambiar</div>
+                                    <div class="overlay img-center">
+                                        <input #file id="imgPerfil" type="file" accept="image/*"
+                                            (change)="getImagenPerfil($event)" (change)="changeProfileImage()" style="display: none;">
+                                        <div class="text"><i class="tim-icons icon-camera-18"
+                                                (click)="activarInputImagen('imgPerfil')"></i>Cambiar</div>
                                     </div>
                                     <h4 class="title">{{this.profesor.nombre}} {{this.profesor.primerApellido}}</h4>
                                 </div>
-                                <div class="card-body" >
+                                <div class="card-body">
                                     <form name="userData">
                                         <label for="username">Nombre de usuario</label>
-                                        <input #username style="width: 100%" id="username" class="form-control" type="text" value='{{this.user.username}}' readOnly>
+                                        <input #username style="width: 100%" id="username" class="form-control"
+                                            type="text" value='{{this.user.username}}' readOnly>
 
                                         <label for="name">Nombre</label>
-                                        <input #name style="width: 100%" id="name" class="form-control" type="text" value='{{this.profesor.nombre}}' readOnly>
-                                     
+                                        <input #name style="width: 100%" id="name" class="form-control" type="text"
+                                            value='{{this.profesor.nombre}}' readOnly>
+
                                         <label for="surname">Primer Apellido</label>
-                                        <input #surname style="width: 100%" id="surname" class="form-control" type="text" value='{{this.profesor.primerApellido}}' readOnly>
-                                        
+                                        <input #surname style="width: 100%" id="surname" class="form-control"
+                                            type="text" value='{{this.profesor.primerApellido}}' readOnly>
+
                                         <label for="surname2">Segundo Apellido</label>
-                                        <input #surname2 style="width: 100%" id="surname2" class="form-control" type="text" value='{{this.profesor.segundoApellido}}' readOnly>
-                                 
+                                        <input #surname2 style="width: 100%" id="surname2" class="form-control"
+                                            type="text" value='{{this.profesor.segundoApellido}}' readOnly>
+
                                         <label for="email">Email</label>
-                                        <input #email style="width: 100%" id="email" class="form-control" type="text" value='{{this.user.email}}' readOnly>    
+                                        <input #email style="width: 100%" id="email" class="form-control" type="text"
+                                            value='{{this.user.email}}' readOnly>
                                     </form>
                                 </div>
                                 <div class="card-footer" style="text-align: center;">
-                                    <button class="btn btn-primary btn-round" (click)="editUser()" *ngIf="name.readOnly == true">Edita la información del perfil</button>
-                                    <button class="btn btn-primary btn-round" (click)="modalSecurity.show()" *ngIf="name.readOnly == false">Actualiza la información del perfil</button>
+                                    <button class="btn btn-primary btn-round" (click)="editUser()"
+                                        *ngIf="name.readOnly == true">Edita la información del perfil</button>
+                                    <button class="btn btn-primary btn-round" (click)="modalSecurity.show()"
+                                        *ngIf="name.readOnly == false">Actualiza la información del perfil</button>
                                     <br>
-                                    <button class="btn btn-success btn-round" (click)="modalChangePassword.show()">Cambia tu contraseña</button>
-                                    <br>    
+                                    <button class="btn btn-success btn-round"
+                                        (click)="modalChangePassword.show()">Cambia tu contraseña</button>
+                                    <br>
                                     <button class="btn btn-warning btn-round" (click)="logout()">Cerrar sesión</button>
                                 </div>
                             </div>
@@ -59,7 +71,7 @@
     </div>
 </div>
 
-
+<!-- MODAL PARA CAMBIAR LA CONTRASEÑA -->
 <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black"
     #modalChangePassword="bs-modal" id="modalChangePassword" role="dialog" tabindex="-1">
     <div class="modal-dialog">
@@ -71,39 +83,48 @@
                 <form name="pswdForm">
                     <label for="old">Contraseña actual</label>
                     <div class="input-group">
-                        <input #old id="old" class="form-control has-danger" placeholder="Contraseña actual" type="password">
+                        <input #old id="old" class="form-control has-danger" placeholder="Contraseña actual"
+                            type="password">
                         <div class="input-group-append">
                             <span class="input-group-text" id="oldIcon">
-                                <i class="fas fa-eye" *ngIf="old.type=='password'" (click)="old.type=old.type=='password'?'text':'password'"></i>
-                                <i class="fas fa-eye-slash" *ngIf="old.type=='text'" (click)="old.type=old.type=='password'?'text':'password'"></i>
+                                <i class="fas fa-eye" *ngIf="old.type=='password'"
+                                    (click)="old.type=old.type=='password'?'text':'password'"></i>
+                                <i class="fas fa-eye-slash" *ngIf="old.type=='text'"
+                                    (click)="old.type=old.type=='password'?'text':'password'"></i>
                             </span>
                         </div>
                     </div>
-    
+
                     <br>
                     <label for="new">Nueva contraseña</label>
                     <div class="input-group">
-                        <input #y id="new" class="form-control has-danger" placeholder="Nueva contraseña" type="password">
+                        <input #y id="new" class="form-control has-danger" placeholder="Nueva contraseña"
+                            type="password">
                         <div class="input-group-append">
                             <span class="input-group-text" id="newIcon">
-                                <i class="fas fa-eye" *ngIf="y.type=='password'" (click)="y.type=y.type=='password'?'text':'password'"></i>
-                                <i class="fas fa-eye-slash" *ngIf="y.type=='text'" (click)="y.type=y.type=='password'?'text':'password'"></i>
+                                <i class="fas fa-eye" *ngIf="y.type=='password'"
+                                    (click)="y.type=y.type=='password'?'text':'password'"></i>
+                                <i class="fas fa-eye-slash" *ngIf="y.type=='text'"
+                                    (click)="y.type=y.type=='password'?'text':'password'"></i>
                             </span>
                         </div>
                     </div>
-    
+
                     <br>
                     <label for="repeat">Repite la nueva contraseña</label>
                     <div class="input-group">
-                        <input #z id="repeat" class="form-control" placeholder="Repite la nueva contraseña" type="password">
+                        <input #z id="repeat" class="form-control" placeholder="Repite la nueva contraseña"
+                            type="password">
                         <div class="input-group-append">
                             <span class="input-group-text" id="repeatIcon">
-                                <i class="fas fa-eye" *ngIf="z.type=='password'" (click)="z.type=z.type=='password'?'text':'password'"></i>
-                                <i class="fas fa-eye-slash" *ngIf="z.type=='text'" (click)="z.type=z.type=='password'?'text':'password'"></i>
+                                <i class="fas fa-eye" *ngIf="z.type=='password'"
+                                    (click)="z.type=z.type=='password'?'text':'password'"></i>
+                                <i class="fas fa-eye-slash" *ngIf="z.type=='text'"
+                                    (click)="z.type=z.type=='password'?'text':'password'"></i>
                             </span>
                         </div>
                     </div>
-    
+
                     <br>
                 </form>
             </div>
@@ -123,22 +144,26 @@
     </div>
 </div>
 
-<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black"
-    #modalSecurity="bs-modal" id="modalSecurity" role="dialog" tabindex="-1">
+<!-- MODAL PARA CONFIRMAR EL CAMBIO DE DATOS PIDIENDO LA CONTRASEÑA -->
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #modalSecurity="bs-modal"
+    id="modalSecurity" role="dialog" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header justify-content-center">
                 <h4 style="text-align: center;">CONTRASEÑA</h4>
             </div>
             <div class="modal-body">
-                <label style="margin-left: auto; margin-right: auto;">Por motivos de seguridad, introduce tu contraseña</label>
+                <label style="margin-left: auto; margin-right: auto;">Por motivos de seguridad, introduce tu
+                    contraseña</label>
                 <form name="securityForm">
                     <div class="input-group">
                         <input #pswd id="pswd" class="form-control has-danger" placeholder="Contraseña" type="password">
                         <div class="input-group-append">
                             <span class="input-group-text" id="pswdIcon">
-                                <i class="fas fa-eye" *ngIf="pswd.type=='password'" (click)="pswd.type=old.type=='password'?'text':'password'"></i>
-                                <i class="fas fa-eye-slash" *ngIf="pswd.type=='text'" (click)="pswd.type=old.type=='password'?'text':'password'"></i>
+                                <i class="fas fa-eye" *ngIf="pswd.type=='password'"
+                                    (click)="pswd.type=old.type=='password'?'text':'password'"></i>
+                                <i class="fas fa-eye-slash" *ngIf="pswd.type=='text'"
+                                    (click)="pswd.type=old.type=='password'?'text':'password'"></i>
                             </span>
                         </div>
                     </div>
@@ -153,6 +178,79 @@
                     &nbsp;
                     <button class="btn btn-round btn-primary" type="button" (click)="updateUser()">
                         Finalizar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PARA CAMBIAR IMAGEN DE PERFIL -->
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black"
+    #modalChangePassword="bs-modal" id="modalChangePassword" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h4 class="title title-up" style="text-align: center;">CAMBIA TU CONTRASEÑA</h4>
+            </div>
+            <div class="modal-body">
+                <form name="pswdForm">
+                    <label for="old">Contraseña actual</label>
+                    <div class="input-group">
+                        <input #old id="old" class="form-control has-danger" placeholder="Contraseña actual"
+                            type="password">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="oldIcon">
+                                <i class="fas fa-eye" *ngIf="old.type=='password'"
+                                    (click)="old.type=old.type=='password'?'text':'password'"></i>
+                                <i class="fas fa-eye-slash" *ngIf="old.type=='text'"
+                                    (click)="old.type=old.type=='password'?'text':'password'"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <br>
+                    <label for="new">Nueva contraseña</label>
+                    <div class="input-group">
+                        <input #y id="new" class="form-control has-danger" placeholder="Nueva contraseña"
+                            type="password">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="newIcon">
+                                <i class="fas fa-eye" *ngIf="y.type=='password'"
+                                    (click)="y.type=y.type=='password'?'text':'password'"></i>
+                                <i class="fas fa-eye-slash" *ngIf="y.type=='text'"
+                                    (click)="y.type=y.type=='password'?'text':'password'"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <br>
+                    <label for="repeat">Repite la nueva contraseña</label>
+                    <div class="input-group">
+                        <input #z id="repeat" class="form-control" placeholder="Repite la nueva contraseña"
+                            type="password">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="repeatIcon">
+                                <i class="fas fa-eye" *ngIf="z.type=='password'"
+                                    (click)="z.type=z.type=='password'?'text':'password'"></i>
+                                <i class="fas fa-eye-slash" *ngIf="z.type=='text'"
+                                    (click)="z.type=z.type=='password'?'text':'password'"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <br>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div style="text-align: center; margin-left: auto; margin-right: auto;">
+                    <button class="btn btn-round btn-danger" data-dismiss="modal" type="button"
+                        (click)="this.resetPswdForm()">
+                        Cerrar
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-round btn-primary" type="button" (click)="changePassword()">
+                        Cambiar contraseña
                     </button>
                 </div>
             </div>
