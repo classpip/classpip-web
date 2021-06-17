@@ -24,7 +24,7 @@ export class PerfilComponent implements OnInit {
   newPassword: string;
   repeatPassword: string;
 
-  imgPerfil: FormData;
+  imgProfesor: FormData;
 
   constructor(private sesion: SesionService, private auth: AuthService, private router: Router, private imgService: ImagenesService) { }
 
@@ -275,10 +275,10 @@ export class PerfilComponent implements OnInit {
   }
 
   changeProfileImage(){
-    this.imgService.uploadImgPregunta(this.imgPerfil).subscribe((data) => {
+    this.imgService.uploadImgProfesor(this.imgProfesor).subscribe((data) => {
       console.log('respuesta upload img: ', data);
       if(data != null){
-        Swal.fire('Hecho!', 'Pregunta subida con éxito', 'success').then(() => {
+        Swal.fire('Hecho!', 'Foto de perfil cambiada con éxito', 'success').then(() => {
         })
       }
     }, (error) => {
@@ -292,15 +292,16 @@ export class PerfilComponent implements OnInit {
     console.log($event.target.files[0]);
     let img = $event.target.files[0];
     
-    this.imgService.checkImgNameDuplicated('ImagenesPerfil',img.name).subscribe((data) => {
+    this.imgService.checkImgNameDuplicated('ImagenProfesor',img.name).subscribe((data) => {
       console.log('API file: ', data);
-      this.imgPerfil = null;
+      this.imgProfesor = null;
       Swal.fire('Error', 'La imagen '+img.name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
     }, (notFound) => {
       console.log('Se puede subir ', img.name);
-      this.imgPerfil = new FormData();
-      this.imgPerfil.append(img.name, img);
+      this.imgProfesor = new FormData();
+      this.imgProfesor.append(img.name, img);
       this.profesor.imagenPerfil = img.name;
+      this.changeProfileImage();
     });
     
     console.log(this.profesor.imagenPerfil);

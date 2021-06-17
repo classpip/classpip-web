@@ -18,6 +18,7 @@ export class ImagenesService {
   private APIUrlImagenesPreguntas = this.host + ':3000/api/imagenes/ImagenesPreguntas';
   private APIUrlImagenesPublicacion = this.host + ':3000/api/imagenes/ImagenesPublicacion';
   private APIUrlFicherosPublicacion = this.host + ':3000/api/imagenes/FicherosPublicacion';
+  private APIUrlImagenProfesor = this.host + ':3000/api/imagenes/ImagenProfesor';
 
   constructor(private http: HttpClient) { }
 
@@ -131,7 +132,11 @@ export class ImagenesService {
   // ********** CAMBIAR IMAGEN PERFIL ***************///
   /*****************************************************/
 
-  public uploadImgPerfil(imgPerfil){
-    return this.http.post(this.APIUrlImagenesPerfil + '/upload', imgPerfil);
+  public uploadImgProfesor(imgProfesor){
+    return this.http.post(this.APIUrlImagenProfesor + '/upload', imgProfesor);    
+  }
+
+  public downloadImgProfesor(fileName){
+    return this.http.get(this.APIUrlImagenProfesor + '/download/' + fileName, {observe: 'body', responseType: 'blob'});
   }
 }

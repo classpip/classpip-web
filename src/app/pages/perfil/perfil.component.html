@@ -14,7 +14,7 @@
                                         <img *ngIf="this.profesor.imagenPerfil != null"
                                             class="img-center img-fluid rounded-circle"
                                             style="border-radius: 8px; width: 150px; height: 150px;"
-                                            src={{this.profesor.imagenPerfil}} />
+                                            src="http://localhost:3000/api/imagenes/ImagenProfesor/download/{{this.profesor.imagenPerfil}}" />
                                         <img *ngIf="this.profesor.imagenPerfil == null"
                                             class="img-center img-fluid rounded-circle"
                                             style="border-radius: 8px; width: 150px; height: 150px;"
@@ -22,9 +22,9 @@
                                     </div>
                                     <div class="overlay img-center">
                                         <input #file id="imgPerfil" type="file" accept="image/*"
-                                            (change)="getImagenPerfil($event)" (change)="changeProfileImage()" style="display: none;">
-                                        <div class="text"><i class="tim-icons icon-camera-18"
-                                                (click)="activarInputImagen('imgPerfil')"></i>Cambiar</div>
+                                            (change)="getImagenPerfil($event)"  style="display: none;">
+                                        <div class="text"(click)="activarInputImagen('imgPerfil')"><i class="tim-icons icon-camera-18"
+                                                ></i>Cambiar</div>
                                     </div>
                                     <h4 class="title">{{this.profesor.nombre}} {{this.profesor.primerApellido}}</h4>
                                 </div>
