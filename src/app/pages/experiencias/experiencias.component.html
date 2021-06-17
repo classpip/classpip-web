@@ -103,7 +103,7 @@
                 <div style="text-align: center;" *ngIf="publi.imagenes != null && publi.imagenes.length > 0" >
                   <carousel [showIndicators]="false">
                     <div *ngFor="let img of publi.imagenes">
-                      <slide style="height: 150px; width: 150px;">
+                      <slide>
                         <img alt="{{img}}" class="d-block w-400" src="http://localhost:3000/api/imagenes/ImagenesPublicacion/download/{{img}}" />
                       </slide>
                     </div> 
