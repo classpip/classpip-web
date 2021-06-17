@@ -57,7 +57,7 @@ export class PerfilComponent implements OnInit {
     let cont = 0;
 
     if (form['old'].value != '') {
-      if (document.getElementById('old').style.borderColor == "red"){
+      if (document.getElementById('old').style.borderColor == "red") {
         document.getElementById('old').style.borderColor = "#525f7f";
         document.getElementById('oldIcon').style.borderColor = "#525f7f";
       }
@@ -69,7 +69,7 @@ export class PerfilComponent implements OnInit {
     }
 
     if (form['new'].value != '') {
-      if (document.getElementById('new').style.borderColor == "red"){
+      if (document.getElementById('new').style.borderColor == "red") {
         document.getElementById('new').style.borderColor = "#525f7f";
         document.getElementById('newIcon').style.borderColor = "#525f7f";
       }
@@ -81,7 +81,7 @@ export class PerfilComponent implements OnInit {
     }
 
     if (form['repeat'].value != '') {
-      if (document.getElementById('repeat').style.borderColor == "red"){
+      if (document.getElementById('repeat').style.borderColor == "red") {
         document.getElementById('repeat').style.borderColor = "#525f7f";
         document.getElementById('repeatIcon').style.borderColor = "#525f7f";
       }
@@ -96,12 +96,12 @@ export class PerfilComponent implements OnInit {
     console.log("New", this.newPassword)
     console.log("New2", this.repeatPassword)
 
-    if(cont == 3){
+    if (cont == 3) {
       console.log('username: ', this.user.username);
       this.auth.login({ "username": this.user.username, "password": this.oldPassword }).subscribe((data: any) => {
         sessionStorage.setItem('ACCESS_TOKEN', data.id);
-        if (this.newPassword == this.repeatPassword){
-          if(this.oldPassword != this.newPassword) {
+        if (this.newPassword == this.repeatPassword) {
+          if (this.oldPassword != this.newPassword) {
             this.auth.changePassword(this.oldPassword, this.newPassword).subscribe(() => {
               Swal.fire('Success', 'Contraseña cambiada con éxito', 'success').then(() => {
                 this.resetPswdForm();
@@ -131,8 +131,8 @@ export class PerfilComponent implements OnInit {
     }
 
   }
-  
-  editUser(){
+
+  editUser() {
     (<HTMLInputElement>document.getElementById("name")).readOnly = false;
     (<HTMLInputElement>document.getElementById("surname")).readOnly = false;
     (<HTMLInputElement>document.getElementById("surname2")).readOnly = false;
@@ -142,22 +142,22 @@ export class PerfilComponent implements OnInit {
 
   @ViewChild('modalSecurity', { static: true }) modalSecurity: ModalContainerComponent;
 
-  updateUser(){
-    console.log('prof1: ',this.profesor);
+  updateUser() {
+    console.log('prof1: ', this.profesor);
     console.log('user1: ', this.user);
     let form = document.forms["userData"];
     let secForm = document.forms['securityForm'];
     let pswd = secForm['pswd'].value;
 
-    if(pswd != ''){
+    if (pswd != '') {
 
-      if(document.getElementById('pswd').style.borderColor == "red"){
+      if (document.getElementById('pswd').style.borderColor == "red") {
         document.getElementById('pswd').style.borderColor = "#525f7f";
         document.getElementById('pswdIcon').style.borderColor = "#525f7f";
       }
 
-      if(this.user.username != form["username"].value || this.user.email != form["email"].value){
-        this.auth.login({"username":this.user.username, "password": pswd}).subscribe((data) => {
+      if (this.user.username != form["username"].value || this.user.email != form["email"].value) {
+        this.auth.login({ "username": this.user.username, "password": pswd }).subscribe((data) => {
           sessionStorage.setItem('ACCESS_TOKEN', data.id);
           let user = new User(
             form["username"].value,
@@ -168,7 +168,7 @@ export class PerfilComponent implements OnInit {
           this.auth.updateUser(this.profesor.userId, user).subscribe((data: any) => {
             console.log('respuesta subir user2: ', data);
             this.user = data;
-            if (this.profesor.nombre != form["name"].value || this.profesor.primerApellido != form["surname"].value || this.profesor.segundoApellido != form["surname2"].value){
+            if (this.profesor.nombre != form["name"].value || this.profesor.primerApellido != form["surname"].value || this.profesor.segundoApellido != form["surname2"].value) {
               let profesor = new Profesor(
                 form["name"].value,
                 form["surname"].value,
@@ -179,12 +179,12 @@ export class PerfilComponent implements OnInit {
                 this.profesor.userId
               )
               console.log("prof2", profesor);
-              this.auth.updateProfesor(this.profesor.id, profesor).subscribe((data: any) =>{
+              this.auth.updateProfesor(this.profesor.id, profesor).subscribe((data: any) => {
                 this.modalSecurity.hide();
                 Swal.fire('Success', 'Datos actualizados correctamente', 'success').then(() => {
                   secForm.reset();
                   this.profesor = data;
-                  console.log('respuesta subir prof: ',data);
+                  console.log('respuesta subir prof: ', data);
                   console.log('new thisprofesor: ', this.profesor);
                   this.sesion.TomaProfesor(this.profesor);
                 });
@@ -201,11 +201,11 @@ export class PerfilComponent implements OnInit {
             }
           })
         }, (error) => {
-          Swal.fire('Error','Contraseña incorrecta','error');
+          Swal.fire('Error', 'Contraseña incorrecta', 'error');
         });
       }
-      else if(this.profesor.nombre != form["name"].value || this.profesor.primerApellido != form["surname"].value || this.profesor.segundoApellido != form["surname2"].value){
-        this.auth.login({"username":this.user.username, "password": pswd}).subscribe((data) => {
+      else if (this.profesor.nombre != form["name"].value || this.profesor.primerApellido != form["surname"].value || this.profesor.segundoApellido != form["surname2"].value) {
+        this.auth.login({ "username": this.user.username, "password": pswd }).subscribe((data) => {
           sessionStorage.setItem('ACCESS_TOKEN', data.id);
           let profesor = new Profesor(
             form["name"].value,
@@ -217,12 +217,12 @@ export class PerfilComponent implements OnInit {
             this.profesor.userId
           )
           console.log("prof2", profesor);
-          this.auth.updateProfesor(this.profesor.id, profesor).subscribe((data: any) =>{
+          this.auth.updateProfesor(this.profesor.id, profesor).subscribe((data: any) => {
             this.modalSecurity.hide();
             Swal.fire('Success', 'Datos actualizados correctamente', 'success').then(() => {
               secForm.reset();
               this.profesor = data;
-              console.log('respuesta subir prof: ',data);
+              console.log('respuesta subir prof: ', data);
               console.log('new thisprofesor: ', this.profesor);
               this.sesion.TomaProfesor(this.profesor);
             });
@@ -232,7 +232,7 @@ export class PerfilComponent implements OnInit {
             this.modalSecurity.hide();
           })
         }, (error) => {
-          Swal.fire('Error','Contraseña incorrecta','error');
+          Swal.fire('Error', 'Contraseña incorrecta', 'error');
         })
       } else {
         //NO MODIFIED DATA
@@ -243,21 +243,21 @@ export class PerfilComponent implements OnInit {
       }
 
     } else {
-      if(document.getElementById('pswd').style.borderColor != "red"){
+      if (document.getElementById('pswd').style.borderColor != "red") {
         document.getElementById('pswd').style.borderColor = "red";
         document.getElementById('pswdIcon').style.borderColor = "red";
       }
     }
   }
 
-  resetEditUser(){
+  resetEditUser() {
     this.modalSecurity.hide();
   }
 
   //Obtenemos el componente modal para poder cerrarlo desde aquí
   @ViewChild('modalChangePassword', { static: true }) modalPswd: ModalContainerComponent;
 
-  resetPswdForm(){
+  resetPswdForm() {
     let form = document.forms['pswdForm'];
     form['old'].type = 'password';
     form['new'].type = 'password';
@@ -274,28 +274,33 @@ export class PerfilComponent implements OnInit {
     this.modalPswd.hide();
   }
 
-  changeProfileImage(){
-    this.imgService.uploadImgProfesor(this.imgProfesor).subscribe((data) => {
+  changeProfileImage() {
+    this.imgService.uploadImgProfesor(this.imgProfesor).subscribe((data: any) => {
       console.log('respuesta upload img: ', data);
-      if(data != null){
-        Swal.fire('Hecho!', 'Foto de perfil cambiada con éxito', 'success').then(() => {
+      if (data != null) {
+        console.log("profesor", this.profesor)
+        this.auth.updateProfesor(this.profesor.id, this.profesor).subscribe((data) => {
+          console.log("DATAAAAAA:", data);
+          Swal.fire('Hecho!', 'Foto de perfil cambiada con éxito', 'success').then(() => {
+          })
         })
+
       }
     }, (error) => {
       console.log(error);
       Swal.fire('Error', 'Error al subir imagen', 'error');
-    });  
+    });
   }
 
-  async getImagenPerfil($event){
-    
+  async getImagenPerfil($event) {
+
     console.log($event.target.files[0]);
     let img = $event.target.files[0];
-    
-    this.imgService.checkImgNameDuplicated('ImagenProfesor',img.name).subscribe((data) => {
+
+    this.imgService.checkImgNameDuplicated('ImagenProfesor', img.name).subscribe((data) => {
       console.log('API file: ', data);
       this.imgProfesor = null;
-      Swal.fire('Error', 'La imagen '+img.name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+      Swal.fire('Error', 'La imagen ' + img.name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
     }, (notFound) => {
       console.log('Se puede subir ', img.name);
       this.imgProfesor = new FormData();
@@ -303,13 +308,13 @@ export class PerfilComponent implements OnInit {
       this.profesor.imagenPerfil = img.name;
       this.changeProfileImage();
     });
-    
+
     console.log(this.profesor.imagenPerfil);
   }
 
   activarInputImagen(inputId: string) {
     document.getElementById(inputId).click();
-  }   
+  }
 
 
 }
