@@ -374,7 +374,7 @@ export class ExperienciasComponent implements OnInit {
     this.ngOnInit();
   }
   //INTENTO DE DAR LIKE FALLIDO
-  /* likeComment(commentId: number){
+  likeComment(commentId: number){
     this.comments.forEach(comment => {
       comment.likes.forEach(like => {
         if(comment.id == commentId){ 
@@ -388,7 +388,7 @@ export class ExperienciasComponent implements OnInit {
         }
       })
     })
-  } */
+  }
 
   dislikeComment(commentId: number) {
     this.comments.forEach(comment => {
