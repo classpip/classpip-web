@@ -23,6 +23,8 @@ export class PublicacionesService {
   private APIUrlProfesores = this.host + ':3000/api/Profesores';
   private APIUrlPublicaciones = this.host + ':3000/api/Publicaciones';
   private APIUrlComentarios = this.host + ':3000/api/Comentarios';
+  private APIUrlImagenesPublicacion = this.host + ':3000/api/imagenes/ImagenesPublicacion';
+  private APIUrlFicherosPublicacion = this.host + ':3000/api/imagenes/FicherosPublicacion';
 
   constructor(private http: HttpClient, auth: AuthService) { }
 
@@ -72,6 +74,14 @@ export class PublicacionesService {
 
   public deleteComment(id:string){
     return this.http.delete(this.APIUrlComentarios + '/' + id);
+  }
+
+  public deleteImgPubli(imagen: string){
+    return this.http.delete(this.APIUrlImagenesPublicacion + '/files/' + imagen);
+  }
+
+  public deleteFicheroPubli(fichero :string){
+    return this.http.delete(this.APIUrlFicherosPublicacion + '/files/' + fichero);
   }
   // public updateComentario(comentario: Comentario){
   //   return this.http.put<Comentario>(this.APIUrlComentarios, comentario);
