@@ -358,7 +358,7 @@ export class ExperienciasComponent implements OnInit {
 
       const today = new Date().toISOString();
 
-      const newComment = { "comentario": comentario, "fecha": today, "likes": 0, "autorId": this.profesor.id, "publicacionId": publiId };
+      const newComment = { "comentario": comentario, "fecha": today, "autorId": this.profesor.id, "publicacionId": publiId };
       console.log('new comment: ' + newComment);
 
       this.publiService.comentar(publiId, newComment).subscribe(data => {
@@ -372,39 +372,6 @@ export class ExperienciasComponent implements OnInit {
       });
     }
     this.ngOnInit();
-  }
-  //INTENTO DE DAR LIKE FALLIDO
-  /* likeComment(commentId: number){
-    this.comments.forEach(comment => {
-      comment.likes.forEach(like => {
-        if(comment.id == commentId){ 
-          try {
-            this.publiService.likeComment(comment, commentId).subscribe(() => {
-              comment.likes = comment.likes + 1;
-            })
-          } catch(error) {
-            console.log("error: ", error);
-          }
-        }
-      })
-    })
-  } */
-
-  dislikeComment(commentId: number) {
-    this.comments.forEach(comment => {
-      comment.likes.forEach(like => {
-        if (comment.id == commentId && like.userId == this.profesor.userId) {
-          try {
-            this.publiService.dislikeComment(commentId, like.id).subscribe(() => {
-              comment.isLike = false;
-              comment.likes.splice(comment.likes.indexOf(like), 1);
-            });
-          } catch (error) {
-
-          }
-        }
-      })
-    });
   }
 
   /* *********************************** */
