@@ -42,13 +42,13 @@
                                 <th class="text-center" width="20px" *ngIf="isPreguntas()">Tipo</th>
 
                                 <th class="text-center" width="20px">ACCIONES</th>
-                                
+
                             </tr>
                         </thead>
                         <tbody>
                             <!-- 4 COLUMNAS: Numero, nombre, propietario y boton. Silueta???? -->
                             <tr *ngFor="let rsc of listRecursos; let indice=index">
-                                
+
                                 <td class="text-center" width="40px">{{indice + 1}}
                                     &nbsp;
                                     <input id="check{{indice}}" type="checkbox"
@@ -87,7 +87,7 @@
                                         <i class="tim-icons icon-cloud-download-93"></i>
                                     </button>
                                     &nbsp;
-                                    <button type="button" rel="tooltip" class="btn btn-sm btn-primary btn-roundbtn-icon"
+                                    <button *ngIf="isColecciones()" type="button" rel="tooltip" class="btn btn-sm btn-primary btn-roundbtn-icon"
                                         placement="bottom" tooltip="Recomendaciones de uso"
                                         (click)="showRecomendations(modalRecomendations, rsc)">
                                         <i class="tim-icons icon-bulb-63"></i>
@@ -113,7 +113,7 @@
                                     &nbsp;
                                 </td>
 
-                               
+
                             </tr>
                         </tbody>
                     </table>
@@ -224,16 +224,16 @@
             </div>
             <div class="modal-body" style="text-align: center; margin-left: auto; margin-right: auto;">
 
-                <button class="btn btn-success" data-dismiss="modal" type="button"
+                <!-- <button class="btn btn-success" data-dismiss="modal" type="button"
                     (click)="modalDownloadQuestions.hide();  descargaPerguntasSeleccionadas()">
                     <i class="tim-icons icon-notes"></i>
                     JSON CONJUNTO
-                </button>
+                </button> -->
                 &nbsp;
                 <button class="btn btn-primary" data-dismiss="modal" type="button"
                     (click)="modalDownloadQuestions.hide(); descargaPerguntasSeleccionadasIndividual() ">
                     <i class="tim-icons icon-single-copy-04"></i>
-                    JSONs INDIVIDUALES
+                    Descarga el ZIP con todos los JSONs
                 </button>
 
 
