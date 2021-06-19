@@ -66,7 +66,7 @@
                 <div class="autor" id="autor-name">
                   <img *ngIf="publi.autor.imagenPerfil == null" src="../../../assets/img/logo.png" routerLink="/perfil"
                     style="border-radius: 50%" width="20" height="20" />
-                  <img *ngIf="publi.autor.imagenPerfil != null"  [src]="this.urlImagenProfesor + this.profesor.imagenPerfil" routerLink="/perfil"
+                  <img *ngIf="publi.autor.imagenPerfil != null"  [src]="this.urlImagenProfesor + publi.autor.imagenPerfil" routerLink="/perfil"
                     style="border-radius: 50%" width="20" height="20" />
                   &nbsp;
                   <span>{{publi.autor.nombre}} {{publi.autor.primerApellido}}</span>
@@ -93,12 +93,14 @@
               <br>
               <br>
               <div class="likes">
-                <i class="fas fa-heart" style="font-size:12px;color:red;" (click)="dislikePubli(publi.id)"
-                  *ngIf="publi.isLike"></i>
-                <i class="fas fa-heart" style="font-size:12px;color:white;" (click)="likePubli(publi.id)"
-                  *ngIf="!publi.isLike"></i>
+                <i class="fas fa-heart" style="font-size:12px;color:white;" (click)="dislikePubli(publi.id)"
+                *ngIf="!this.profesor"></i>
+                <i class="fas fa-heart likeLogged" style="font-size:12px;color:red;" (click)="dislikePubli(publi.id)"
+                  *ngIf="this.profesor && publi.isLike"></i>
+                <i class="fas fa-heart likeLogged" style="font-size:12px;color:white;" (click)="likePubli(publi.id)"
+                  *ngIf="this.profesor && !publi.isLike"></i>
                 &nbsp;
-                <span>{{publi.likes.length}} likes</span>
+                <span id="seeLikes" (click)="modalLikes.show()" (click)="setLikesModal(publi.likes)">{{publi.likes.length}} likes</span>
                 <br>
                 <div style="text-align: center;" *ngIf="publi.imagenes != null && publi.imagenes.length > 0" >
                   <carousel [showIndicators]="false">
@@ -118,7 +120,7 @@
                   <div class="autor" id="autor-name" *ngIf="comment.autor" >
                     <img *ngIf="comment.autor.imagenPerfil == null" src="../../../assets/img/logo.png"
                       routerLink="/perfil" style="border-radius: 50%" width="20" height="20" />
-                    <img *ngIf="comment.autor.imagenPerfil != null"  [src]="this.urlImagenProfesor + this.profesor.imagenPerfil"
+                    <img *ngIf="comment.autor.imagenPerfil != null"  [src]="this.urlImagenProfesor + comment.autor.imagenPerfil"
                       routerLink="/perfil" style="border-radius: 50%" width="20" height="20" />
                     &nbsp;
                     <span>{{comment.autor.nombre}} {{comment.autor.primerApellido}}</span>
@@ -227,7 +229,8 @@
 
         <div class="modal-header justify-content-center">
           <div class="text-center mb-4 mt-3">
-            FICHEROS
+            <h4 style="display: inline-block; text-align: center;">LIKES</h4>
+            <i style="float: right;" class="tim-icons icon-simple-remove" (click)="modalFiles.hide()"></i> 
           </div>
         </div>
 
@@ -237,6 +240,37 @@
             <span *ngFor="let fileName of this.filesSeeModal"><br>{{fileName}} &nbsp; <i
                 class="tim-icons icon-cloud-download-93" (click)="downloadFile(fileName)"></i></span>
           </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL LIKES PUBLICACIÓN -->
+  <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #modalLikes="bs-modal"
+    id="modalLikes" role="dialog" tabindex="-1">
+    <div class="modal-dialog" style="width:1250px;">
+      <div class="modal-content">
+
+        <div class="modal-body">
+          <div style="text-align: center;">
+            <h4 style="display: inline-block; text-align: center;">LIKES</h4>
+            <i style="float: right;" class="tim-icons icon-simple-remove" (click)="modalLikes.hide()"></i> 
+          </div>
+          <div *ngIf="this.likesSeeModal && this.likesSeeModal.length > 0; else nolikes" >
+            <div class="likes" id="like-prof" *ngFor="let like of this.likesSeeModal" >
+              <img *ngIf="like.imagenPerfil == null" src="../../../assets/img/logo.png"
+                style="border-radius: 50%" width="50px" height="50px" />
+              <img *ngIf="like.imagenPerfil != null"  src="{{this.urlImagenProfesor}}{{like.imagenPerfil}}"
+                style="border-radius: 50%" width="50px" height="50px" />
+              &nbsp;
+              <span>{{like.nombre}} {{like.primerApellido}}</span>
+            </div>
+          </div>
+          <ng-template #nolikes>
+            <p style="text-align: center;">Esta publicación no ha recibido likes</p>
+          </ng-template>
+
         </div>
 
       </div>

@@ -39,6 +39,20 @@
     margin-bottom: auto;
 }
 
+#seeLikes:hover {
+    color: violet;
+    cursor: pointer;
+}
+
+.likeLogged:hover {
+    transform: scale(1.25);
+    cursor: pointer;
+}
+
+.icon-simple-remove:hover{
+    cursor: pointer;
+}
+
 @media only screen and (min-width: 1200px) {
     #autor-name:after{
         content:" "; 

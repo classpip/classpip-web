@@ -27,6 +27,7 @@ export class ExperienciasComponent implements OnInit {
   publicaciones;
   mapPublicaciones = new Map<String, Publicacion>();
   comments;
+  likes;
 
   //Variables para subir publicaciones
   isLogged;
@@ -45,6 +46,7 @@ export class ExperienciasComponent implements OnInit {
 
   //Variables para ver imagenes y ficheros
   filesSeeModal;
+  likesSeeModal;
 
 
   urlImagenProfesor = URL.ImagenProfesor;
@@ -311,6 +313,10 @@ export class ExperienciasComponent implements OnInit {
         }
       })
     });
+  }
+
+  setLikesModal(likes){
+    this.likesSeeModal = likes;
   }
 
   setFilesModal(ficheros) {
