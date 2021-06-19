@@ -40,7 +40,7 @@
 			<tr>
 				<td rowspan="2">
           <div style="text-align: center;">
-            <img src="http://localhost:3000/api/imagenes/ImagenesAvatares/download/{{this.familiaElegida.silueta}}" style="width: 500px; height: 500px;">
+            <img src="{{this.rutaImgAvatares}}{{this.familiaElegida.silueta}}" style="width: 500px; height: 500px;">
           </div>
         </td>
 				<td>
@@ -48,7 +48,7 @@
           <carousel [showIndicators]="false">
             <div *ngFor="let img of this.familiaElegida.complemento1">
               <slide style="margin: 0 auto">
-                <img alt="{{img}}" class="d-block w-400" src="http://localhost:3000/api/imagenes/ImagenesAvatares/download/{{img}}" style="width: 150px; height: 150px; display: block; margin: auto;"/>
+                <img alt="{{img}}" class="d-block w-400" src="{{this.rutaImgAvatares}}{{img}}" style="width: 150px; height: 150px; display: block; margin: auto;"/>
               </slide>
             </div> 
           </carousel>
@@ -58,7 +58,7 @@
           <carousel [showIndicators]="false">
             <div *ngFor="let img of this.familiaElegida.complemento2">
               <slide style="margin: 0 auto">
-                <img alt="{{img}}" class="d-block w-400" src="http://localhost:3000/api/imagenes/ImagenesAvatares/download/{{img}}" style="width: 150px; height: 150px; display: block; margin: auto;"/>
+                <img alt="{{img}}" class="d-block w-400" src="{{this.rutaImgAvatares}}{{img}}" style="width: 150px; height: 150px; display: block; margin: auto;"/>
               </slide>
             </div> 
           </carousel>
@@ -70,7 +70,7 @@
           <carousel [showIndicators]="false">
             <div *ngFor="let img of this.familiaElegida.complemento3">
               <slide style="margin: 0 auto">
-                <img alt="{{img}}" class="d-block w-400" src="http://localhost:3000/api/imagenes/ImagenesAvatares/download/{{img}}" style="width: 150px; height: 150px; display: block; margin: auto;"/>
+                <img alt="{{img}}" class="d-block w-400" src="{{this.rutaImgAvatares}}{{img}}" style="width: 150px; height: 150px; display: block; margin: auto;"/>
               </slide>
             </div> 
           </carousel>
@@ -80,7 +80,7 @@
           <carousel [showIndicators]="false">
             <div *ngFor="let img of this.familiaElegida.complemento4">
               <slide style="margin: 0 auto">
-                <img alt="{{img}}" class="d-block w-400" src="http://localhost:3000/api/imagenes/ImagenesAvatares/download/{{img}}" style="width: 150px; height: 150px; display: block; margin: auto;"/>
+                <img alt="{{img}}" class="d-block w-400" src="{{this.rutaImgAvatares}}{{img}}" style="width: 150px; height: 150px; display: block; margin: auto;"/>
               </slide>
             </div> 
           </carousel>
