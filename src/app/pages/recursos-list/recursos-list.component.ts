@@ -165,6 +165,13 @@ export class RecursosListComponent implements OnInit {
     else return false;
   }
 
+  isColecciones() {
+    if (this.recurso == 'colecciones')
+      return true;
+
+    else return false;
+  }
+
   //Función para ver si soy el propietario del recurso
   isPropietario(recurso) {
     if (this.profesor.id == recurso.profesorId) {
@@ -784,7 +791,8 @@ export class RecursosListComponent implements OnInit {
   }
 
   //Función para descargar todas las preguntas que seleccione en un solo json
-  descargaPerguntasSeleccionadas() {
+  /************** DESHABILITADA **************/
+  /* descargaPerguntasSeleccionadas() {
 
     if (this.mapCheckPreguntas.size == 0) {
       Swal.fire('Error', 'Selecciona al menos una pregunta', 'error')
@@ -853,7 +861,7 @@ export class RecursosListComponent implements OnInit {
 
       this.resetDescargarPreguntasSeleccionadas();
     }
-  }
+  } */
 
   //Funcion para descargar las preguntas que seleccione en un json por pregunta
   descargaPerguntasSeleccionadasIndividual() {

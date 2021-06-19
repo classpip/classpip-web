@@ -113,6 +113,7 @@ export class ImagenesService {
   public uploadImgPublicacion(img: FormData){
     return this.http.post(this.APIUrlImagenesPublicacion + '/upload', img);
   }
+  
 
   /*****************************************************/
   // ********** FICHEROS PUBLICACIONES ***************///

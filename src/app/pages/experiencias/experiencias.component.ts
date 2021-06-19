@@ -9,7 +9,7 @@ import * as moment from 'moment';
 import Swal from 'sweetalert2';
 import { ImagenesService } from 'src/app/services/imagenes.service';
 import { ModalContainerComponent } from 'ngx-bootstrap/modal';
-import {saveAs as importedSaveAs} from "file-saver";
+import { saveAs as importedSaveAs } from "file-saver";
 
 @Component({
   selector: 'app-experiencias',
@@ -109,10 +109,10 @@ export class ExperienciasComponent implements OnInit {
                     comm.autor = autor;
                   }
                 });
-                if(this.profesor != undefined){
+                if (this.profesor != undefined) {
                   comm.isPropietario = this.isPropietarioComment(comm)
                 }
-                console.log("Comentario",comm)
+                console.log("Comentario", comm)
               });
             };
           });
@@ -134,18 +134,18 @@ export class ExperienciasComponent implements OnInit {
     let titulo: string;
     let experiencia: string;
 
-    if(form['titulo'].value != ''){
-      if(document.getElementById('titulo').style.borderColor == 'red'){
+    if (form['titulo'].value != '') {
+      if (document.getElementById('titulo').style.borderColor == 'red') {
         document.getElementById('titulo').style.borderColor = '#525f7f';
       }
       titulo = form['titulo'].value;
     } else {
       document.getElementById('titulo').style.borderColor = 'red';
     }
-    
 
-    if(form['experiencia'].value != ''){
-      if(document.getElementById('experiencia').style.borderColor == 'red'){
+
+    if (form['experiencia'].value != '') {
+      if (document.getElementById('experiencia').style.borderColor == 'red') {
         document.getElementById('experiencia').style.borderColor = '#525f7f';
       }
       experiencia = form['experiencia'].value;
@@ -156,14 +156,14 @@ export class ExperienciasComponent implements OnInit {
     const today = new Date().toISOString();
     console.log(today);
 
-    if(this.mapImgs.size == 0 && this.mapFiles.size == 0){
+    if (this.mapImgs.size == 0 && this.mapFiles.size == 0) {
       //SUBIR PUBLI SIN ARCHIVOS
       let publi = new Publicacion(titulo, experiencia, today, this.profesor.id, [], []);
       console.log('publi: ', publi)
-  
+
       this.publiService.publicar(publi).subscribe((data) => {
         console.log(data);
-        Swal.fire('Success','Experiencia publicada! Muchas gracias.', 'success').then(() => {
+        Swal.fire('Success', 'Experiencia publicada! Muchas gracias.', 'success').then(() => {
           this.resetFormNewPubli();
           data.autor = this.profesor;
           data.fecha = moment(data.fecha).lang('es').fromNow();
@@ -177,24 +177,24 @@ export class ExperienciasComponent implements OnInit {
       //SUBIR PUBLI CON ARCHIVOS
       let publi = new Publicacion(titulo, experiencia, today, this.profesor.id, [], [], this.fileNames, this.imgNames);
       console.log('publi: ', publi)
-  
+
       this.publiService.publicar(publi).subscribe((newPubli) => {
         console.log('respuesta upload publi: ', newPubli);
-        if(this.mapImgs.size > 0 && this.mapFiles.size > 0){
+        if (this.mapImgs.size > 0 && this.mapFiles.size > 0) {
 
           let contImg = 0;
           let contFile = 0;
 
-          for(let file of this.mapFiles.values()){
+          for (let file of this.mapFiles.values()) {
             this.imgService.uploadFilePublicacion(file).subscribe((fileData) => {
               console.log('respuesta subir ficheros: ', fileData);
               contFile++;
-              if(contFile == this.mapFiles.size){
-                for(let img of this.mapImgs.values()){
+              if (contFile == this.mapFiles.size) {
+                for (let img of this.mapImgs.values()) {
                   this.imgService.uploadImgPublicacion(img).subscribe((imgData) => {
                     console.log('respuesta subir imagenes: ', imgData);
                     contImg++;
-                    if(contImg == this.mapImgs.size){
+                    if (contImg == this.mapImgs.size) {
                       this.resetFormNewPubli();
                       Swal.fire('Success', 'Experiencia publicada! Muchas gracias.', 'success').then(() => {
                         newPubli.autor = this.profesor;
@@ -204,26 +204,26 @@ export class ExperienciasComponent implements OnInit {
                       });
                     }
                   }, (error) => {
-                    Swal.fire('Error','Error al subir imágenes', 'error').then(() => {
+                    Swal.fire('Error', 'Error al subir imágenes', 'error').then(() => {
                       this.publiService.deletePubli(newPubli.id.toString());
                     });
                   });
                 }
-              } 
+              }
             }, (error) => {
-              Swal.fire('Error','Error al subir ficheros', 'error').then(() => {
+              Swal.fire('Error', 'Error al subir ficheros', 'error').then(() => {
                 this.publiService.deletePubli(newPubli.id.toString());
               })
             })
           }
 
-        } else if(this.mapFiles.size > 0) {
+        } else if (this.mapFiles.size > 0) {
           let cont = 0;
-          for(let file of this.mapFiles.values()){
+          for (let file of this.mapFiles.values()) {
             this.imgService.uploadFilePublicacion(file).subscribe((fileData) => {
               console.log('respuesta subir ficheros: ', fileData);
               cont++;
-              if(cont == this.mapFiles.size){
+              if (cont == this.mapFiles.size) {
                 this.resetFormNewPubli();
                 Swal.fire('Success', 'Experiencia publicada! Muchas gracias.', 'success').then(() => {
                   newPubli.autor = this.profesor;
@@ -233,18 +233,18 @@ export class ExperienciasComponent implements OnInit {
                 });
               }
             }, (error) => {
-              Swal.fire('Error','Error al subir ficheros', 'error').then(() => {
+              Swal.fire('Error', 'Error al subir ficheros', 'error').then(() => {
                 this.publiService.deletePubli(newPubli.id.toString());
               })
             })
           }
-        } else if(this.mapImgs.size > 0){
+        } else if (this.mapImgs.size > 0) {
           let cont = 0;
-          for(let img of this.mapImgs.values()){
+          for (let img of this.mapImgs.values()) {
             this.imgService.uploadImgPublicacion(img).subscribe((imgData) => {
               console.log('respuesta subir imagenes: ', imgData);
               cont++;
-              if(cont == this.mapImgs.size){
+              if (cont == this.mapImgs.size) {
                 Swal.fire('Success', 'Experiencia publicada! Muchas gracias.', 'success').then(() => {
                   newPubli.autor = this.profesor;
                   newPubli.fecha = moment(newPubli.fecha).lang('es').fromNow();
@@ -254,23 +254,23 @@ export class ExperienciasComponent implements OnInit {
                 });
               }
             }, (error) => {
-              Swal.fire('Error','Error al subir imágenes', 'error').then(() => {
+              Swal.fire('Error', 'Error al subir imágenes', 'error').then(() => {
                 this.publiService.deletePubli(newPubli.id.toString());
               });
             });
           }
-        } 
+        }
       }, (error) => {
-        Swal.fire('Error','Error al subir publicacion', 'error');
+        Swal.fire('Error', 'Error al subir publicacion', 'error');
       });
     }
   }
 
   @ViewChild('modalNewPubli', { static: true }) modalNewPubli: ModalContainerComponent;
-  
-  resetFormNewPubli(){
-    this.mapFiles = new Map<string,FormData>();
-    this.mapImgs = new Map<string,FormData>();
+
+  resetFormNewPubli() {
+    this.mapFiles = new Map<string, FormData>();
+    this.mapImgs = new Map<string, FormData>();
     this.imgNames = new Array<string>();
     this.fileNames = new Array<string>();
     document.forms['newPubliForm'].reset();
@@ -310,38 +310,38 @@ export class ExperienciasComponent implements OnInit {
     });
   }
 
-  setFilesModal(ficheros){
+  setFilesModal(ficheros) {
     console.log('entra ficheros: ', ficheros);
     this.filesSeeModal = ficheros;
   }
 
-  downloadFile(fileName){
+  downloadFile(fileName) {
     console.log('Fichero a descargar: ', fileName);
     this.imgService.downloadFilePublicacion(fileName).subscribe((data) => {
       try {
         const blob = new Blob([data]);
         importedSaveAs(blob, fileName);
       }
-      catch(error){
-        Swal.fire('Error','Error descargando fichero','error');
+      catch (error) {
+        Swal.fire('Error', 'Error descargando fichero', 'error');
       }
     }, (error) => {
-      Swal.fire('Error','Error obteniendo fichero','error');
+      Swal.fire('Error', 'Error obteniendo fichero', 'error');
     })
   }
 
-  downloadAllFiles(fileNames){
-    for(let fileName of fileNames){
+  downloadAllFiles(fileNames) {
+    for (let fileName of fileNames) {
       this.imgService.downloadFilePublicacion(fileName).subscribe((data) => {
         try {
           const blob = new Blob([data]);
           importedSaveAs(blob, fileName);
         }
-        catch(error){
-          Swal.fire('Error','Error descargando fichero '+fileName,'error');
+        catch (error) {
+          Swal.fire('Error', 'Error descargando fichero ' + fileName, 'error');
         }
       }, (error) => {
-        Swal.fire('Error','Error obteniendo fichero '+fileName,'error');
+        Swal.fire('Error', 'Error obteniendo fichero ' + fileName, 'error');
       })
     }
   }
@@ -387,16 +387,16 @@ export class ExperienciasComponent implements OnInit {
 
     await this.imgService.getFileNamesContainer('ImagenesPublicacion').subscribe((data: Array<any>) => {
       console.log('API files: ', data);
-      if(data != null){
+      if (data != null) {
         APIfileNames = data;
-        for(let i=0; i < files.length; i++){
+        for (let i = 0; i < files.length; i++) {
           let filter = APIfileNames.find(f => f.name === files[i].name);
-          if(filter != null){
-            Swal.fire('Error', 'El fichero '+files[i].name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+          if (filter != null) {
+            Swal.fire('Error', 'El fichero ' + files[i].name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
             break;
           } else {
             console.log('Se puede subir ', files[i].name);
-            if(!this.mapImgs.has(files[i].name)){
+            if (!this.mapImgs.has(files[i].name)) {
               this.mapImgs.set(files[i].name, new FormData());
               this.mapImgs.get(files[i].name).append(files[i].name, files[i]);
               this.imgNames.push(files[i].name);
@@ -413,16 +413,16 @@ export class ExperienciasComponent implements OnInit {
 
     await this.imgService.getFileNamesContainer('FicherosPublicacion').subscribe((data: Array<any>) => {
       console.log('API files: ', data);
-      if(data != null){
+      if (data != null) {
         APIfileNames = data;
-        for(let i=0; i < files.length; i++){
+        for (let i = 0; i < files.length; i++) {
           let filter = APIfileNames.find(f => f.name === files[i].name);
-          if(filter != null){
-            Swal.fire('Error', 'El fichero '+files[i].name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
+          if (filter != null) {
+            Swal.fire('Error', 'El fichero ' + files[i].name + ' ya existe. Cambia el nombre al archivo y vuelve a intentarlo');
             break;
           } else {
             console.log('Se puede subir ', files[i].name);
-            if(!this.mapFiles.has(files[i].name)){
+            if (!this.mapFiles.has(files[i].name)) {
               this.mapFiles.set(files[i].name, new FormData());
               this.mapFiles.get(files[i].name).append(files[i].name, files[i]);
               this.fileNames.push(files[i].name);
@@ -433,8 +433,8 @@ export class ExperienciasComponent implements OnInit {
     });
   }
 
-  unselectFile(type: string, name: string){
-    switch(type){
+  unselectFile(type: string, name: string) {
+    switch (type) {
       case 'img': {
         this.mapImgs.delete(name);
         this.imgNames.splice(this.imgNames.indexOf(name), 1);
@@ -451,7 +451,7 @@ export class ExperienciasComponent implements OnInit {
   /* *********************************** */
   /******** FUNCIONES ELIMINAR ***********/
   /* *********************************** */
-  
+
   //Función para ver si soy el propietario de la publi
   isPropietarioPubli(publi) {
     console.log("this.prof: ", this.profesor.id);
@@ -477,21 +477,88 @@ export class ExperienciasComponent implements OnInit {
   }
 
   //Función para borrar publicación
-  borrarPublicacion(publi: any){
-    
-    console.log('Falta eliminar archivos (si tiene)');
+  borrarPublicacion(publi: any) {
 
-    this.publiService.deletePubli(publi.id).subscribe(() => {
-      Swal.fire("Hecho", "Publicación eliminada correctamente", "success")
-      this.ngOnInit();
-    }), (error) => {
-      console.log(error);
-      Swal.fire("Error", "Error eliminando la publicación", "error");
+    //BORRA IMAGENES, FICHEROS Y PUBLICACIÓN
+    if (publi.imagenes != undefined && publi.ficheros != undefined) {
+      if (publi.imagenes.length > 0 && publi.ficheros.length > 0) {
+        publi.imagenes.forEach(imagen => {
+          this.publiService.deleteImgPubli(imagen).subscribe(() => {
+            publi.ficheros.forEach(fichero => {
+              this.publiService.deleteFicheroPubli(fichero).subscribe(() => {
+                if (publi.comentarios != undefined) {
+                  this.publiService.deleteCommentsPubli(publi.id).subscribe(() => {
+                    this.publiService.deletePubli(publi.id).subscribe(() => {
+                      Swal.fire("Hecho", "Publicación eliminada correctamente", "success")
+                      this.ngOnInit();
+                    }), (error) => {
+                      console.log(error);
+                      Swal.fire("Error", "Error eliminando la publicación", "error");
+                    }
+                  })
+                }
+              })
+            })
+          })
+        })
+      }
+      else {
+        //BORRA PUBLICACIÓN CON IMÁGENES
+        if (publi.imagenes.length > 0) {
+          publi.imagenes.forEach(imagen => {
+            this.publiService.deleteImgPubli(imagen).subscribe(() => {
+              if (publi.comentarios != undefined) {
+                this.publiService.deleteCommentsPubli(publi.id).subscribe(() => {
+                  this.publiService.deletePubli(publi.id).subscribe(() => {
+                    Swal.fire("Hecho", "Publicación eliminada correctamente", "success")
+                    this.ngOnInit();
+                  }), (error) => {
+                    console.log(error);
+                    Swal.fire("Error", "Error eliminando la publicación", "error");
+                  }
+                })
+              }
+            })
+          })
+        }
+        //BORRA PUBLICACIÓN CON FICHEROS
+        else if (publi.ficheros.length > 0) {
+          console.log("entra")
+          publi.ficheros.forEach(fichero => {
+            this.publiService.deleteFicheroPubli(fichero).subscribe(() => {
+              if (publi.comentarios != undefined) {
+                this.publiService.deleteCommentsPubli(publi.id).subscribe(() => {
+                  this.publiService.deleteComment(publi.id).subscribe(() => {
+                    Swal.fire("Hecho", "Publicación eliminada correctamente", "success")
+                    this.ngOnInit();
+                  }), (error) => {
+                    console.log(error);
+                    Swal.fire("Error", "Error eliminando la publicación", "error");
+                  }
+                })
+              }
+            })
+          })
+        }
+      }
     }
+    //BORRA PUBLICACIÓN SIN IMÁGENES NI FICHEROS
+    else {
+      this.publiService.deletePubli(publi.id).subscribe(() => {
+        Swal.fire("Hecho", "Publicación eliminada correctamente", "success")
+        this.ngOnInit();
+      }), (error) => {
+        console.log(error);
+        Swal.fire("Error", "Error eliminando la publicación", "error");
+      }
+    }
+
   }
 
+
+
   //Función para borrar comentario
-  borrarComment(comment: any){
+  borrarComment(comment: any) {
     this.publiService.deleteComment(comment.id).subscribe(() => {
       Swal.fire("Hecho", "Comentario eliminado correctamente", "success")
       this.ngOnInit();
