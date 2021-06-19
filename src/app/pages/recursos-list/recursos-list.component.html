@@ -87,7 +87,7 @@
                                         <i class="tim-icons icon-cloud-download-93"></i>
                                     </button>
                                     &nbsp;
-                                    <button *ngIf="isColecciones()" type="button" rel="tooltip" class="btn btn-sm btn-primary btn-roundbtn-icon"
+                                    <button *ngIf="isColecciones() || isAvatares()" type="button" rel="tooltip" class="btn btn-sm btn-primary btn-roundbtn-icon"
                                         placement="bottom" tooltip="Recomendaciones de uso"
                                         (click)="showRecomendations(modalRecomendations, rsc)">
                                         <i class="tim-icons icon-bulb-63"></i>

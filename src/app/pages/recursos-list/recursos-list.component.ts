@@ -172,6 +172,13 @@ export class RecursosListComponent implements OnInit {
     else return false;
   }
 
+  isAvatares() {
+    if (this.recurso == 'avatares')
+      return true;
+
+    else return false;
+  }
+
   //Función para ver si soy el propietario del recurso
   isPropietario(recurso) {
     if (this.profesor.id == recurso.profesorId) {
