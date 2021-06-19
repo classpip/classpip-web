@@ -479,13 +479,36 @@ export class ExperienciasComponent implements OnInit {
   //Función para borrar publicación
   borrarPublicacion(publi: any) {
 
-    if (publi.imagenes != null || publi.ficheros != null) {
-      if (publi.imagenes != null) {
+    //BORRA IMAGENES, FICHEROS Y PUBLICACIÓN
+    if (publi.imagenes != undefined && publi.ficheros != undefined) {
+      if (publi.imagenes.length > 0 && publi.ficheros.length > 0) {
         publi.imagenes.forEach(imagen => {
-          this.publiService.deleteImgPubli(imagen).subscribe(() =>{
-            if (publi.ficheros != null){
-              publi.ficheros.forEach(fichero =>{
-                this.publiService.deleteFicheroPubli(fichero).subscribe(() =>{
+          this.publiService.deleteImgPubli(imagen).subscribe(() => {
+            publi.ficheros.forEach(fichero => {
+              this.publiService.deleteFicheroPubli(fichero).subscribe(() => {
+                if (publi.comentarios != undefined) {
+                  this.publiService.deleteCommentsPubli(publi.id).subscribe(() => {
+                    this.publiService.deletePubli(publi.id).subscribe(() => {
+                      Swal.fire("Hecho", "Publicación eliminada correctamente", "success")
+                      this.ngOnInit();
+                    }), (error) => {
+                      console.log(error);
+                      Swal.fire("Error", "Error eliminando la publicación", "error");
+                    }
+                  })
+                }
+              })
+            })
+          })
+        })
+      }
+      else {
+        //BORRA PUBLICACIÓN CON IMÁGENES
+        if (publi.imagenes.length > 0) {
+          publi.imagenes.forEach(imagen => {
+            this.publiService.deleteImgPubli(imagen).subscribe(() => {
+              if (publi.comentarios != undefined) {
+                this.publiService.deleteCommentsPubli(publi.id).subscribe(() => {
                   this.publiService.deletePubli(publi.id).subscribe(() => {
                     Swal.fire("Hecho", "Publicación eliminada correctamente", "success")
                     this.ngOnInit();
@@ -494,18 +517,18 @@ export class ExperienciasComponent implements OnInit {
                     Swal.fire("Error", "Error eliminando la publicación", "error");
                   }
                 })
-              })
-            }
+              }
+            })
           })
-        })
-      }
-      if(publi.ficheros != null){
-        publi.ficheros.forEach(fichero => {
-          this.publiService.deleteFicheroPubli(fichero).subscribe(() =>{
-            if(publi.imagenes != null){
-              publi.imagenes.forEach(imagen => {
-                this.publiService.deleteImgPubli(imagen).subscribe(() =>{
-                  this.publiService.deletePubli(publi.id).subscribe(() => {
+        }
+        //BORRA PUBLICACIÓN CON FICHEROS
+        else if (publi.ficheros.length > 0) {
+          console.log("entra")
+          publi.ficheros.forEach(fichero => {
+            this.publiService.deleteFicheroPubli(fichero).subscribe(() => {
+              if (publi.comentarios != undefined) {
+                this.publiService.deleteCommentsPubli(publi.id).subscribe(() => {
+                  this.publiService.deleteComment(publi.id).subscribe(() => {
                     Swal.fire("Hecho", "Publicación eliminada correctamente", "success")
                     this.ngOnInit();
                   }), (error) => {
@@ -513,16 +536,14 @@ export class ExperienciasComponent implements OnInit {
                     Swal.fire("Error", "Error eliminando la publicación", "error");
                   }
                 })
-              })
-              
-            }
+              }
+            })
           })
-        })
+        }
       }
-      
     }
+    //BORRA PUBLICACIÓN SIN IMÁGENES NI FICHEROS
     else {
-      console.log("Holiiiiiii")
       this.publiService.deletePubli(publi.id).subscribe(() => {
         Swal.fire("Hecho", "Publicación eliminada correctamente", "success")
         this.ngOnInit();
@@ -532,8 +553,9 @@ export class ExperienciasComponent implements OnInit {
       }
     }
 
-
   }
+
+
 
   //Función para borrar comentario
   borrarComment(comment: any) {

@@ -83,6 +83,10 @@ export class PublicacionesService {
   public deleteFicheroPubli(fichero :string){
     return this.http.delete(this.APIUrlFicherosPublicacion + '/files/' + fichero);
   }
+
+  public deleteCommentsPubli(id: string){
+    return this.http.delete(this.APIUrlPublicaciones + '/' + id + '/comentarios');
+  }
   // public updateComentario(comentario: Comentario){
   //   return this.http.put<Comentario>(this.APIUrlComentarios, comentario);
   // }
