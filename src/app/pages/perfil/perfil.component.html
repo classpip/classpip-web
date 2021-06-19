@@ -14,7 +14,7 @@
                                         <img *ngIf="this.profesor.imagenPerfil != null"
                                             class="img-center img-fluid rounded-circle"
                                             style="border-radius: 8px; width: 150px; height: 150px;"
-                                            src="http://localhost:3000/api/imagenes/ImagenProfesor/download/{{this.profesor.imagenPerfil}}" />
+                                            [src]="this.urlImagenProfesor + this.profesor.imagenPerfil" />
                                         <img *ngIf="this.profesor.imagenPerfil == null"
                                             class="img-center img-fluid rounded-circle"
                                             style="border-radius: 8px; width: 150px; height: 150px;"

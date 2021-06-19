@@ -3,6 +3,7 @@ import { Profesor } from './../../clases/Profesor';
 import { SesionService } from 'src/app/services/sesion.service';
 import { AuthService } from './../../services/auth.service';
 import { Component, Input, OnInit } from '@angular/core';
+import * as URL from 'src/app/URLs/urls'
 
 @Component({
   selector: 'app-navbar',
@@ -14,6 +15,7 @@ export class NavbarComponent implements OnInit {
   isCollapsed = true;
   profesor: Profesor;
   isToken: boolean;
+  urlImagenProfesor = URL.ImagenProfesor;
 
   constructor(private auth: AuthService, private sesion: SesionService, private router: Router) { }
 
