@@ -812,6 +812,10 @@ export class RecursosComponent implements OnInit {
       document.getElementById('nombreCompAv4').style.borderColor = "red";
     }
 
+    if (this.form['recomendacion'].value != ''){
+      this.avatarWrapper.recomendacion = this.form['recomendacion'].value;
+    }
+
     console.log(this.avatarWrapper);
 
     if(cont == 5){
@@ -1002,6 +1006,10 @@ export class RecursosComponent implements OnInit {
     } else {
       this.coleccionWrapper.dosCaras = false;
       cont++;
+    }
+
+    if (this.form['recomendacion'].value != ''){
+      this.avatarWrapper.recomendacion = this.form['recomendacion'].value;
     }
 
     if(this.coleccionWrapper.imagenColeccion != null){
@@ -1399,7 +1407,8 @@ export class RecursosComponent implements OnInit {
         this.avatarWrapper.nombreComplemento3,
         this.avatarWrapper.complemento3,
         this.avatarWrapper.nombreComplemento4,
-        this.avatarWrapper.complemento4
+        this.avatarWrapper.complemento4,
+        this.avatarWrapper.recomendacion
       );
       console.log(this.newFamiliaAvatares);
       this.rscService.uploadFamiliaAvatar(this.newFamiliaAvatares).subscribe(data => {
@@ -1603,6 +1612,7 @@ class AvatarWrapper {
   complemento3: string[];
   nombreComplemento4: string;
   complemento4: string[];
+  recomendacion: string;
 
   constructor() {
 
@@ -1617,6 +1627,7 @@ class AvatarWrapper {
     this.complemento2 = [];
     this.complemento3 = [];
     this.complemento4 = [];
+    this.recomendacion = null;
   }
 }
 
@@ -1640,6 +1651,7 @@ class ColeccionWrapper {
   dosCaras: boolean;
   profesorId: number;
   cromos: CromoWrapper[] = [];
+  recomendacion: string;
 
   constructor() {
 
@@ -1647,6 +1659,7 @@ class ColeccionWrapper {
     this.imagenColeccion = null;
     this.dosCaras = false;
     this.profesorId = null;
+    this.recomendacion = null;
   }
 }
 
