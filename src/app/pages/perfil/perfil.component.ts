@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { ModalContainerComponent } from 'ngx-bootstrap/modal';
 import { EmailValidator } from '@angular/forms';
 import { reduce } from 'rxjs/operators';
+import * as URL from 'src/app/URLs/urls'
 
 @Component({
   selector: 'app-perfil',
@@ -25,6 +26,10 @@ export class PerfilComponent implements OnInit {
   repeatPassword: string;
 
   imgProfesor: FormData;
+
+  urlImagenProfesor = URL.ImagenProfesor;
+
+  
 
   constructor(private sesion: SesionService, private auth: AuthService, private router: Router, private imgService: ImagenesService) { }
 

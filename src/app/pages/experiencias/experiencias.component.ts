@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import { ImagenesService } from 'src/app/services/imagenes.service';
 import { ModalContainerComponent } from 'ngx-bootstrap/modal';
 import { saveAs as importedSaveAs } from "file-saver";
+import * as URL from 'src/app/URLs/urls'
 
 @Component({
   selector: 'app-experiencias',
@@ -45,6 +46,8 @@ export class ExperienciasComponent implements OnInit {
   //Variables para ver imagenes y ficheros
   filesSeeModal;
 
+
+  urlImagenProfesor = URL.ImagenProfesor;
   constructor(private auth: AuthService, private publiService: PublicacionesService, private sesion: SesionService, private imgService: ImagenesService) { }
 
   ngOnInit(): void {

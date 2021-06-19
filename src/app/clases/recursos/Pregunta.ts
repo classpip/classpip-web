@@ -16,8 +16,6 @@ export class Pregunta {
 
     emparejamientos: any[]; // ""Emparejamiento"
 
-    recomendacion: string;
-
 
     // tslint:disable-next-line:one-line
     // tslint:disable-next-line:max-line-length

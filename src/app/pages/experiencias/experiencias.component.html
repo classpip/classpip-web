@@ -66,7 +66,7 @@
                 <div class="autor" id="autor-name">
                   <img *ngIf="publi.autor.imagenPerfil == null" src="../../../assets/img/logo.png" routerLink="/perfil"
                     style="border-radius: 50%" width="20" height="20" />
-                  <img *ngIf="publi.autor.imagenPerfil != null" src="http://localhost:3000/api/imagenes/ImagenProfesor/download/{{this.profesor.imagenPerfil}}" routerLink="/perfil"
+                  <img *ngIf="publi.autor.imagenPerfil != null"  [src]="this.urlImagenProfesor + this.profesor.imagenPerfil" routerLink="/perfil"
                     style="border-radius: 50%" width="20" height="20" />
                   &nbsp;
                   <span>{{publi.autor.nombre}} {{publi.autor.primerApellido}}</span>
@@ -118,7 +118,7 @@
                   <div class="autor" id="autor-name" *ngIf="comment.autor" >
                     <img *ngIf="comment.autor.imagenPerfil == null" src="../../../assets/img/logo.png"
                       routerLink="/perfil" style="border-radius: 50%" width="20" height="20" />
-                    <img *ngIf="comment.autor.imagenPerfil != null" src="http://localhost:3000/api/imagenes/ImagenProfesor/download{{comment.autor.imagenPerfil}}"
+                    <img *ngIf="comment.autor.imagenPerfil != null"  [src]="this.urlImagenProfesor + this.profesor.imagenPerfil"
                       routerLink="/perfil" style="border-radius: 50%" width="20" height="20" />
                     &nbsp;
                     <span>{{comment.autor.nombre}} {{comment.autor.primerApellido}}</span>

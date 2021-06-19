@@ -8,11 +8,12 @@ export class Coleccion {
   cromos: Cromo[];
   recomendacion: string;
 
-  constructor(nombre: string, profesorId: number, imagenColeccion: string, dosCaras: boolean) {
+  constructor(nombre: string, profesorId: number, imagenColeccion: string, dosCaras: boolean, recomendacion?: string) {
 
     this.nombre = nombre;
     this.imagenColeccion = imagenColeccion;
     this.dosCaras = dosCaras;
     this.profesorId = profesorId;
+    this.recomendacion = recomendacion;
   }
 }
