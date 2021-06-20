@@ -1,6 +1,6 @@
 import { ImagenesService } from './../../services/imagenes.service';
 import { User } from './../../clases/User';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { SesionService } from './../../services/sesion.service';
 import { Profesor } from './../../clases/Profesor';
@@ -20,6 +20,8 @@ export class PerfilComponent implements OnInit {
 
   profesor: Profesor;
   user: User;
+  isOwner = false;
+  enableEdition = false;
 
   oldPassword: string;
   newPassword: string;
@@ -31,18 +33,38 @@ export class PerfilComponent implements OnInit {
 
   
 
-  constructor(private sesion: SesionService, private auth: AuthService, private router: Router, private imgService: ImagenesService) { }
+  constructor(private sesion: SesionService, private auth: AuthService, private router: Router, private imgService: ImagenesService, private url: ActivatedRoute) { }
 
   ngOnInit(): void {
-    if (this.auth.isLoggedIn()) {
-      this.profesor = this.sesion.DameProfesor();
-      console.log("profesor onInit", this.profesor);
-      this.auth.getUser(this.profesor.userId).subscribe((res) => {
-        this.user = res;
-      });
-    }
-    else this.router.navigateByUrl('/#/home');
 
+    let userId = this.url.snapshot.params.userId;
+
+    if(this.auth.isLoggedIn()){
+      let userLogged = this.sesion.DameProfesor();
+      if(userLogged.userId == userId){
+        this.isOwner = true;
+        this.profesor = userLogged;
+        this.auth.getUser(this.profesor.userId).subscribe((res) => {
+          this.user = res;
+        })
+      } else {
+        this.auth.dameProfesor(userId).subscribe((data: any) => {
+          this.profesor = data[0];
+          console.log('profe: ',this.profesor);
+          this.auth.getUser(this.profesor.userId).subscribe((res) => {
+            this.user = res;
+          })
+        })
+      }
+    } else {
+      this.auth.dameProfesor(userId).subscribe((data: any) => {
+        this.profesor = data[0];
+        console.log('profe: ',this.profesor);
+        this.auth.getUser(this.profesor.userId).subscribe((res) => {
+          this.user = res;
+        })
+      })
+    }
   }
 
   logout() {
@@ -137,14 +159,6 @@ export class PerfilComponent implements OnInit {
 
   }
 
-  editUser() {
-    (<HTMLInputElement>document.getElementById("name")).readOnly = false;
-    (<HTMLInputElement>document.getElementById("surname")).readOnly = false;
-    (<HTMLInputElement>document.getElementById("surname2")).readOnly = false;
-    (<HTMLInputElement>document.getElementById("email")).readOnly = false;
-    (<HTMLInputElement>document.getElementById("username")).readOnly = false;
-  }
-
   @ViewChild('modalSecurity', { static: true }) modalSecurity: ModalContainerComponent;
 
   updateUser() {
@@ -192,6 +206,7 @@ export class PerfilComponent implements OnInit {
                   console.log('respuesta subir prof: ', data);
                   console.log('new thisprofesor: ', this.profesor);
                   this.sesion.TomaProfesor(this.profesor);
+                  this.enableEdition = false;
                 });
               }, (error) => {
                 console.log(error);
@@ -201,6 +216,7 @@ export class PerfilComponent implements OnInit {
             } else {
               Swal.fire('Success', 'Datos actualizados correctamente', 'success').then(() => {
                 secForm.reset();
+                this.enableEdition = false;
               });
               this.modalSecurity.hide();
             }
@@ -230,6 +246,7 @@ export class PerfilComponent implements OnInit {
               console.log('respuesta subir prof: ', data);
               console.log('new thisprofesor: ', this.profesor);
               this.sesion.TomaProfesor(this.profesor);
+              this.enableEdition = false;
             });
           }, (error) => {
             console.log(error);
@@ -263,6 +280,7 @@ export class PerfilComponent implements OnInit {
   @ViewChild('modalChangePassword', { static: true }) modalPswd: ModalContainerComponent;
 
   resetPswdForm() {
+
     let form = document.forms['pswdForm'];
     form['old'].type = 'password';
     form['new'].type = 'password';

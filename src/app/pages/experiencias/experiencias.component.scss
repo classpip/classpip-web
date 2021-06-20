@@ -53,6 +53,10 @@
     cursor: pointer;
 }
 
+.user-info:hover{
+    cursor: pointer;
+}
+
 @media only screen and (min-width: 1200px) {
     #autor-name:after{
         content:" "; 

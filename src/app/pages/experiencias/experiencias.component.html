@@ -64,12 +64,12 @@
               <div class="publicacion-header">
 
                 <div class="autor" id="autor-name">
-                  <img *ngIf="publi.autor.imagenPerfil == null" src="../../../assets/img/logo.png" routerLink="/perfil"
-                    style="border-radius: 50%" width="20" height="20" />
-                  <img *ngIf="publi.autor.imagenPerfil != null"  [src]="this.urlImagenProfesor + publi.autor.imagenPerfil" routerLink="/perfil"
-                    style="border-radius: 50%" width="20" height="20" />
+                  <img *ngIf="publi.autor.imagenPerfil == null" src="../../../assets/img/logo.png"
+                    style="border-radius: 50%" width="20" height="20" class="user-info" routerLink="/perfil/{{publi.autor.userId}}" />
+                  <img *ngIf="publi.autor.imagenPerfil != null"  [src]="this.urlImagenProfesor + publi.autor.imagenPerfil"
+                    style="border-radius: 50%" width="20" height="20" class="user-info" routerLink="/perfil/{{publi.autor.userId}}" />
                   &nbsp;
-                  <span>{{publi.autor.nombre}} {{publi.autor.primerApellido}}</span>
+                  <span class="user-info" routerLink="/perfil/{{publi.autor.userId}}">{{publi.autor.nombre}} {{publi.autor.primerApellido}}</span>
                 </div>
                 <span id="publi-title" style="text-align: right;">{{publi.fecha}}</span>
                 &nbsp;
@@ -119,11 +119,11 @@
                 <div class="comentario-header">
                   <div class="autor" id="autor-name" *ngIf="comment.autor" >
                     <img *ngIf="comment.autor.imagenPerfil == null" src="../../../assets/img/logo.png"
-                      routerLink="/perfil" style="border-radius: 50%" width="20" height="20" />
+                      style="border-radius: 50%" width="20" height="20" class="user-info" routerLink="/perfil/{{comment.autor.userId}}" />
                     <img *ngIf="comment.autor.imagenPerfil != null"  [src]="this.urlImagenProfesor + comment.autor.imagenPerfil"
-                      routerLink="/perfil" style="border-radius: 50%" width="20" height="20" />
+                      style="border-radius: 50%" width="20" height="20" class="user-info" routerLink="/perfil/{{comment.autor.userId}}" />
                     &nbsp;
-                    <span>{{comment.autor.nombre}} {{comment.autor.primerApellido}}</span>
+                    <span class="user-info" routerLink="/perfil/{{comment.autor.userId}}">{{comment.autor.nombre}} {{comment.autor.primerApellido}}</span>
 
                   </div>
                 <button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-info btn-roundbtn-icon"
@@ -260,11 +260,11 @@
           <div *ngIf="this.likesSeeModal && this.likesSeeModal.length > 0; else nolikes" >
             <div class="likes" id="like-prof" *ngFor="let like of this.likesSeeModal" >
               <img *ngIf="like.imagenPerfil == null" src="../../../assets/img/logo.png"
-                style="border-radius: 50%" width="50px" height="50px" />
+                style="border-radius: 50%" width="50px" height="50px" class="user-info" routerLink="/perfil/{{like.userId}}" />
               <img *ngIf="like.imagenPerfil != null"  src="{{this.urlImagenProfesor}}{{like.imagenPerfil}}"
-                style="border-radius: 50%" width="50px" height="50px" />
+                style="border-radius: 50%" width="50px" height="50px" class="user-info" routerLink="/perfil/{{like.userId}}" />
               &nbsp;
-              <span>{{like.nombre}} {{like.primerApellido}}</span>
+              <span class="user-info" routerLink="/perfil/{{like.userId}}">{{like.nombre}} {{like.primerApellido}}</span>
             </div>
           </div>
           <ng-template #nolikes>

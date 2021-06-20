@@ -224,7 +224,7 @@ export class RecursosComponent implements OnInit {
         break;
       }
       case 'Colección': {
-        mensaje += '{\n\"nombre\":\"text\",\n\"imagenColeccion\":\"imagen-silueta.png\",\n\"dosCaras\":true/false,\n'
+        mensaje += '{\n\"nombre\":\"text\",\n\"imagenColeccion\":\"imagen-silueta.png\",\n\"dosCaras\":true/false,\n\"recomendacion\":\"text\",\n'
         +'\"cromos\":[\n'
         +'{\n\"nombre\":\"text\",\n\"probabilidad\":\"MUY ALTA\",\n\"nivel\":\"BRONCE\",\n\"imagenDelante\":\"imagen1.png\",\n\"imagenDetras\":\"imagen2.jpg\"},\n'
         +'. . .\n'
@@ -237,16 +237,18 @@ export class RecursosComponent implements OnInit {
         + '- Nivel: BRONCE, PLATA, ORO, DIAMANTE\n\n'
 
         mensaje2 += 'En caso de poner en el JSON dosCaras=false, la imagenDetras del cromo no es necesaria.\n'
-        + 'Asegúrate de seleccionar las imágenes cuyos nombres se han introducido en los campos de imágenes.\n';
+        + 'Asegúrate de seleccionar las imágenes cuyos nombres se han introducido en los campos de imágenes.\n'
+        + 'El campo recomendacion es opcional, por si quieres compartir algún consejo para el recurso.\n';
         break;
       }
       case 'Avatar': {
-        mensaje += '{\n\"nombreFamilia\":\"text\",\n\"silueta\":\"imagen-silueta.png\",\n\"nombreComplemento1\":\"text\",\n'
+        mensaje += '{\n\"nombreFamilia\":\"text\",\n\"recomendacion\":\"text\",\n\"silueta\":\"imagen-silueta.png\",\n\"nombreComplemento1\":\"text\",\n'
         +'\"nombreComplemento2\":\"text\",\n\"nombreComplemento3\":\"text\",\n\"nombreComplemento4\":\"text\",\n'
         +'\"complemento1\": [ \"imagen1.jpg\", \"imagen2.jpg\", .... ],\n\"complemento2\": [ \"imagen3.jpg\", \"imagen4.jpg\", .... ],\n'
         +'\"complemento3\": [ \"imagen5.jpg\", \"imagen6.jpg\", .... ],\n\"complemento4\": [ \"imagen7.jpg\", \"imagen8.jpg\", .... ]\n}\n\n';
 
-        mensaje += 'Asegúrate de seleccionar las imágenes cuyos nombres se han introducido en los campos de imágenes.\n';
+        mensaje += 'Asegúrate de seleccionar las imágenes cuyos nombres se han introducido en los campos de imágenes.\n'
+        +'El campo recomendacion es opcional, por si quieres compartir algún consejo para el recurso.\n';
         break;
       }
       case 'Imágenes de perfil': {
@@ -463,11 +465,16 @@ export class RecursosComponent implements OnInit {
         console.log(this.rscJson);
         console.log('returnsss: ', this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames, this.imgColJsonName));
         if(this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames, this.imgColJsonName)){
+          let recomendation = null;
+          if(this.rscJson.recomendacion != null){
+            recomendation = this.rscJson.recomendacion;
+          }
           let coleccion = new Coleccion(
             this.rscJson.nombre,
             this.profesor.id,
             this.rscJson.imagenColeccion,
-            this.rscJson.dosCaras
+            this.rscJson.dosCaras,
+            recomendation
           );
           let cromos = this.rscJson.cromos;
           console.log('new coleccion: ', coleccion);
@@ -518,6 +525,10 @@ export class RecursosComponent implements OnInit {
       case 'Avatar': {
         console.log(this.rscJson);
         if(this.rscService.verifyDataJson(this.typeRscUpload, this.rscJson, this.imgsJsonNames, null)){
+          let recomendation = null;
+          if(this.rscJson.recomendacion != null){
+            recomendation = this.rscJson.recomendacion;
+          }
           let avatar = new FamiliaAvatares(
             this.rscJson.nombreFamilia,
             this.profesor.id,
@@ -530,6 +541,7 @@ export class RecursosComponent implements OnInit {
             this.rscJson.complemento3,
             this.rscJson.nombreComplemento4,
             this.rscJson.complemento4,
+            recomendation
           )
           console.log('new avatar: ', avatar);
           this.rscService.uploadFamiliaAvatar(avatar).subscribe((data) => {
