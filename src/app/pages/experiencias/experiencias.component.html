@@ -43,7 +43,8 @@
         </div>
         <ng-template #loginWarn>
           <div class="card card-publicacion card-header">
-            <p style="text-align: center;"><a class="login" [routerLink]="['/login']" [queryParams]="{redirectTo: 'experiencias'}">Inicia sesión</a> o <a class="register"
+            <p style="text-align: center;"><a class="login" [routerLink]="['/login']"
+                [queryParams]="{redirectTo: 'experiencias'}">Inicia sesión</a> o <a class="register"
                 routerLink="/register">regístarte</a> para poder publicar o comentar experiencias</p>
           </div>
         </ng-template>
@@ -65,16 +66,20 @@
 
                 <div class="autor" id="autor-name">
                   <img *ngIf="publi.autor.imagenPerfil == null" src="../../../assets/img/logo.png"
-                    style="border-radius: 50%" width="20" height="20" class="user-info" routerLink="/perfil/{{publi.autor.userId}}" />
-                  <img *ngIf="publi.autor.imagenPerfil != null"  [src]="this.urlImagenProfesor + publi.autor.imagenPerfil"
-                    style="border-radius: 50%" width="20" height="20" class="user-info" routerLink="/perfil/{{publi.autor.userId}}" />
+                    style="border-radius: 50%" width="20" height="20" class="user-info"
+                    routerLink="/perfil/{{publi.autor.userId}}" />
+                  <img *ngIf="publi.autor.imagenPerfil != null"
+                    [src]="this.urlImagenProfesor + publi.autor.imagenPerfil" style="border-radius: 50%" width="20"
+                    height="20" class="user-info" routerLink="/perfil/{{publi.autor.userId}}" />
                   &nbsp;
-                  <span class="user-info" routerLink="/perfil/{{publi.autor.userId}}">{{publi.autor.nombre}} {{publi.autor.primerApellido}}</span>
+                  <span class="user-info" routerLink="/perfil/{{publi.autor.userId}}">{{publi.autor.nombre}}
+                    {{publi.autor.primerApellido}}</span>
                 </div>
                 <span id="publi-title" style="text-align: right;">{{publi.fecha}}</span>
                 &nbsp;
                 <button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-info btn-roundbtn-icon"
-                  placement="bottom" tooltip="Eliminar publicación" *ngIf="publi.isPropietario" (click)="borrarPublicacion(publi)">
+                  placement="bottom" tooltip="Eliminar publicación" *ngIf="publi.isPropietario"
+                  (click)="borrarPublicacion(publi)">
                   <i class="tim-icons icon-trash-simple"></i>
                 </button>
               </div>
@@ -84,52 +89,60 @@
               <h3 style="text-align:center;"> {{publi.titulo}} {{publi.id}} {{i}}</h3>
 
               <p style="text-align:justify; margin-right: 10%;">{{publi.publicacion}}</p>
-              <div class="button" *ngIf="publi.ficheros != null && publi.ficheros.length > 0"  data-target="#modalFiles" style="text-align: center;">
-                <button class="btn btn-success btn-default btn-small" type="button" (click)="modalFiles.show()" (click)="setFilesModal(publi.ficheros)">
+              <div class="button" *ngIf="publi.ficheros != null && publi.ficheros.length > 0" data-target="#modalFiles"
+                style="text-align: center;">
+                <button class="btn btn-success btn-default btn-small" type="button" (click)="modalFiles.show()"
+                  (click)="setFilesModal(publi.ficheros)">
                   Ver ficheros
                 </button>
-              </div>              
-              <p *ngIf="publi.imagenes != null && publi.imagenes.length > 0" >{{publi.imagenes}}</p>
+              </div>
+              <p *ngIf="publi.imagenes != null && publi.imagenes.length > 0">{{publi.imagenes}}</p>
               <br>
               <br>
               <div class="likes">
                 <i class="fas fa-heart" style="font-size:12px;color:white;" (click)="dislikePubli(publi.id)"
-                *ngIf="!this.profesor"></i>
+                  *ngIf="!this.profesor"></i>
                 <i class="fas fa-heart likeLogged" style="font-size:12px;color:red;" (click)="dislikePubli(publi.id)"
                   *ngIf="this.profesor && publi.isLike"></i>
                 <i class="fas fa-heart likeLogged" style="font-size:12px;color:white;" (click)="likePubli(publi.id)"
                   *ngIf="this.profesor && !publi.isLike"></i>
                 &nbsp;
-                <span id="seeLikes" (click)="modalLikes.show()" (click)="setLikesModal(publi.likes)">{{publi.likes.length}} likes</span>
+                <span id="seeLikes" (click)="modalLikes.show()"
+                  (click)="setLikesModal(publi.likes)">{{publi.likes.length}} likes</span>
                 <br>
-                <div style="text-align: center;" *ngIf="publi.imagenes != null && publi.imagenes.length > 0" >
+                <div style="text-align: center;" *ngIf="publi.imagenes != null && publi.imagenes.length > 0">
                   <carousel [showIndicators]="false">
                     <div *ngFor="let img of publi.imagenes">
                       <slide>
-                        <img alt="{{img}}" class="d-block w-400" src="http://localhost:3000/api/imagenes/ImagenesPublicacion/download/{{img}}" />
+                        <img alt="{{img}}" class="d-block w-400"
+                          src="http://localhost:3000/api/imagenes/ImagenesPublicacion/download/{{img}}" />
                       </slide>
-                    </div> 
+                    </div>
                   </carousel>
                 </div>
               </div>
             </div>
             <br>
-            <div class="card card-comentario"  *ngIf="publi.comentarios != undefined" >
-              <div class="comentario" *ngFor="let comment of publi.comentarios;" >
+            <div class="card card-comentario" *ngIf="publi.comentarios != undefined">
+              <div class="comentario" *ngFor="let comment of publi.comentarios;">
                 <div class="comentario-header">
-                  <div class="autor" id="autor-name" *ngIf="comment.autor" >
+                  <div class="autor" id="autor-name" *ngIf="comment.autor">
                     <img *ngIf="comment.autor.imagenPerfil == null" src="../../../assets/img/logo.png"
-                      style="border-radius: 50%" width="20" height="20" class="user-info" routerLink="/perfil/{{comment.autor.userId}}" />
-                    <img *ngIf="comment.autor.imagenPerfil != null"  [src]="this.urlImagenProfesor + comment.autor.imagenPerfil"
-                      style="border-radius: 50%" width="20" height="20" class="user-info" routerLink="/perfil/{{comment.autor.userId}}" />
+                      style="border-radius: 50%" width="20" height="20" class="user-info"
+                      routerLink="/perfil/{{comment.autor.userId}}" />
+                    <img *ngIf="comment.autor.imagenPerfil != null"
+                      [src]="this.urlImagenProfesor + comment.autor.imagenPerfil" style="border-radius: 50%" width="20"
+                      height="20" class="user-info" routerLink="/perfil/{{comment.autor.userId}}" />
                     &nbsp;
-                    <span class="user-info" routerLink="/perfil/{{comment.autor.userId}}">{{comment.autor.nombre}} {{comment.autor.primerApellido}}</span>
+                    <span class="user-info" routerLink="/perfil/{{comment.autor.userId}}">{{comment.autor.nombre}}
+                      {{comment.autor.primerApellido}}</span>
 
                   </div>
-                <button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-info btn-roundbtn-icon"
-                  placement="bottom" tooltip="Eliminar comentario" *ngIf="comment.isPropietario" (click)="borrarComment(comment)">
-                  <i class="tim-icons icon-trash-simple"></i>
-                </button>
+                  <button type="button" rel="tooltip" class="btn btn-danger btn-sm btn-info btn-roundbtn-icon"
+                    placement="bottom" tooltip="Eliminar comentario" *ngIf="comment.isPropietario"
+                    (click)="borrarComment(comment)">
+                    <i class="tim-icons icon-trash-simple"></i>
+                  </button>
                 </div>
                 <br>
                 <p>{{comment.comentario}}</p>
@@ -143,7 +156,7 @@
                   (focus)="focus2 = true" (blur)="focus2 = false" (keyup.enter)="sendComment(publi.id)">
                 <div class="input-group-append">
                   <span class="input-group-text"><i id="sendIcon" class="tim-icons icon-send"
-                      (click)="sendComment(publi.id)" ></i></span>
+                      (click)="sendComment(publi.id)"></i></span>
                 </div>
               </div>
             </div>
@@ -157,14 +170,14 @@
         </ng-template>
       </div>
 
-    <!-- <img src="{{this.newImg}}"/> -->
+      <!-- <img src="{{this.newImg}}"/> -->
 
     </div>
   </div>
   <!-- </div> -->
   <!-- DEFINICIÓN DEL POPUP DE NUEVA PUBLICACIÓN -->
-  <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #modalNewPubli="bs-modal"
-    id="modalNewPubli" role="dialog" tabindex="-1">
+  <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black"
+    #modalNewPubli="bs-modal" id="modalNewPubli" role="dialog" tabindex="-1">
     <div class="modal-dialog" style="width:1250px;">
       <div class="modal-content">
 
@@ -178,8 +191,7 @@
           <form #publiForm name="newPubliForm">
             <div class="form-group mb-3">
               <label for="titulo">Título*</label>
-              <input type="titulo" class="form-control" id="titulo"
-                placeholder="Escríbe el título de tu publicación" />
+              <input type="titulo" class="form-control" id="titulo" placeholder="Escríbe el título de tu publicación" />
             </div>
             <div class="form-group">
               <label for="experiencia">Experiencia</label>
@@ -187,10 +199,13 @@
             </div>
             <div class="form-group">
               <input id="img" type="file" accept='image/*' (change)="getImagen($event)" style="display:none;" multiple>
-              <button class="btn btn-info btn-med" (click)="activarInput('img');"> <i class="tim-icons icon-camera-18"></i>&nbsp;Añadir imagenes</button>
+              <button class="btn btn-info btn-med" (click)="activarInput('img');"> <i
+                  class="tim-icons icon-camera-18"></i>&nbsp;Añadir imagenes</button>
               &nbsp;
-              <input id="file" type="file" accept='application/*' (change)="getFiles($event)" style="display:none;" multiple>
-              <button class="btn btn-success btn-med" (click)="activarInput('file')"> <i class="tim-icons icon-attach-87"></i>&nbsp;Añadir ficheros</button>
+              <input id="file" type="file" accept='application/*' (change)="getFiles($event)" style="display:none;"
+                multiple>
+              <button class="btn btn-success btn-med" (click)="activarInput('file')"> <i
+                  class="tim-icons icon-attach-87"></i>&nbsp;Añadir ficheros</button>
             </div>
             <div class="form-group">
               <div class="row">
@@ -203,7 +218,7 @@
                       class="tim-icons icon-simple-remove" (click)="unselectFile('file', fileName)"></i></span>
                 </div>
               </div>
-            </div> 
+            </div>
           </form>
           <br>
           <div style="text-align: center;">
@@ -221,7 +236,7 @@
     </div>
   </div>
 
- <!-- MODAL FICHEROS PUBLICACIÓN -->
+  <!-- MODAL FICHEROS PUBLICACIÓN -->
   <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #modalFiles="bs-modal"
     id="modalFiles" role="dialog" tabindex="-1">
     <div class="modal-dialog" style="width:1250px;">
@@ -229,17 +244,27 @@
 
         <div class="modal-header justify-content-center">
           <div class="text-center mb-4 mt-3">
-            <h4 style="display: inline-block; text-align: center;">LIKES</h4>
-            <i style="float: right;" class="tim-icons icon-simple-remove" (click)="modalFiles.hide()"></i> 
+            <h4 style="display: inline-block; text-align: center;">LISTA DE FICHEROS</h4>
+
           </div>
         </div>
 
         <div class="modal-body">
-          <button class="btn-default" (click)="downloadAllFiles(this.filesSeeModal)">Descargar todos</button>
           <div style="color: violet">
             <span *ngFor="let fileName of this.filesSeeModal"><br>{{fileName}} &nbsp; <i
                 class="tim-icons icon-cloud-download-93" (click)="downloadFile(fileName)"></i></span>
           </div>
+
+        </div>
+        <div class="modal-footer" style="text-align: center;">
+          <label >Descarga todos los ficheros</label>
+          
+          <button class="btn btn-primary btn-small" (click)="downloadAllFiles(this.filesSeeModal)"
+            style="text-align: center;"><i class="tim-icons icon-cloud-download-93"></i></button>
+            <button class="btn btn-danger btn-med" type="button" >
+              Cerrar
+            </button>
+          
         </div>
 
       </div>
@@ -255,16 +280,18 @@
         <div class="modal-body">
           <div style="text-align: center;">
             <h4 style="display: inline-block; text-align: center;">LIKES</h4>
-            <i style="float: right;" class="tim-icons icon-simple-remove" (click)="modalLikes.hide()"></i> 
+            <i style="float: right;" class="tim-icons icon-simple-remove" (click)="modalLikes.hide()"></i>
           </div>
-          <div *ngIf="this.likesSeeModal && this.likesSeeModal.length > 0; else nolikes" >
-            <div class="likes" id="like-prof" *ngFor="let like of this.likesSeeModal" >
-              <img *ngIf="like.imagenPerfil == null" src="../../../assets/img/logo.png"
-                style="border-radius: 50%" width="50px" height="50px" class="user-info" routerLink="/perfil/{{like.userId}}" />
-              <img *ngIf="like.imagenPerfil != null"  src="{{this.urlImagenProfesor}}{{like.imagenPerfil}}"
-                style="border-radius: 50%" width="50px" height="50px" class="user-info" routerLink="/perfil/{{like.userId}}" />
+          <div *ngIf="this.likesSeeModal && this.likesSeeModal.length > 0; else nolikes">
+            <div class="likes" id="like-prof" *ngFor="let like of this.likesSeeModal">
+              <img *ngIf="like.imagenPerfil == null" src="../../../assets/img/logo.png" style="border-radius: 50%"
+                width="50px" height="50px" class="user-info" routerLink="/perfil/{{like.userId}}" />
+              <img *ngIf="like.imagenPerfil != null" src="{{this.urlImagenProfesor}}{{like.imagenPerfil}}"
+                style="border-radius: 50%" width="50px" height="50px" class="user-info"
+                routerLink="/perfil/{{like.userId}}" />
               &nbsp;
-              <span class="user-info" routerLink="/perfil/{{like.userId}}">{{like.nombre}} {{like.primerApellido}}</span>
+              <span class="user-info" routerLink="/perfil/{{like.userId}}">{{like.nombre}}
+                {{like.primerApellido}}</span>
             </div>
           </div>
           <ng-template #nolikes>
