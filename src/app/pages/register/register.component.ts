@@ -4,6 +4,7 @@ import { Profesor } from './../../clases/Profesor';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, OnDestroy, HostListener } from "@angular/core";
 import Swal from "sweetalert2";
+import { User } from 'src/app/clases/User';
 
 @Component({
   selector: 'app-register',
@@ -126,7 +127,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if (!this.ValidaEmail(this.email)) {
       Swal.fire('Error', 'El email no es correcto', 'error');
     } else {
-      const newUser = { "username": this.username, "email": this.email, "password": this.password };
+      const newUser = new User(
+        this.username,
+        this.email,
+        this.password
+      )
       console.log('new user: '+newUser);
       this.authService.register(newUser).subscribe(respRegistro => {
         console.log('register response: ', respRegistro);
