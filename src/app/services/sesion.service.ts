@@ -24,7 +24,7 @@ export class SesionService {
   public TomaProfesor(profesor: Profesor) {
     this.profesor = profesor;
   }
-  public DameProfesor(): Profesor {
+  public getProfesor(): Profesor {
     return this.profesor;
   }
 

@@ -75,8 +75,8 @@ export class RecursosListComponent implements OnInit {
     //Obtiene los profesores para poder obtener el nombre del propietario
     //Lo hace en caso de que este logueado, sino no verá los propietarios
     if (this.isLoggedIn()) {
-      this.profesor = this.sesion.DameProfesor();
-      this.recursosService.DameProfesores().subscribe(profesores => {
+      this.profesor = this.sesion.getProfesor();
+      this.recursosService.getProfesores().subscribe(profesores => {
         profesores.forEach(prof => {
           this.mapProfesores.set(prof.id, prof);
         });
@@ -432,7 +432,7 @@ export class RecursosListComponent implements OnInit {
             if (!this.mapPreguntasTipo.has(recurso.tipo)) {
               this.mapPreguntasTipo.set(recurso.tipo, new Array());
             }
-            this.mapPreguntasTipo.get(recurso.tipo).push(recurso);
+            this.mapPreguntasTipo.get(recurso.tipo).push(recurso);           
           };
 
           if (recurso.tematica != null) {

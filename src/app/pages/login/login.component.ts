@@ -112,35 +112,26 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.pass = (<HTMLInputElement>document.getElementById('pass')).value
 
     console.log ('voy a autentificar a: ' + this.nombre + ' ' + this.pass);
-    //this.authService.dameProfesor(this.nombre, this.pass)
-    this.authService.login({"username": this.nombre, "password": this.pass})
-    .subscribe(
-      (res) => {
-        console.log("res: ", res);
-        if(res != undefined){
-          console.log('autentificado correctamente');
-          sessionStorage.setItem('ACCESS_TOKEN', res.id);
-          this.authService.dameProfesor(res.userId).subscribe((prof) => {
-            console.log('login profesor: ',prof);
-            if(prof[0] != undefined){
-              this.profesor = prof[0];
-              this.sesion.EnviaProfesor(this.profesor);
-              console.log ('vamos inicio');
-              if(this.redirectTo != null){
-                this.route.navigateByUrl(this.redirectTo);
-              } else {
-                this.route.navigateByUrl('home');
-              }
-            } else {
-              Swal.fire('Error', 'No se encuentra al profesor', 'error');
-            }
-          })
-        }
-      },
-      (err) => {
-        console.log ('ERROR');
-        Swal.fire('Error', 'Credenciales incorrectas', 'error');
-      }
-    );
+
+    let credentials = {
+      "username": this.nombre,
+      "password": this.pass
+    }
+    this.authService.login(credentials).subscribe((token) => {
+      console.log('login response: ', token);
+      this.authService.setAccessToken(token.id);
+      this.authService.getProfesor(token.userId).subscribe((data) => {
+        console.log('data: ', data);
+        this.profesor = data[0];
+        this.sesion.EnviaProfesor(this.profesor);
+        this.route.navigateByUrl('/#/home');
+      }, (err) => {
+        console.log(err);
+        Swal.fire('Error', 'Fallo en la conexion con la base de datos', 'error');
+      })
+    }, (err) => {
+      console.log(err);
+      Swal.fire('Error', 'Credenciales incorrectas', 'error');
+    });
   }
 }

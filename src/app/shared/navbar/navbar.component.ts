@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     if(this.auth.isLoggedIn()) {
       this.isToken = true;
-      this.profesor = this.sesion.DameProfesor();
+      this.profesor = this.sesion.getProfesor();
       if(this.profesor == undefined) {
         sessionStorage.removeItem("ACCESS_TOKEN");
         this.isToken = false;
@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
     this.sesion.getObservable().subscribe((data: any) => {
       if(data.topic == "newLogin"){
         this.isToken = true;
-        this.profesor = this.sesion.DameProfesor();
+        this.profesor = this.sesion.getProfesor();
       } else if(data.topic == "logout"){
         this.isToken = false;
         this.profesor = undefined;

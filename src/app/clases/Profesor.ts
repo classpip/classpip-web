@@ -5,10 +5,12 @@ export class Profesor {
   imagenPerfil: string;
   identificador: string; // lo usan los alumnos para asociarse a este profesor al registrarse
   id: number;
-  userId: number;
+  username: string;
+  email: string;
+  password: string;
 
-  constructor(  Nombre?: string, PrimerApellido?: string, SegundoApellido?: string,
-                ImagenPerfil?: string, Identificador?: string, id?: number, userId?: number) {
+  constructor(  username: string, email:string, password: string, Nombre: string, PrimerApellido: string, SegundoApellido?: string,
+                ImagenPerfil?: string, Identificador?: string, id?: number) {
 
     this.nombre = Nombre;
     this.primerApellido = PrimerApellido;
@@ -16,6 +18,9 @@ export class Profesor {
     this.imagenPerfil = ImagenPerfil;
     this.identificador = Identificador;
     this.id = id;
-    this.userId = userId;
+    this.username = username;
+    this.password = password;
+    this.email = email;
+    this.id = id;
   }
 }

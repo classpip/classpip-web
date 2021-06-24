@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
     body.classList.add("index-page");
 
     if(this.auth.isLoggedIn()){
-      this.profesor = this.sesion.DameProfesor();
+      this.profesor = this.sesion.getProfesor();
     }
   }
 

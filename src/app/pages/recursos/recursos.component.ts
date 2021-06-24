@@ -89,7 +89,7 @@ export class RecursosComponent implements OnInit {
   ngOnInit(): void {
     if (this.auth.isLoggedIn()) {
       this.isLogged = true;
-      this.profesor = this.sesion.DameProfesor();
+      this.profesor = this.sesion.getProfesor();
       if (this.profesor == undefined) {
         sessionStorage.removeItem("ACCESS_TOKEN");
         this.isLogged = false;

@@ -36,7 +36,7 @@ const routes: Routes = [
   { path: "login", component: LoginComponent},
   { path: "register", component: RegisterComponent},
   { path: "index", component: IndexComponent},
-  { path: "perfil/:userId", component: PerfilComponent},
+  { path: "perfil/:id", component: PerfilComponent},
   { path: "landing", component: LandingpageComponent},
 ];
 

@@ -67,12 +67,12 @@
                 <div class="autor" id="autor-name">
                   <img *ngIf="publi.autor.imagenPerfil == null" src="../../../assets/img/logo.png"
                     style="border-radius: 50%" width="20" height="20" class="user-info"
-                    routerLink="/perfil/{{publi.autor.userId}}" />
+                    routerLink="/perfil/{{publi.autor.id}}" />
                   <img *ngIf="publi.autor.imagenPerfil != null"
                     [src]="this.urlImagenProfesor + publi.autor.imagenPerfil" style="border-radius: 50%" width="20"
-                    height="20" class="user-info" routerLink="/perfil/{{publi.autor.userId}}" />
+                    height="20" class="user-info" routerLink="/perfil/{{publi.autor.id}}" />
                   &nbsp;
-                  <span class="user-info" routerLink="/perfil/{{publi.autor.userId}}">{{publi.autor.nombre}}
+                  <span class="user-info" routerLink="/perfil/{{publi.autor.id}}">{{publi.autor.nombre}}
                     {{publi.autor.primerApellido}}</span>
                 </div>
                 <span id="publi-title" style="text-align: right;">{{publi.fecha}}</span>
@@ -129,12 +129,12 @@
                   <div class="autor" id="autor-name" *ngIf="comment.autor">
                     <img *ngIf="comment.autor.imagenPerfil == null" src="../../../assets/img/logo.png"
                       style="border-radius: 50%" width="20" height="20" class="user-info"
-                      routerLink="/perfil/{{comment.autor.userId}}" />
+                      routerLink="/perfil/{{comment.autor.id}}" />
                     <img *ngIf="comment.autor.imagenPerfil != null"
                       [src]="this.urlImagenProfesor + comment.autor.imagenPerfil" style="border-radius: 50%" width="20"
-                      height="20" class="user-info" routerLink="/perfil/{{comment.autor.userId}}" />
+                      height="20" class="user-info" routerLink="/perfil/{{comment.autor.id}}" />
                     &nbsp;
-                    <span class="user-info" routerLink="/perfil/{{comment.autor.userId}}">{{comment.autor.nombre}}
+                    <span class="user-info" routerLink="/perfil/{{comment.autor.id}}">{{comment.autor.nombre}}
                       {{comment.autor.primerApellido}}</span>
 
                   </div>

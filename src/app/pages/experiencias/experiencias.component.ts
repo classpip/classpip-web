@@ -57,7 +57,7 @@ export class ExperienciasComponent implements OnInit {
     //Comprueba si el usuario esta loggeado
     if (this.auth.isLoggedIn()) {
       this.isLogged = true;
-      this.profesor = this.sesion.DameProfesor();
+      this.profesor = this.sesion.getProfesor();
       if (this.profesor == undefined) {
         sessionStorage.removeItem("ACCESS_TOKEN");
         this.isLogged = false;

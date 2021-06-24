@@ -110,7 +110,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     body.classList.remove("register-page");
   }
 
-  Registrar() {
+  register() {
 
     this.username = (<HTMLInputElement>document.getElementById('username')).value
     this.password = (<HTMLInputElement>document.getElementById('password')).value
@@ -124,55 +124,61 @@ export class RegisterComponent implements OnInit, OnDestroy {
     /* if (this.contrasena !== this.contrasenaRepetida) {
       Swal.fire('Error', 'No coincide la contraseña con la contraseña repetida', 'error');
     } else  */
-    if (!this.ValidaEmail(this.email)) {
+    if (!this.validaEmail(this.email)) {
       Swal.fire('Error', 'El email no es correcto', 'error');
     } else {
-      const newUser = new User(
-        this.username,
-        this.email,
-        this.password
-      )
-      console.log('new user: '+newUser);
-      this.authService.register(newUser).subscribe(respRegistro => {
-        console.log('register response: ', respRegistro);
-        if (respRegistro != undefined) {
-          //Codigo 422 -> mostrar mensaje error pq email o username es invalido
-          this.authService.login({"username": this.username, "password": this.password}).subscribe(user => {
-            console.log('login response: ', user);
-            if(user != undefined){
-              sessionStorage.setItem('ACCESS_TOKEN', user.id);
+      this.authService.checkUsername(this.username).subscribe((username: any) => {
+        if(username.length == 0){
+          this.authService.checkEmail(this.email).subscribe((email: any) => {
+            if(email.length == 0){
               // creamos un identificador aleatorio de 5 digitos
               const identificador = Math.random().toString().substr(2, 5);
               const newProf = new Profesor(
+                this.username,
+                this.email,
+                this.password,
                 this.nombre,
                 this.primerApellido,
                 this.segundoApellido,
                 null,
-                identificador,
-                null,
-                respRegistro.id
+                identificador
               );
               console.log('new prof: ', newProf);
-              this.authService.RegistraProfesor(newProf).subscribe((prof) => {
+              this.authService.register(newProf).subscribe((prof: any) => {
                 console.log('prof response', prof);
                 this.profesor = prof;
-                console.log(this.profesor)
-                this.sesion.EnviaProfesor(this.profesor);
-                console.log('vamos inicio');
-                this.route.navigateByUrl('/#/home');
-                Swal.fire('OK', 'Registro completado con éxito', 'success');
-              },
-              (err) => {
+                let credentials = {
+                  "username": this.username,
+                  "password": this.password
+                }
+                this.authService.login(credentials).subscribe((token) => {
+                  this.authService.setAccessToken(token.id);
+                  this.sesion.EnviaProfesor(this.profesor);
+                  Swal.fire('OK', 'Registro completado con éxito', 'success').then(() => {
+                    this.route.navigateByUrl('/#/home');
+                  });
+                }, (err) => {
+                  console.log(err);
+                  Swal.fire('Error', 'Fallo en la conexion con la base de datos', 'error');
+                })
+              }, (err) => {
                 console.log(err);
-                Swal.fire('Error', 'Fallo en la conexion con la base de datos', 'error');
+                Swal.fire('Error', 'Fallo en el registro, prueba de nuevo más tarde', 'error');
               });
+            } else {
+              Swal.fire('Error', 'Este email ya está registrado', 'error');
             }
           });
+        } else {
+          Swal.fire('Error', 'Ya existe un profesor con este nombre de usuario', 'error');
         }
+      }, (error) => {
+        Swal.fire('Error', 'Fallo en la conexion con la base de datos', 'error');
       })
     }
   }
-  ValidaEmail(email) {
+
+  validaEmail(email) {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
