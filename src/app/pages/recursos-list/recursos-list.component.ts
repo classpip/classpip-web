@@ -203,6 +203,7 @@ export class RecursosListComponent implements OnInit {
     if (tipo == 'Ninguno' && tematica == 'Ninguno') {
       // Swal.fire('Error', 'Selecciona algún filtro', 'error');
       console.log('No hay filtros seleccionados');
+      this.clearFilters();
     } else {
 
       if (this.backup == null) {
@@ -591,8 +592,8 @@ export class RecursosListComponent implements OnInit {
       //Obtiene los nombres de las imagenes de los cromos de la colección
       let imgNames: string[] = [];
       this.coleccion.cromos.forEach(cromo => {
-        imgNames.push(cromo.nombreImagenCromoDelante);
-        imgNames.push(cromo.nombreImagenCromoDetras);
+        imgNames.push(cromo.imagenDelante);
+        imgNames.push(cromo.imagenDetras);
       });
 
       let count: number = 0;
@@ -1020,12 +1021,20 @@ export class RecursosListComponent implements OnInit {
                       this.DameColecciones();
                     }), (error) => {
                       console.log(error);
-                      Swal.fire("Error", "Error eliminando recurso", "error");
+                      Swal.fire("Error", "Error eliminando la colección", "error");
                     }
+                  }, (error) => {
+                    Swal.fire("Error", "Error eliminando la colección", "error");
                   })
                 }
+              }, (error) => {
+                Swal.fire("Error", "Error eliminando los cromos", "error");
               })
+            }, (error) => {
+              Swal.fire("Error", "Error eliminando las imágenes de delante de los cromos", "error");
             })
+          }, (error) => {
+            Swal.fire("Error", "Error eliminando las imágenes de detrás de los cromos", "error");
           })
         }
         else {
