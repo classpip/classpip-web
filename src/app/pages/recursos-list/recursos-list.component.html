@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <div class="text-center" *ngIf="listRecursos">
+            <div class="text-center" *ngIf="listRecursos; else loading">
                 <div *ngIf="listRecursos.length != 0; else noResources">
                     <table class="table" style="width:95%; text-align: center;">
                         <thead>
@@ -74,39 +74,41 @@
                                             tooltip="Ver" (click)="EnviaRecurso(rsc)" *ngIf="!isImagenes()">
                                             <i class="fas fa-eye"></i>
                                         </button>
+                                        &nbsp;
                                     </a>
-                                    <button type="button" rel="tooltip" class="btn btn-sm btn-success btn-roundbtn-icon"
-                                        placement="bottom" tooltip="Ver" (click)="modalShowQuestion.show()"
-                                        (click)="verPregunta(rsc)" *ngIf="isPreguntas()">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    &nbsp;
+                                    <span *ngIf="isPreguntas()">
+                                        <button type="button" rel="tooltip" class="btn btn-sm btn-success btn-roundbtn-icon"
+                                            placement="bottom" tooltip="Ver" (click)="modalShowQuestion.show()"
+                                            (click)="verPregunta(rsc)">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        &nbsp;
+                                    </span> 
                                     <button type="button" rel="tooltip" class="btn btn-sm btn-info btn-roundbtn-icon"
                                         placement="bottom" tooltip="Descargar" (click)="descargarRecurso(rsc)">
                                         <i class="tim-icons icon-cloud-download-93"></i>
                                     </button>
                                     &nbsp;
-                                    <button *ngIf="isColecciones() || isAvatares()" type="button" rel="tooltip" class="btn btn-sm btn-primary btn-roundbtn-icon"
-                                        placement="bottom" tooltip="Recomendaciones de uso"
-                                        (click)="showRecomendations(modalRecomendations, rsc)">
-                                        <i class="tim-icons icon-bulb-63"></i>
-                                    </button>
-                                    &nbsp;
-                                    <span *ngIf="isLoggedIn()">
-                                        <button type="button" rel="tooltip"
-                                            class="btn btn-danger btn-sm btn-info btn-roundbtn-icon" placement="bottom"
-                                            tooltip="Eliminar recurso" (click)="borraRecurso(rsc)"
-                                            *ngIf="rsc.isPropietario ">
-                                            <i class="tim-icons icon-trash-simple"></i>
+                                    <span *ngIf="isColecciones() || isAvatares()">
+                                        <button *ngIf="isColecciones() || isAvatares()" type="button" rel="tooltip" class="btn btn-sm btn-primary btn-roundbtn-icon"
+                                            placement="bottom" tooltip="Recomendaciones de uso"
+                                            (click)="showRecomendations(modalRecomendations, rsc)">
+                                            <i class="tim-icons icon-bulb-63"></i>
                                         </button>
                                         &nbsp;
-                                        <button [disabled]="'true'" type="button" rel="tooltip"
-                                            class="btn btn-danger btn-sm btn-info btn-roundbtn-icon" placement="bottom"
-                                            tooltip="No puedes eliminar este recurso"
-                                            *ngIf="!rsc.isPropietario">
-                                            <i class="tim-icons icon-trash-simple"></i>
-                                        </button>
                                     </span> 
+                                    <button type="button" rel="tooltip"
+                                        class="btn btn-danger btn-sm btn-info btn-roundbtn-icon" placement="bottom"
+                                        tooltip="Eliminar recurso" (click)="borraRecurso(rsc)"
+                                        *ngIf="isLoggedIn() && rsc.isPropietario ">
+                                        <i class="tim-icons icon-trash-simple"></i>
+                                    </button>
+                                    <button [disabled]="'true'" type="button" rel="tooltip"
+                                        class="btn btn-danger btn-sm btn-info btn-roundbtn-icon" placement="bottom"
+                                        tooltip="No puedes eliminar este recurso"
+                                        *ngIf="isLoggedIn() && !rsc.isPropietario">
+                                        <i class="tim-icons icon-trash-simple"></i>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
