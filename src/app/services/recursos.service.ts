@@ -164,6 +164,7 @@ export class RecursosService {
 
   ///////// FUNCIONES COMPROBAR RECURSOS ////////////
   public verifyDataJson(typeRsc, json, imgNames, imgColName){
+    console.log('typeRsc: ', typeRsc);
     switch(typeRsc){
       case 'Pregunta': {
         if((json.imagen != null && json.imagen == imgNames[0]) || (json.imagen == null && imgNames[0] == null)){
@@ -250,6 +251,7 @@ export class RecursosService {
             return false;
           });
         }
+        break;
       } 
       
       case 'Avatar': {
