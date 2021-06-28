@@ -16,6 +16,7 @@ export class NavbarComponent implements OnInit {
   profesor: Profesor;
   isToken: boolean;
   urlImagenProfesor = URL.ImagenProfesor;
+  urlPerfil: string;
 
   constructor(private auth: AuthService, private sesion: SesionService, private router: Router) { }
 
@@ -23,6 +24,7 @@ export class NavbarComponent implements OnInit {
     if(this.auth.isLoggedIn()) {
       this.isToken = true;
       this.profesor = this.sesion.getProfesor();
+      this.urlPerfil = "/perfil/" + this.profesor.id;
       if(this.profesor == undefined) {
         sessionStorage.removeItem("ACCESS_TOKEN");
         this.isToken = false;
@@ -48,5 +50,7 @@ export class NavbarComponent implements OnInit {
   volver(){
     this.router.navigateByUrl('/recursos');
   }
+
+  
 
 }
