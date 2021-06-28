@@ -1,5 +1,4 @@
 import { ImagenesService } from './../../services/imagenes.service';
-import { User } from './../../clases/User';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { SesionService } from './../../services/sesion.service';

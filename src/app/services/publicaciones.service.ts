@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as environment from './../../environments/environment';
 import { Observable } from 'rxjs';
-import { User } from '../clases/User';
 import { Comentario } from '../clases/Comentario';
 import {tap} from 'rxjs/operators';
 

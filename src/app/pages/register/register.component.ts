@@ -4,7 +4,6 @@ import { Profesor } from './../../clases/Profesor';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, OnDestroy, HostListener } from "@angular/core";
 import Swal from "sweetalert2";
-import { User } from 'src/app/clases/User';
 
 @Component({
   selector: 'app-register',
