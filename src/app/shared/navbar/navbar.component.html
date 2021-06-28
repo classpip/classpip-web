@@ -132,7 +132,7 @@
             href="https://github.com/classpip/classpip"
             placement="bottom"
             target="_blank"
-            tooltip="Follow us on GitHub"
+            tooltip="Síguenos en GitHub"
           >
             <i class="fab fa-github"> </i>
             <p class="d-lg-none d-xl-none">GitHub</p>
@@ -141,7 +141,7 @@
 
         <li class="nav-item" *ngIf="this.isToken == true && this.isCollapsed" >
           <a class="nav-link" routerLink="/perfil/{{this.profesor.id}}"> {{this.profesor.nombre}}</a>
-          <img *ngIf="this.profesor.imagenPerfil == null"  src="../../../assets/img/logo.png" routerLink="/perfil" style="border-radius: 50%"  width="30" height="30" />
+          <img *ngIf="this.profesor.imagenPerfil == null"  src="../../../assets/img/logo.png" [routerLink]="this.urlPerfil" style="border-radius: 50%"  width="30" height="30" />
           <img *ngIf="this.profesor.imagenPerfil != null"   [src]="this.urlImagenProfesor + this.profesor.imagenPerfil" routerLink="/perfil" style="border-radius: 50%"  width="30" height="30" />
         </li>
 
