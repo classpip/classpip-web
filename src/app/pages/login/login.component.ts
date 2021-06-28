@@ -125,13 +125,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.profesor = data[0];
         this.sesion.EnviaProfesor(this.profesor);
         console.log('redirect: ', this.redirectTo);
-        if(this.redirectTo == 'recursos'){
-          this.route.navigateByUrl('/recursos');
-        } else if (this.redirectTo == 'experiencias'){
-          this.route.navigateByUrl('/experiencias');
-        } else {
-          this.route.navigateByUrl('/home');
-        }
+        this.redirect();
       }, (err) => {
         console.log(err);
         Swal.fire('Error', 'Fallo en la conexion con la base de datos', 'error');
@@ -140,5 +134,15 @@ export class LoginComponent implements OnInit, OnDestroy {
       console.log(err);
       Swal.fire('Error', 'Credenciales incorrectas', 'error');
     });
+  }
+
+  redirect(){
+    if(this.redirectTo == 'recursos'){
+      this.route.navigateByUrl('/recursos');
+    } else if (this.redirectTo == 'experiencias'){
+      this.route.navigateByUrl('/experiencias');
+    } else {
+      this.route.navigateByUrl('/home');
+    }
   }
 }
