@@ -194,7 +194,7 @@ export class RecursosService {
             });
           } else {
             if(json.tipo != 'Emparejamiento' && json.emparejamientos != null){
-              Swal.fire('Error', 'No includas el campo emparejamientos en el archivo si la pregunta no es de tipo \"Emparejamiento\"').then(() => {
+              Swal.fire('Error', 'No incluyas el campo emparejamientos en el archivo si la pregunta no es de tipo \"Emparejamiento\"').then(() => {
                 return false;
               })
             } else {
