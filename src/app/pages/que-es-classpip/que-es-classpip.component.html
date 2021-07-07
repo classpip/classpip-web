@@ -34,6 +34,62 @@
                 <h4>El desarrollo de Classpip se ha llevado a cabo a través de los diferentes Trabajos de Final de Grado
                     de varios alumnos de la Escola d’Enginyeria de Telecomunicació i Aeroespacial de Castelldefels
                     (EETAC).</h4>
+                <br>
+                <br>
+                <h2>ARQUITECTURA</h2>
+                <h4>Classpip se compone, actualmente, de 6 aplicaciones diferentes y cada una de ellas tiene una función
+                    específica para este proyecto:</h4>
+
+                <h4> Server: Necesario para gestionar notificaciones a tiempo real entre las distintas
+                    aplicaciones, esto es posible hacerlo gracias al uso de Sockets, método de comunicación entre
+                    cliente-servidor. Disponemos de un Backend que proporciona el servicio de notificaciones
+                    desarrollado
+                    con ExpressJS.</h4>
+
+                <h4>Services: Donde disponemos de la base de datos. A día de hoy se utiliza un fichero en formato JSON,
+                    aunque en el roadmap de esta aplicación se encuentra la migración a MongoDB. PAra acceder a esta
+                    base de
+                    datos disponemos de un servicio API-REST que mediante peticiones HTTP permite realizar las
+                    operaciones
+                    CRUD (create, read, update, delete). Este servicio ha sido desarrollado con LoopBack y ExpressJS.
+                </h4>
+
+                <h4>Dashboard: Gracias a esta aplicación el profesor puede gestionar diferentes opciones de los otros
+                    módulos y es utilizada también en el lado del estudiante como web. HA sido desarrollada con Angular
+                    y
+                    TypeScipt.</h4>
+
+                <h4>Mobile-profe Mobile-student: Es utilizado por profesores y alumnos respectivamente para acceder a
+                    los
+                    juegos y funcionalidades que dispone Classpip. Está desarrollada con Ionic y TypeScript.</h4>
+
+                <h4>Página Web: En el transcurso de este TFG hemos desarrollado una página web de carácter informativo
+                    con
+                    el objetivo de dar a conocer al mundo el proyecto Classpip. En esta web se puede encontrar toda la
+                    información relativa al proyecto, origen, desarrollo, funcionalidades... , además de dar acceso a
+                    los
+                    recursos públicos del dashboard, entre otras funcionalidades.</h4>
+                <br>
+                <br>
+                <h2>TECNOLOGÍAS QUE USA CLASSPIP</h2>
+                <h4>Angular: Se ha utilizado esta tecnología ya que era una de las usadas durante la carrera y que
+                    sabíamos que podíamos obtener una interfaz gráfica muy atractiva.</h4>
+
+                <h4>Cordova/Ionic: Gracias a esta tecnología se ha podido obtener la interfaz gráfica tanto del móvil
+                    del estudiante como el del profesor</h4>
+
+                <h4>Strongloop LoopBack 3: Es la que permite gestionar la API REST.</h4>
+
+                <h4>Bootstrap: Tiene una funcionalidad parecida a la de Angular</h4>
+
+                <h4>GitHub: Gracias a esta herramienta hemos podido compartir el código no únicamente entre nosotros, si
+                    no con alumnos pasados y profesores e incluso los próximos alumnos podrán descargarse nuestro código
+                    para seguir con el avance de Classpip. Es una herramienta muy cómoda y sencilla para obtener el
+                    progreso de cada uno de nosotros.</h4>
+
+                <h4> Studio Code: Hemos escogido esta aplicación para la edición del código ya que es muy fácil y
+                    dispone de muchas extensiones que nos ha servido de gran ayuda a la hora de programar.
+                </h4>
             </div>
         </div>
 
