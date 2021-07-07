@@ -5,4 +5,13 @@
 
 .modal {
     background-color: rgba(128, 128, 128, 0.418);
+    
  }
+
+ .modal-body
+{
+    display: block;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+}

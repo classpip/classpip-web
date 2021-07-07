@@ -17,8 +17,8 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-md-10 ml-auto col-xl-4 mr-auto" data-target="#myModal" (click)="myModal.show()">
-          
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto" data-target="#myModalInvierno" (click)="myModalInvierno.show()">
+
           <div class="card">
             <div class="card-header" style="text-align: center;">
               <h4>INVIERNO</h4>
@@ -30,53 +30,54 @@
               </div>
             </div>
           </div>
-          
-        </div>
-        <div class="col-md-10 ml-auto col-xl-4 mr-auto"  data-target="#myModal" (click)="myModal.show()">
-          
-            <div class="card">
-              <div class="card-header" style="text-align: center;">
-                <h4>PRIMAVERA</h4>
-              </div>
-              <div class="card-footer" style="text-align: center;">
-                <div class="image">
-                  <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
-                    src="../../../assets/img/primavera.png" />
-                </div>
-              </div>
-            </div>
-          
-        </div>
-        <div class="col-md-10 ml-auto col-xl-4 mr-auto"  data-target="#myModal" (click)="myModal.show()">
-          
-            <div class="card">
-              <div class="card-header" style="text-align: center;">
-                <h4>VERANO</h4>
-              </div>
-              <div class="card-footer" style="text-align: center;">
-                <div class="image">
-                  <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
-                    src="../../../assets/img/verano.png" />
-                </div>
-              </div>
 
-            </div>
-          
         </div>
-        <div class="col-md-10 ml-auto col-xl-4 mr-auto"  data-target="#myModal" (click)="myModal.show()">
-          
-            <div class="card">
-              <div class="card-header" style="text-align: center;">
-                <h4>OTOÑO</h4>
-              </div>
-              <div class="card-footer" style="text-align: center;">
-                <div class="image">
-                  <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
-                    src="../../../assets/img/otoño.png" />
-                </div>
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto" data-target="#myModalPrimavera"
+          (click)="myModalPrimavera.show()">
+
+          <div class="card">
+            <div class="card-header" style="text-align: center;">
+              <h4>PRIMAVERA</h4>
+            </div>
+            <div class="card-footer" style="text-align: center;">
+              <div class="image">
+                <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
+                  src="../../../assets/img/primavera.png" />
               </div>
             </div>
-          
+          </div>
+
+        </div>
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto" data-target="#myModalVerano" (click)="myModalVerano.show()">
+
+          <div class="card">
+            <div class="card-header" style="text-align: center;">
+              <h4>VERANO</h4>
+            </div>
+            <div class="card-footer" style="text-align: center;">
+              <div class="image">
+                <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
+                  src="../../../assets/img/verano.png" />
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-10 ml-auto col-xl-4 mr-auto" data-target="#myModalOtoño" (click)="myModalOtono.show()">
+
+          <div class="card">
+            <div class="card-header" style="text-align: center;">
+              <h4>OTOÑO</h4>
+            </div>
+            <div class="card-footer" style="text-align: center;">
+              <div class="image">
+                <img class="img-center img-fluid " style="border-radius: 8px; width: 150px; height: 150px;"
+                  src="../../../assets/img/otoño.png" />
+              </div>
+            </div>
+          </div>
+
         </div>
         <!-- <div class="col-md-10 ml-auto col-xl-4 mr-auto">
           <a class="rsc-card" [routerLink]="['/estilos']">
@@ -124,7 +125,7 @@
             </div>
           </a>
         </div> -->
-       <!--  <div class="col-md-10 ml-auto col-xl-4 mr-auto">
+        <!--  <div class="col-md-10 ml-auto col-xl-4 mr-auto">
           <a class="rsc-card" [routerLink]="['/estilos']">
             <div class="card" id="card">
               <div class="card-header" style="text-align: center;">
@@ -160,23 +161,92 @@
   </div>
 
 </div>
-<!--AQUI VIENE LA DEFINICION DE LO QUE APARECE EN LOS POPUPS-->
-<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade" #myModal="bs-modal" id="myModal"
-  role="dialog" tabindex="-1">
+<!--IMÁGEN INVIERNO-->
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black"
+  #myModalInvierno="bs-modal" id="myModalInvierno" role="dialog" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header justify-content-center">
-        <button aria-hidden="true" class="close" data-dismiss="modal" type="button" (click)="myModal.hide()">
+        <button aria-hidden="true" class="close" data-dismiss="modal" type="button" (click)="myModalInvierno.hide()">
           <i class="tim-icons icon-simple-remove"> </i>
         </button>
-        <h4 class="title title-up">ESTILO 1</h4>
+        <h4 class="title title-up">INVIERNO</h4>
       </div>
       <div class="modal-body">
-        <img src="../../../assets/img/a.png" />
+        <img src="../../../assets/img/invierno.JPG" />
       </div>
       <div class="modal-footer">
 
-        <button class="btn btn-danger" data-dismiss="modal" type="button" (click)="myModal.hide()">
+        <button class="btn btn-danger" data-dismiss="modal" type="button" (click)="myModalInvierno.hide()">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- IMÁGEN PRIMAVERA -->
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #myModalPrimavera="bs-modal"
+  id="myModalPrimavera" role="dialog" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <button aria-hidden="true" class="close" data-dismiss="modal" type="button" (click)="myModalPrimavera.hide()">
+          <i class="tim-icons icon-simple-remove"> </i>
+        </button>
+        <h4 class="title title-up">PRIMAVERA</h4>
+      </div>
+      <div class="modal-body">
+        <img src="../../../assets/img/primavera.JPG" />
+      </div>
+      <div class="modal-footer">
+
+        <button class="btn btn-danger" data-dismiss="modal" type="button" (click)="myModalPrimavera.hide()">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- IMÁGEN VERANO -->
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #myModalVerano="bs-modal"
+  id="myModalVerano" role="dialog" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <button aria-hidden="true" class="close" data-dismiss="modal" type="button" (click)="myModalVerano.hide()">
+          <i class="tim-icons icon-simple-remove"> </i>
+        </button>
+        <h4 class="title title-up">VERANO</h4>
+      </div>
+      <div class="modal-body">
+        <img src="../../../assets/img/summer.jpg" />
+      </div>
+      <div class="modal-footer">
+
+        <button class="btn btn-danger" data-dismiss="modal" type="button" (click)="myModalVerano.hide()">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- IMÁGEN OTOÑO -->
+<div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #myModalOtono="bs-modal"
+  id="myModalOtono" role="dialog" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <button aria-hidden="true" class="close" data-dismiss="modal" type="button" (click)="myModalOtono.hide()">
+          <i class="tim-icons icon-simple-remove"> </i>
+        </button>
+        <h4 class="title title-up">OTOÑO</h4>
+      </div>
+      <div class="modal-body">
+        <img src="../../../assets/img/otoño.JPG" />
+      </div>
+      <div class="modal-footer">
+
+        <button class="btn btn-danger" data-dismiss="modal" type="button" (click)="myModalOtono.hide()">
           Cerrar
         </button>
       </div>
