@@ -22,9 +22,8 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  goJuegoRapido(){
-    //Sustituir por url cuando este classpip express disponible
-    window.open('http://147.83.118.92:8100/home');
+  goDown(element){
+    element.scrollIntoView({behavior: "smooth"});
   }
 
 }
