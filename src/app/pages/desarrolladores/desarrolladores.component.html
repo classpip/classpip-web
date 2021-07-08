@@ -6,32 +6,132 @@
             <div class="container" style="text-align:center;">
                 <h1><b>INFORMACIÓN PARA DESARROLLADORES</b></h1>
                 <br>
-                <h4 style="text-align: center; size: 150%;">Aqui encontrarás documentación y enlaces útiles si eres un
-                    desarrollador</h4>
-                <br>
                 <blockquote>
-                    <p class="blockquote blockquote-danger">
+                    <p class="blockquote blockquote-danger" style="color: white;">
                         Classpip es una herramienta para la gamificación que empezó a desarrollar un estudiante de la
                         EETAC (UPC, Castelledefels) en el año 2016 para su proyecto de fin de grado. Desde entonces, ya
                         són más de 30 alumnos que han pasado por Classpip a lo largo de los años, mejorando el
                         ecosistema y añadiendo nuevas funcionalidades para hacer de Classpip una gran aplicación. <br />
                     </p>
                 </blockquote>
-            </div>
-            <div class="info">
-                <div class="icon icon-success">
-                    <i class="fab fa-github"></i>
+                <br>
+                <blockquote>
+                    <p class="blockquote blockquote-warning">
+                        Lo que estás viendo ahora son las bases de la web, pero esto no termina aquí. Classpip es un
+                        proyecto vivo, cuyas aplicaciones se mejoran contínuamente gracias a nuevos estudiantes
+                        interesados en realizar nuevas aportaciones.
+                        <br><br>
+                        Esta web fue diseñada con la idea de que todos los
+                        profesores de las diferentes organizaciones que trabajan con Classpip tuviesen un punto de
+                        reunión donde compartir experiencias y recursos, pero, ¿por qué no ir más allá? Nuevos juegos
+                        para Dashboard o Classpip Express, notificaciones de comentarios en experiencias, solicitudes de
+                        amistad y creación de comunidades... <br>¡Deja volar tu imaginación y atrévete a hacer de
+                        Classpip
+                        la mejor herramienta de gamificación!
+                        <br><br>
+                        <b style="color: violet;">¿Tú también quieres
+                            formar parte de la família Classpip y contribuir en el desarrollo de las diferentes
+                            aplicaciones? </b>
+                        <br><br>
+                        Aquí puedes descargar la documentación que se ha
+                        realizado acerca del desarrollo de la página
+                        web, consultar los repositorios públicos de Github de todas las aplicaciones de Classpip y
+                        acceder a la documentación que contiene
+                        todas las herramientas y utilidades de la plantilla de Bootstrap en la que se basa esta
+                        página
+                        web. <br />
+                    </p>
+                </blockquote>
+                <br>
+                <div class="btn-wrapper" style="text-align: center;">
+                    <a class="btn btn-primary btn-round mr-1" (click)="downloadManual()">
+                        <p>Descargar manual de la web</p>
+                    </a>
+                    <br><br>
+                    <a class="btn btn-danger btn-round mr-1" (click)="goDown(more)">
+                        <p>Ver más</p>
+                    </a>
                 </div>
-                <div class="description">
-                    <h3 class="info-title">Para Desarrolladores</h3>
-                    <p>Toda la información importante y de interés para desarrolladores se encuentra en nuestra
-                        página de GitHub. </p>
-                    <a class="btn btn-success btn-link" href="https://github.com/classpip">Descubre más <i
-                            class="tim-icons icon-minimal-right"></i> </a>
+            </div>
+
+
+            <div class="row row-grid justify-content-center">
+                <div class="col-lg-3">
+                    <div class="info" #more>
+                        <div class="icon icon-success">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <h4 class="info-title">Repositorios</h4>
+                        <hr class="line-primary" />
+                        <p>
+                            Accede a todos los repositorios de Github donde se almacenan el código fuente, la
+                            documentación, los ficheros y la información de interés para los desarrolladores de
+                            Classpip.
+                        </p>
+                        <a class="btn btn-success btn-link" href="https://github.com/classpip" target="_blank">Ver
+                            repositorios <i class="tim-icons icon-minimal-right"></i> </a>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="info">
+                        <div class="icon icon-warning">
+                            <i class="tim-icons icon-notes"> </i>
+                        </div>
+                        <h4 class="info-title">Documentación web</h4>
+                        <hr class="line-warning" />
+
+                        <p>
+                            Esta página web se ha desarrollado utilizando una <a href="{{urlPlantilla}}"
+                                target="_blank">plantilla para Angular</a> de CreativeTim. Accede a la documentación con
+                            la que se ha desarrollado la web.
+                        </p>
+                        <a class="btn btn-success btn-link" href="{{urlDocumentacion}}" target="_blank">Ver
+                            documentación
+                            <i class="tim-icons icon-minimal-right"></i> </a>
+                    </div>
                 </div>
             </div>
-            <h4 style="text-align: center;">¡No dudes en contactarnos para cualquier tipo de consulta!</h4>
+
+            <alert [type]="'success'">
+                <h2 style="text-align: center; color: black;">¡No dudes en contactarnos para cualquier
+                    tipo de consulta!</h2>
+                <div class="row row-grid justify-content-center">
+                    <div class="col-lg-6" style="text-align: center;">
+                        <div class="card" style="background-color: rgb(33, 127, 235);">
+                            <div class="card-body">
+                                <h3><b>Miguel Valero García</b></h3>
+                                <i class="tim-icons icon-email-85"> </i>
+                                <p style="display: inline-block;">&nbsp;miguel.valero@upc.edu</p>
+                                <br>
+                                <i class="tim-icons icon-laptop"></i>
+                                <p style="display: inline-block;">&nbsp;Arquitectura de computadores</p>
+                                <br>
+                                <i class="tim-icons icon-square-pin"></i>
+                                <p style="display: inline-block;">&nbsp;EETAC, UPC Castelldefels</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" style="text-align: center;">
+                        <div class="card" style="background-color: rgb(33, 127, 235);">
+                            <div class="card-body">
+                                <h3><b>Roc Meseguer Pallarés</b></h3>
+                                <i class="tim-icons icon-email-85"> </i>
+                                <p style="display: inline-block;">&nbsp;meseguer@ac.upc.edu</p>
+                                <br>
+                                <i class="tim-icons icon-laptop"></i>
+                                <p style="display: inline-block;">&nbsp;Arquitectura de computadores</p>
+                                <br>
+                                <i class="tim-icons icon-square-pin"></i>
+                                <p style="display: inline-block;">&nbsp;EETAC, UPC Castelldefels</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </alert>
+
         </div>
     </div>
+
 </div>
+
 <app-footer></app-footer>
