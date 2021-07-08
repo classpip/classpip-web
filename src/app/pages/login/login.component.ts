@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   pass;
   nombre;
+  savePass;
   profesor: Profesor;
   
   constructor(private authService: AuthService, private route: Router, private sesion: SesionService, private actRoute: ActivatedRoute) {}
@@ -110,6 +111,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     //mirar ngx-loading o alguna otra cosa para mostrar el cargando
     this.nombre = (<HTMLInputElement>document.getElementById('nombre')).value
     this.pass = (<HTMLInputElement>document.getElementById('pass')).value
+    this.savePass = (<HTMLInputElement>document.getElementById('savePass')).value
 
     console.log ('voy a autentificar a: ' + this.nombre + ' ' + this.pass);
 
@@ -119,7 +121,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     this.authService.login(credentials).subscribe((token) => {
       console.log('login response: ', token);
-      this.authService.setAccessToken(token.id);
+      if(this.savePass == true){
+        this.authService.setAccessToken(token.id);
+      } else {
+        this.authService.setLocalAccessToken(token.id);
+      }
       this.authService.getProfesor(token.userId).subscribe((data) => {
         console.log('data: ', data);
         this.profesor = data[0];

@@ -6,7 +6,7 @@
   <div class="main">
     <div class="section section-basic" id="basic-elements">
       <div class="container" style="text-align:center;">
-        <h1>RECURSOS PÚBLICOS</h1>
+        <h1><b>RECURSOS PÚBLICOS</b></h1>
         <br>
         <h4 style="text-align: center; size: 150%;">¡Bienvenido a los recursos públicos! Aquí puedes ver y descargar
           todos los recursos que otros profesores han subido para
@@ -26,7 +26,8 @@
       </div>
       <ng-template #loginWarn>
         <div class="card card-upload card-header">
-          <p style="text-align: center;"><a class="login" [routerLink]="['/login']" [queryParams]="{redirectTo: 'recursos'}">Inicia sesión</a> o <a class="register"
+          <p style="text-align: center;"><a class="login" [routerLink]="['/login']"
+              [queryParams]="{redirectTo: 'recursos'}">Inicia sesión</a> o <a class="register"
               routerLink="/register">regístarte</a> para poder subir recursos</p>
         </div>
       </ng-template>
@@ -236,7 +237,8 @@
                 archivo</button>
               <button class="btn btn-default" *ngIf="this.rscJson != null" (click)="activarInputJSON()">Cambiar
                 archivo</button>
-              <input type="file" id="json" accept="application/json" style="display: none;" (change)="getRscJSON($event)">
+              <input type="file" id="json" accept="application/json" style="display: none;"
+                (change)="getRscJSON($event)">
               &nbsp;
               <span class="imgName" *ngIf="this.rscJsonName == null">Ningun archivo seleccionado</span>
               <span style="color: violet" class="imgName" *ngIf="this.rscJsonName != null">{{this.rscJsonName}}</span>
@@ -253,13 +255,14 @@
                 <span class="imgName">Ninguna imagen seleccionada</span>
               </div>
               <span style="color: violet" class="imgName" *ngIf="this.imgColJsonName != null">
-                <span><br>{{this.imgColJsonName}} &nbsp; <i class="tim-icons icon-simple-remove" (click)="unselectImgColJson()"></i></span>
+                <span><br>{{this.imgColJsonName}} &nbsp; <i class="tim-icons icon-simple-remove"
+                    (click)="unselectImgColJson()"></i></span>
               </span>
             </div>
             <!-- ////// IMAGENES RECURSO ////////// -->
             <div class="form-group">
-              <label for="imgsJson" *ngIf="this.typeRscUpload != 'Colección'" >Imágenes del recurso</label>
-              <label for="imgsJson" *ngIf="this.typeRscUpload == 'Colección'">Imágenes de los cromos</label> 
+              <label for="imgsJson" *ngIf="this.typeRscUpload != 'Colección'">Imágenes del recurso</label>
+              <label for="imgsJson" *ngIf="this.typeRscUpload == 'Colección'">Imágenes de los cromos</label>
               <input #file id="imgsJson" type="file" accept="image/*" multiple (change)="getImagenesJSON($event)"
                 style="display: none;">
               <br>
@@ -370,8 +373,10 @@
                 <form name="parejasForm">
                   <!-- ***********EMPAREJAMIENTOS*************** -->
                   <div class="form-row">
-                   <label style="margin-left: auto; margin-right: auto;"> <i class='tim-icons icon-alert-circle-exc' style="color: yellow;"></i>&nbsp;Si quieres añadir más de 4 parejas, añade
-                      primero las filas&nbsp;<i class='tim-icons icon-alert-circle-exc' style="color: yellow;"></i></label>
+                    <label style="margin-left: auto; margin-right: auto;"> <i class='tim-icons icon-alert-circle-exc'
+                        style="color: yellow;"></i>&nbsp;Si quieres añadir más de 4 parejas, añade
+                      primero las filas&nbsp;<i class='tim-icons icon-alert-circle-exc'
+                        style="color: yellow;"></i></label>
                   </div>
                   <div class="form-row" *ngFor="let pareja of parejasMap | keyvalue">
                     <div class="form-group col-md-6">

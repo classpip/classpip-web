@@ -9,7 +9,13 @@ export class AuthInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        const token = sessionStorage.getItem('ACCESS_TOKEN');
+        let token;
+        
+        if(localStorage.getItem('ACCESS_TOKEN') !== null){
+            token = localStorage.getItem('ACCESS_TOKEN');
+        } else if(sessionStorage.getItem('ACCESS_TOKEN') != null){
+            token = sessionStorage.getItem('ACCESS_TOKEN');
+        }
 
         if (!token) {
             return next.handle(req);

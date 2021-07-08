@@ -10,59 +10,39 @@
             <div class="square square-8" id="square8"></div>
             <div class="card card-register">
               <div class="card-header">
-                <img
-                  alt="Card image"
-                  class="card-img"
-                  src="assets/img/square1-red.png"
-                />
+                <img alt="Card image" class="card-img" src="assets/img/square1-red.png" />
 
                 <h1 class="card-title">Iniciar sesión</h1>
               </div>
               <div class="card-body">
                 <form class="form">
-                  <div
-                    class="input-group"
-                    [ngClass]="{ 'input-group-focus': focus === true }"
-                  >
+                  <div class="input-group" [ngClass]="{ 'input-group-focus': focus === true }">
                     <div class="input-group-prepend">
                       <div class="input-group-text">
                         <i class="tim-icons icon-single-02"> </i>
                       </div>
                     </div>
-                    <input
-                      class="form-control"
-                      placeholder="Nombre de Usuario"
-                      type="text"
-                      id="nombre"
-                      (focus)="focus = true"
-                      (blur)="focus = false"
-                      (keyup.enter)="logIn()"
-
-                    />
+                    <input class="form-control" placeholder="Nombre de Usuario" type="text" id="nombre"
+                      (focus)="focus = true" (blur)="focus = false" (keyup.enter)="logIn()" />
                   </div>
-                  <div
-                    class="input-group"
-                    [ngClass]="{ 'input-group-focus': focus2 === true }"
-                  >
+                  <div class="input-group" [ngClass]="{ 'input-group-focus': focus2 === true }">
                     <div class="input-group-prepend">
                       <div class="input-group-text">
                         <i class="tim-icons icon-lock-circle"> </i>
                       </div>
                     </div>
-                    <input
-                      class="form-control"
-                      placeholder="Contraseña"
-                      type="password"
-                      id="pass"
-                      (focus)="focus2 = true"
-                      (blur)="focus2 = false"
-                      (keyup.enter)="logIn()"
-                    />
+                    <input class="form-control" placeholder="Contraseña" type="password" id="pass"
+                      (focus)="focus2 = true" (blur)="focus2 = false" (keyup.enter)="logIn()" />
+                  </div>
+                  <div class="input-group">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" id="savePass" />
+                    <label for="savePass">&nbsp;&nbsp;Guardar contraseña</label>
                   </div>
                 </form>
               </div>
               <div class="card-footer" style="text-align: center;">
-                <button type="submit" class="btn btn-danger btn-round btn-lg"  (click)="logIn()" (keyup.enter)="logIn()">
+                <button type="submit" class="btn btn-danger btn-round btn-lg" (click)="logIn()" (keyup.enter)="logIn()">
                   Iniciar sesión
                 </button>
               </div>
@@ -82,7 +62,7 @@
       </div>
     </div>
   </div>
-  
+
 </div>
 
 <app-footer></app-footer>

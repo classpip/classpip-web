@@ -312,7 +312,7 @@ export class PerfilComponent implements OnInit {
       console.log('respuesta upload img: ', data);
       if (data != null) {
         console.log("profesor", this.profesor)
-        this.auth.updateProfesor(this.profesor.id, this.profesor).subscribe((data) => {
+        this.auth.updateUserImage(this.profesor.id, this.profesor).subscribe((data) => {
           console.log("DATAAAAAA:", data);
           Swal.fire('Hecho!', 'Foto de perfil cambiada con éxito', 'success').then(() => {
           })

@@ -22,12 +22,23 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.auth.isLoggedIn()) {
-      this.isToken = true;
-      this.profesor = this.sesion.getProfesor();
-      this.urlPerfil = "/perfil/" + this.profesor.id;
-      if(this.profesor == undefined) {
-        sessionStorage.removeItem("ACCESS_TOKEN");
-        this.isToken = false;
+      if(localStorage.getItem('ACCESS_TOKEN') != null){
+        this.auth.getUserIdByToken(localStorage.getItem('ACCESS_TOKEN')).subscribe((data: any) => {
+          this.auth.getProfesor(data.userId).subscribe((prof) => {
+            this.profesor = prof[0];
+            this.sesion.TomaProfesor(prof[0]);
+            this.isToken = true;
+            this.urlPerfil = "/perfil/" + this.profesor.id;
+          })
+        })
+      } else {
+        this.isToken = true;
+        this.profesor = this.sesion.getProfesor();
+        this.urlPerfil = "/perfil/" + this.profesor.id;
+        if(this.profesor == undefined) {
+          sessionStorage.removeItem("ACCESS_TOKEN");
+          this.isToken = false;
+        }
       }
     }
     else this.isToken = false;
