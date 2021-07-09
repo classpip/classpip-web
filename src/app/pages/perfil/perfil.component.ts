@@ -36,20 +36,19 @@ export class PerfilComponent implements OnInit {
     let id = this.url.snapshot.params.id;
 
     if (this.auth.isLoggedIn()) {
-      let userLogged = this.sesion.getProfesor();
+      let userLogged;
+      this.sesion.EnviameProfesor().subscribe ( profesor => userLogged = profesor);;
       if (userLogged.id == id) {
         this.isOwner = true;
         this.profesor = userLogged;
       } else {
         this.auth.getProfesor(id).subscribe((data: any) => {
           this.profesor = data[0];
-          console.log('profe: ', this.profesor);
         });
       }
     } else {
       this.auth.getProfesor(id).subscribe((data: any) => {
         this.profesor = data[0];
-        console.log('profe: ', this.profesor);
       });
     }
   }
@@ -58,7 +57,7 @@ export class PerfilComponent implements OnInit {
     if (this.auth.isLoggedIn()) {
       this.auth.logout().subscribe(() => {
         this.sesion.publish("logout");
-        this.profesor = undefined;
+        this.sesion.EnviaProfesor(null);
         if(sessionStorage.getItem("ACCESS_TOKEN") != null){
           sessionStorage.removeItem("ACCESS_TOKEN");
         } else {
@@ -67,10 +66,6 @@ export class PerfilComponent implements OnInit {
         this.router.navigateByUrl("/#/home");
       });
     }
-  }
-
-  goHome() {
-    this.router.navigateByUrl('/#/home');
   }
 
   changePassword() {

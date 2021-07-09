@@ -53,11 +53,6 @@ export class RecursosService {
   ///********* SERVICIOS OBTENER RECURSOS ************///
   /*****************************************************/
 
-  //Método para obtener los profesores y mostrar el nombre del propietario
-  public getProfesores(): Observable<Profesor[]> {
-    return this.http.get<Profesor[]>(this.APIUrlProfesores);
-  }
-
   //FAMILIAS AVATARES
   public DameFamiliasAvataresPublicas(): Observable<FamiliaAvatares[]> {
     return this.http.get<FamiliaAvatares[]>(this.APIUrlFamiliarAvatares);

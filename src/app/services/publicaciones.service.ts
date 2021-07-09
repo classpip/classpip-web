@@ -28,7 +28,7 @@ export class PublicacionesService {
   constructor(private http: HttpClient, auth: AuthService) { }
 
   public damePublicaciones(): Observable<any[]> {
-    return this.http.get<any[]>(this.APIUrlPublicaciones + '?filter[include]=likes&filter[include]=autor');
+    return this.http.get<any[]>(this.APIUrlPublicaciones + '?filter[include]=autor');
   }
 
   public dameComentariosPubli(publicacionId: number){
@@ -51,12 +51,12 @@ export class PublicacionesService {
     return this.http.post<Comentario>(this.APIUrlPublicaciones + '/' + publiId + '/comentarios', comentario);
   }
 
-  public likePubli(publiId: number, profesor: Profesor){
-    return this.http.post(this.APIUrlPublicaciones + '/' + publiId + '/likes', profesor);
+  public likePubli(publiId: number, likes){
+    return this.http.patch(this.APIUrlPublicaciones + '/' + publiId, likes);
   }
 
-  public dislikePubli(publiId: number, likeId: Profesor){
-    return this.http.delete(this.APIUrlPublicaciones + '/' + publiId + '/likes/'+likeId);
+  public dislikePubli(publiId: number, likes){
+    return this.http.patch(this.APIUrlPublicaciones + '/' + publiId, likes);
   }
 
   public likeComment(comment: Comment, commentId: number){

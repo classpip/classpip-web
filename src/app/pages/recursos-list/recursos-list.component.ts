@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { ImagenesService } from './../../services/imagenes.service';
 import { Pregunta } from 'src/app/clases/recursos/Pregunta';
 import { FamiliaDeImagenesDePerfil } from 'src/app/clases/recursos/FamiliaDeImagenesDePerfil';
@@ -65,7 +66,8 @@ export class RecursosListComponent implements OnInit {
     private router: Router,
     private recursosService: RecursosService,
     private imagenesService: ImagenesService,
-    private sesion: SesionService
+    private sesion: SesionService,
+    private auth: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -75,13 +77,14 @@ export class RecursosListComponent implements OnInit {
     //Obtiene los profesores para poder obtener el nombre del propietario
     //Lo hace en caso de que este logueado, sino no verá los propietarios
     if (this.isLoggedIn()) {
-      this.profesor = this.sesion.getProfesor();
-      this.recursosService.getProfesores().subscribe(profesores => {
-        profesores.forEach(prof => {
-          this.mapProfesores.set(prof.id, prof);
-        });
-      });
+      this.sesion.EnviameProfesor().subscribe ( profesor => this.profesor = profesor);
     }
+
+    this.auth.getProfesores().subscribe(profesores => {
+      profesores.forEach(prof => {
+        this.mapProfesores.set(prof.id, prof);
+      });
+    });
 
     //Carga los recursos correspondientes en la lista de recursos que se muestra
     //He puesto ya los casos para todos los recursos. Falta mirar aver si hay que quitar alguno

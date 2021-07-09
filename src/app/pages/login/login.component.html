@@ -36,7 +36,7 @@
                   </div>
                   <div class="input-group">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="checkbox" id="savePass" />
+                    <input type="checkbox" id="savePass" (change)="this.savePass = !this.savePass" />
                     <label for="savePass">&nbsp;&nbsp;Guardar contraseña</label>
                   </div>
                 </form>

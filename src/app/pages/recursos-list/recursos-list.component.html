@@ -30,12 +30,13 @@
 
             <div class="text-center" *ngIf="listRecursos">
                 <div *ngIf="listRecursos.length != 0; else noResources">
+                    <!-- <div style="overflow:scroll;"> -->
                     <table class="table" style="width:95%; text-align: center;">
                         <thead>
                             <tr>
-                                <th class="text-center" width="40px">#</th>
+                                <th class=" text-center" width="40px">#</th>
                                 <th class="text-center" width="100px">Nombre</th>
-                                <th class="text-center" width="100px" *ngIf="isLoggedIn()">Propietario</th>
+                                <th class="text-center" width="100px">Propietario</th>
                                 <th class="text-center" width="20px" *ngIf="isImagenes()">Nº imágenes</th>
                                 <th class="text-center" width="20px" *ngIf="isImagenes()">Ejemplos</th>
                                 <th class="text-center" width="20px" *ngIf="isPreguntas()">Tematica</th>
@@ -56,7 +57,7 @@
                                     {{indice + 1}}
                                 </td>
                                 <td class="text-center" width="100px">{{rsc.nombreRecurso}}</td>
-                                <td class="text-center" width="100px" *ngIf="isLoggedIn()">{{rsc.propietario}}</td>
+                                <td class="text-center" width="100px">{{rsc.propietario}}</td>
                                 <td class="text-center" width="100px" *ngIf="isPreguntas()">{{rsc.tematica}}</td>
                                 <td class="text-center" width="100px" *ngIf="isPreguntas()">{{rsc.tipo}}</td>
                                 <td class="text-center" *ngIf="isImagenes()">{{rsc.numeroImagenes}}</td>
@@ -115,7 +116,7 @@
                             </tr>
                         </tbody>
                     </table>
-
+                    <!-- </div> -->
                 </div>
                 <ng-template #noResources>
                     <div style="text-align: center;">

@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   pass;
   nombre;
-  savePass;
+  savePass = false;
   profesor: Profesor;
   
   constructor(private authService: AuthService, private route: Router, private sesion: SesionService, private actRoute: ActivatedRoute) {}
@@ -96,9 +96,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.onMouseMove(event);
 
     this.actRoute.queryParams.subscribe(params => {
-      console.log(params);
       this.redirectTo = params.redirectTo;
-      console.log(this.redirectTo);
     });
 
   }
@@ -111,9 +109,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     //mirar ngx-loading o alguna otra cosa para mostrar el cargando
     this.nombre = (<HTMLInputElement>document.getElementById('nombre')).value
     this.pass = (<HTMLInputElement>document.getElementById('pass')).value
-    this.savePass = (<HTMLInputElement>document.getElementById('savePass')).value
 
     console.log ('voy a autentificar a: ' + this.nombre + ' ' + this.pass);
+    console.log('save pass: ', this.savePass);
 
     let credentials = {
       "username": this.nombre,
@@ -121,16 +119,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     this.authService.login(credentials).subscribe((token) => {
       console.log('login response: ', token);
-      if(this.savePass == true){
+      if(!this.savePass){
         this.authService.setAccessToken(token.id);
       } else {
         this.authService.setLocalAccessToken(token.id);
       }
       this.authService.getProfesor(token.userId).subscribe((data) => {
-        console.log('data: ', data);
+        console.log('PROFESOR LOGUEADO: ', data);
         this.profesor = data[0];
         this.sesion.EnviaProfesor(this.profesor);
-        console.log('redirect: ', this.redirectTo);
+        console.log('redirect to: ', this.redirectTo);
         this.redirect();
       }, (err) => {
         console.log(err);

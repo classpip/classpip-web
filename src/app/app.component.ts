@@ -39,16 +39,32 @@ export class AppComponent implements OnInit {
       }
     }
   }
+  
   ngOnInit() {
     this.onWindowScroll(event);
-    if(localStorage.getItem('ACCESS_TOKEN') != null){
-      this.auth.getUserIdByToken(localStorage.getItem('ACCESS_TOKEN')).subscribe((data: any) => {
-        console.log('respuesta token: ', data);
-        this.auth.getProfesor(data.userId).subscribe((prof) => {
-          console.log('respuesta profe: ', prof);
-          this.sesion.TomaProfesor(prof[0]);
+    if(this.auth.isLoggedIn()){
+      if(localStorage.getItem('ACCESS_TOKEN') != null){
+        this.auth.getUserIdByToken(localStorage.getItem('ACCESS_TOKEN')).subscribe((data: any) => {
+          this.auth.getProfesor(data.userId).subscribe((prof) => {
+            let p = prof[0];
+            this.sesion.EnviaProfesor(p);
+            p.topic = "logged";
+            this.sesion.publish(p);
+            console.log('PROFESOR LOGUEADO: ', prof[0]);
+          })
         })
-      })
+      } else {
+        this.auth.getUserIdByToken(sessionStorage.getItem('ACCESS_TOKEN')).subscribe((data: any) => {
+          this.auth.getProfesor(data.userId).subscribe((prof) => {
+            let p = prof[0];
+            this.sesion.EnviaProfesor(p);
+            p.topic = "logged";
+            this.sesion.publish(p);
+            console.log('PROFESOR LOGUEADO: ', prof[0]);
+          })
+        })
+      }
     }
+    
   }
 }

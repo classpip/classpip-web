@@ -22,24 +22,14 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.auth.isLoggedIn()) {
-      if(localStorage.getItem('ACCESS_TOKEN') != null){
-        this.auth.getUserIdByToken(localStorage.getItem('ACCESS_TOKEN')).subscribe((data: any) => {
-          this.auth.getProfesor(data.userId).subscribe((prof) => {
-            this.profesor = prof[0];
-            this.sesion.TomaProfesor(prof[0]);
-            this.isToken = true;
-            this.urlPerfil = "/perfil/" + this.profesor.id;
-          })
-        })
-      } else {
-        this.isToken = true;
-        this.profesor = this.sesion.getProfesor();
-        this.urlPerfil = "/perfil/" + this.profesor.id;
-        if(this.profesor == undefined) {
-          sessionStorage.removeItem("ACCESS_TOKEN");
-          this.isToken = false;
+      this.sesion.EnviameProfesor().subscribe(profesor => {
+        if(profesor != null){
+          this.profesor = profesor;
+          this.sesion.TomaProfesor(this.profesor);
+          this.isToken = true;
+          this.urlPerfil = "/perfil/" + this.profesor.id;
         }
-      }
+      })
     }
     else this.isToken = false;
 
@@ -51,10 +41,7 @@ export class NavbarComponent implements OnInit {
         this.isToken = false;
         this.profesor = undefined;
       }
-      console.log("profesor ", this.profesor);
     });
-
-    console.log("profesor: ", this.profesor);
   }
 
   //Función para volver a la página de recursos

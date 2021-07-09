@@ -42,6 +42,10 @@ export class AuthService {
   public getProfesor(userId: string): Observable<Profesor> {
     return this.http.get<Profesor>(this.APIUrlProfesores + '?filter[where][id]=' + userId);
   }
+
+  public getProfesores(): Observable<Profesor[]> {
+    return this.http.get<Profesor[]>(this.APIUrlProfesores);
+  }
   
   public register(profesor: Profesor): Observable<Profesor> {
     return this.http.post<Profesor>(this.APIUrlProfesores, profesor);

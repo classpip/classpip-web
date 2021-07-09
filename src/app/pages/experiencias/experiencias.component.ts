@@ -28,6 +28,7 @@ export class ExperienciasComponent implements OnInit {
   mapPublicaciones = new Map<String, Publicacion>();
   comments;
   likes;
+  profesores;
 
   //Variables para subir publicaciones
   isLogged;
@@ -58,10 +59,7 @@ export class ExperienciasComponent implements OnInit {
     if (this.auth.isLoggedIn()) {
       this.isLogged = true;
       this.profesor = this.sesion.getProfesor();
-      if (this.profesor == undefined) {
-        sessionStorage.removeItem("ACCESS_TOKEN");
-        this.isLogged = false;
-      }
+      console.log('prof1: ', this.profesor);
     }
     else this.isLogged = false;
 
@@ -88,18 +86,21 @@ export class ExperienciasComponent implements OnInit {
           publi.fecha = moment(publi.fecha).lang('es').fromNow();
 
           //Mira si el user le ha dado like
-          publi.likes.forEach(like => {
-            console.log('like: ' + like.userId);
-            publi.isLike = false;
-            if (this.profesor != undefined) {
-              if (like.userId === this.profesor.userId) {
-                publi.isLike = true;
-              }
-            }
-            else {
+          if(this.profesor != undefined){
+            publi.likes.forEach(like => {
+              console.log('like: ' + like);
+              console.log('profID: ', this.profesor.id)
               publi.isLike = false;
-            }
-          });
+              if (this.profesor != undefined) {
+                if (like === this.profesor.id) {
+                  publi.isLike = true;
+                }
+              }
+              else {
+                publi.isLike = false;
+              }
+            });
+          }
 
           //Obtiene comentarios de las publicaciones
           this.publiService.dameComentariosPubli(publi.id).subscribe((comments) => {
@@ -127,6 +128,33 @@ export class ExperienciasComponent implements OnInit {
           }
         });
       }
+    });
+
+    this.auth.getProfesores().subscribe((data) => {
+      this.profesores = new Map<Number,Profesor>();
+      data.forEach((prof) => {
+        this.profesores.set(prof.id, prof);
+      })
+    })
+
+    this.sesion.getObservable().subscribe((data: any) => {
+      if(data.topic == "logged"){
+        console.log('entra subscribe');
+        this.sesion.EnviameProfesor().subscribe ( profesor => {
+          this.profesor = profesor;
+          this.publicaciones.forEach(publi => {
+            publi.likes.forEach(like => {
+              publi.isLike = false;
+              if (this.profesor != undefined) {
+                if (like === this.profesor.id) {
+                  publi.isLike = true;
+                }
+              }
+              publi.isPropietario = this.isPropietarioPubli(publi);
+            });
+          });
+        });
+      } 
     });
   }
 
@@ -172,7 +200,6 @@ export class ExperienciasComponent implements OnInit {
           this.resetFormNewPubli();
           data.autor = this.profesor;
           data.fecha = moment(data.fecha).lang('es').fromNow();
-          data.likes = [];
           this.publicaciones.unshift(data);
         })
       }, (error) => {
@@ -233,7 +260,6 @@ export class ExperienciasComponent implements OnInit {
                 Swal.fire('Success', 'Experiencia publicada! Muchas gracias.', 'success').then(() => {
                   newPubli.autor = this.profesor;
                   newPubli.fecha = moment(newPubli.fecha).lang('es').fromNow();
-                  newPubli.likes = [];
                   this.publicaciones.unshift(newPubli);
                 });
               }
@@ -253,7 +279,6 @@ export class ExperienciasComponent implements OnInit {
                 Swal.fire('Success', 'Experiencia publicada! Muchas gracias.', 'success').then(() => {
                   newPubli.autor = this.profesor;
                   newPubli.fecha = moment(newPubli.fecha).lang('es').fromNow();
-                  newPubli.likes = [];
                   this.publicaciones.unshift(newPubli);
                   this.resetFormNewPubli();
                 });
@@ -283,40 +308,54 @@ export class ExperienciasComponent implements OnInit {
   }
 
   likePubli(publiId: number) {
-    let prof = this.profesor;
-    prof.publicacionId = publiId;
-    prof.id = null;
-    this.publiService.likePubli(publiId, this.profesor).subscribe((data: Profesor) => {
+    console.log('publiId: ', publiId);
+    let publiLiked = this.publicaciones.find(publi => publi.id === publiId);
+    publiLiked.likes.push(this.profesor.id);
+    console.log('publi liked: ', publiLiked);
+    let like = {"likes": publiLiked.likes};
+    this.publiService.likePubli(publiId, like).subscribe((data) => {
+      console.log('response like: ', data);
       if (data != undefined) {
         this.publicaciones.forEach(publi => {
           if (publi.id == publiId) {
-            publi.likes.unshift(data);
+            publi = publiLiked;
             publi.isLike = true;
+            console.log('publi updated ', publi);
           }
         });
+        console.log('publis new: ',this.publicaciones)
       }
     });
   }
 
   dislikePubli(publiId: number) {
-    this.publicaciones.forEach(publi => {
-      publi.likes.forEach(like => {
-        if (publi.id == publiId && like.userId == this.profesor.userId) {
-          try {
-            this.publiService.dislikePubli(publiId, like.id).subscribe(() => {
-              publi.isLike = false;
-              publi.likes.splice(publi.likes.indexOf(like), 1);
-            });
-          } catch (error) {
-            console.log("error: ", error);
-          }
+    console.log('publiId: ', publiId)
+    let publi = this.publicaciones.find(publi => publi.id === publiId);
+    console.log('find: ', publi);
+    publi.likes.splice(publi.likes.indexOf(this.profesor.id), 1);
+    console.log('publi disliked: ', publi);
+    let dislike = {"likes": publi.likes};
+    this.publiService.dislikePubli(publiId, dislike).subscribe((data) => {
+      console.log('response dislike: ', data);
+      this.publicaciones.forEach(p => {
+        if (p.id == publiId) {
+          console.log('p foreach: ', p);
+          p = publi;
+          p.isLike = false;
         }
-      })
+      });
+      console.log('new publis: ', this.publicaciones);
     });
   }
 
   setLikesModal(likes){
-    this.likesSeeModal = likes;
+    this.likesSeeModal = new Array<Profesor>();
+    likes.forEach((like) => {
+      if(this.profesores.has(like)){
+        this.likesSeeModal.push(this.profesores.get(like));
+      } 
+    })
+    console.log('likes: ', this.likesSeeModal);
   }
 
   setFilesModal(ficheros) {

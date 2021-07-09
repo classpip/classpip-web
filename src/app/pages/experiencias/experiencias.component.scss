@@ -44,6 +44,15 @@
     cursor: pointer;
 }
 
+.filename {
+    transition: transform .2s;
+}
+
+.filename:hover {
+    cursor: pointer;
+    transform: scale(1.25);
+}
+
 .likeLogged:hover {
     transform: scale(1.25);
     cursor: pointer;
