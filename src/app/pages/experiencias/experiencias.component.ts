@@ -9,8 +9,9 @@ import * as moment from 'moment';
 import Swal from 'sweetalert2';
 import { ImagenesService } from 'src/app/services/imagenes.service';
 import { ModalContainerComponent } from 'ngx-bootstrap/modal';
-import { saveAs as importedSaveAs } from "file-saver";
+import { saveAs } from 'file-saver';
 import * as URL from 'src/app/URLs/urls'
+import * as JSZip from 'jszip';
 
 @Component({
   selector: 'app-experiencias',
@@ -368,7 +369,7 @@ export class ExperienciasComponent implements OnInit {
     this.imgService.downloadFilePublicacion(fileName).subscribe((data) => {
       try {
         const blob = new Blob([data]);
-        importedSaveAs(blob, fileName);
+        saveAs(blob, fileName);
       }
       catch (error) {
         Swal.fire('Error', 'Error descargando fichero', 'error');
@@ -379,11 +380,23 @@ export class ExperienciasComponent implements OnInit {
   }
 
   downloadAllFiles(fileNames) {
+    let zip = new JSZip();
+    let folder = zip.folder('ficheros');
+    let count = 0;
     for (let fileName of fileNames) {
       this.imgService.downloadFilePublicacion(fileName).subscribe((data) => {
         try {
-          const blob = new Blob([data]);
-          importedSaveAs(blob, fileName);
+          folder.file(`${fileName}`, data);
+          count++;
+          if(fileNames.length == count){
+            zip.generateAsync({ type: "blob" }).then(function (blob) {
+              saveAs(blob, "ficheros.zip");
+            }, function (err) {
+              this.isDownloading = false;
+              console.log(err);
+              Swal.fire('Error', 'Error al descargar:( Inténtalo de nuevo más tarde', 'error')
+            });
+          }
         }
         catch (error) {
           Swal.fire('Error', 'Error descargando fichero ' + fileName, 'error');

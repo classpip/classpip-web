@@ -1,6 +1,4 @@
-import { ImagenesColeccion } from './../../URLs/urls';
 import { Cromo } from './../../clases/recursos/Cromo';
-import { forEach } from 'jszip';
 import { FamiliaDeImagenesDePerfil } from './../../clases/recursos/FamiliaDeImagenesDePerfil';
 import { Coleccion } from './../../clases/recursos/Coleccion';
 import { ImagenesService } from './../../services/imagenes.service';
@@ -8,16 +6,12 @@ import { Profesor } from 'src/app/clases/Profesor';
 import { RecursosService } from './../../services/recursos.service';
 import { Pregunta } from 'src/app/clases/recursos/Pregunta';
 import { Router } from '@angular/router';
-import { MatTableDataSource } from '@angular/material/table';
 import { FamiliaAvatares } from './../../clases/recursos/FamiliaAvatares';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SesionService } from 'src/app/services/sesion.service';
 import Swal from 'sweetalert2';
 import { ModalContainerComponent } from 'ngx-bootstrap/modal';
-import { getMatFormFieldDuplicatedHintError } from '@angular/material/form-field';
-import { i18nMetaToJSDoc } from '@angular/compiler/src/render3/view/i18n/meta';
-
 
 @Component({
   selector: 'app-recursos',
