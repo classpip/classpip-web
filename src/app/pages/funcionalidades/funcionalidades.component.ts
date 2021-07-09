@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import *  as URL from "src/app/URLs/urls"
 
 @Component({
   selector: 'app-funcionalidades',
@@ -10,6 +11,11 @@ export class FuncionalidadesComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  goJuegoRapido(){
+    //Sustituir por url cuando este classpip express disponible
+    window.open(URL.expressProd);
   }
 
 }
