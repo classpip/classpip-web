@@ -52,6 +52,9 @@ export class AppComponent implements OnInit {
             this.sesion.publish(p);
             console.log('PROFESOR LOGUEADO: ', prof[0]);
           })
+        }, (error) => {
+          localStorage.removeItem('ACCESS_TOKEN');
+          this.sesion.publish("logout");
         })
       } else {
         this.auth.getUserIdByToken(sessionStorage.getItem('ACCESS_TOKEN')).subscribe((data: any) => {
@@ -62,6 +65,9 @@ export class AppComponent implements OnInit {
             this.sesion.publish(p);
             console.log('PROFESOR LOGUEADO: ', prof[0]);
           })
+        }, (error) => {
+          sessionStorage.removeItem('ACCESS_TOKEN');
+          this.sesion.publish("logout");
         })
       }
     }
