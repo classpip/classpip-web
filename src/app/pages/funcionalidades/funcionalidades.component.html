@@ -13,23 +13,60 @@
                     conviértete en todo un experto</h4>
                 <br>
 
-                <alert [type]="'info alert'">
+                <alert [type]="'warning alert'">
                     <span style="size: 200px"><b> DASHBOARD </b></span>
                 </alert>
 
                 <br>
-                <h4>La aplicación Dashboard es la herramienta de gestión del profesor, dónde puede configurar todos los
-                    juegos, inscribir alumnos y generar los grupos pertinentes con ellos, añadir o descargar recursos,
-                    entre otras funciones. El Dashboard es la base de todo.</h4>
+                <h4 style="text-align: justify;">La aplicación Dashboard es la herramienta de gestión del profesor, la
+                    cual le permite realizar todo
+                    tipo de acciones para preparar sus sesiones en las que use Classpip.<br /> El Dashboard es la base
+                    de todo. A través de la aplicación web es donde el profesor prepara todo tipo de juegos,
+                    personalizándolos a su modo gracias al uso de recursos, los cuales pueden ser de uso propio o
+                    público, facilitando asi la personalización de los juegos a otros profesores. <br /> Además, el
+                    docente puede inscribir a sus alumnos a la plataforma, de manera que puede generar sus grupos de
+                    trabajo siendo así mucho más sencilla la gestión del aula.
+                </h4>
                 <br>
-                <alert [type]="'warning alert'">
+                <div class="content-center">
+                    <div class="row row-grid justify-content-between align-items-center text-left">
+                        <div class="col-lg-6 col-md-6">
+
+                            <h2><b>APLICACIÓN MÓVIL PARA PROFESOR</b></h2>
+
+                            <h4 style="text-align: justify;">
+                                Además de la aplicación web para el navegador, el profesor tiene acceso a una aplicación
+                                móvil la cual le permite llevar siempre encima las gesiones que le permite realizar el
+                                Dashboard. El uso de la aplicación móvil del Dashboard facilita acciones como pasar
+                                lista, la asignación de puntos, o la gestión de juegos que no requieren de mucha
+                                complejidad como puede ser un juego de cuestionario, de votación o de avatares.
+                            </h4>
+
+
+                        </div>
+                        <div class="col-lg-4 col-md-5">
+                            <img alt="Classpip logo" class="img-fluid" src="../../../assets/img/movil_profesor.png" />
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <alert [type]="'danger alert'">
                     <span style="size: 200px"><b> APLICACIÓN MÓVIL PARA ALUMNOS </b></span>
                 </alert>
                 <br>
-                <h4>Sin la aplicación móvil para el alumno, este no tendría forma de jugar a los juegos propuestos por
+                <h4 style="text-align: justify;">Sin la aplicación móvil para el alumno, este no tendría forma de jugar
+                    a los juegos propuestos por
                     el profesor. De uso sencillo e intuitivo, esta aplicación no solo permite a los usuarios jugar a los
-                    juegos que propone el profesors sino que además permite personalizar el perfil del alumno asi como
-                    tener un control sobre los grupos en los que esta inscrito.</h4>
+                    juegos que propone el profesor sino que además permite personalizar el perfil del alumno asi como
+                    tener un control sobre los grupos en los que esta inscrito.
+                    <br>
+                    <br>
+                    La variedad de juegos con los que cuenta Classpip es muy grande, y cada vez son más estos juegos, ya
+                    que somos una plataforma en constante desarrollo. A continuación se listan todos los juegos
+                    disponilbes actualmente, cada uno de ellos aporta alguna experiencia única al alumno, que ve
+                    reforzado su aprendizaje gracias a las mecánicas introducidas por la gamificación.
+                </h4>
                 <br>
                 <h3 style="text-align: center;">JUEGOS DISPONIBLES</h3>
                 <div class="row row-grid justify-content-between">
@@ -204,25 +241,119 @@
 
                 </div>
                 <br>
-
+                <br>
                 <alert [type]="'success alert'">
                     <span style="size: 200px"><b> CLASSPIP EXPRESS </b></span>
                 </alert>
                 <br>
 
-                <h4>Classpip Express es la aplicación de juego rápido que permite al profesor generar, des del
+                <h4 style="text-align: justify;">Classpip Express es la aplicación de juego rápido que permite al
+                    profesor generar, des del
                     Dashboard, juegos que no requieren al alumno estar registrado en la plataforma para poder jugar,
                     únicamente con introducir el nombre de usuario y la clave del juego que ha generado el profesor, el
-                    alumno podrá participar en la actividad.</h4>
+                    alumno podrá participar en la actividad.
+                    <br>
+                    <br>
+                    Es de gran utilidad para centros dónde se quiera probar el uso de Classpip antes de introducirlo,
+                    dándo al profesor la oportunidad de ver la interacción y reacción de sus alumnos con la plataforma,
+                    y ofreciendo a los alumnos la oportunidad de trabajar en un nuevo entorno el cual les ayuda a lograr
+                    sus objetivos académicos de una forma innovadora.
+                </h4>
 
-                    <div class="button" style="text-align: center;">
-                        <button class="btn btn-primary btn-round btn-lg" (click)="goJuegoRapido()">ACCEDE A CLASSPIP EXPRESS <i class="fas fa-rocket" style="size: 150%"></i></button>
+                <div class="button" style="text-align: center;">
+                    <button class="btn btn-primary btn-round btn-lg" (click)="goJuegoRapido()">ACCEDE A CLASSPIP EXPRESS
+                        <i class="fas fa-rocket" style="size: 150%"></i></button>
+                </div>
+                <br>
+                <h3 style="text-align: center;">JUEGOS DISPONIBLES</h3>
+                <div class="row row-grid justify-content-between">
+
+                    <div class="row">
+                        <div class="col-3" tooltip="¡Agiliza los turnos de dudas y preguntas con este sencillo juego!">
+                            <div class="card card-stats">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-5 col-md-4">
+                                            <div class="icon-big text-center icon-warning">
+                                                <i class="fas fa-bolt" style="color: rgb(238, 182, 0);"> </i>
+                                            </div>
+                                        </div>
+                                        <div class="col-7 col-md-8">
+                                            <div class="numbers">
+                                                <p></p>
+                                                <p class="card-category">JUEGO DE COGER TURNO RÁPIDO</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3  " tooltip="¡Evalúa a tus profesores y sus asignaturas!">
+                            <div class="card card-stats">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-5 col-md-4">
+                                            <div class="icon-big text-center icon-warning">
+                                                <i class="tim-icons icon-satisfied" style="color: rgb(0, 255, 136);">
+                                                </i>
+                                            </div>
+                                        </div>
+                                        <div class="col-7 col-md-8">
+                                            <div class="numbers">
+                                                <p></p>
+                                                <p class="card-category">JUEGO DE CUESTIONARIO DE SATISFACCIÓN</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3"
+                            tooltip="¡Responde las preguntas correctamente lo más rápido posible para conseguir el máximo de puntos!">
+                            <div class="card card-stats">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-5 col-md-4">
+                                            <div class="icon-big text-center icon-warning">
+                                                <i class="fas fa-question" style="color: rgb(255, 35, 20);"> </i>
+                                            </div>
+                                        </div>
+                                        <div class="col-7 col-md-8">
+                                            <div class="numbers">
+                                                <p></p>
+                                                <p class="card-category">JUEGO DE CUESTIONARIO</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3" tooltip="¡Realiza votaciones de forma eficaz!">
+                            <div class="card card-stats">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-5 col-md-4">
+                                            <div class="icon-big text-center icon-warning">
+                                                <i class="fas fa-balance-scale" style="color: rgb(0, 140, 255);">
+                                                </i>
+                                            </div>
+                                        </div>
+                                        <div class="col-7 col-md-8">
+                                            <div class="numbers">
+                                                <p></p>
+                                                <p class="card-category">JUEGO DE VOTACIÓN RÁPIDA</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
-<app-footer></app-footer>
+    <app-footer></app-footer>
