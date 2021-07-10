@@ -210,7 +210,7 @@ export class RecursosComponent implements OnInit {
         + '- Verdadero o falso: campos respuestaIncorrectaX y emparejamientos no necesarios, "respuestaCorrecta":true/false.\n\n'
         + '- Respuesta abierta: campos respuestaIncorrectaX y emparejamientos no necesarios.\n\n'
         + '- Emparejamiento: campos respuesta no necesarios, poner tantos elementos en emparejamientos como parejas deseadas.\n\n'
-        + 'Asegúrate de que el tipo del JSON coincide con los tipos especificados. Asegúrate también de que el nombre de la imagen coincide con el del JSON.'
+        + 'Asegúrate de que el tipo del JSON coincide con los tipos especificados. Asegúrate también de que el nombre de la imagen coincide con el del JSON y de que la imagen es cuadrada.'
         break;
       }
       case 'Colección': {
@@ -222,12 +222,13 @@ export class RecursosComponent implements OnInit {
 
         mensaje += 'Asegúrate de añadir al menos 6 cromos.\n\n';
 
-        mensaje2 = 'Los campos de probabilidad y nivel deben llenarse con estos valores (en mayúsculas):\n'
-        + '- Probabilidad: MUY ALTA, ALTA, BAJA, MUY BAJA\n'
-        + '- Nivel: BRONCE, PLATA, ORO, DIAMANTE\n\n'
+        mensaje2 = 'Los campos de probabilidad y nivel deben llenarse con estos valores (literalmente):\n'
+        + '- Probabilidad: Muy Alta, Alta, Baja, Muy Baja\n'
+        + '- Nivel: Bronce, Plata, Oro, Diamante\n\n'
 
         mensaje2 += 'En caso de poner en el JSON dosCaras=false, la imagenDetras del cromo no es necesaria.\n'
         + 'Asegúrate de seleccionar las imágenes cuyos nombres se han introducido en los campos de imágenes.\n'
+        + 'La relación de aspecto de los cromos debe ser 312 X 450.\n'
         + 'El campo recomendacion es opcional, por si quieres compartir algún consejo para el recurso.\n';
         break;
       }
@@ -238,7 +239,8 @@ export class RecursosComponent implements OnInit {
         +'\"complemento3\": [ \"imagen5.jpg\", \"imagen6.jpg\", .... ],\n\"complemento4\": [ \"imagen7.jpg\", \"imagen8.jpg\", .... ]\n}\n\n';
 
         mensaje += 'Asegúrate de seleccionar las imágenes cuyos nombres se han introducido en los campos de imágenes.\n'
-        +'El campo recomendacion es opcional, por si quieres compartir algún consejo para el recurso.\n';
+        + 'La relación de aspecto de las imágenes debe ser 300 X 324. Ten en cuenta que los complementos se muestran unos encima de otros según el orden definido (es decir, el complemento 2 se mostrará encima del 1)\n'
+        + 'El campo recomendacion es opcional, por si quieres compartir algún consejo para el recurso.\n';
         break;
       }
       case 'Imágenes de perfil': {
@@ -373,6 +375,7 @@ export class RecursosComponent implements OnInit {
   async getImgColeccionJSON($event){
     console.log($event.target.files[0]);
     let img = $event.target.files[0];
+
     let APIfileNames;
     await this.imgService.getFileNamesContainer('ImagenColeccion').subscribe((data: Array<any>) => {
       console.log('API files: ', data);
