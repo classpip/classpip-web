@@ -17,8 +17,8 @@
                         su interés, gracias a ver recompensados sus esfuerzos de una forma tangible y haciendo la forma
                         de aprender mucho más amena.
                     </p>
-                   
-                   
+
+
                 </div>
                 <div class="col-lg-4 col-md-5">
                     <img alt="Circle image" class="img-fluid" src="../../../assets/img/classpip-icon.png" />
@@ -26,99 +26,101 @@
             </div>
         </div>
     </div>
-    <!-- <div class="wrapper">
-    <div class="main">
-        <div class="section section-basic" id="basic-elements">
+    <section class="section section-lg">
+        <section class="section">
+            <img class="path" src="assets/img/path4.png" />
+
             <div class="container">
-               <h1 style="text-align: center;"><b>¿QUÉ ES CLASSPIP?</b></h1>
-                <h4>Classpip es una herramienta de gamificación orientada a las aulas, la cual surgió de la idea de
-                    Miguel Valero y Roc Messaguer, y se ha ido desarrollando mediante el
-                    trabajo de distintos estudiantes de la “Escola d’Enginyeria de Telecomunicació i Aeroespacial” de la
-                    “Universitat Politècnica de Catalunya” que, igual que nosotros, han decidido basar su Trabajo de
-                    Final de Grado en la contribución para el desarrollo y la mejora de este proyecto.
-                    ClassPip pretende ayudar a los distintos docentes, tanto de universidades como de escuelas, a
-                    realizar de una manera más didáctica su trabajo con el objetivo de captar la atención y mejorar las
-                    cualificaciones de los alumnos con la mecánica de los videojuegos. A diferencia de otras
-                    herramientas, esta es mucho más versátil ya que el profesor puede configurar las dinámicas según el
-                    objetivo de las distintas clases pudiendo escoger las distintas preguntas o juegos que se ofrecen.
-                </h4>
-                <br>
-                <div class="content-center brand" style="text-align: center;">
-                    <img src="../../../assets/img/classpip-icon.png">
+                <div class="row row-grid justify-content-between">
+                    <div class="col-md-5 mt-lg-5">
+                        <img src="../../../assets/img/gamificacion.png">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pl-md-5">
+                            <h1>
+                                GAMIFICACIÓN
+                            </h1>
+                            <p style="text-align: justify;">
+                                El concepto de gamificación se basa en la aplicación de las mecánicas, dinámicas y
+                                estéticas de los
+                                videojuegos en el ámbito académico-profesional, con el objetivo de mejorar los
+                                resultados de las
+                                diferentes prácticas llevadas a cabo, además de buscar captar la atención del alumno de
+                                una manera
+                                mucho más entretenida, ayudando así a comprender de forma mucho más eficiente todos los
+                                conocimientos impartidos y generando una motivación extra para seguir aprendiendo.
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <br>
-                <h2>ORIGEN</h2>
-                <h4>Esta aplicación dio sus primeros en el 2016 como un proyecto de final de grado de un alumno en dónde
-                    se centró únicamente en la arquitectura de este. Con el paso de los años y con la ayuda de más de 40
-                    alumnos, que han ido trabajando ya sea de manera independiente o grupal, se han ido desarrollado
-                    distintos juegos y módulos que han hecho que Classpip sea lo que es hoy en día.
-                </h4>
-                <br>
-                <br>
-                <h2>DESARROLLO</h2>
-                <h4>El desarrollo de Classpip se ha llevado a cabo a través de los diferentes Trabajos de Final de Grado
-                    de varios alumnos de la Escola d’Enginyeria de Telecomunicació i Aeroespacial de Castelldefels
-                    (EETAC).</h4>
-                <br>
-                <br>
-                <h2>ARQUITECTURA</h2>
-                <h4>Classpip se compone, actualmente, de 6 aplicaciones diferentes y cada una de ellas tiene una función
-                    específica para este proyecto:</h4>
-
-                <h4> Server: Necesario para gestionar notificaciones a tiempo real entre las distintas
-                    aplicaciones, esto es posible hacerlo gracias al uso de Sockets, método de comunicación entre
-                    cliente-servidor. Disponemos de un Backend que proporciona el servicio de notificaciones
-                    desarrollado
-                    con ExpressJS.</h4>
-
-                <h4>Services: Donde disponemos de la base de datos. A día de hoy se utiliza un fichero en formato JSON,
-                    aunque en el roadmap de esta aplicación se encuentra la migración a MongoDB. PAra acceder a esta
-                    base de
-                    datos disponemos de un servicio API-REST que mediante peticiones HTTP permite realizar las
-                    operaciones
-                    CRUD (create, read, update, delete). Este servicio ha sido desarrollado con LoopBack y ExpressJS.
-                </h4>
-
-                <h4>Dashboard: Gracias a esta aplicación el profesor puede gestionar diferentes opciones de los otros
-                    módulos y es utilizada también en el lado del estudiante como web. HA sido desarrollada con Angular
-                    y
-                    TypeScipt.</h4>
-
-                <h4>Mobile-profe Mobile-student: Es utilizado por profesores y alumnos respectivamente para acceder a
-                    los
-                    juegos y funcionalidades que dispone Classpip. Está desarrollada con Ionic y TypeScript.</h4>
-
-                <h4>Página Web: En el transcurso de este TFG hemos desarrollado una página web de carácter informativo
-                    con
-                    el objetivo de dar a conocer al mundo el proyecto Classpip. En esta web se puede encontrar toda la
-                    información relativa al proyecto, origen, desarrollo, funcionalidades... , además de dar acceso a
-                    los
-                    recursos públicos del dashboard, entre otras funcionalidades.</h4>
-                <br>
-                <br>
-                <h2>TECNOLOGÍAS QUE USA CLASSPIP</h2>
-                <h4>Angular: Se ha utilizado esta tecnología ya que era una de las usadas durante la carrera y que
-                    sabíamos que podíamos obtener una interfaz gráfica muy atractiva.</h4>
-
-                <h4>Cordova/Ionic: Gracias a esta tecnología se ha podido obtener la interfaz gráfica tanto del móvil
-                    del estudiante como el del profesor</h4>
-
-                <h4>Strongloop LoopBack 3: Es la que permite gestionar la API REST.</h4>
-
-                <h4>Bootstrap: Tiene una funcionalidad parecida a la de Angular</h4>
-
-                <h4>GitHub: Gracias a esta herramienta hemos podido compartir el código no únicamente entre nosotros, si
-                    no con alumnos pasados y profesores e incluso los próximos alumnos podrán descargarse nuestro código
-                    para seguir con el avance de Classpip. Es una herramienta muy cómoda y sencilla para obtener el
-                    progreso de cada uno de nosotros.</h4>
-
-                <h4> Studio Code: Hemos escogido esta aplicación para la edición del código ya que es muy fácil y
-                    dispone de muchas extensiones que nos ha servido de gran ayuda a la hora de programar.
-                </h4>
             </div>
-        </div>
+        </section>
+    </section>
 
-    </div>
+    <section class="section section-lg">
+        <section class="section">
+            <img class="path" src="assets/img/path4.png" />
+
+            <div class="container">
+                <div class="row row-grid justify-content-between">
+                    <div class="col-md-5 mt-lg-5">
+
+                        <h1>
+                            ORÍGENES DE CLASSPIP
+                        </h1>
+                        <p style="text-align: justify;">
+                            Classpip nace de la idea de dos profesores de la EETAC, Miguel Valero y Roc Messaguer, en el
+                            momento en que deciden que introducir conceptos y metodologías de gamificación en sus clases
+                            sería de gran ayuda, tanto para ellos como para su alumnado, ya que de esta forma
+                            agilizarian muchas clases y los alumnos irían con más ganas a ellas. Por eso deciden iniciar
+                            este proyecto en el año 2016.
+                        </p>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pl-md-5">
+                            <img src="../../../assets/img/eetac.jpg" width="500px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <section class="section section-lg">
+        <section class="section">
+            <img class="path" src="assets/img/path4.png" />
+
+            <div class="container">
+                <div class="row row-grid justify-content-between">
+                    <div class="col-md-5 mt-lg-5">
+                        <img src="../../../assets/img/programacion.jpg">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pl-md-5">
+                            <h1>
+                                EVOLUCIÓN DE CLASSPIP
+                            </h1>
+                            <p style="text-align: justify;">
+                                A partir de la idea de Miguel y Roc, Classpip empieza a evolucionar gracias a los
+                                alumnos que, en su último año de grado, deciden basar su trabajo final de carrera en
+                                contribuir en el desarrollo y la mejora de la plataforma. Des de añadir nuevos juegos,
+                                hasta implementar nuevos niveles de seguridad sobre los datos almacenados, los alumnos
+                                que han ido contribuyendo a lo largo de los años han aportado su grano de arena para que
+                                Classpip sea hoy en día la plataforma que es.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+
+
+
+
 </div>
- -->
-    <app-footer></app-footer>
+
+<app-footer></app-footer>
