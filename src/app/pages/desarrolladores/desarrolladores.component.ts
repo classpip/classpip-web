@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,16 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DesarrolladoresComponent implements OnInit {
   isCollapsed = true;
-  constructor() { }
+  constructor(private router: Router) { }
 
-  urlPlantilla = "https://demos.creative-tim.com/blk-design-system-angular/#/home";
   urlDocumentacion = "https://demos.creative-tim.com/blk-design-system-angular/#/documentation/overview";
 
   ngOnInit(): void {
-  }
-
-  redirectPlantilla() {
-    window.open(this.urlPlantilla);
   }
 
   downloadManual(){}

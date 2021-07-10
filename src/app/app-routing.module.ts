@@ -1,4 +1,3 @@
-import { LandingpageComponent } from './pages/examples/landingpage/landingpage.component';
 import { MostrarCuestionarioComponent } from './pages/mostrar-cuestionario/mostrar-cuestionario.component';
 import { RecursosListComponent } from './pages/recursos-list/recursos-list.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
@@ -16,7 +15,7 @@ import { CommonModule } from "@angular/common";
 import { BrowserModule } from "@angular/platform-browser";
 import { Routes, RouterModule } from "@angular/router";
 
-import { IndexComponent } from "./pages/index/index.component";
+import { IndexComponent } from "./pages/plantilla/index.component";
 import { MostrarColeccionesComponent } from './pages/mostrar-colecciones/mostrar-colecciones.component';
 import { MostrarAvataresComponent } from './pages/mostrar-avatares/mostrar-avatares.component';
 
@@ -35,9 +34,8 @@ const routes: Routes = [
   { path: "desarrolladores", component: DesarrolladoresComponent},
   { path: "login", component: LoginComponent},
   { path: "register", component: RegisterComponent},
-  { path: "index", component: IndexComponent},
+  { path: "plantilla", component: IndexComponent},
   { path: "perfil/:id", component: PerfilComponent},
-  { path: "landing", component: LandingpageComponent},
 ];
 
 @NgModule({

@@ -18,10 +18,7 @@ import { ModalModule } from "ngx-bootstrap/modal";
 import { JwBootstrapSwitchNg2Module } from "jw-bootstrap-switch-ng2";
 import { PopoverModule } from "ngx-bootstrap/popover";
 
-import { IndexComponent } from "./index/index.component";
-import { ProfilepageComponent } from "./examples/profilepage/profilepage.component";
-import { RegisterpageComponent } from "./examples/registerpage/registerpage.component";
-import { LandingpageComponent } from "./examples/landingpage/landingpage.component";
+import { IndexComponent } from "./plantilla/index.component";
 import { HomeComponent } from './home/home.component';
 import { QueEsClasspipComponent } from './que-es-classpip/que-es-classpip.component';
 import { FuncionalidadesComponent } from './funcionalidades/funcionalidades.component';
@@ -59,9 +56,6 @@ import { MostrarAvataresComponent } from './mostrar-avatares/mostrar-avatares.co
   ],
   declarations: [
     IndexComponent,
-    ProfilepageComponent,
-    RegisterpageComponent,
-    LandingpageComponent,
     HomeComponent,
     QueEsClasspipComponent,
     FuncionalidadesComponent,
@@ -80,10 +74,7 @@ import { MostrarAvataresComponent } from './mostrar-avatares/mostrar-avatares.co
     MostrarAvataresComponent
   ],
   exports: [
-    IndexComponent,
-    ProfilepageComponent,
-    RegisterpageComponent,
-    LandingpageComponent
+    IndexComponent
   ],
   providers: []
 })

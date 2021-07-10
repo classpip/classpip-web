@@ -50,8 +50,9 @@ export class ExperienciasComponent implements OnInit {
   filesSeeModal;
   likesSeeModal;
 
-
+  host = URL.host;
   urlImagenProfesor = URL.ImagenProfesor;
+
   constructor(private auth: AuthService, private publiService: PublicacionesService, private sesion: SesionService, private imgService: ImagenesService) { }
 
   ngOnInit(): void {
