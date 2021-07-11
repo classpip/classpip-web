@@ -401,8 +401,8 @@ export class RecursosService {
                     let ready = false;
                     json.cromos.forEach(cromo => {
                       if(cromo.nombre != null){
-                        if(cromo.probabilidad != null && (cromo.probabilidad == 'MUY ALTA' || cromo.probabilidad == 'ALTA' || cromo.probabilidad == 'BAJA' || cromo.probabilidad == 'MUY BAJA')){
-                          if(cromo.nivel != null && (cromo.nivel == 'BRONCE' || cromo.nivel == 'PLATA' || cromo.nivel == 'ORO' || cromo.nivel == 'DIAMANTE')){
+                        if(cromo.probabilidad != null && (cromo.probabilidad == 'Muy Alta' || cromo.probabilidad == 'Alta' || cromo.probabilidad == 'Baja' || cromo.probabilidad == 'Muy Baja')){
+                          if(cromo.nivel != null && (cromo.nivel == 'Bronce' || cromo.nivel == 'Plata' || cromo.nivel == 'Oro' || cromo.nivel == 'Diamante')){
                             
                             if(!json.dosCaras){
                               if(cromo.imagenDetras == null){
@@ -486,7 +486,7 @@ export class RecursosService {
                               return false;
                             });
                           } else {
-                            Swal.fire('Error', 'El campo \"nivel\" en los cromos debe ser \"BRONCE\", \"PLATA\", \"ORO\" o \"DIAMANTE\"', 'error').then(() => {
+                            Swal.fire('Error', 'El campo \"nivel\" en los cromos debe ser \"Bronce\", \"Plata\", \"Oro\" o \"Diamante\"', 'error').then(() => {
                               return false;
                             });
                           }
@@ -495,7 +495,7 @@ export class RecursosService {
                             return false;
                           });
                         } else {
-                          Swal.fire('Error', 'El campo \"probabilidad\" en los cromos debe ser \"MUY ALTA\", \"ALTA\", \"BAJA\" o \"MUY BAJA\"', 'error').then(() => {
+                          Swal.fire('Error', 'El campo \"probabilidad\" en los cromos debe ser \"Muy Alta\", \"Alta\", \"Baja\" o \"Muy Baja\"', 'error').then(() => {
                             return false;
                           });
                         }
