@@ -42,8 +42,8 @@ export class RecursosListComponent implements OnInit {
   cromosColeccion: Cromo[];
 
   interval;
-  urlImagenesPerfil = URL.ImagenesPerfil;
-  urlImagenesPreguntas = URL.ImagenesPregunta;
+  urlImagenesPerfil = URL.ImagenesPerfil + '/download/';
+  urlImagenesPreguntas = URL.ImagenesPregunta + '/download/';
 
   //Variables para filtrar preguntas
   isFilter = false;

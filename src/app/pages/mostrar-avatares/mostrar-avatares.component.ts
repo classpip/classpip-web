@@ -14,7 +14,7 @@ export class MostrarAvataresComponent implements OnInit {
 
   familiaElegida: FamiliaAvatares;
   
-  rutaImgAvatares = URL.ImagenesAvatares;
+  rutaImgAvatares = URL.ImagenesAvatares + '/download/';
 
   constructor(
     private sesion: SesionService,

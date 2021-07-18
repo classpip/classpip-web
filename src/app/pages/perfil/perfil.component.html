@@ -22,12 +22,13 @@
                                             style="border-radius: 8px; width: 150px; height: 150px;"
                                             src="../../../assets/img/logo.png" />
                                     </div>
-                                    <div class="overlay img-center" *ngIf="this.isOwner" >
+                                    <!-- OVERLAY CAMBIAR IMAGEN PROFESOR -->
+                                    <!-- <div class="overlay img-center" *ngIf="this.isOwner" >
                                         <input #file id="imgPerfil" type="file" accept="image/*"
                                             (change)="getImagenPerfil($event)"  style="display: none;">
                                         <div class="text"(click)="activarInputImagen('imgPerfil')"><i class="tim-icons icon-camera-18"
                                                 ></i>Cambiar</div>
-                                    </div>
+                                    </div> -->
                                     <h4 class="title">{{this.profesor.nombre}} {{this.profesor.primerApellido}}</h4>
                                 </div>
                                 <div class="card-body">
@@ -35,54 +36,56 @@
                                         <div class="card-body">
 
                                             Nombre de usuario:<p style="color: violet;"> {{this.profesor.username}}</p>
-        
+
                                             Nombre:<p style="color: violet;"> {{this.profesor.nombre}}</p>
-        
-                                            Primer Apellido:<p style="color: violet;"> {{this.profesor.primerApellido}}</p>
-        
-                                            Segundo Apellido:<p style="color: violet;"> {{this.profesor.segundoApellido}}</p>
-        
+
+                                            Primer Apellido:<p style="color: violet;"> {{this.profesor.primerApellido}}
+                                            </p>
+
+                                            Segundo Apellido:<p style="color: violet;">
+                                                {{this.profesor.segundoApellido}}</p>
+
                                             Email:<p style="color: violet;">{{this.profesor.email}}</p>
-        
+
                                         </div>
-                                    </div> 
+                                    </div>
                                     <ng-template #editForm>
                                         <form name="userData">
                                             <label for="username">Nombre de usuario</label>
                                             <input #username style="width: 100%" id="username" class="form-control"
                                                 type="text" value='{{this.profesor.username}}'>
-    
+
                                             <label for="name">Nombre</label>
                                             <input #name style="width: 100%" id="name" class="form-control" type="text"
                                                 value='{{this.profesor.nombre}}'>
-    
+
                                             <label for="surname">Primer Apellido</label>
                                             <input #surname style="width: 100%" id="surname" class="form-control"
                                                 type="text" value='{{this.profesor.primerApellido}}'>
-    
+
                                             <label for="surname2">Segundo Apellido</label>
                                             <input #surname2 style="width: 100%" id="surname2" class="form-control"
                                                 type="text" value='{{this.profesor.segundoApellido}}'>
-    
+
                                             <label for="email">Email</label>
-                                            <input #email style="width: 100%" id="email" class="form-control" type="text"
-                                                value='{{this.profesor.email}}'>
+                                            <input #email style="width: 100%" id="email" class="form-control"
+                                                type="text" value='{{this.profesor.email}}'>
                                         </form>
                                     </ng-template>
                                 </div>
-                                <div class="card-footer" style="text-align: center;" *ngIf="this.isOwner" >
+                                <div class="card-footer" style="text-align: center;" *ngIf="this.isOwner">
                                     <button class="btn btn-primary btn-round" (click)="this.enableEdition = true"
                                         *ngIf="!this.enableEdition">Edita la información del perfil</button>
                                     <button class="btn btn-danger btn-round" (click)="this.enableEdition = false"
-                                        *ngIf="this.enableEdition" >Cancelar</button>&nbsp;
+                                        *ngIf="this.enableEdition">Cancelar</button>&nbsp;
                                     <button class="btn btn-primary btn-round" (click)="modalSecurity.show()"
                                         *ngIf="this.enableEdition">Actualizar</button>
                                     <br>
-                                    <button class="btn btn-success btn-round" *ngIf="!this.enableEdition" 
+                                    <button class="btn btn-success btn-round" *ngIf="!this.enableEdition"
                                         (click)="modalChangePassword.show()">Cambia tu contraseña</button>
                                     <br>
                                     <button class="btn btn-danger btn-round" (click)="logout()"
-                                        *ngIf="!this.enableEdition" >Cerrar sesión</button>
+                                        *ngIf="!this.enableEdition">Cerrar sesión</button>
                                 </div>
                             </div>
                         </div>

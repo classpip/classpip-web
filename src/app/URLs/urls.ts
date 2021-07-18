@@ -1,15 +1,23 @@
-// export const host = 'http://147.83.118.92';
-export const host = 'http://localhost';
+export const host = 'http://localhost:8150';
 
-export const ImagenesColeccion = host + ':3000/api/imagenes/imagenColeccion/download/';
-export const ImagenesCromo = host + ':3000/api/imagenes/imagenCromo/download/';
-export const ImagenesAvatares = host + ':3000/api/imagenes/imagenesAvatares/download/';
-export const AudiosAvatares = host + ':3000/api/imagenes/AudiosAvatares/download/';
-export const ImagenesAlumno = host + ':3000/api/imagenes/imagenAlumno/download/';
-export const ImagenesPerfil = host + ':3000/api/imagenes/ImagenesPerfil/download/';
-export const LogosEquipos = host + ':3000/api/imagenes/LogosEquipos/download/';
-export const ImagenesPregunta = host + ':3000/api/imagenes/ImagenesPreguntas/download/';
-export const ImagenProfesor = host + ':3000/api/imagenes/ImagenProfesor/download/';
+export const FamiliasAvatares = host + '/api/familiasAvatares';
+export const FamiliasImagenesPerfil = host + '/api/familiasImagenesPerfil';
+export const Colecciones = host + '/api/Colecciones';
+export const Preguntas = host + '/api/Preguntas';
+export const Publicaciones = host + '/api/Publicaciones'
+export const Comentarios = host + '/api/Comentarios';
+export const Profesores = host + '/api/Profesores';
+export const AccessTokens = host + '/api/AccessTokens';
 
+export const Imagenes = host + '/api/imagenes';
+export const ImagenesColeccion = host + '/api/imagenes/ImagenColeccion';
+export const ImagenesCromo = host + '/api/imagenes/ImagenCromo';
+export const ImagenesAvatares = host + '/api/imagenes/ImagenesAvatares';
+export const ImagenesPerfil = host + '/api/imagenes/ImagenesPerfil';
+export const ImagenesPregunta = host + '/api/imagenes/ImagenesPreguntas';
+export const ImagenProfesor = host + '/api/imagenes/ImagenProfesor';
+export const ImagenesPublicaciones = host + '/api/imagenes/ImagenesPublicacion';
+export const FicherosPublicaciones = host + '/api/imagenes/FicherosPublicacion';
+export const ImagenesProfesores = host + '/api/imagenes/ImagenProfesor';
 
 export const expressProd = 'http://147.83.118.92:8100/home';

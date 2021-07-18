@@ -3,7 +3,7 @@ import { Publicacion } from './../clases/Publicacion';
 import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import * as environment from './../../environments/environment';
+import * as URL from '../URLs/urls';
 import { Observable } from 'rxjs';
 import { Comentario } from '../clases/Comentario';
 import {tap} from 'rxjs/operators';
@@ -15,15 +15,12 @@ import {tap} from 'rxjs/operators';
 })
 export class PublicacionesService {
 
-  private host = environment.host;
+  private host = URL.host;
 
-  //Usuarios
-  private APIUrlUsers = this.host + ':3000/api/Users';
-  private APIUrlProfesores = this.host + ':3000/api/Profesores';
-  private APIUrlPublicaciones = this.host + ':3000/api/Publicaciones';
-  private APIUrlComentarios = this.host + ':3000/api/Comentarios';
-  private APIUrlImagenesPublicacion = this.host + ':3000/api/imagenes/ImagenesPublicacion';
-  private APIUrlFicherosPublicacion = this.host + ':3000/api/imagenes/FicherosPublicacion';
+  private APIUrlPublicaciones = URL.Publicaciones;
+  private APIUrlComentarios = URL.Comentarios;
+  private APIUrlImagenesPublicacion = URL.ImagenesPublicaciones;
+  private APIUrlFicherosPublicacion = URL.FicherosPublicaciones;
 
   constructor(private http: HttpClient, auth: AuthService) { }
 

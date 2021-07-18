@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import * as environment from './../../environments/environment';
+import * as URL from '../URLs/urls';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Profesor } from '../clases/Profesor';
@@ -9,10 +9,8 @@ import { Profesor } from '../clases/Profesor';
 })
 export class AuthService {
   
-  private host = environment.host;
-
-  private APIUrlProfesores = this.host + ':3000/api/Profesores';
-  private APIUrlTokens = this.host + ':3000/api/AccessTokens'
+  private APIUrlProfesores = URL.Profesores;
+  private APIUrlTokens = URL.AccessTokens;
 
   constructor(private http: HttpClient) { }
 

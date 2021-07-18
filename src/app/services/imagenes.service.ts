@@ -1,24 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import * as environment from './../../environments/environment';
+import * as URL from '../URLs/urls';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImagenesService {
 
-  private host = environment.host;
+  private host = URL.host;
 
-  private APIUrlImagenes = this.host + ':3000/api/imagenes';
-  private APIUrlImagenesAvatares = this.host + ':3000/api/imagenes/ImagenesAvatares';
-  private APIUrlImagenesCromos = this.host + ':3000/api/imagenes/ImagenCromo';
-  private APIUrlImagenesColecciones = this.host + ':3000/api/imagenes/ImagenColeccion';
-  private APIUrlImagenesPerfil = this.host + ':3000/api/imagenes/ImagenesPerfil';
-  private APIUrlImagenesPreguntas = this.host + ':3000/api/imagenes/ImagenesPreguntas';
-  private APIUrlImagenesPublicacion = this.host + ':3000/api/imagenes/ImagenesPublicacion';
-  private APIUrlFicherosPublicacion = this.host + ':3000/api/imagenes/FicherosPublicacion';
-  private APIUrlImagenProfesor = this.host + ':3000/api/imagenes/ImagenProfesor';
+  private APIUrlImagenes = URL.Imagenes;
+  private APIUrlImagenesAvatares = URL.ImagenesAvatares;
+  private APIUrlImagenesCromos = URL.ImagenesCromo;
+  private APIUrlImagenesColecciones = URL.ImagenesColeccion;
+  private APIUrlImagenesPerfil = URL.ImagenesPerfil;
+  private APIUrlImagenesPreguntas = URL.ImagenesPregunta;
+  private APIUrlImagenesPublicacion = URL.ImagenesPublicaciones;
+  private APIUrlFicherosPublicacion = URL.FicherosPublicaciones;
+  private APIUrlImagenProfesor = URL.ImagenProfesor;
 
   constructor(private http: HttpClient) { }
 

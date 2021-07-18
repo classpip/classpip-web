@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Injectable } from '@angular/core';
 import { FamiliaAvatares } from '../clases/recursos/FamiliaAvatares';
-import * as environment from './../../environments/environment';
+import * as URL from '../URLs/urls';
 import { Profesor } from '../clases/Profesor';
 import { Cuestionario } from '../clases/recursos/Cuestionario';
 import { CuestionarioSatisfaccion } from '../clases/recursos/CuestionarioSatisfaccion';
@@ -20,28 +20,21 @@ import Swal from 'sweetalert2';
 })
 export class RecursosService {
 
-  private host = environment.host;
-
-  private APIUrlProfesores = this.host + ':3000/api/Profesores';
+  private host = URL.host;
 
   //URLS RECURSOS
-  private APIUrlFamiliarAvatares = this.host + ':3000/api/familiasAvatares';
-  private APIUrlCuestionariosSatisfaccion = this.host + ':3000/api/cuestionariosSatisfaccion';
-  private APIUrlCuestionarios = this.host + ':3000/api/Cuestionarios';
-  private APIUrlFamiliasDeImagenesDePerfil = this.host + ':3000/api/familiasImagenesPerfil';
-  private APIUrlColecciones = this.host + ':3000/api/Colecciones';
+  private APIUrlFamiliarAvatares = URL.FamiliasAvatares;
+  private APIUrlFamiliasDeImagenesDePerfil = URL.FamiliasImagenesPerfil;
+  private APIUrlColecciones = URL.Colecciones;
 
   //URLS IMAGENES
-  private APIUrlImagenes = this.host + ':3000/api/imagenes';
-  private APIUrlImagenesAvatares = this.host + ':3000/api/imagenes/ImagenesAvatares';
-  private APIUrlImagenesCromos = this.host + ':3000/api/imagenes/ImagenCromo';
-  private APIUrlImagenesColecciones = this.host + ':3000/api/imagenes/ImagenColeccion';
-  private APIUrlImagenesPerfil = this.host + ':3000/api/imagenes/ImagenesPerfil';
-  private APIUrlImagenesPreguntas = this.host + ':3000/api/imagenes/ImagenesPreguntas';
+  private APIUrlImagenesAvatares = URL.ImagenesAvatares;
+  private APIUrlImagenesCromos = URL.ImagenesCromo;
+  private APIUrlImagenesColecciones = URL.ImagenesColeccion;
+  private APIUrlImagenesPerfil = URL.ImagenesPerfil;
+  private APIUrlImagenesPreguntas = URL.ImagenesPregunta;
 
-  // private APIUrlImagenesAvatares = this.host + ':3000/api/imagenes/ImagenesAvatares';
-
-  private APIUrlPreguntas = this.host + ':3000/api/Preguntas';
+  private APIUrlPreguntas = URL.Preguntas;
 
   constructor(
     private http: HttpClient,
